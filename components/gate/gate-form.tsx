@@ -1,0 +1,142 @@
+"use client";
+
+import { useActionState, useEffect, useMemo, useState } from "react";
+import { unlockAction } from "@/lib/gate/actions";
+import type { UnlockState } from "@/lib/gate/actions";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { AlertCircle, ArrowRight, Eye, EyeOff, Mail } from "lucide-react";
+import { siteConfig } from "@/config/site";
+
+const CONTACT_EMAIL = siteConfig.contactEmail;
+const MAILTO_HREF = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+    `Requesting access to ${siteConfig.name}`
+)}&body=${encodeURIComponent(
+    `Hi,\n\nI'd like access to ${siteConfig.name}. Please share the password.\n\nThanks!`
+)}`;
+
+type Props = { nextPath: string };
+
+const initialState: UnlockState = { ok: false, error: "" };
+
+export default function GateForm({ nextPath }: Props) {
+    const [state, action, isPending] = useActionState(unlockAction, initialState);
+    const [isShaking, setIsShaking] = useState(false);
+    const [showError, setShowError] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [failCount, setFailCount] = useState(0);
+    const [helpOpen, setHelpOpen] = useState(false);
+
+    const hasError = !state.ok && "error" in state && !!state.error;
+
+    useEffect(() => {
+        if (hasError) {
+            setFailCount((c) => {
+                const next = c + 1;
+                if (next >= 3) setHelpOpen(true);
+                return next;
+            });
+
+            setShowError(true);
+            setIsShaking(false);
+
+            const raf = requestAnimationFrame(() => setIsShaking(true));
+            const hide = window.setTimeout(() => setShowError(false), 2000);
+            const stopShake = window.setTimeout(() => setIsShaking(false), 550);
+
+            return () => {
+                cancelAnimationFrame(raf);
+                clearTimeout(hide);
+                clearTimeout(stopShake);
+            };
+        }
+
+        if (state.ok) {
+            setFailCount(0);
+            setHelpOpen(false);
+            setShowError(false);
+            setIsShaking(false);
+        }
+    }, [state, hasError]);
+
+    return (
+        <div className={`w-full max-w-xs transition-transform ${isShaking ? "animate-shake" : ""}`}>
+            <form action={action} className="space-y-3">
+                <input type="hidden" name="next" value={nextPath} />
+
+                <div className="relative">
+                    <Input
+                        name="password"
+                        type={showPassword ? "text" : "password"}
+                        autoComplete="current-password"
+                        placeholder="Password"
+                        required
+                        disabled={isPending}
+                        className={`h-12 bg-background border-border text-foreground placeholder:text-muted-foreground text-center ${showError && hasError ? "border-destructive" : ""
+                            }`}
+                    />
+                    <button
+                        type="button"
+                        onClick={() => setShowPassword((v) => !v)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                        {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                </div>
+
+                {showError && hasError && (
+                    <div className="w-full flex items-center justify-center gap-2 text-destructive text-sm">
+                        <AlertCircle className="w-4 h-4" />
+                        <span>{"error" in state ? state.error : null}</span>
+                    </div>
+                )}
+
+                <Button
+                    type="submit"
+                    disabled={isPending}
+                    className="w-full h-12 bg-adxc text-primary-foreground hover:bg-primary/90 font-medium group"
+                >
+                    {isPending ? "Unlocking…" : "Unlock"}
+                    <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                </Button>
+            </form>
+
+            <Dialog open={helpOpen} onOpenChange={setHelpOpen}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle>Need the password?</DialogTitle>
+                        <DialogDescription>
+                            If you don't have it or it's not working, reach out and we'll share access.
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="space-y-4">
+                        <Button asChild className="w-full">
+                            <a href={MAILTO_HREF} className="inline-flex items-center justify-center gap-2">
+                                <Mail className="w-4 h-4" />
+                                Email us to request access
+                            </a>
+                        </Button>
+
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            className="w-full"
+                            onClick={() => setHelpOpen(false)}
+                        >
+                            I'll try again
+                        </Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
+        </div>
+    );
+}
