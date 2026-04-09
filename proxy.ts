@@ -25,6 +25,7 @@ export async function proxy(req: NextRequest) {
 
   // Public route: gate page
   if (pathname === "/gate") return NextResponse.next();
+  if (pathname === "/login") return NextResponse.next()
 
   // Allow Next internals + public assets
   if (isPublicAsset(pathname)) return NextResponse.next();

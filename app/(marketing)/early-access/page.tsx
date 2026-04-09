@@ -1,0 +1,45 @@
+import type { Metadata } from "next"
+import { EarlyAccessForm } from "@/components/sections/early-access-form"
+import { siteConfig } from "@/config/site"
+
+export const metadata: Metadata = {
+    title: "Get Early Access",
+    description: `Sign up for early beta access to ${siteConfig.name}.`,
+    robots: { index: false }, // keep off search engines during beta
+}
+
+export default function EarlyAccessPage() {
+    return (
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-24">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+
+                {/* Left — copy */}
+                <div className="space-y-8">
+                    <div className="space-y-4">
+                        <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                            Early access
+                        </p>
+                        <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-foreground leading-tight">
+                            Sign up for early beta access
+                        </h1>
+                        <p className="text-lg text-muted-foreground leading-relaxed">
+                            Be among the first to access {siteConfig.name} — the data exchange
+                            that gives you everything you need and charges only for what you use.
+                        </p>
+                    </div>
+
+                    {/* Placeholder image */}
+                    <div className="aspect-[4/3] rounded-2xl bg-muted/50 border border-border/50 flex items-center justify-center">
+                        <p className="text-sm text-muted-foreground">Image coming soon</p>
+                    </div>
+                </div>
+
+                {/* Right — form */}
+                <div className="bg-muted/30 border border-border/50 rounded-xl p-6 sm:p-8">
+                    <EarlyAccessForm />
+                </div>
+
+            </div>
+        </div>
+    )
+}

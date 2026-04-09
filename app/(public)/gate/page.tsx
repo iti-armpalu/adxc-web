@@ -1,4 +1,5 @@
 // app/(public)/gate/page.tsx
+
 import GateForm from "@/components/gate/gate-form"
 import { siteConfig } from "@/config/site"
 

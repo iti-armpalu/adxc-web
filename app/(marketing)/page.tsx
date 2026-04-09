@@ -1,22 +1,29 @@
 import type { Metadata } from "next"
 import { siteConfig } from "@/config/site"
+import { HeroSection } from "@/components/sections/home/hero"
+import { SocialProofSection } from "@/components/sections/home/social-proof"
+import { ProblemSection } from "@/components/sections/home/problem"
+import { PlatformSection } from "@/components/sections/home/platform"
+import { UseCasesSection } from "@/components/sections/home/use-cases"
+import { AudienceCardsSection } from "@/components/sections/home/audience-cards"
+import { HomeCTASection } from "@/components/sections/home/cta"
+
 
 export const metadata: Metadata = {
     title: "Home",
+    description: siteConfig.tagline,
 }
 
 export default function HomePage() {
     return (
-        <div className="flex-1 flex flex-col items-center justify-center min-h-[calc(100vh-80px)] px-4 text-center">
-            <p className="text-xs uppercase tracking-widest text-muted-foreground mb-6">
-                Coming soon
-            </p>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight text-foreground mb-6">
-                {siteConfig.name}
-            </h1>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-                {siteConfig.tagline}
-            </p>
-        </div>
+        <>
+            <HeroSection />
+            <SocialProofSection />
+            <ProblemSection />
+            <PlatformSection />
+            <UseCasesSection />
+            <AudienceCardsSection />
+            <HomeCTASection />
+        </>
     )
 }

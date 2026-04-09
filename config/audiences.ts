@@ -35,6 +35,30 @@ export const audienceConfig: Record<Audience, AudienceConfig> = {
         cta: { label: "Request access", href: "/contact" },
     },
 
+    agencies: {
+        slug: "agencies",
+        label: "For Agencies",
+        headline: "One data layer for every client.",
+        subheadline: "Stop stitching together data sources. Access everything your clients need in one place.",
+        description:
+            "ADXC gives agencies a single integration point for all client data needs — clean, normalised, and ready to activate. Spend less time on data plumbing, more time on strategy.",
+        benefits: [
+            {
+                title: "Multi-client ready",
+                description: "Manage data access across all your clients from a single platform.",
+            },
+            {
+                title: "No integration overhead",
+                description: "One API, every data source — no bespoke connectors per client.",
+            },
+            {
+                title: "Transparent billing",
+                description: "Usage-based pricing makes client cost attribution simple and auditable.",
+            },
+        ],
+        cta: { label: "Request access", href: "/contact" },
+    },
+
     "data-providers": {
         slug: "data-providers",
         label: "For Data Providers",

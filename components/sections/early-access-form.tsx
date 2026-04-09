@@ -1,0 +1,163 @@
+"use client"
+
+import { useActionState, useEffect, useRef, useState } from "react"
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile"
+import { submitEarlyAccess, type EarlyAccessState } from "@/lib/early-access/actions"
+import { companySizes } from "@/lib/early-access/constants"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
+import { ArrowRight, CheckCircle } from "lucide-react"
+
+const initialState: EarlyAccessState = { status: "idle" }
+
+type Props = {
+    prefillEmail?: string
+}
+
+export function EarlyAccessForm({ prefillEmail }: Props) {
+    const [state, action, isPending] = useActionState(submitEarlyAccess, initialState)
+    const [localStatus, setLocalStatus] = useState<EarlyAccessState>(initialState)
+    const [turnstileToken, setTurnstileToken] = useState<string>("")
+    const turnstileRef = useRef<TurnstileInstance>(null)
+
+    useEffect(() => {
+        if (state.status !== "idle") setLocalStatus(state)
+    }, [state])
+
+    if (localStatus.status === "success") {
+        return (
+            <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
+                <CheckCircle className="w-10 h-10 text-green-500" />
+                <h3 className="text-xl font-medium text-foreground">You're on the list</h3>
+                <p className="text-muted-foreground max-w-sm">
+                    Thanks for your interest. We'll be in touch shortly with next steps.
+                </p>
+            </div>
+        )
+    }
+
+    return (
+        <form action={action} className="space-y-4">
+            <input type="hidden" name="turnstileToken" value={turnstileToken} />
+
+            {/* Name + Email */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                    <label className="text-sm text-muted-foreground">
+                        Name <span className="text-destructive">*</span>
+                    </label>
+                    <Input
+                        name="name"
+                        placeholder="Your name"
+                        disabled={isPending}
+                    />
+                </div>
+                <div className="space-y-1.5">
+                    <label className="text-sm text-muted-foreground">
+                        Work email <span className="text-destructive">*</span>
+                    </label>
+                    <Input
+                        name="email"
+                        type="email"
+                        placeholder="you@company.com"
+                        defaultValue={prefillEmail}
+                        disabled={isPending}
+                    />
+                </div>
+            </div>
+
+            {/* Company + Company size */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                    <label className="text-sm text-muted-foreground">
+                        Company <span className="text-destructive">*</span>
+                    </label>
+                    <Input
+                        name="company"
+                        placeholder="Company name"
+                        disabled={isPending}
+                    />
+                </div>
+                <div className="space-y-1.5">
+                    <label className="text-sm text-muted-foreground">
+                        Company size <span className="text-destructive">*</span>
+                    </label>
+                    <select
+                        name="companySize"
+                        disabled={isPending}
+                        defaultValue=""
+                        className={cn(
+                            "w-full rounded-md border border-input bg-background px-3 py-2",
+                            "text-sm text-foreground",
+                            "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+                            "disabled:cursor-not-allowed disabled:opacity-50"
+                        )}
+                    >
+                        <option value="" disabled>Select size</option>
+                        {companySizes.map((size) => (
+                            <option key={size} value={size}>{size}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+
+            {/* Job title */}
+            <div className="space-y-1.5">
+                <label className="text-sm text-muted-foreground">
+                    Job title <span className="text-destructive">*</span>
+                </label>
+                <Input
+                    name="jobTitle"
+                    placeholder="e.g. Head of Data, Marketing Director"
+                    disabled={isPending}
+                />
+            </div>
+
+            {/* Use case */}
+            <div className="space-y-1.5">
+                <label className="text-sm text-muted-foreground">
+                    What will you use ADXC for? <span className="text-destructive">*</span>
+                </label>
+                <textarea
+                    name="useCase"
+                    rows={4}
+                    placeholder="Tell us about your data needs and what you're hoping to achieve..."
+                    disabled={isPending}
+                    className={cn(
+                        "w-full rounded-md border border-input bg-background px-3 py-2",
+                        "text-sm text-foreground placeholder:text-muted-foreground",
+                        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
+                        "disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+                    )}
+                />
+            </div>
+
+            <Turnstile
+                ref={turnstileRef}
+                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                onSuccess={(token) => setTurnstileToken(token)}
+                onError={() => setTurnstileToken("")}
+                onExpire={() => setTurnstileToken("")}
+            />
+
+            {localStatus.status === "error" && (
+                <p className="text-sm text-destructive">{localStatus.error}</p>
+            )}
+
+            <Button
+                type="submit"
+                disabled={isPending || !turnstileToken}
+                className="w-full group"
+                size="lg"
+            >
+                {isPending ? "Submitting…" : "Request early access"}
+                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+            </Button>
+
+            <p className="text-xs text-muted-foreground text-center">
+                We'll review your application and be in touch within 2 business days.
+            </p>
+        </form>
+    )
+}
