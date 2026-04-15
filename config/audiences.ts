@@ -6,7 +6,12 @@ export type AudienceConfig = {
     headline: string
     subheadline: string
     description: string
+    problemStatements?: string[]
     benefits: { title: string; description: string }[]
+    partners?: { name: string; logo: string; width: number; height: number }[]
+    partnerNote?: string
+    socialProofNote?: string
+    quote?: { text: string; author: string; role: string }
     cta: { label: string; href: string }
 }
 
@@ -14,25 +19,42 @@ export const audienceConfig: Record<Audience, AudienceConfig> = {
     brands: {
         slug: "brands",
         label: "For Brands",
-        headline: "Your data, working harder.",
-        subheadline: "Access the marketing data you need, pay only for what you use.",
+        headline: "Real data. Real answers. For real budgets.",
+        subheadline: "Your marketing decisions are only as good as the data behind them. ADXC gives your AI agents access to premium data sources, and you only pay for the answers you use.",
         description:
             "ADXC gives brands a single point of access to premium data streams — normalised, enriched, and ready to act on. No contracts, no minimums, no noise.",
+        problemStatements: [
+            "You've been quoted $50K for a data subscription you'd use twice a year.",
+            "You've built a brief as best you can using gut instinct and the data your LLM can gather (the killer stat is, on checking, a hallucination).",
+            "You've presented a strategy and hoped nobody asked where the numbers came from.",
+            "Sound familiar?",
+        ],
         benefits: [
             {
-                title: "Pay per use",
-                description: "Access any data stream without long-term commitments or upfront costs.",
+                title: "Ask the questions your marketing depends on",
+                description: "Audience research, competitive intelligence, market sizing — real answers to the questions that shape your strategy, your briefs, and your campaigns.",
             },
             {
-                title: "Unified access",
-                description: "One platform, one integration, every data source you need.",
+                title: "Only pay for the answers you use",
+                description: "No subscriptions or annual contracts. Spend $20 when you need an answer, not $200k in case you might.",
             },
             {
-                title: "Actionable outputs",
-                description: "Data arrives structured and enriched — ready for your team to use immediately.",
+                title: "Answers you can stand behind",
+                description: "ADXC pulls from premium, recognised data sources. So when someone asks \"what\'s this based on?\", you can answer confidently.",
             },
         ],
-        cta: { label: "Request access", href: "/contact" },
+        partners: [
+            { name: "Miro", logo: "/miro-logo.png", width: 120, height: 40 },
+            { name: "DEPT", logo: "/dept-logo.jpg", width: 100, height: 40 },
+        ],
+        partnerNote: "Access via Miro — use ADXC through the tools you already know",
+        socialProofNote: "Backed by leading agencies and data partners",
+        quote: {
+            text: "ADXC solves a real problem our SME clients face. How to get the data they need to fuel their AI agents, and accelerate their growth.",
+            author: "Andrew Dimitriou",
+            role: "Chief Growth Officer, DEPT",
+        },
+        cta: { label: "Get early access", href: "/early-access" },
     },
 
     agencies: {
