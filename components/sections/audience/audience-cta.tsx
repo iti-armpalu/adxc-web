@@ -44,7 +44,7 @@ export function AudienceCTA({ config }: Props) {
                             onChange={(e) => setEmail(e.target.value)}
                             className="flex-1 h-11"
                         />
-                        <Button type="submit" size="lg" className="group shrink-0">
+                        <Button type="submit" size="lg" className="h-11 group shrink-0">
                             {config.cta.label}
                             <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                         </Button>
