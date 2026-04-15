@@ -58,7 +58,7 @@ export function Footer() {
                     <div className="flex items-center gap-3">
                         <Link
                             href="/contact"
-                            className="group flex items-center gap-3 px-4 py-2.5 min-w-[180px] rounded-xl border border-border/50 hover:border-border hover:bg-muted/40 transition-all duration-150"
+                            className="group flex items-center gap-3 px-4 py-2.5 min-w-[160px] rounded-xl border border-border/50 hover:border-border hover:bg-muted/40 transition-all duration-150"
                         >
                             <div className="shrink-0 w-7 h-7 rounded-lg bg-muted flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors">
                                 <Mail className="w-3.5 h-3.5" />
@@ -71,10 +71,8 @@ export function Footer() {
                         </Link>
 
                         <Link
-                            href="https://investor.adxc.ai/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group flex items-center gap-3 px-4 py-2.5 min-w-[180px] rounded-xl border border-border/50 hover:border-border hover:bg-muted/40 transition-all duration-150"
+                            href="/investors"
+                            className="group flex items-center gap-3 px-4 py-2.5 min-w-[160px] rounded-xl border border-border/50 hover:border-border hover:bg-muted/40 transition-all duration-150"
                         >
                             <div className="shrink-0 w-7 h-7 rounded-lg bg-muted flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors">
                                 <LineChart className="w-3.5 h-3.5" />

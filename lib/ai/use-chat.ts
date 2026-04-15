@@ -8,7 +8,7 @@ export type Message = {
     content: string
 }
 
-export function useChat() {
+export function useChat(surface: "faq" | "widget" = "widget") {
     const [messages, setMessages] = useState<Message[]>([])
     const [input, setInput] = useState("")
     const [isStreaming, setIsStreaming] = useState(false)
@@ -16,6 +16,10 @@ export function useChat() {
 
     const sendMessage = useCallback(async (text: string) => {
         if (!text.trim() || isStreaming) return
+
+        import("@/lib/analytics/events").then(({ trackAIQuestionAsked }) => {
+            trackAIQuestionAsked(surface)
+        })
 
         const userMessage: Message = {
             id: crypto.randomUUID(),

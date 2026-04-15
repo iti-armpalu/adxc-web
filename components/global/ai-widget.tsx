@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { usePathname } from "next/navigation"
 import { useChat } from "@/lib/ai/use-chat"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -23,11 +22,10 @@ const SUGGESTED_QUESTIONS = [
 
 export function AIWidget() {
     const [open, setOpen] = useState(false)
-    const { messages, input, setInput, isStreaming, submit, sendMessage, clear } = useChat()
+    const { messages, input, setInput, isStreaming, submit, sendMessage, clear } = useChat("widget")
     const containerRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
     const hasMessages = messages.length > 0
-    const pathname = usePathname()
 
     // Scroll container on new messages
     useEffect(() => {
@@ -51,20 +49,17 @@ export function AIWidget() {
         return () => document.removeEventListener("keydown", handler)
     }, [])
 
-    // Don't show widget on FAQ page as it already has AI assistant chat
-    if (pathname === "/faq") return null
-
     return (
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 pointer-events-none">
 
             {/* Chat panel */}
             <div
                 className={cn(
                     "w-[360px] rounded-2xl border border-border/60 bg-background shadow-xl",
-                    "flex flex-col overflow-hidden",
+                    "flex flex-col overflow-hidden pointer-events-auto",
                     "transition-all duration-300 ease-out origin-bottom-right",
                     open
-                        ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+                        ? "opacity-100 scale-100 translate-y-0"
                         : "opacity-0 scale-95 translate-y-2 pointer-events-none"
                 )}
                 style={{ maxHeight: "520px" }}
@@ -200,6 +195,7 @@ export function AIWidget() {
                             disabled={isStreaming || !input.trim()}
                             size="sm"
                             className="h-9 w-9 p-0 shrink-0 group"
+                            aria-label="Send message"
                         >
                             {isStreaming ? (
                                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -219,7 +215,7 @@ export function AIWidget() {
             <button
                 onClick={() => setOpen((v) => !v)}
                 className={cn(
-                    "flex items-center gap-2.5 px-4 h-11 rounded-full shadow-lg",
+                    "flex items-center gap-2.5 px-4 h-11 rounded-full shadow-lg pointer-events-auto",
                     "bg-foreground text-background",
                     "hover:opacity-90 transition-all duration-200",
                     "border border-foreground/10",
@@ -227,7 +223,6 @@ export function AIWidget() {
                 )}
                 aria-label="Ask ADXC"
             >
-                <MessageCircle className="w-4 h-4" />
                 <span className="text-sm font-medium">Ask ADXC</span>
             </button>
 

@@ -1,4 +1,9 @@
-const partners = ["Miro", "DEPT"]
+import Image from "next/image"
+
+const partners = [
+    { name: "Miro", logo: "/miro-logo.png", width: 120, height: 40 },
+    { name: "DEPT", logo: "/dept-logo.jpg", width: 100, height: 40 },
+]
 
 export function SocialProofSection() {
     return (
@@ -10,15 +15,18 @@ export function SocialProofSection() {
                     <p className="text-xs uppercase tracking-widest text-muted-foreground">
                         Launch partners
                     </p>
-                    <div className="flex items-center justify-center gap-8">
+                    <div className="flex items-center justify-center gap-10">
                         {partners.map((partner) => (
                             <div
-                                key={partner}
-                                className="h-10 px-6 rounded-lg bg-muted/60 border border-border/50 flex items-center justify-center"
+                                key={partner.name}
                             >
-                                <span className="text-sm font-medium text-muted-foreground">
-                                    {partner}
-                                </span>
+                                <Image
+                                    src={partner.logo}
+                                    alt={partner.name}
+                                    width={partner.width}
+                                    height={partner.height}
+                                    className="object-contain"
+                                />
                             </div>
                         ))}
                     </div>

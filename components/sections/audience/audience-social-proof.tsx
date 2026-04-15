@@ -54,7 +54,6 @@ export function AudienceSocialProof({ config }: Props) {
                                 {config.partners.map((partner) => (
                                     <div
                                         key={partner.name}
-                                        className="opacity-80 hover:opacity-100 transition-opacity"
                                     >
                                         <Image
                                             src={partner.logo}
