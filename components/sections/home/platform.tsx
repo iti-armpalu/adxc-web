@@ -1,3 +1,5 @@
+import { PlatformDiagram } from "./platform-diagram"
+
 const steps = [
     {
         number: "1",
@@ -23,9 +25,11 @@ const steps = [
 
 export function PlatformSection() {
     return (
-        <section className="border-y border-border/50 bg-muted/20">
+        <section className="border-y border-border/50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
-                <div className="space-y-4 mb-16">
+
+                {/* Header */}
+                <div className="space-y-4 mb-12">
                     <p className="text-xs uppercase tracking-widest text-muted-foreground">
                         The platform
                     </p>
@@ -38,15 +42,14 @@ export function PlatformSection() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                {/* Diagram + Steps */}
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-12 items-start">
 
-                    {/* Diagram placeholder */}
-                    <div className="aspect-[4/3] rounded-2xl bg-muted/40 border border-border/50 flex items-center justify-center">
-                        <p className="text-sm text-muted-foreground">Platform diagram</p>
-                    </div>
+                    {/* Left — interactive diagram */}
+                    <PlatformDiagram />
 
-                    {/* Steps */}
-                    <div className="space-y-6">
+                    {/* Right — steps */}
+                    <div className="space-y-8 lg:pt-2">
                         {steps.map((step) => (
                             <div key={step.number} className="flex items-start gap-4">
                                 <div className="shrink-0 w-8 h-8 rounded-full border border-border flex items-center justify-center">
