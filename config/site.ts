@@ -31,7 +31,7 @@ export const siteConfig = {
         href: "/early-access",
     },
 
-    secondaryCta: null,
+    secondaryCta: null as { label: string; href: string } | null,
 
     // Footer — legal only, restore other groups when pages are ready
     footerLinks: [
