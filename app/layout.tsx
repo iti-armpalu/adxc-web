@@ -1,14 +1,14 @@
 import type { Metadata } from "next"
-import { Geist } from "next/font/google"
+import { Manrope } from "next/font/google"
 import "./globals.css"
 import { AnalyticsProvider } from "@/components/global/analytics-provider"
 import { CookieBanner } from "@/components/global/cookie-banner"
 import { siteConfig } from "@/config/site"
 import { Suspense } from "react"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const manrope = Manrope({
   subsets: ["latin"],
+  variable: "--font-manrope",
 })
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geistSans.variable} h-full antialiased`}>
+    <html lang="en" className={`${manrope.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <Suspense>
           <AnalyticsProvider>
