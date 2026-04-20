@@ -36,6 +36,8 @@ export function Header({ latestPosts = [] }: Props) {
     const [mobileExpanded, setMobileExpanded] = useState<string | null>(null)
     const [scrolled, setScrolled] = useState(false)
     const headerRef = useRef<HTMLElement>(null)
+    // Dark header state — over the brand background on homepage
+    const isDark = !scrolled && pathname === "/"
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 12)
@@ -128,6 +130,7 @@ export function Header({ latestPosts = [] }: Props) {
                                 key={group.label}
                                 onClick={() => togglePanel(group.label)}
                                 aria-expanded={panelOpen}
+                                aria-label={`${group.label} menu`}
                                 className={cn(
                                     "flex items-center gap-1 px-3.5 py-2 text-sm rounded-md transition-colors",
                                     active || panelOpen
@@ -151,11 +154,23 @@ export function Header({ latestPosts = [] }: Props) {
                 <div className="hidden lg:flex items-center gap-2 shrink-0">
                     <Link
                         href={siteConfig.secondaryCta.href}
-                        className="px-3.5 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                        className={cn(
+                            "px-3.5 py-2 text-sm font-semibold transition-colors",
+                            isDark
+                                ? "text-white/90 hover:text-white"
+                                : "text-muted-foreground hover:text-foreground"
+                        )}
                     >
                         {siteConfig.secondaryCta.label}
                     </Link>
-                    <Button asChild size="sm">
+                    <Button
+                        asChild
+                        size="sm"
+                        className={cn(
+                            "font-semibold",
+                            isDark ? "bg-background text-foreground hover:bg-background/90" : ""
+                        )}
+                    >
                         <Link href={siteConfig.cta.href}>
                             {siteConfig.cta.label}
                         </Link>
@@ -301,6 +316,8 @@ export function Header({ latestPosts = [] }: Props) {
                         return (
                             <div key={group.label}>
                                 <button
+                                    aria-label={`${group.label} menu`}
+                                    aria-expanded={expanded}
                                     onClick={() =>
                                         setMobileExpanded((prev) =>
                                             prev === group.label ? null : group.label
@@ -432,7 +449,7 @@ function WhyAdxcPanel() {
                 </p>
             </div>
             <Link
-                href="/early-access"
+                href="/contact"
                 className={cn(
                     "mt-6 flex items-center justify-between gap-2 px-4 py-3 rounded-xl",
                     "bg-foreground text-background text-sm font-medium",
