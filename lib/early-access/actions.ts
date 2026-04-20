@@ -10,7 +10,8 @@ import { companySizes } from "./constants"
 export type { CompanySize } from "./constants"
 
 const schema = z.object({
-    name: z.string().min(2, "Name is required"),
+    firstName: z.string().min(1, "First name is required"),
+    lastName: z.string().min(1, "Last name is required"),
     email: z.string().email("Valid work email required"),
     company: z.string().min(1, "Company is required"),
     companySize: z.string().refine(
@@ -33,7 +34,8 @@ export async function submitEarlyAccess(
 ): Promise<EarlyAccessState> {
     try {
         const parsed = schema.safeParse({
-            name: formData.get("name"),
+            firstName: formData.get("firstName"),
+            lastName: formData.get("lastName"),
             email: formData.get("email"),
             company: formData.get("company"),
             companySize: formData.get("companySize"),
@@ -47,7 +49,8 @@ export async function submitEarlyAccess(
             return { status: "error", error: first ?? "Invalid input" }
         }
 
-        const { name, email, company, companySize, jobTitle, useCase, turnstileToken } = parsed.data
+        const { firstName, lastName, email, company, companySize, jobTitle, useCase, turnstileToken } = parsed.data
+        const name = `${firstName} ${lastName}`
 
         const verified = await verifyTurnstile(turnstileToken)
         if (!verified) {

@@ -45,20 +45,17 @@ export default function PrivacyPage() {
                             <p>We collect personal data in the following ways:</p>
                             <ul className="list-disc list-inside space-y-1.5 pt-1">
                                 <li>
-                                    <strong className="text-foreground font-medium">Contact form</strong> — name,
-                                    email address, company name, and message content when you submit an enquiry.
+                                    <strong className="text-foreground font-medium">Contact form</strong> — first name,
+                                    last name, work email, company name, and message content when you submit an enquiry.
                                 </li>
                                 <li>
-                                    <strong className="text-foreground font-medium">Beta signup</strong> — email
-                                    address and any optional information you provide when requesting access.
+                                    <strong className="text-foreground font-medium">Early access signup</strong> — first
+                                    name, last name, work email, company name, company size, job title, and intended
+                                    use case when requesting beta access.
                                 </li>
                                 <li>
                                     <strong className="text-foreground font-medium">Analytics</strong> — aggregated,
                                     anonymised usage data if you consent to analytics cookies.
-                                </li>
-                                <li>
-                                    <strong className="text-foreground font-medium">Access gate</strong> — a secure
-                                    session token stored in a cookie to maintain your authenticated session.
                                 </li>
                             </ul>
                         </>
@@ -105,8 +102,7 @@ export default function PrivacyPage() {
                     heading: "Data retention",
                     content: (
                         <p>
-                            Contact form submissions are retained for up to 12 months. Session
-                            cookies expire after 24 hours. Analytics data is retained in
+                            Contact form submissions are retained for up to 12 months. Analytics data is retained in
                             aggregated form and is not tied to individual identities.
                         </p>
                     ),

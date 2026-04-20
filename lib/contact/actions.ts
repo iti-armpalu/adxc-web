@@ -7,9 +7,10 @@ import { siteConfig } from "@/config/site"
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 const schema = z.object({
-    name: z.string().min(2, "Name is required"),
+    firstName: z.string().min(1, "First name is required"),
+    lastName: z.string().min(1, "Last name is required"),
     email: z.string().email("Valid email required"),
-    company: z.string().optional(),
+    company: z.string().min(1, "Company is required"),
     message: z.string().min(10, "Message is too short"),
     turnstileToken: z.string().min(1),
 })
@@ -25,7 +26,8 @@ export async function submitContact(
 ): Promise<ContactState> {
     try {
         const parsed = schema.safeParse({
-            name: formData.get("name"),
+            firstName: formData.get("firstName"),
+            lastName: formData.get("lastName"),
             email: formData.get("email"),
             company: formData.get("company"),
             message: formData.get("message"),
@@ -37,7 +39,8 @@ export async function submitContact(
             return { status: "error", error: first ?? "Invalid input" }
         }
 
-        const { name, email, company, message, turnstileToken } = parsed.data
+        const { firstName, lastName, email, company, message, turnstileToken } = parsed.data
+        const name = `${firstName} ${lastName}`
 
         const verified = await verifyTurnstile(turnstileToken)
         if (!verified) {
@@ -46,8 +49,8 @@ export async function submitContact(
 
         await resend.emails.send({
             // TODO: switch once adxc.ai is verified in Resend dashboard
-            // from: `${siteConfig.name} <contact@adxc.ai>`,
-            from: "onboarding@resend.dev",
+            from: `${siteConfig.name} <contact@adxc.ai>`,
+            // from: "onboarding@resend.dev",
             to: siteConfig.contactEmail,
             replyTo: email,
             subject: `Contact: ${name}${company ? ` — ${company}` : ""}`,

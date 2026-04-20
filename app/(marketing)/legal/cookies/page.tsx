@@ -20,7 +20,7 @@ export default function CookiePolicyPage() {
                 <p className="text-sm text-muted-foreground">Last updated: {LAST_UPDATED}</p>
             </div>
 
-            <div className="prose prose-neutral dark:prose-invert max-w-none space-y-8 text-sm leading-relaxed">
+            <div className="prose prose-neutral max-w-none space-y-8 text-sm leading-relaxed">
 
                 <section className="space-y-3">
                     <h2 className="text-base font-medium text-foreground">What are cookies?</h2>
@@ -41,9 +41,9 @@ export default function CookiePolicyPage() {
                         <CookieCategory
                             name="Essential"
                             required
-                            description="These cookies are necessary for the website to function and cannot be switched off. They are typically set in response to actions you take, such as logging in or accessing gated content."
+                            description="These cookies are necessary for the website to function and cannot be switched off. They are set in response to actions you take, such as setting your cookie preferences."
                             examples={[
-                                { name: "__Host-site_unlocked", purpose: "Maintains your authenticated session", duration: "24 hours" },
+                                { name: "cookie_consent", purpose: "Stores your cookie consent preferences", duration: "12 months" },
                             ]}
                         />
                         <CookieCategory

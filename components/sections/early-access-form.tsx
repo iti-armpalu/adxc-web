@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { ArrowRight, CheckCircle } from "lucide-react"
+import { trackEarlyAccessSubmitted } from "@/lib/analytics/events"
 
 const initialState: EarlyAccessState = { status: "idle" }
 
@@ -22,7 +23,13 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
     const turnstileRef = useRef<TurnstileInstance>(null)
 
     useEffect(() => {
-        if (state.status !== "idle") setLocalStatus(state)
+        if (state.status !== "idle") {
+            setLocalStatus(state)
+            if (state.status === "success") {
+                const companySize = (document.querySelector("select[name=companySize]") as HTMLSelectElement)?.value ?? "unknown"
+                trackEarlyAccessSubmitted(companySize)
+            }
+        }
     }, [state])
 
     if (localStatus.status === "success") {
@@ -41,30 +48,42 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
         <form action={action} className="space-y-4">
             <input type="hidden" name="turnstileToken" value={turnstileToken} />
 
-            {/* Name + Email */}
+            {/* First name + Last name */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                     <label className="text-sm text-muted-foreground">
-                        Name <span className="text-destructive">*</span>
+                        First name <span className="text-destructive">*</span>
                     </label>
                     <Input
-                        name="name"
-                        placeholder="Your name"
+                        name="firstName"
+                        placeholder="Jane"
                         disabled={isPending}
                     />
                 </div>
                 <div className="space-y-1.5">
                     <label className="text-sm text-muted-foreground">
-                        Work email <span className="text-destructive">*</span>
+                        Last name <span className="text-destructive">*</span>
                     </label>
                     <Input
-                        name="email"
-                        type="email"
-                        placeholder="you@company.com"
-                        defaultValue={prefillEmail}
+                        name="lastName"
+                        placeholder="Smith"
                         disabled={isPending}
                     />
                 </div>
+            </div>
+
+            {/* Email */}
+            <div className="space-y-1.5">
+                <label className="text-sm text-muted-foreground">
+                    Work email <span className="text-destructive">*</span>
+                </label>
+                <Input
+                    name="email"
+                    type="email"
+                    placeholder="you@company.com"
+                    defaultValue={prefillEmail}
+                    disabled={isPending}
+                />
             </div>
 
             {/* Company + Company size */}
@@ -109,7 +128,7 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
                 </label>
                 <Input
                     name="jobTitle"
-                    placeholder="e.g. Head of Data, Marketing Director"
+                    placeholder="Marketing Director"
                     disabled={isPending}
                 />
             </div>

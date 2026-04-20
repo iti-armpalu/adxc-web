@@ -34,11 +34,6 @@ export default async function EarlyAccessPage({ searchParams }: Props) {
                             that gives you everything you need and charges only for what you use.
                         </p>
                     </div>
-
-                    {/* Placeholder image */}
-                    <div className="aspect-[4/3] rounded-2xl bg-muted/50 border border-border/50 flex items-center justify-center">
-                        <p className="text-sm text-muted-foreground">Image coming soon</p>
-                    </div>
                 </div>
 
                 {/* Right — form */}
