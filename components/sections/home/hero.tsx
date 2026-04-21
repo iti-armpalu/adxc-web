@@ -5,13 +5,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { FadeIn } from "@/components/ui/fade-in"
-import { Database, Timer, KeyRound } from "lucide-react"
-
-const bullets = [
-    { icon: Database, label: "Multiple data sources, one connection" },
-    { icon: Timer, label: "Answers in seconds" },
-    { icon: KeyRound, label: "See the price before you approve" },
-]
+import { ArrowRight } from "lucide-react"
 
 export function HeroSection() {
     const router = useRouter()
@@ -62,15 +56,6 @@ export function HeroSection() {
                             </Button>
                         </form>
 
-                        {/* Bullets */}
-                        <ul className="space-y-3">
-                            {bullets.map(({ icon: Icon, label }) => (
-                                <li key={label} className="flex items-center gap-3 text-sm text-muted-foreground">
-                                    <Icon className="w-4 h-4 shrink-0" style={{ color: "#66023C" }} />
-                                    {label}
-                                </li>
-                            ))}
-                        </ul>
 
                     </div>
 
