@@ -71,7 +71,9 @@ export function Footer() {
                         </Link>
 
                         <Link
-                            href="/investors"
+                            href={siteConfig.investorUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="group flex items-center gap-3 px-4 py-2.5 min-w-[160px] rounded-xl border border-border/50 hover:border-border hover:bg-muted/40 transition-all duration-150"
                         >
                             <div className="shrink-0 w-7 h-7 rounded-lg bg-muted flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors">

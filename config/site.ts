@@ -22,6 +22,7 @@ export const siteConfig = {
         "The Agentic Data Exchange that gives companies access to all the marketing data they need, and only charges for what they use",
     url: "https://adxc.ai",
     contactEmail: "contact@adxc.ai",
+    investorUrl: "https://investor.adxc.ai",
 
     // Header nav — stripped to live pages only, restore when pages are ready
     nav: [] as NavGroup[],
