@@ -1,6 +1,4 @@
-import Link from "next/link"
-import { ArrowRight, Database, TrendingUp, Cpu, Users } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { TrendingUp, Database, Users, Cpu } from "lucide-react"
 import { type LucideIcon } from "lucide-react"
 
 const audiences: {
@@ -9,28 +7,28 @@ const audiences: {
     description: string
 }[] = [
         {
+            icon: TrendingUp,
+            title: "For marketers and brands",
+            description:
+                "Access premium data for your strategies, briefs and campaigns, without enterprise subscriptions.",
+        },
+        {
             icon: Database,
             title: "For data providers",
             description:
-                "Connect to ADXC to monetise your data with pay-per-use access for SMEs, without exposing raw datasets.",
-        },
-        {
-            icon: TrendingUp,
-            title: "For brands",
-            description:
-                "Connect ADXC to get decision-grade market and consumer insights on demand, without expensive annual licences.",
-        },
-        {
-            icon: Cpu,
-            title: "For AI platforms",
-            description:
-                "Add ADXC to your marketplace to deliver dramatically better outcomes inside your workflows.",
+                "Unlock a new SME market your enterprise model can't reach. Your data powers AI agents, you earn on every query.",
         },
         {
             icon: Users,
             title: "For agencies",
             description:
-                "Monetise your clients' marketing data usage, and cut your own data budget in half.",
+                "Give every client access to the data they need. Usage-based, so costs scale with your work. Earn for referrals.",
+        },
+        {
+            icon: Cpu,
+            title: "For AI platforms",
+            description:
+                "Make your agents smarter with premium data. One connection for multiple providers, better outputs, stronger retention.",
         },
     ]
 
@@ -39,7 +37,7 @@ export function AudienceCardsSection() {
         <section className="border-t border-border/50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24 space-y-12">
                 <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
-                    Built for every part of the ecosystem
+                    Who it's for
                 </h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -48,17 +46,21 @@ export function AudienceCardsSection() {
                         return (
                             <div
                                 key={audience.title}
-                                className="flex flex-col gap-6 p-6 rounded-2xl border border-border/50"
+                                className="flex flex-col gap-6 p-8 rounded-2xl"
+                                style={{ backgroundColor: "#D8C9D2" }}
                             >
-                                <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center text-muted-foreground">
-                                    <Icon className="w-5 h-5" />
+                                <div
+                                    className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
+                                    style={{ backgroundColor: "#66023C" }}
+                                >
+                                    <Icon className="w-5 h-5 text-white" strokeWidth={1.5} />
                                 </div>
 
                                 <div className="flex-1 space-y-2">
-                                    <h3 className="text-base font-medium text-foreground">
+                                    <h3 className="text-base font-semibold text-foreground">
                                         {audience.title}
                                     </h3>
-                                    <p className="text-sm text-muted-foreground leading-relaxed">
+                                    <p className="text-sm text-foreground/70 leading-relaxed">
                                         {audience.description}
                                     </p>
                                 </div>
@@ -66,20 +68,6 @@ export function AudienceCardsSection() {
                         )
                     })}
                 </div>
-
-                {/* CTA */}
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                    <p className="text-sm text-muted-foreground">
-                        Interested in how ADXC can work for you?
-                    </p>
-                    <Button asChild variant="outline" size="sm" className="group shrink-0">
-                        <Link href="/contact">
-                            Get in touch
-                            <ArrowRight className="w-3.5 h-3.5 ml-2 transition-transform group-hover:translate-x-0.5" />
-                        </Link>
-                    </Button>
-                </div>
-
             </div>
         </section>
     )

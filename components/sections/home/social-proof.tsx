@@ -7,7 +7,7 @@ const partners = [
 
 export function SocialProofSection() {
     return (
-        <section className="border-y border-border/50 bg-muted/20">
+        <section className="border-y border-border/50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
 
                 {/* Launch partners */}

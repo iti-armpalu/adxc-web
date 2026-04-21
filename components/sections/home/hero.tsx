@@ -28,14 +28,14 @@ export function HeroSection() {
 
                         {/* Headline */}
                         <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-foreground leading-tight">
-                            Access the world's best data providers.{" "}
+                            Access premium marketing data.{" "}
                             <span style={{ color: "#C46184" }}>Pay per answer.</span>
                         </h1>
 
                         {/* Subheadline */}
                         <p className="text-lg text-muted-foreground leading-relaxed">
-                            ADXC connects your AI agents to premium data sources so you can
-                            make better marketing decisions affordably.
+                            ADXC connects your AI agents to premium data providers. Ask a
+                            question, see a price, pay and get an answer. No subscriptions.
                         </p>
 
                         {/* Email + CTA stacked */}

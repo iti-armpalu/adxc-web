@@ -208,7 +208,7 @@ export function AIWidget() {
                         AI responses may not always be accurate
                     </p>
                 </div>
-
+                            
             </div>
 
             {/* Toggle button */}
