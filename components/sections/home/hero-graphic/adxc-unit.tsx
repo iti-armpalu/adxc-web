@@ -3,7 +3,7 @@ const RING = 6
 
 export function AdxcUnit() {
     return (
-        <div className="relative flex items-center justify-center shrink-0" aria-label="ADXC">
+        <div className="relative flex items-center justify-center shrink-0 pl-2" aria-label="ADXC">
             {/* Spinning conic ring */}
             <div
                 className="absolute rounded-full animate-spin"
@@ -26,7 +26,7 @@ export function AdxcUnit() {
                 }}
             >
                 <span
-                    className="text-2xl font-extrabold tracking-widest leading-none text-center"
+                    className="text-4xl font-extrabold tracking-widest leading-none text-center"
                     style={{ color: "#66023C" }}
                 >
                     AD<br />XC

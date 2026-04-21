@@ -46,7 +46,7 @@ export function QuestionCarousel({ step, onStep }: QuestionCarouselProps) {
                 {items.map(({ q, pos, key }) => {
                     const distance = pos - HIGHLIGHT_INDEX
                     const absDist = Math.abs(distance)
-                    const arcX = -Math.pow(absDist, 1.6) * (ARC_X / 4)
+                    // const arcX = -Math.pow(absDist, 1.6) * (ARC_X / 4)
                     const y = pos * ROW_HEIGHT + 20
                     const scale = Math.max(0.78, 1 - absDist * 0.07)
                     const opacity =
@@ -58,7 +58,8 @@ export function QuestionCarousel({ step, onStep }: QuestionCarouselProps) {
                             key={key}
                             className="absolute inset-x-0 flex justify-end pr-2"
                             style={{
-                                transform: `translate3d(${arcX}px, ${y}px, 0) scale(${scale})`,
+                                // transform: `translate3d(${arcX}px, ${y}px, 0) scale(${scale})`,
+                                transform: `translate3d(0, ${y}px, 0) scale(${scale})`,
                                 opacity,
                                 transition:
                                     "transform 1200ms cubic-bezier(0.22, 1, 0.36, 1), opacity 1200ms cubic-bezier(0.22, 1, 0.36, 1)",

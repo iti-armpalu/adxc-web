@@ -5,8 +5,10 @@ import { PROVIDER_DOTS, QUESTION_PROVIDERS } from "./constants"
 
 const WIDTH = 220
 const HEIGHT = 380
-const ORIGIN_X = -24
-const ORIGIN_Y = HEIGHT / 2
+// ADXC ball centre and radius (origin of lines)
+const BALL_CX = -110
+const BALL_CY = HEIGHT / 2
+const BALL_R = 96
 
 interface DataProvidersProps {
     activeQuestion: number
@@ -47,36 +49,72 @@ export function DataProviders({ activeQuestion }: DataProvidersProps) {
                     </linearGradient>
                 </defs>
 
-                {PROVIDER_DOTS.map((p, i) => {
-                    const cx = (p.x / 100) * WIDTH
-                    const cy = (p.y / 100) * HEIGHT
-                    const isActive = active.has(i)
-                    const r = p.size / 2
-                    const vx = cx - ORIGIN_X
-                    const vy = cy - ORIGIN_Y
-                    const len = Math.max(1, Math.hypot(vx, vy))
-                    const tx = cx - (vx / len) * r
-                    const ty = cy - (vy / len) * r
-                    const dx = tx - ORIGIN_X
-                    const c1x = ORIGIN_X + dx * 0.55
-                    const c2x = ORIGIN_X + dx * 0.45
-                    const d = `M ${ORIGIN_X} ${ORIGIN_Y} C ${c1x} ${ORIGIN_Y}, ${c2x} ${ty}, ${tx} ${ty}`
+                {(() => {
+                    const order = PROVIDER_DOTS
+                        .map((p, i) => ({ i, y: p.y }))
+                        .sort((a, b) => a.y - b.y)
+                        .map((o) => o.i)
+                    const rankOf: number[] = []
+                    order.forEach((origIdx, rank) => { rankOf[origIdx] = rank })
 
-                    return (
-                        <path
-                            key={i}
-                            d={d}
-                            fill="none"
-                            strokeLinecap="round"
-                            stroke="url(#dp-line-grad)"
-                            strokeWidth={1.75}
-                            style={{
-                                opacity: isActive ? 1 : 0,
-                                transition: "opacity 700ms ease",
-                            }}
-                        />
-                    )
-                })}
+                    return PROVIDER_DOTS.map((p, i) => {
+                        const cx = (p.x / 100) * WIDTH
+                        const cy = (p.y / 100) * HEIGHT
+                        const isActive = active.has(i)
+                        const r = p.size / 2
+
+                        // Ranked anchor on the right arc of the ADXC ball — lines fan top→bottom
+                        const t = PROVIDER_DOTS.length === 1 ? 0.5 : rankOf[i] / (PROVIDER_DOTS.length - 1)
+                        const angle = (-Math.PI / 8) + t * (Math.PI / 4) // ~-22deg to +22deg
+                        const ox = BALL_CX + Math.cos(angle) * BALL_R
+                        const oy = BALL_CY + Math.sin(angle) * BALL_R
+
+                        const vx = cx - ox
+                        const vy = cy - oy
+                        const len = Math.max(1, Math.hypot(vx, vy))
+                        const tx = cx - (vx / len) * r
+                        const ty = cy - (vy / len) * r
+
+                        const dx = tx - ox
+                        const separation = (t - 0.5) * 28
+                        const c1x = ox + dx * 0.32
+                        const c1y = oy + separation
+                        const c2x = ox + dx * 0.7
+                        const c2y = ty - separation * 0.35
+                        const d = `M ${ox} ${oy} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${tx} ${ty}`
+
+                        return (
+                            <g key={i}>
+                                {/* Faint dashed baseline — hidden while active to avoid double-line */}
+                                <path
+                                    d={d}
+                                    fill="none"
+                                    strokeLinecap="round"
+                                    stroke="#BFA7B6"
+                                    strokeOpacity={0.5}
+                                    strokeWidth={1}
+                                    strokeDasharray="3 4"
+                                    style={{
+                                        opacity: isActive ? 0 : 0.35,
+                                        transition: "opacity 900ms cubic-bezier(0.4, 0, 0.2, 1)",
+                                    }}
+                                />
+                                {/* Animated gradient overlay for active providers */}
+                                <path
+                                    d={d}
+                                    fill="none"
+                                    strokeLinecap="round"
+                                    stroke="url(#dp-line-grad)"
+                                    strokeWidth={1.75}
+                                    style={{
+                                        opacity: isActive ? 1 : 0,
+                                        transition: "opacity 700ms ease",
+                                    }}
+                                />
+                            </g>
+                        )
+                    })
+                })()}
             </svg>
 
             {PROVIDER_DOTS.map((p, i) => {

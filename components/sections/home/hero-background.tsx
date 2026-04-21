@@ -27,7 +27,7 @@ export function HeroBackground() {
                     borderRadius: "50%",
                     background: "#C46184",
                     filter: "blur(300px)",
-                    opacity: 0.2,
+                    opacity: 0.7,
                 }}
             />
 

@@ -14,13 +14,13 @@ export const STEP_MS = 3000
 export const PROVIDER_DOTS: ProviderDot[] = [
     { x: 36, y: 6, size: 56, label: "YouGov" },
     { x: 60, y: 16, size: 16 },
-    { x: 38, y: 26, size: 18 },
-    { x: 62, y: 38, size: 20 },
-    { x: 38, y: 50, size: 52, label: "Statista" },
+    { x: 38, y: 30, size: 18 },
+    { x: 62, y: 38, size: 52, label: "Statista" },
+    { x: 38, y: 50, size: 24 },
     { x: 62, y: 62, size: 18 },
     { x: 40, y: 74, size: 20 },
-    { x: 60, y: 84, size: 54, label: "Experian" },
-    { x: 42, y: 96, size: 16 },
+    { x: 60, y: 90, size: 54, label: "Experian" },
+    { x: 38, y: 96, size: 16 },
 ]
 
 // Maps each question index to which provider dots are highlighted

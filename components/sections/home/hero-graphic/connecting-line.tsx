@@ -1,6 +1,6 @@
 export function ConnectingLine() {
     return (
-        <div className="relative h-12 w-16 shrink-0" aria-hidden>
+        <div className="relative h-12 w-8 shrink-0" aria-hidden>
             <svg
                 className="absolute inset-0 w-full h-full overflow-visible"
                 viewBox="0 0 100 24"
@@ -28,7 +28,7 @@ export function ConnectingLine() {
                 <line
                     x1="0" y1="12" x2="100" y2="12"
                     stroke="url(#cl-line-grad)"
-                    strokeWidth="1.75"
+                    strokeWidth="1"
                     strokeLinecap="round"
                 />
             </svg>

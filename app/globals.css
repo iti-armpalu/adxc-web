@@ -125,3 +125,41 @@
     @apply font-sans;
   }
 }
+
+@layer utilities {
+
+  /* Subtle grid overlay — works on top of any background color/gradient.
+     Use bg-grid-sm / bg-grid-lg to change cell size. */
+  .bg-grid {
+    --grid-cell: 110px;
+    --grid-dot: 5px;
+    background-image:
+      radial-gradient(circle, hsl(var(--brand-bright) / 0.95) var(--grid-dot), transparent calc(var(--grid-dot) + 1px)),
+      radial-gradient(circle, hsl(var(--brand-bright) / 0.9) var(--grid-dot), transparent calc(var(--grid-dot) + 1px)),
+      radial-gradient(circle, hsl(var(--brand-bright) / 0.88) var(--grid-dot), transparent calc(var(--grid-dot) + 1px)),
+      linear-gradient(to right, hsl(var(--brand-bright) / 0.25) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--brand-bright) / 0.25) 1px, transparent 1px);
+    background-size:
+      calc(var(--grid-cell) * 5) calc(var(--grid-cell) * 3),
+      calc(var(--grid-cell) * 4) calc(var(--grid-cell) * 6),
+      calc(var(--grid-cell) * 7) calc(var(--grid-cell) * 4),
+      var(--grid-cell) var(--grid-cell),
+      var(--grid-cell) var(--grid-cell);
+    background-position:
+      calc(var(--grid-cell) * -0.5) calc(var(--grid-cell) * 0.5),
+      calc(var(--grid-cell) * -1) calc(var(--grid-cell) * 1),
+      calc(var(--grid-cell) * 0.5) calc(var(--grid-cell) * -1),
+      0 0,
+      0 0;
+  }
+
+  .bg-grid-sm {
+    --grid-cell: 70px;
+    --grid-dot: 4px;
+  }
+
+  .bg-grid-lg {
+    --grid-cell: 180px;
+    --grid-dot: 7px;
+  }
+}

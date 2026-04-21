@@ -20,7 +20,7 @@ export function HeroSection() {
 
     return (
         <FadeIn className="flex-1 flex items-center">
-            <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-0 sm:pt-28 relative min-h-[600px]">
+            <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-0 sm:pt-28 relative min-h-[600px] bg-grid">
 
                 {/* Left — content, constrained to ~45% width */}
                 <div className="space-y-8 max-w-[460px]">
@@ -60,7 +60,7 @@ export function HeroSection() {
                 </div> */}
 
                 <div
-                    className="hidden lg:flex absolute -bottom-36 right-0 xl:-right-20 items-center pointer-events-none"
+                    className="hidden lg:flex absolute -bottom-16 right-0 xl:-right-20 items-center pointer-events-none"
                     aria-hidden
                 >
                     <HeroGraphic />

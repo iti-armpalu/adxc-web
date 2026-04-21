@@ -21,18 +21,27 @@ export function HeroGraphic() {
 
         <>
             <div className="w-[500px] pointer-events-auto relative">
-                <div className="absolute -top-10 right-0 -translate-x-1/2 z-10">
+                <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">
                     <SectionLabel>Marketing Questions</SectionLabel>
                 </div>
                 <QuestionCarousel step={step} onStep={setStep} />
             </div>
             <div className="-translate-y-[10px] flex items-center pointer-events-auto">
                 <ConnectingLine />
-                <AdxcUnit />
-                <div className="ml-6">
-                    {/* <DataProviders activeQuestion={step + 2} /> */}
+                <div className="relative">
+                    <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">
+                        <SectionLabel>AI Agents and Tools</SectionLabel>
+                    </div>
+                    <AdxcUnit />
+                </div>
+
+                <div className="ml-6 relative">
+                    <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">
+                        <SectionLabel>Data Providers</SectionLabel>
+                    </div>
                     <DataProviders activeQuestion={activeQuestion} />
                 </div>
+
             </div>
         </>
     )
