@@ -54,6 +54,12 @@
   --brand-bright: #C46184;
   --brand-dark: #32002B;
 
+  /* Gradient flow — connecting line animation */
+  --gradient-flow-from: 343 47% 58%;
+  /* #C46184 */
+  --gradient-flow-to: 42 100% 42%;
+  /* #D89800 */
+
   /* Backgrounds and surfaces */
   --background: #FEF9FC;
   --foreground: #32002B;

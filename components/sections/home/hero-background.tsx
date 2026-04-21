@@ -9,7 +9,7 @@ export function HeroBackground() {
                     width: "957px",
                     height: "1355px",
                     top: "-133px",
-                    left: "1050px",
+                    left: "1250px",
                     background: "#66023C",
                     transform: "rotate(15deg)",
                     transformOrigin: "top left",
