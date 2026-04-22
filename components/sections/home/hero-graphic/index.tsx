@@ -20,7 +20,7 @@ export function HeroGraphic() {
     return (
 
         <>
-            <div className="w-[500px] pointer-events-auto relative">
+            <div className="w-[460px] pointer-events-auto relative">
                 <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">
                     <SectionLabel>Marketing Questions</SectionLabel>
                 </div>

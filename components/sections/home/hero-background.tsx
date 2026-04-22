@@ -16,18 +16,62 @@ export function HeroBackground() {
                     overflow: "hidden",
                 }}
             >
+
                 {/* Grid overlay — counter-rotated to stay upright */}
                 <div
-                    className="bg-grid bg-grid-sm absolute opacity-30"
+                    className="bg-grid bg-grid-sm absolute opacity-90"
                     style={{
                         inset: "-50%",
                         transform: "rotate(-15deg)",
                         transformOrigin: "center center",
                     }}
                 />
+
+
+                {/* Ellipse — clipped to rectangle */}
+                <div
+                    style={{
+                        position: "absolute",
+                        width: "1361px",
+                        height: "1361px",
+                        top: "-200px",
+                        right: "850px",
+                        borderRadius: "50%",
+                        background: "#C46184",
+                        filter: "blur(300px)",
+
+                        /* Test position */
+                        // filter: "none",
+                        // borderStyle: "solid",
+                        // borderWidth: "2px",
+                        // borderColor: "#080080",
+                    }}
+                />
+
+                {/* Ellipse — #32002B, clipped to rectangle */}
+                <div
+                    style={{
+                        position: "absolute",
+                        width: "1361px",
+                        height: "1361px",
+                        top: "300px",
+                        left: "150px",
+                        borderRadius: "50%",
+                        background: "#32002B",
+                        filter: "blur(300px)",
+
+                        /* Test position - */
+                        // filter: "none",
+                        // borderStyle: "solid",
+                        // borderWidth: "2px",
+                        // borderColor: "#080080",
+                    }}
+                />
+
+
             </div>
 
-            {/* Ellipse 490 — #C46184, blur 300, opacity 20% */}
+            {/* Ellipse 490 — #C46184 */}
             <div
                 style={{
                     position: "absolute",
@@ -42,19 +86,8 @@ export function HeroBackground() {
                 }}
             />
 
-            {/* Ellipse — #32002B, blur 300, bottom right */}
-            <div
-                style={{
-                    position: "absolute",
-                    width: "1361px",
-                    height: "1361px",
-                    top: "349px",
-                    left: "1219px",
-                    borderRadius: "50%",
-                    background: "#32002B",
-                    filter: "blur(300px)",
-                }}
-            />
+
+
 
         </div>
     )

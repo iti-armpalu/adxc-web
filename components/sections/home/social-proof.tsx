@@ -2,7 +2,7 @@ import Image from "next/image"
 
 const partners = [
     { name: "Miro", logo: "/miro-logo.png", width: 120, height: 40 },
-    { name: "DEPT", logo: "/dept-logo.jpg", width: 100, height: 40 },
+    { name: "DEPT", logo: "/dept-logo.svg", width: 60, height: 20 },
 ]
 
 export function SocialProofSection() {
@@ -15,7 +15,7 @@ export function SocialProofSection() {
                     <p className="text-xs uppercase tracking-widest text-muted-foreground">
                         Launch partners
                     </p>
-                    <div className="flex items-center justify-center gap-10">
+                    <div className="flex items-center justify-center gap-12">
                         {partners.map((partner) => (
                             <Image
                                 key={partner.name}
@@ -23,7 +23,7 @@ export function SocialProofSection() {
                                 alt={partner.name}
                                 width={partner.width}
                                 height={partner.height}
-                                className="object-contain"
+                                className="h-14 w-auto object-contain"
                             />
                         ))}
                     </div>

@@ -8,4 +8,5 @@ export type ProviderDot = {
     y: number
     size: number
     label?: string
+    logo?: string
 }

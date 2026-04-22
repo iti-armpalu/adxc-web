@@ -1,9 +1,10 @@
 "use client"
 
+import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { PROVIDER_DOTS, QUESTION_PROVIDERS } from "./constants"
 
-const WIDTH = 280
+const WIDTH = 240
 const HEIGHT = 380
 // ADXC ball centre and radius (origin of lines)
 const BALL_CX = -110
@@ -90,8 +91,7 @@ export function DataProviders({ activeQuestion }: DataProvidersProps) {
                                     d={d}
                                     fill="none"
                                     strokeLinecap="round"
-                                    stroke="#BFA7B6"
-                                    strokeOpacity={0.5}
+                                    stroke="var(--brand-bright)"
                                     strokeWidth={1}
                                     strokeDasharray="3 4"
                                     style={{
@@ -123,10 +123,10 @@ export function DataProviders({ activeQuestion }: DataProvidersProps) {
                     <div
                         key={i}
                         className={cn(
-                            "absolute rounded-full border flex items-center justify-center transition-all duration-700 ease-out",
+                            "absolute rounded-full flex items-center justify-center transition-all duration-700 ease-out",
                             isActive
-                                ? "border-transparent text-white shadow-[0_0_20px_rgba(102,2,60,0.5)]"
-                                : "border-border text-muted-foreground opacity-50"
+                                ? "shadow-[0_0_20px_rgba(102,2,60,0.5)]"
+                                : "opacity-50"
                         )}
                         style={{
                             left: `${p.x}%`,
@@ -134,20 +134,23 @@ export function DataProviders({ activeQuestion }: DataProvidersProps) {
                             width: p.size,
                             height: p.size,
                             transform: `translate(-50%, -50%) scale(${isActive ? 1.08 : 1})`,
-                            backgroundColor: isActive ? "#66023C" : "#EDE6EA",
+                            backgroundColor: isActive
+                                ? "var(--brand-bright)"
+                                : "var(--brand-dark)"
                         }}
                     >
-                        {p.label && (
-                            <span
-                                className="font-bold tracking-tight text-center leading-tight px-1"
-                                style={{ fontSize: p.size * 0.2 }}
-                            >
-                                {p.label}
-                            </span>
-                        )}
+                        {p.logo ? (
+                            <Image
+                                src={p.logo}
+                                alt={p.label ?? ""}
+                                width={p.size}
+                                height={p.size}
+                                className="rounded-full object-cover w-full h-full"
+                            />
+                        ) : null}
                     </div>
                 )
             })}
         </div>
     )
-}
+}   
