@@ -54,6 +54,8 @@
   --brand-bright: #C46184;
   --brand-dark: #32002B;
 
+  --brand-bright-hsl: 343 47% 58%;
+
   /* Gradient flow — connecting line animation */
   --gradient-flow-from: 343 47% 58%;
   /* #C46184 */
@@ -134,11 +136,11 @@
     --grid-cell: 110px;
     --grid-dot: 5px;
     background-image:
-      radial-gradient(circle, hsl(var(--brand-bright) / 0.95) var(--grid-dot), transparent calc(var(--grid-dot) + 1px)),
-      radial-gradient(circle, hsl(var(--brand-bright) / 0.9) var(--grid-dot), transparent calc(var(--grid-dot) + 1px)),
-      radial-gradient(circle, hsl(var(--brand-bright) / 0.88) var(--grid-dot), transparent calc(var(--grid-dot) + 1px)),
-      linear-gradient(to right, hsl(var(--brand-bright) / 0.25) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--brand-bright) / 0.25) 1px, transparent 1px);
+      radial-gradient(circle, hsl(var(--brand-bright-hsl) / 0.95) var(--grid-dot), transparent calc(var(--grid-dot) + 1px)),
+      radial-gradient(circle, hsl(var(--brand-bright-hsl) / 0.9) var(--grid-dot), transparent calc(var(--grid-dot) + 1px)),
+      radial-gradient(circle, hsl(var(--brand-bright-hsl) / 0.88) var(--grid-dot), transparent calc(var(--grid-dot) + 1px)),
+      linear-gradient(to right, hsl(var(--brand-bright-hsl) / 0.25) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--brand-bright-hsl) / 0.25) 1px, transparent 1px);
     background-size:
       calc(var(--grid-cell) * 5) calc(var(--grid-cell) * 3),
       calc(var(--grid-cell) * 4) calc(var(--grid-cell) * 6),

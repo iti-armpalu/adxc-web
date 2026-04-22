@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils"
 import { PROVIDER_DOTS, QUESTION_PROVIDERS } from "./constants"
 
-const WIDTH = 220
+const WIDTH = 280
 const HEIGHT = 380
 // ADXC ball centre and radius (origin of lines)
 const BALL_CX = -110

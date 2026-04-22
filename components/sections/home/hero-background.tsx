@@ -9,12 +9,23 @@ export function HeroBackground() {
                     width: "957px",
                     height: "1355px",
                     top: "-133px",
-                    left: "1250px",
+                    left: "1200px",
                     background: "#66023C",
                     transform: "rotate(15deg)",
                     transformOrigin: "top left",
+                    overflow: "hidden",
                 }}
-            />
+            >
+                {/* Grid overlay — counter-rotated to stay upright */}
+                <div
+                    className="bg-grid bg-grid-sm absolute opacity-30"
+                    style={{
+                        inset: "-50%",
+                        transform: "rotate(-15deg)",
+                        transformOrigin: "center center",
+                    }}
+                />
+            </div>
 
             {/* Ellipse 490 — #C46184, blur 300, opacity 20% */}
             <div
