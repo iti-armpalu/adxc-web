@@ -13,6 +13,7 @@ import {
     type LucideIcon,
 } from "lucide-react"
 import type { BlogPostPreview } from "@/lib/cms/types"
+import Image from "next/image"
 
 // Icon registry — maps string names from siteConfig to Lucide components
 const iconMap: Record<string, LucideIcon> = {
@@ -92,14 +93,18 @@ export function Header({ latestPosts = [] }: Props) {
             )}
         >
             {/* Main bar */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-8">
 
-                <Link
-                    href="/"
-                    className="text-lg font-semibold tracking-tight text-foreground hover:opacity-70 transition-opacity shrink-0"
-                >
-                    {siteConfig.name}
+                <Link href="/" className="shrink-0 hover:opacity-70 transition-opacity">
+                    <Image
+                        src="/adxc-logo.svg"
+                        alt={siteConfig.name}
+                        width={120}
+                        height={40}
+                        priority
+                    />
                 </Link>
+
 
                 {/* Desktop nav */}
                 <nav className="hidden lg:flex items-center gap-1 flex-1 justify-center">
