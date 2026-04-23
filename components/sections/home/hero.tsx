@@ -27,7 +27,7 @@ export function HeroSection() {
 
                     <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-foreground leading-tight">
                         Access premium marketing data.{" "}
-                        <span style={{ color: "#C46184" }}>Pay per answer.</span>
+                        <span className="text-brand-bright">Pay per answer.</span>
                     </h1>
 
                     <p className="text-base text-muted-foreground leading-relaxed max-w-sm">
@@ -43,20 +43,12 @@ export function HeroSection() {
                             onChange={(e) => setEmail(e.target.value)}
                             className="h-12 bg-background"
                         />
-                        <Button
-                            type="submit"
-                            className="h-12 w-full text-base font-medium"
-                        >
+                        <Button type="submit" size="xl" className="w-full cursor-pointer">
                             Get early access
                         </Button>
                     </form>
 
                 </div>
-
-                {/* Right — graphic absolutely positioned, bleeds down */}
-                {/* <div className="absolute bottom-32 right-0 hidden md:block">
-                    <HeroGraphic />
-                </div> */}
 
                 <div
                     className="hidden lg:flex absolute -bottom-16 right-0 xl:-right-20 items-center pointer-events-none"

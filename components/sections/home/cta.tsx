@@ -16,7 +16,7 @@ export function HomeCTASection() {
                         For more information on how ADXC can work for you, and to get early access.
                     </p>
                 </div>
-                <Button asChild size="lg" className="group">
+                <Button asChild size="xl" className="group">
                     <Link href="/contact">
                         Contact us
                         <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />

@@ -170,7 +170,9 @@ export function Header({ latestPosts = [] }: Props) {
                         size="sm"
                         className={cn(
                             "font-semibold",
-                            isDark ? "bg-background text-foreground hover:bg-background/90" : ""
+                            isDark
+                                ? "bg-background text-foreground hover:!bg-neutral-100 hover:!text-foreground hover:shadow-sm active:!bg-neutral-200"
+                                : ""
                         )}
                     >
                         <Link href={siteConfig.cta.href}>
