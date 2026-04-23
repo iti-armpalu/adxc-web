@@ -7,6 +7,59 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-manrope);
   --font-heading: var(--font-manrope);
+
+  /* Typography scale */
+  --text-h1: 3rem;
+  /* 48px */
+  --text-h1--line-height: 1;
+  --text-h1--letter-spacing: -0.09375rem;
+  /* -1.5px */
+  --text-h1--font-weight: 500;
+
+  --text-h2: 1.875rem;
+  /* 30px */
+  --text-h2--line-height: 1;
+  --text-h2--letter-spacing: -0.0625rem;
+  /* -1px */
+  --text-h2--font-weight: 600;
+
+  --text-h3: 1.5rem;
+  /* 24px */
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.0625rem;
+  --text-h3--font-weight: 700;
+
+  --text-h4: 1.25rem;
+  /* 20px */
+  --text-h4--line-height: 1.2;
+  --text-h4--letter-spacing: 0;
+  --text-h4--font-weight: 700;
+
+  --text-lg: 1.125rem;
+  /* 18px — paragraph large */
+  --text-lg--line-height: 1.5;
+  --text-lg--letter-spacing: 0;
+
+  --text-base: 1rem;
+  /* 16px — paragraph regular */
+  --text-base--line-height: 1.5;
+  --text-base--letter-spacing: 0;
+
+  --text-sm: 0.875rem;
+  /* 14px — paragraph small / caption */
+  --text-sm--line-height: 1.43;
+  --text-sm--letter-spacing: 0;
+
+  --text-xs: 0.75rem;
+  /* 12px — paragraph mini */
+  --text-xs--line-height: 1.33;
+  --text-xs--letter-spacing: 0;
+
+  --text-caption: 0.875rem;
+  /* 14px */
+  --text-caption--line-height: 1.5;
+  --text-caption--letter-spacing: 0.09375rem;
+  /* 1.5px */
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -39,22 +92,133 @@
   --color-brand: var(--brand);
   --color-brand-bright: var(--brand-bright);
   --color-brand-dark: var(--brand-dark);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Neutral scale */
+  --color-neutral-50: #F7F4F6;
+  --color-neutral-100: #EDE6EA;
+  --color-neutral-200: #D8C9D2;
+  --color-neutral-300: #BFA7B6;
+  --color-neutral-400: #9E7F93;
+  --color-neutral-500: #7F5F73;
+  --color-neutral-600: #66495D;
+  --color-neutral-700: #52384A;
+  --color-neutral-800: #3F2A39;
+  --color-neutral-900: #2F1F2A;
+  --color-neutral-950: #1F141C;
+
+  /* Tyrian purple scale */
+  --color-tyrian-50: #FFF3F8;
+  --color-tyrian-100: #FFE5F0;
+  --color-tyrian-200: #F8C3D7;
+  --color-tyrian-300: #E89AB7;
+  --color-tyrian-400: #CF6F94;
+  --color-tyrian-500: #B44774;
+  --color-tyrian-600: #8F1E56;
+  --color-tyrian-700: #66023C;
+  --color-tyrian-800: #4B0133;
+  --color-tyrian-900: #32002B;
+  --color-tyrian-950: #1E001A;
+
+  /* Red scale */
+  --color-red-50: #FDF2F2;
+  --color-red-100: #FCE6E6;
+  --color-red-200: #F9CACA;
+  --color-red-300: #F39A9A;
+  --color-red-400: #EA6A6A;
+  --color-red-500: #DE3F3F;
+  --color-red-600: #C92A2A;
+  --color-red-700: #A61F1F;
+  --color-red-800: #861A1A;
+  --color-red-900: #6F1818;
+  --color-red-950: #3B0A0A;
+
+  /* Orange scale */
+  --color-orange-50: #FFF8ED;
+  --color-orange-100: #FEEDD6;
+  --color-orange-200: #FDD9A8;
+  --color-orange-300: #FBBF77;
+  --color-orange-400: #F7A94C;
+  --color-orange-500: #F0912A;
+  --color-orange-600: #DB771A;
+  --color-orange-700: #B85C12;
+  --color-orange-800: #944712;
+  --color-orange-900: #783A12;
+  --color-orange-950: #452007;
+
+  /* Emerald scale */
+  --color-emerald-50: #F2FBF6;
+  --color-emerald-100: #E0F5E8;
+  --color-emerald-200: #BDEAD1;
+  --color-emerald-300: #8DDBB3;
+  --color-emerald-400: #5FCB96;
+  --color-emerald-500: #36B87C;
+  --color-emerald-600: #249E68;
+  --color-emerald-700: #1C7F55;
+  --color-emerald-800: #186646;
+  --color-emerald-900: #15533A;
+  --color-emerald-950: #0A2E20;
+
+  /* Blue scale */
+  --color-blue-50: #EEF2F6;
+  --color-blue-100: #D6DEE8;
+  --color-blue-200: #B3C2D3;
+  --color-blue-300: #8AA3BC;
+  --color-blue-400: #5F7FA3;
+  --color-blue-500: #3F5F85;
+  --color-blue-600: #24354E;
+  --color-blue-700: #1E2C40;
+  --color-blue-800: #192535;
+  --color-blue-900: #15202D;
+  --color-blue-950: #0C131A;
+
+  /* Cyan scale */
+  --color-cyan-50: #E6F6F6;
+  --color-cyan-100: #CCEEEE;
+  --color-cyan-200: #99DDDD;
+  --color-cyan-300: #66CCCC;
+  --color-cyan-400: #33B8B8;
+  --color-cyan-500: #0FA3A3;
+  --color-cyan-600: #008392;
+  --color-cyan-700: #006B78;
+  --color-cyan-800: #005660;
+  --color-cyan-900: #00464F;
+  --color-cyan-950: #002C32;
+  --radius-sm: calc(var(--radius) * 1);
+  /* 2px */
+  --radius-md: calc(var(--radius) * 1);
+  /* 2px */
+  --radius-lg: calc(var(--radius) * 2);
+  /* 4px */
+  --radius-xl: calc(var(--radius) * 4);
+  /* 8px */
+  --radius-2xl: calc(var(--radius) * 5);
+  /* 10px */
+  --radius-3xl: calc(var(--radius) * 6);
+  /* 12px */
+
+  /* Shadow scale — black/alpha values from Figma */
+  --shadow-2xs: 0 1px 0 0 rgba(0, 0, 0, 0.05);
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.10), 0 1px 2px -1px rgba(0, 0, 0, 0.10);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.10), 0 2px 4px -2px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.10), 0 4px 6px -4px rgba(0, 0, 0, 0.10);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.10), 0 8px 10px -6px rgba(0, 0, 0, 0.10);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.10);
 }
 
 :root {
   /* Brand colours */
   --brand: #66023C;
+  /* tyrian-700 */
   --brand-bright: #C46184;
+  /* tyrian-400 approx */
   --brand-dark: #32002B;
+  /* tyrian-900 */
 
+  /* HSL channels for use in hsl(var() / alpha) syntax */
+  --brand-hsl: 343 97% 20%;
   --brand-bright-hsl: 343 47% 58%;
+  --brand-dark-hsl: 343 97% 17%;
 
   /* Gradient flow — connecting line animation */
   --gradient-flow-from: 343 47% 58%;
@@ -63,55 +227,68 @@
   /* #D89800 */
 
   /* Backgrounds and surfaces */
-  --background: #FEF9FC;
-  --foreground: #32002B;
-  --card: #FEF9FC;
-  --card-foreground: #32002B;
-  --popover: #FEF9FC;
-  --popover-foreground: #32002B;
+  --background: #F7F4F6;
+  /* brand-neutrals/50 */
+  --foreground: #2F1F2A;
+  /* brand-neutrals/900 */
+  --card: #F7F4F6;
+  --card-foreground: #2F1F2A;
+  --popover: #000000;
+  --popover-foreground: #ffffff;
 
-  /* Primary = brand */
-  --primary: #66023C;
-  --primary-foreground: #FEF9FC;
+  /* Primary = brand-shades/600 */
+  --primary: #8F1E56;
+  --primary-foreground: #F7F4F6;
 
-  /* Secondary = light tint */
-  --secondary: #f9eef5;
-  --secondary-foreground: #32002B;
+  /* Secondary = brand-neutrals/100 */
+  --secondary: #EDE6EA;
+  --secondary-foreground: #2F1F2A;
 
-  /* Muted = very light tint */
-  --muted: #f5e8f1;
-  --muted-foreground: oklch(0.556 0 0);
+  /* Muted = brand-neutrals/100 */
+  --muted: #EDE6EA;
+  --muted-foreground: #7F5F73;
+  /* brand-neutrals/500 */
 
-  /* Accent */
-  --accent: #f9eef5;
-  --accent-foreground: #32002B;
+  /* Accent = brand-neutrals/100 */
+  --accent: #EDE6EA;
+  --accent-foreground: #2F1F2A;
 
-  /* Destructive */
-  --destructive: oklch(0.577 0.245 27.325);
+  /* Destructive = red-sys/600 */
+  --destructive: #C92A2A;
 
   /* Borders and inputs */
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: #C46184;
+  --border: #D8C9D2;
+  /* brand-neutrals/200 */
+  --input: #ffffff;
+  --ring: #8F1E56;
+  /* brand-shades/300 (focus ring) */
+
+  /* Status */
+  --warning: #B85C12;
+  /* orange-sys/700 */
+  --success: #1C7F55;
+  /* emerald-sys/700 */
 
   /* Charts */
-  --chart-1: #66023C;
-  --chart-2: #C46184;
-  --chart-3: #32002B;
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --chart-1: #8F1E56;
+  --chart-2: #008392;
+  --chart-3: #24354E;
+  --chart-4: #DB771A;
+  --chart-5: #CF6F94;
 
-  --radius: 0.625rem;
+  /* Border radius base — rounded-xs/sm/md = 2px */
+  --radius: 0.125rem;
+  /* 2px — matches Figma rounded-md */
 
   /* Sidebar */
-  --sidebar: #FEF9FC;
-  --sidebar-foreground: #32002B;
-  --sidebar-primary: #66023C;
-  --sidebar-primary-foreground: #FEF9FC;
-  --sidebar-accent: #f9eef5;
-  --sidebar-accent-foreground: #32002B;
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: #C46184;
+  --sidebar: #F7F4F6;
+  --sidebar-foreground: #2F1F2A;
+  --sidebar-primary: #8F1E56;
+  --sidebar-primary-foreground: #F7F4F6;
+  --sidebar-accent: #EDE6EA;
+  --sidebar-accent-foreground: #2F1F2A;
+  --sidebar-border: #D8C9D2;
+  --sidebar-ring: #8F1E56;
 }
 
 @layer base {
@@ -121,17 +298,44 @@
 
   body {
     @apply bg-background text-foreground;
+    font-size: 1rem;
+    line-height: 1.5;
   }
 
   html {
     @apply font-sans;
   }
+
+  h1 {
+    font-size: var(--text-h1);
+    line-height: var(--text-h1--line-height);
+    letter-spacing: var(--text-h1--letter-spacing);
+    font-weight: var(--text-h1--font-weight);
+  }
+
+  h2 {
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
+    letter-spacing: var(--text-h2--letter-spacing);
+    font-weight: var(--text-h2--font-weight);
+  }
+
+  h3 {
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+    letter-spacing: var(--text-h3--letter-spacing);
+    font-weight: var(--text-h3--font-weight);
+  }
+
+  h4 {
+    font-size: var(--text-h4);
+    line-height: var(--text-h4--line-height);
+    letter-spacing: var(--text-h4--letter-spacing);
+    font-weight: var(--text-h4--font-weight);
+  }
 }
 
 @layer utilities {
-
-  /* Subtle grid overlay — works on top of any background color/gradient.
-     Use bg-grid-sm / bg-grid-lg to change cell size. */
   .bg-grid {
     --grid-cell: 110px;
     --grid-dot: 5px;

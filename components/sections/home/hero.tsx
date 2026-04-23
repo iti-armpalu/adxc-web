@@ -46,7 +46,6 @@ export function HeroSection() {
                         <Button
                             type="submit"
                             className="h-12 w-full text-base font-medium"
-                            style={{ backgroundColor: "#66023C" }}
                         >
                             Get early access
                         </Button>
