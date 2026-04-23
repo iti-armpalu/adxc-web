@@ -1,3 +1,11 @@
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+
 const useCases = [
     {
         title: "Audience research",
@@ -51,41 +59,31 @@ export function UseCasesSection() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {useCases.map((useCase, i) => (
-                    <div
-                        key={useCase.title}
-                        className="flex flex-col gap-6 p-8 rounded-2xl"
-                        style={{ backgroundColor: "#EDE6EA" }}
-                    >
-                        {/* Number + title row */}
-                        <div className="flex items-start justify-between gap-4">
-                            <h3 className="text-lg font-semibold text-foreground leading-snug">
+                {useCases.map((useCase) => (
+                    <Card key={useCase.title} className="bg-muted border-0 shadow-md px-4 py-6">
+                        <CardHeader className="pb-4">
+                            <CardTitle className="text-lg font-semibold text-foreground leading-snug">
                                 {useCase.title}
-                            </h3>
-                            <span
-                                className="text-4xl font-bold tracking-tighter select-none leading-none shrink-0 mt-1"
-                                style={{ color: "#C46184", opacity: 0.25 }}
-                            >
-                                {String(i + 1).padStart(2, "0")}
-                            </span>
-                        </div>
+                            </CardTitle>
+                            <CardDescription className="text-base text-foreground/80 leading-relaxed">
+                                {useCase.description}
+                            </CardDescription>
+                        </CardHeader>
 
-                        <p className="text-base text-foreground/80 leading-relaxed">
-                            {useCase.description}
-                        </p>
-
-                        <ul className="space-y-2.5 pt-4 border-t border-black/10">
-                            {useCase.bullets.map((bullet) => (
-                                <li key={bullet} className="flex items-start gap-2.5 text-sm text-muted-foreground">
-                                    <svg className="w-4 h-4 shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none">
-                                        <circle cx="8" cy="8" r="7" stroke="#66023C" strokeWidth="1.5" strokeOpacity="0.4" />
-                                        <path d="M5 8l2 2 4-4" stroke="#66023C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                    </svg>
-                                    {bullet}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                        <CardContent>
+                            <ul className="space-y-2.5 pt-4 border-t border-border">
+                                {useCase.bullets.map((bullet) => (
+                                    <li key={bullet} className="flex items-start gap-2.5 text-sm text-muted-foreground">
+                                        <svg className="w-4 h-4 shrink-0 mt-0.5 text-primary" viewBox="0 0 16 16" fill="none">
+                                            <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.4" />
+                                            <path d="M5 8l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                        {bullet}
+                                    </li>
+                                ))}
+                            </ul>
+                        </CardContent>
+                    </Card>
                 ))}
             </div>
         </section>

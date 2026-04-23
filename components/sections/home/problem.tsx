@@ -5,9 +5,9 @@ export function ProblemSection() {
 
                 {/* Left — stat */}
                 <div className="space-y-6 text-center md:text-left">
-                    <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                    <div className="inline-flex items-center px-3 py-1 rounded-md bg-neutral-800 text-neutral-50 text-xs font-semibold uppercase tracking-widest">
                         The problem
-                    </p>
+                    </div>
                     <div className="space-y-2">
                         <p className="text-7xl sm:text-8xl font-semibold tracking-tight text-foreground">
                             $200k+
@@ -19,14 +19,15 @@ export function ProblemSection() {
                 </div>
 
                 {/* Right — copy */}
-                <div className="space-y-6">
+                <div className="space-y-8">
                     <p className="text-2xl sm:text-3xl font-medium text-muted-foreground leading-snug">
                         99% of businesses can't afford the data they need to make better
                         marketing decisions. This limits your growth.
                     </p>
-                    <p className="text-xl sm:text-2xl font-semibold text-foreground">
+                    <p className="text-3xl sm:text-4xl font-semibold text-foreground leading-tight">
                         ADXC was built for the{" "}
-                        <span style={{ color: "#C46184" }}>99%.</span>
+                        <span className="text-brand-bright">99%</span>
+                        .
                     </p>
                 </div>
 

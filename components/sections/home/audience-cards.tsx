@@ -1,5 +1,11 @@
-import { TrendingUp, Database, Users, Cpu } from "lucide-react"
-import { type LucideIcon } from "lucide-react"
+import { TrendingUp, Database, Users, Cpu, type LucideIcon } from "lucide-react"
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+} from "@/components/ui/card"
 
 const audiences: {
     icon: LucideIcon
@@ -44,27 +50,23 @@ export function AudienceCardsSection() {
                     {audiences.map((audience) => {
                         const Icon = audience.icon
                         return (
-                            <div
-                                key={audience.title}
-                                className="flex flex-col gap-6 p-8 rounded-2xl"
-                                style={{ backgroundColor: "#D8C9D2" }}
-                            >
-                                <div
-                                    className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0"
-                                    style={{ backgroundColor: "#66023C" }}
-                                >
-                                    <Icon className="w-5 h-5 text-white" strokeWidth={1.5} />
-                                </div>
-
-                                <div className="flex-1 space-y-2">
-                                    <h3 className="text-base font-semibold text-foreground">
-                                        {audience.title}
-                                    </h3>
-                                    <p className="text-sm text-foreground/70 leading-relaxed">
+                            <Card key={audience.title} className="bg-neutral-200 border-0 shadow-md px-4 py-6">
+                                <CardHeader className="pb-2">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-md flex items-center justify-center shrink-0 bg-neutral-700">
+                                            <Icon className="w-5 h-5 text-neutral-50" strokeWidth={1.5} />
+                                        </div>
+                                        <CardTitle className="text-base font-semibold text-foreground">
+                                            {audience.title}
+                                        </CardTitle>
+                                    </div>
+                                </CardHeader>
+                                <CardContent>
+                                    <CardDescription className="text-sm text-foreground/70 leading-relaxed">
                                         {audience.description}
-                                    </p>
-                                </div>
-                            </div>
+                                    </CardDescription>
+                                </CardContent>
+                            </Card>
                         )
                     })}
                 </div>
