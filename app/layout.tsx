@@ -14,6 +14,12 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: { template: `%s | ${siteConfig.name}`, default: siteConfig.name },
   description: siteConfig.tagline,
+
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
