@@ -18,7 +18,6 @@ export function HeroGraphic() {
     const activeQuestion = step % QUESTIONS.length
 
     return (
-
         <>
             <div className="w-[460px] pointer-events-auto relative">
                 <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">

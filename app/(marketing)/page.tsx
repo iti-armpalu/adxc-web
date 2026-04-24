@@ -18,7 +18,7 @@ export default function HomePage() {
     return (
         <>
             {/* Hero with background bleeding behind fixed header */}
-            <div className="relative min-h-screen flex flex-col">
+            <div className="relative px-4 sm:px-6 py-24"> 
                 <HeroBackground />
                 <div className="relative z-10">
                     <HeroSection />
