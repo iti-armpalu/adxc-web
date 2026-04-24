@@ -9,9 +9,9 @@ export function HeroBackground() {
                     width: "957px",
                     height: "1355px",
                     top: "-133px",
-                    left: "1200px",
+                    left: "1490px",
                     background: "#66023C",
-                    transform: "rotate(15deg)",
+                    transform: "rotate(30deg)",
                     transformOrigin: "top left",
                     overflow: "hidden",
                 }}
@@ -22,7 +22,7 @@ export function HeroBackground() {
                     className="bg-grid bg-grid-sm absolute opacity-90"
                     style={{
                         inset: "-50%",
-                        transform: "rotate(-15deg)",
+                        transform: "rotate(-30deg)",
                         transformOrigin: "center center",
                     }}
                 />

@@ -51,7 +51,7 @@ export function HeroSection() {
                 </div>
 
                 <div
-                    className="hidden lg:flex absolute bottom-0 right-0 xl:-right-20 items-center pointer-events-none"
+                    className="hidden lg:flex absolute bottom-5 right-0 xl:-right-20 items-center pointer-events-none"
                     aria-hidden
                 >
                     <HeroGraphic />
