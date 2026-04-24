@@ -1,8 +1,7 @@
 import Image from "next/image"
 
 const partners = [
-    { name: "Miro", logo: "/miro-logo.png", width: 120, height: 40 },
-    { name: "DEPT", logo: "/dept-logo.svg", width: 60, height: 20 },
+    { name: "Miro", logo: "/miro-logo.png", width: 160, height: 80 }
 ]
 
 export function SocialProofSection() {
@@ -23,7 +22,7 @@ export function SocialProofSection() {
                                 alt={partner.name}
                                 width={partner.width}
                                 height={partner.height}
-                                className="h-14 w-auto object-contain"
+                                className="h-22 w-auto object-contain"
                             />
                         ))}
                     </div>
