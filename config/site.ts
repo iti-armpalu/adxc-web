@@ -19,7 +19,7 @@ export type FooterGroup = {
 export const siteConfig = {
     name: "ADXC",
     tagline:
-        "The Agentic Data Exchange that gives companies access to all the marketing data they need, and only charges for what they use",
+        "The Agentic Data Exchange that gives companies access to the marketing data they need, and only charges for what they use",
     url: "https://adxc.ai",
     contactEmail: "contact@adxc.ai",
     investorUrl: "https://investor.adxc.ai",

@@ -453,7 +453,7 @@ function WhyAdxcPanel() {
                     Get started
                 </p>
                 <p className="text-sm text-foreground font-medium leading-snug">
-                    Access all the marketing data you need — pay only for what you use.
+                    Access the marketing data you need — pay only for what you use.
                 </p>
                 <p className="text-xs text-muted-foreground leading-relaxed">
                     ADXC connects brands, agencies, and data providers in a single unified exchange.
