@@ -1,8 +1,6 @@
 "use client"
 
-import { useState } from "react"
-
-
+import { useCallback, useState } from "react"
 
 import SectionLabel from "./section-label"
 
@@ -26,7 +24,7 @@ export function HeroGraphic() {
                 <QuestionCarousel step={step} onStep={setStep} />
             </div>
             <div className="-translate-y-[10px] flex items-center pointer-events-auto">
-                <ConnectingLine />
+                <ConnectingLine activeQuestion={activeQuestion} width={24} />
                 <div className="relative">
                     <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">
                         <SectionLabel>AI Agents and Tools</SectionLabel>

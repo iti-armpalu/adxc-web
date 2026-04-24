@@ -1,9 +1,11 @@
+import Image from "next/image"
+
 const SIZE = 148
 const RING = 6
 
 export function AdxcUnit() {
     return (
-        <div className="relative flex items-center justify-center shrink-0 pl-2" aria-label="ADXC">
+        <div className="relative flex items-center justify-center shrink-0" aria-label="ADXC">
             {/* Spinning conic ring */}
             <div
                 className="absolute rounded-full animate-spin"
@@ -19,18 +21,15 @@ export function AdxcUnit() {
             />
             <div
                 className="relative rounded-full border-2 bg-background flex items-center justify-center shadow-2xl"
-                style={{
-                    width: SIZE,
-                    height: SIZE,
-                    borderColor: "#66023C",
-                }}
+                style={{ width: SIZE, height: SIZE, borderColor: "#66023C" }}
             >
-                <span
-                    className="text-4xl font-extrabold tracking-widest leading-none text-center"
-                    style={{ color: "#66023C" }}
-                >
-                    AD<br />XC
-                </span>
+                <Image
+                    src="/adxc-logo-primary-stacked.svg"
+                    alt="ADXC"
+                    width={60}
+                    height={60}
+                    className="object-contain"
+                />
             </div>
         </div>
     )

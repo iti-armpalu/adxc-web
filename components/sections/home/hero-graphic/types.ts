@@ -9,4 +9,5 @@ export type ProviderDot = {
     size: number
     label?: string
     logo?: string
+    color?: string  // HSL values e.g. "343 47% 58%" — omit if dot has a logo
 }
