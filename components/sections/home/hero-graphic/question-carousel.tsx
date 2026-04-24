@@ -105,9 +105,9 @@ export function QuestionCarousel({ step, onStep, onPillWidth }: QuestionCarousel
                                 <span
                                     className={cn(
                                         "ml-2 flex h-7 w-7 items-center justify-center rounded-full border transition-colors duration-500 shrink-0",
-                                        distance < 0 && "bg-primary/10 border-primary/40 text-primary",
-                                        distance === 0 && "bg-secondary border-border text-muted-foreground",
-                                        distance > 0 && "bg-background border-border text-muted-foreground"
+                                        distance < 0 && "bg-emerald-700 border-emerald-700 text-emerald-100",
+                                        distance === 0 && "bg-tyrian-400 border-tyrian-400 text-primary-foreground",
+                                        distance > 0 && "bg-neutral-700 border-neutral-700 text-neutral-100"
                                     )}
                                     aria-label={distance < 0 ? "received" : distance === 0 ? "waiting" : "send"}
                                 >
