@@ -23,15 +23,11 @@ export default async function EarlyAccessPage({ searchParams }: Props) {
                 {/* Left — copy */}
                 <div className="space-y-8">
                     <div className="space-y-4">
-                        <p className="text-xs uppercase tracking-widest text-muted-foreground">
-                            Early access
-                        </p>
                         <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-foreground leading-tight">
-                            Sign up for early beta access
+                            Get early access
                         </h1>
                         <p className="text-lg text-muted-foreground leading-relaxed">
-                            Be among the first to access {siteConfig.name} — the data exchange
-                            that gives you everything you need and charges only for what you use.
+                            Selected users get $200 in free credits to spend on real marketing data. Beta launches in May, inside Miro.
                         </p>
                     </div>
                 </div>

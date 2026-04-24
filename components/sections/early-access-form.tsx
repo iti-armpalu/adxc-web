@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { ArrowRight, CheckCircle } from "lucide-react"
+import { Textarea } from "@/components/ui/textarea"
 import { trackEarlyAccessSubmitted } from "@/lib/analytics/events"
 
 const initialState: EarlyAccessState = { status: "idle" }
@@ -35,11 +36,13 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
     if (localStatus.status === "success") {
         return (
             <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
-                <CheckCircle className="w-10 h-10 text-green-500" />
-                <h3 className="text-xl font-medium text-foreground">You're on the list</h3>
-                <p className="text-muted-foreground max-w-sm">
-                    Thanks for your interest. We'll be in touch shortly with next steps.
-                </p>
+                <CheckCircle className="w-10 h-10 text-success" />
+                <h3 className="text-xl font-semibold text-foreground">You're on the list!</h3>
+                <div className="text-muted-foreground max-w-sm space-y-2 text-sm leading-relaxed">
+                    <p>If selected, you get $200 in free ADXC credit, no card needed.</p>
+                    <p>We ask one thing in return: a 30-minute feedback call.</p>
+                    <p>We'll email you more details soon.</p>
+                </div>
             </div>
         )
     }
@@ -107,13 +110,13 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
                         disabled={isPending}
                         defaultValue=""
                         className={cn(
-                            "w-full rounded-md border border-input bg-background px-3 py-2",
-                            "text-sm text-foreground",
-                            "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-                            "disabled:cursor-not-allowed disabled:opacity-50"
+                            "h-8 w-full rounded-lg border border-input bg-transparent px-2.5 py-1",
+                            "text-sm text-foreground transition-colors outline-none",
+                            "focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
+                            "disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50",
                         )}
                     >
-                        <option value="" disabled>Select size</option>
+                        <option value="" disabled className="text-muted-foreground">Select size</option>
                         {companySizes.map((size) => (
                             <option key={size} value={size}>{size}</option>
                         ))}
@@ -138,17 +141,12 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
                 <label className="text-sm text-muted-foreground">
                     What will you use ADXC for? <span className="text-destructive">*</span>
                 </label>
-                <textarea
+                <Textarea
                     name="useCase"
                     rows={4}
                     placeholder="Tell us about your data needs and what you're hoping to achieve..."
                     disabled={isPending}
-                    className={cn(
-                        "w-full rounded-md border border-input bg-background px-3 py-2",
-                        "text-sm text-foreground placeholder:text-muted-foreground",
-                        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-                        "disabled:cursor-not-allowed disabled:opacity-50 resize-none"
-                    )}
+                    className="resize-none"
                 />
             </div>
 

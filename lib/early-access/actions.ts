@@ -44,6 +44,9 @@ export async function submitEarlyAccess(
             turnstileToken: formData.get("turnstileToken"),
         })
 
+        console.log("[early-access] formData keys:", [...formData.keys()])
+        console.log("[early-access] parsed:", parsed.success ? "ok" : parsed.error.flatten())
+
         if (!parsed.success) {
             const first = Object.values(parsed.error.flatten().fieldErrors)[0]?.[0]
             return { status: "error", error: first ?? "Invalid input" }
@@ -57,8 +60,8 @@ export async function submitEarlyAccess(
             return { status: "error", error: "Bot verification failed" }
         }
 
-        await resend.emails.send({
-            from: "onboarding@resend.dev", // TODO: switch to verified domain
+        const { error: resendError } = await resend.emails.send({
+            from: `${siteConfig.name} <${siteConfig.contactEmail}>`,
             to: siteConfig.contactEmail,
             replyTo: email,
             subject: `Early access: ${name} — ${company}`,
@@ -73,6 +76,11 @@ export async function submitEarlyAccess(
                 useCase,
             ].join("\n"),
         })
+
+        if (resendError) {
+            console.error("[early-access] resend error:", resendError)
+            return { status: "error", error: "Failed to send email. Please try again." }
+        }
 
         return { status: "success" }
     } catch (err) {
