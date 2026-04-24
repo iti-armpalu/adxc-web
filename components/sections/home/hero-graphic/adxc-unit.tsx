@@ -5,7 +5,7 @@ const RING = 6
 
 export function AdxcUnit() {
     return (
-        <div className="relative flex items-center justify-center shrink-0" aria-label="ADXC">
+        <div className="relative flex items-center justify-center shrink-0 pl-3" aria-label="ADXC">
             {/* Spinning conic ring */}
             <div
                 className="absolute rounded-full animate-spin"

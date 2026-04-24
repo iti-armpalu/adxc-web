@@ -2,76 +2,15 @@ export function HeroBackground() {
     return (
         <div className="absolute inset-x-0 -top-16 bottom-0 z-0 overflow-hidden pointer-events-none">
 
-            {/* Rectangle 717 — #66023C, rotated -15deg, positioned from Figma */}
+            {/* Linear gradient — transparent left, hard diagonal stop, dark right */}
             <div
+                className="absolute inset-0"
                 style={{
-                    position: "absolute",
-                    width: "957px",
-                    height: "1355px",
-                    top: "-133px",
-                    left: "1490px",
-                    background: "#66023C",
-                    transform: "rotate(30deg)",
-                    transformOrigin: "top left",
-                    overflow: "hidden",
+                    background: "linear-gradient(122deg, transparent 21%, transparent 72%, #66023C 72%, #32002B 100%)",
                 }}
-            >
+            />
 
-                {/* Grid overlay — counter-rotated to stay upright */}
-                <div
-                    className="bg-grid bg-grid-sm absolute opacity-90"
-                    style={{
-                        inset: "-50%",
-                        transform: "rotate(-30deg)",
-                        transformOrigin: "center center",
-                    }}
-                />
-
-
-                {/* Ellipse — clipped to rectangle */}
-                <div
-                    style={{
-                        position: "absolute",
-                        width: "1361px",
-                        height: "1361px",
-                        top: "-200px",
-                        right: "850px",
-                        borderRadius: "50%",
-                        background: "#C46184",
-                        filter: "blur(300px)",
-
-                        /* Test position */
-                        // filter: "none",
-                        // borderStyle: "solid",
-                        // borderWidth: "2px",
-                        // borderColor: "#080080",
-                    }}
-                />
-
-                {/* Ellipse — #32002B, clipped to rectangle */}
-                <div
-                    style={{
-                        position: "absolute",
-                        width: "1361px",
-                        height: "1361px",
-                        top: "300px",
-                        left: "150px",
-                        borderRadius: "50%",
-                        background: "#32002B",
-                        filter: "blur(300px)",
-
-                        /* Test position - */
-                        // filter: "none",
-                        // borderStyle: "solid",
-                        // borderWidth: "2px",
-                        // borderColor: "#080080",
-                    }}
-                />
-
-
-            </div>
-
-            {/* Ellipse 490 — #C46184 */}
+            {/* Ellipse — #C46184 glow, sits behind the graphic */}
             <div
                 style={{
                     position: "absolute",
@@ -82,12 +21,18 @@ export function HeroBackground() {
                     borderRadius: "50%",
                     background: "#C46184",
                     filter: "blur(300px)",
-                    opacity: 0.7,
+                    opacity: 0.2,
                 }}
             />
 
-
-
+            {/* Grid overlay — masked so it fades out on the light side */}
+            <div
+                className="bg-grid bg-grid-sm absolute inset-0 opacity-30"
+                style={{
+                    WebkitMaskImage: "linear-gradient(120deg, transparent 21%, transparent 68%, black 72%, black 100%)",
+                    maskImage: "linear-gradient(120deg, transparent 21%, transparent 68%, black 72%, black 100%)",
+                }}
+            />
 
         </div>
     )

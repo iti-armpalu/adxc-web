@@ -38,7 +38,7 @@ export function Header({ latestPosts = [] }: Props) {
     const [scrolled, setScrolled] = useState(false)
     const headerRef = useRef<HTMLElement>(null)
     // Dark header state — over the brand background on homepage
-    const isDark = !scrolled && pathname === "/"
+    // const isDark = !scrolled && pathname === "/"
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 12)
@@ -157,28 +157,9 @@ export function Header({ latestPosts = [] }: Props) {
 
                 {/* Desktop CTAs */}
                 <div className="hidden lg:flex items-center gap-2 shrink-0">
-                    {siteConfig.secondaryCta && (
-                        <Link
-                            href={siteConfig.secondaryCta.href}
-                            className={cn(
-                                "px-3.5 py-2 text-sm font-semibold transition-colors",
-                                isDark
-                                    ? "text-white/90 hover:text-white"
-                                    : "text-muted-foreground hover:text-foreground"
-                            )}
-                        >
-                            {siteConfig.secondaryCta.label}
-                        </Link>
-                    )}
                     <Button
                         asChild
                         size="sm"
-                        className={cn(
-                            "font-semibold",
-                            isDark
-                                ? "bg-background text-foreground hover:!bg-neutral-100 hover:!text-foreground hover:shadow-sm active:!bg-neutral-200"
-                                : ""
-                        )}
                     >
                         <Link href={siteConfig.cta.href}>
                             {siteConfig.cta.label}

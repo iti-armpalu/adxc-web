@@ -21,8 +21,7 @@ export function ConnectingLine({ activeQuestion, width = 64 }: ConnectingLinePro
                 <line
                     x1="0" y1="12" x2={width} y2="12"
                     stroke="#C46184"
-                    strokeOpacity="0.25"
-                    strokeWidth="1.5"
+                    strokeWidth="2"
                     strokeLinecap="round"
                 />
                 <circle r="3.5" cy="12" fill="#F9EEF5" stroke="#C46184" strokeWidth="1.5" strokeOpacity="0.6">
