@@ -37,8 +37,6 @@ export function Header({ latestPosts = [] }: Props) {
     const [mobileExpanded, setMobileExpanded] = useState<string | null>(null)
     const [scrolled, setScrolled] = useState(false)
     const headerRef = useRef<HTMLElement>(null)
-    // Dark header state — over the brand background on homepage
-    // const isDark = !scrolled && pathname === "/"
 
     useEffect(() => {
         const onScroll = () => setScrolled(window.scrollY > 12)
@@ -93,7 +91,10 @@ export function Header({ latestPosts = [] }: Props) {
             )}
         >
             {/* Main bar */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-8">
+            <div className={cn(
+                "max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-8 transition-all duration-300",
+                scrolled ? "py-3" : "py-4 sm:py-5 lg:py-6"
+            )}>
 
                 <Link href="/" className="shrink-0 hover:opacity-70 transition-opacity">
                     <Image
@@ -102,6 +103,10 @@ export function Header({ latestPosts = [] }: Props) {
                         width={120}
                         height={40}
                         priority
+                        className={cn(
+                            "transition-all duration-300 w-auto",
+                            scrolled ? "h-6" : "h-7 sm:h-8 lg:h-10"
+                        )}
                     />
                 </Link>
 
