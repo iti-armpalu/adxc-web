@@ -14,6 +14,8 @@ import {
 } from "lucide-react"
 import type { BlogPostPreview } from "@/lib/cms/types"
 import Image from "next/image"
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet"
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 
 // Icon registry — maps string names from siteConfig to Lucide components
 const iconMap: Record<string, LucideIcon> = {
@@ -181,14 +183,154 @@ export function Header({ latestPosts = [] }: Props) {
                 </div>
 
                 {/* Mobile toggle */}
-                <button
-                    className="lg:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
+                {/* <Button
+                    variant="default"
+                    size="icon"
+                    className="lg:hidden rounded-sm"
                     onClick={() => setMobileOpen((v) => !v)}
                     aria-label={mobileOpen ? "Close menu" : "Open menu"}
                     aria-expanded={mobileOpen}
                 >
                     {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                </button>
+                </Button> */}
+
+                {/* Mobile toggle — Sheet trigger */}
+                <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+                    <SheetTrigger asChild>
+                        <Button
+                            variant="default"
+                            size="icon"
+                            className="lg:hidden rounded-sm"
+                            aria-label="Open menu"
+                        >
+                            <Menu className="w-5 h-5" />
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-[280px] sm:w-[320px] px-0 py-0" aria-describedby={undefined}>
+                        <VisuallyHidden>
+                            <SheetTitle>Navigation menu</SheetTitle>
+                        </VisuallyHidden>
+                        <div className="h-full overflow-y-auto px-4 py-6 space-y-1">
+
+                            {/* Logo */}
+                            <div className="mb-6">
+                                <Link href="/" onClick={() => setMobileOpen(false)}>
+                                    <Image
+                                        src="/adxc-logo-primary-horizontal.svg"
+                                        alt={siteConfig.name}
+                                        width={120}
+                                        height={40}
+                                        className="h-3 w-auto"
+                                    />
+                                </Link>
+                            </div>
+
+                            {siteConfig.nav.map((group) => {
+                                const hasItems = !!group.items?.length
+                                const expanded = mobileExpanded === group.label
+
+                                if (!hasItems && group.href) {
+                                    return (
+                                        <Link
+                                            key={group.label}
+                                            href={group.href}
+                                            onClick={() => setMobileOpen(false)}
+                                            className={cn(
+                                                "block px-4 py-3 text-sm rounded-lg transition-colors",
+                                                pathname === group.href
+                                                    ? "text-foreground font-medium bg-muted"
+                                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                            )}
+                                        >
+                                            {group.label}
+                                        </Link>
+                                    )
+                                }
+
+                                return (
+                                    <div key={group.label}>
+                                        <button
+                                            aria-label={`${group.label} menu`}
+                                            aria-expanded={expanded}
+                                            onClick={() =>
+                                                setMobileExpanded((prev) =>
+                                                    prev === group.label ? null : group.label
+                                                )
+                                            }
+                                            className={cn(
+                                                "w-full flex items-center justify-between px-4 py-3 text-sm rounded-lg transition-colors",
+                                                expanded
+                                                    ? "text-foreground font-medium"
+                                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                            )}
+                                        >
+                                            {group.label}
+                                            <ChevronDown
+                                                className={cn(
+                                                    "w-4 h-4 transition-transform duration-200",
+                                                    expanded && "rotate-180"
+                                                )}
+                                            />
+                                        </button>
+
+                                        <div
+                                            className={cn(
+                                                "overflow-hidden transition-all duration-200",
+                                                expanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                                            )}
+                                        >
+                                            <div className="pl-2 pt-1 pb-2 space-y-0.5">
+                                                {group.items?.map((item) => {
+                                                    const Icon = item.icon ? iconMap[item.icon] : null
+                                                    return (
+                                                        <Link
+                                                            key={item.href}
+                                                            href={item.href}
+                                                            onClick={() => setMobileOpen(false)}
+                                                            className={cn(
+                                                                "flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors",
+                                                                pathname.startsWith(item.href)
+                                                                    ? "text-foreground font-medium bg-muted"
+                                                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                                            )}
+                                                        >
+                                                            {Icon && <Icon className="w-4 h-4 shrink-0" />}
+                                                            <div>
+                                                                <p className="text-sm">{item.label}</p>
+                                                                {item.description && (
+                                                                    <p className="text-xs text-muted-foreground/70 mt-0.5">
+                                                                        {item.description}
+                                                                    </p>
+                                                                )}
+                                                            </div>
+                                                        </Link>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+
+                            <div className="pt-4 mt-4 border-t border-border/50 space-y-2">
+                                {siteConfig.secondaryCta && (
+                                    <Link
+                                        href={siteConfig.secondaryCta.href}
+                                        onClick={() => setMobileOpen(false)}
+                                        className="block px-4 py-3 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                                    >
+                                        {siteConfig.secondaryCta.label}
+                                    </Link>
+                                )}
+                                <Button asChild className="w-full" onClick={() => setMobileOpen(false)}>
+                                    <Link href={siteConfig.cta.href}>
+                                        {siteConfig.cta.label}
+                                    </Link>
+                                </Button>
+                            </div>
+                        </div>
+                    </SheetContent>
+                </Sheet>
             </div>
 
             {/* Desktop mega panels */}
@@ -283,120 +425,6 @@ export function Header({ latestPosts = [] }: Props) {
                     </div>
                 )
             })}
-
-            {/* Mobile menu */}
-            <div
-                className={cn(
-                    "lg:hidden fixed inset-0 top-16 z-40 bg-background",
-                    "transition-all duration-300 ease-in-out",
-                    mobileOpen
-                        ? "opacity-100 pointer-events-auto"
-                        : "opacity-0 pointer-events-none"
-                )}
-            >
-                <div className="h-full overflow-y-auto px-4 py-6 space-y-1">
-                    {siteConfig.nav.map((group) => {
-                        const hasItems = !!group.items?.length
-                        const expanded = mobileExpanded === group.label
-
-                        if (!hasItems && group.href) {
-                            return (
-                                <Link
-                                    key={group.label}
-                                    href={group.href}
-                                    className={cn(
-                                        "block px-4 py-3 text-sm rounded-lg transition-colors",
-                                        pathname === group.href
-                                            ? "text-foreground font-medium bg-muted"
-                                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                                    )}
-                                >
-                                    {group.label}
-                                </Link>
-                            )
-                        }
-
-                        return (
-                            <div key={group.label}>
-                                <button
-                                    aria-label={`${group.label} menu`}
-                                    aria-expanded={expanded}
-                                    onClick={() =>
-                                        setMobileExpanded((prev) =>
-                                            prev === group.label ? null : group.label
-                                        )
-                                    }
-                                    className={cn(
-                                        "w-full flex items-center justify-between px-4 py-3 text-sm rounded-lg transition-colors",
-                                        expanded
-                                            ? "text-foreground font-medium"
-                                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                                    )}
-                                >
-                                    {group.label}
-                                    <ChevronDown
-                                        className={cn(
-                                            "w-4 h-4 transition-transform duration-200",
-                                            expanded && "rotate-180"
-                                        )}
-                                    />
-                                </button>
-
-                                <div
-                                    className={cn(
-                                        "overflow-hidden transition-all duration-200",
-                                        expanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                                    )}
-                                >
-                                    <div className="pl-2 pt-1 pb-2 space-y-0.5">
-                                        {group.items?.map((item) => {
-                                            const Icon = item.icon ? iconMap[item.icon] : null
-                                            return (
-                                                <Link
-                                                    key={item.href}
-                                                    href={item.href}
-                                                    className={cn(
-                                                        "flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors",
-                                                        pathname.startsWith(item.href)
-                                                            ? "text-foreground font-medium bg-muted"
-                                                            : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                                                    )}
-                                                >
-                                                    {Icon && <Icon className="w-4 h-4 shrink-0" />}
-                                                    <div>
-                                                        <p className="text-sm">{item.label}</p>
-                                                        {item.description && (
-                                                            <p className="text-xs text-muted-foreground/70 mt-0.5">
-                                                                {item.description}
-                                                            </p>
-                                                        )}
-                                                    </div>
-                                                </Link>
-                                            )
-                                        })}
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    })}
-
-                    <div className="pt-4 mt-4 border-t border-border/50 space-y-2">
-                        {siteConfig.secondaryCta && (
-                            <Link
-                                href={siteConfig.secondaryCta.href}
-                                className="block px-4 py-3 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                            >
-                                {siteConfig.secondaryCta.label}
-                            </Link>
-                        )}
-                        <Button asChild className="w-full">
-                            <Link href={siteConfig.cta.href}>
-                                {siteConfig.cta.label}
-                            </Link>
-                        </Button>
-                    </div>
-                </div>
-            </div>
         </header>
     )
 }
