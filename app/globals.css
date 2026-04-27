@@ -247,6 +247,9 @@
   --muted-foreground: #7F5F73;
   /* brand-neutrals/500 */
 
+  /* Ghost */
+  --ghost-foreground: #52384A;
+
   /* Accent = brand-neutrals/100 */
   --accent: #EDE6EA;
   --accent-foreground: #2F1F2A;

@@ -162,6 +162,14 @@ export function Header({ latestPosts = [] }: Props) {
 
                 {/* Desktop CTAs */}
                 <div className="hidden lg:flex items-center gap-2 shrink-0">
+                    <Link
+                        href={siteConfig.secondaryCta.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3.5 py-2 text-sm text-ghost-foreground hover:text-muted-foreground transition-colors"
+                    >
+                        {siteConfig.secondaryCta.label}
+                    </Link>
                     <Button
                         asChild
                         size="sm"

@@ -32,7 +32,10 @@ export const siteConfig = {
         href: "/early-access",
     },
 
-    secondaryCta: null as { label: string; href: string } | null,
+    secondaryCta: {
+        label: "Investor portal",
+        href: "https://investor.adxc.ai",
+    },
 
     // Footer — legal only, restore other groups when pages are ready
     footerLinks: [
