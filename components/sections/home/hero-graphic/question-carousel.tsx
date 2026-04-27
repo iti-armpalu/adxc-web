@@ -52,7 +52,7 @@ export function QuestionCarousel({ step, onStep, onPillWidth }: QuestionCarousel
 
     return (
         <div
-            className="relative w-full max-w-xl mx-auto"
+            className="relative w-full max-w-xl mx-auto [--arc-enabled:0] lg:[--arc-enabled:1]"
             style={{ height: VISIBLE * ROW_HEIGHT + 40 }}
         >
             <div
@@ -74,10 +74,9 @@ export function QuestionCarousel({ step, onStep, onPillWidth }: QuestionCarousel
                     return (
                         <div
                             key={key}
-                            className="absolute inset-x-0 flex justify-end"
+                            className="absolute inset-x-0 flex justify-center lg:justify-end"
                             style={{
-                                // transform: `translate3d(0, ${y}px, 0) scale(${scale})`,
-                                transform: `translate3d(${arcX}px, ${y}px, 0) scale(${scale})`,
+                                transform: `translate3d(calc(${arcX}px * var(--arc-enabled, 0)), ${y}px, 0) scale(${scale})`,
                                 opacity,
                                 transition:
                                     "transform 1200ms cubic-bezier(0.22, 1, 0.36, 1), opacity 1200ms cubic-bezier(0.22, 1, 0.36, 1)",
@@ -87,15 +86,16 @@ export function QuestionCarousel({ step, onStep, onPillWidth }: QuestionCarousel
                             <div
                                 ref={isHighlight ? highlightRef : undefined}
                                 className={cn(
-                                    "pl-1.5 pr-3 py-1.5 rounded-full border-2 bg-background whitespace-nowrap text-sm font-medium text-foreground",
+                                    "pl-1.5 pr-3 py-1.5 rounded-full border-1 bg-background text-xs lg:text-sm font-medium text-foreground",
                                     "flex items-center gap-3",
+                                    "whitespace-normal lg:whitespace-nowrap",
                                     "transition-colors duration-1000 ease-out",
                                     isHighlight ? "border-brand-dark shadow-lg" : "border-border"
                                 )}
                             >
                                 <span
                                     className={cn(
-                                        "flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold shrink-0",
+                                        "flex h-7 w-7 lg:h-9 lg:w-9 items-center justify-center rounded-full text-sm font-semibold shrink-0",
                                         "bg-secondary text-secondary-foreground border border-border"
                                     )}
                                 >
@@ -104,7 +104,7 @@ export function QuestionCarousel({ step, onStep, onPillWidth }: QuestionCarousel
                                 <span>{q.text}</span>
                                 <span
                                     className={cn(
-                                        "ml-2 flex h-7 w-7 items-center justify-center rounded-full border transition-colors duration-500 shrink-0",
+                                        "ml-2 flex h-5 w-5 lg:h-7 lg:w-7 items-center justify-center rounded-full border transition-colors duration-500 shrink-0",
                                         distance < 0 && "bg-emerald-700 border-emerald-700 text-emerald-100",
                                         distance === 0 && "bg-tyrian-400 border-tyrian-400 text-primary-foreground",
                                         distance > 0 && "bg-neutral-700 border-neutral-700 text-neutral-100"
@@ -112,11 +112,11 @@ export function QuestionCarousel({ step, onStep, onPillWidth }: QuestionCarousel
                                     aria-label={distance < 0 ? "received" : distance === 0 ? "waiting" : "send"}
                                 >
                                     {distance < 0 ? (
-                                        <Check className="h-3.5 w-3.5" strokeWidth={3} />
+                                        <Check className="h-2.5 w-2.5 lg:h-3.5 lg:w-3.5" strokeWidth={3} />
                                     ) : distance === 0 ? (
-                                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                        <Loader2 className="h-2.5 w-2.5 lg:h-3.5 lg:w-3.5 animate-spin" />
                                     ) : (
-                                        <Send className="h-3.5 w-3.5" />
+                                        <Send className="h-2.5 w-2.5 lg:h-3.5 lg:w-3.5" />
                                     )}
                                 </span>
                             </div>

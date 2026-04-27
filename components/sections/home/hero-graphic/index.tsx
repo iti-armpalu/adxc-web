@@ -9,6 +9,7 @@ import { ConnectingLine } from "./connecting-line"
 import { AdxcUnit } from "./adxc-unit"
 import { DataProviders } from "./data-providers"
 import { QUESTIONS } from "./constants"
+import { DataProvidersMobile } from "./data-providers-mobile"
 
 
 export function HeroGraphic() {
@@ -17,29 +18,54 @@ export function HeroGraphic() {
 
     return (
         <>
-            <div className="w-[460px] pointer-events-auto relative">
-                <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">
+            {/* Mobile only — vertical stack, labels in flow */}
+            <div className="flex md:hidden flex-col items-center pointer-events-auto w-full">
+
+                <div className="flex flex-col items-center gap-3 w-full max-w-xl">
                     <SectionLabel>Marketing Questions</SectionLabel>
+                    <QuestionCarousel step={step} onStep={setStep} />
                 </div>
-                <QuestionCarousel step={step} onStep={setStep} />
-            </div>
-            <div className="-translate-y-[10px] flex items-center pointer-events-auto">
-                <ConnectingLine activeQuestion={activeQuestion} width={24} />
-                <div className="relative">
-                    <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">
-                        <SectionLabel>AI Agents and Tools</SectionLabel>
-                    </div>
+
+                <ConnectingLine activeQuestion={activeQuestion} vertical />
+
+                <div className="flex flex-col items-center gap-3">
+                    <SectionLabel>AI Agents and Tools</SectionLabel>
                     <AdxcUnit />
                 </div>
 
-                <div className="ml-6 relative">
-                    <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">
-                        <SectionLabel>Data Providers</SectionLabel>
-                    </div>
-                    <DataProviders activeQuestion={activeQuestion} />
+                <div className="flex flex-col items-center gap-3 pt-6">
+                 
+                    <DataProvidersMobile activeQuestion={activeQuestion} />
+                       <SectionLabel>Data Providers</SectionLabel>
                 </div>
 
             </div>
+
+            {/* Tablet + Desktop — horizontal layout, labels absolute */}
+            <div className="hidden md:flex items-center pointer-events-auto">
+                <div className="w-[400px] lg:w-[460px] pointer-events-auto relative">
+                    <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">
+                        <SectionLabel>Marketing Questions</SectionLabel>
+                    </div>
+                    <QuestionCarousel step={step} onStep={setStep} />
+                </div>
+                <div className="-translate-y-[10px] flex items-center pointer-events-auto">
+                    <ConnectingLine activeQuestion={activeQuestion} width={24} />
+                    <div className="relative">
+                        <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">
+                            <SectionLabel>AI Agents and Tools</SectionLabel>
+                        </div>
+                        <AdxcUnit />
+                    </div>
+                    <div className="ml-6 relative">
+                        <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">
+                            <SectionLabel>Data Providers</SectionLabel>
+                        </div>
+                        <DataProviders activeQuestion={activeQuestion} />
+                    </div>
+                </div>
+            </div>
         </>
+
     )
 }

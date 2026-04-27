@@ -20,10 +20,10 @@ export function HeroSection() {
 
     return (
         <FadeIn className="flex-1 flex items-center">
-            <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 relative min-h-[600px]">
+            <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 relative min-h-[600px] flex flex-col lg:block">
 
-                {/* Left — content, constrained to ~45% width */}
-                <div className="space-y-8 max-w-[460px]">
+                {/* Left — content */}
+                <div className="space-y-8 w-full lg:max-w-[460px]">
 
                     <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-foreground leading-tight">
                         Access premium marketing data.{" "}
@@ -50,8 +50,19 @@ export function HeroSection() {
 
                 </div>
 
+                {/* Mobile — graphic below form */}
+                <div className="flex md:hidden justify-center w-full pt-16 pointer-events-none" aria-hidden>
+                    <HeroGraphic />
+                </div>
+
+                {/* Tablet — graphic below text, full width */}
+                <div className="hidden md:flex xl:hidden justify-center w-full pt-36 pointer-events-none" aria-hidden>
+                    <HeroGraphic />
+                </div>
+
+                {/* Desktop — graphic beside text, absolute */}
                 <div
-                    className="hidden lg:flex absolute bottom-15 right-0 xl:-right-25 items-center pointer-events-none"
+                    className="hidden xl:flex absolute bottom-15 right-0 xl:-right-25 items-center pointer-events-none"
                     aria-hidden
                 >
                     <HeroGraphic />
