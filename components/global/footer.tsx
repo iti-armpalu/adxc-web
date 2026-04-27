@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Mail, LineChart, ArrowRight } from "lucide-react"
 import { siteConfig } from "@/config/site"
+import Image from "next/image"
 
 export function Footer() {
     const year = new Date().getFullYear()
@@ -13,11 +14,14 @@ export function Footer() {
 
                     {/* Brand column — spans 2 cols on md+ */}
                     <div className="col-span-2 space-y-4">
-                        <Link
-                            href="/"
-                            className="text-base font-semibold tracking-tight text-foreground hover:opacity-70 transition-opacity"
-                        >
-                            {siteConfig.name}
+                        <Link href="/" className="hover:opacity-70 transition-opacity inline-block">
+                            <Image
+                                src="/adxc-logo-primary-horizontal.svg"
+                                alt={siteConfig.name}
+                                width={120}
+                                height={40}
+                                className="h-4 w-auto"
+                            />
                         </Link>
                         <p className="text-sm text-muted-foreground leading-relaxed max-w-[220px]">
                             {siteConfig.tagline}
