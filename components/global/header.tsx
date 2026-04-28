@@ -332,9 +332,7 @@ export function Header({ latestPosts = [] }: Props) {
                                             trackNavSecondaryCtaClicked(siteConfig.secondaryCta.label)
                                         }}
                                     >
-                                        <Link
-                                            href={siteConfig.secondaryCta.href}
-                                        >
+                                        <Link href={siteConfig.secondaryCta.href}>
                                             {siteConfig.secondaryCta.label}
                                         </Link>
                                     </Button>
