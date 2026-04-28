@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { ArrowRight, CheckCircle } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
-import { trackEarlyAccessSubmitted } from "@/lib/analytics/events"
+import { trackEarlyAccessSubmitted, identifyUser } from "@/lib/analytics/events"
 
 const initialState: EarlyAccessState = { status: "idle" }
 
@@ -27,8 +27,25 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
         if (state.status !== "idle") {
             setLocalStatus(state)
             if (state.status === "success") {
-                const companySize = (document.querySelector("select[name=companySize]") as HTMLSelectElement)?.value ?? "unknown"
-                trackEarlyAccessSubmitted(companySize)
+                const get = (selector: string) =>
+                    (document.querySelector(selector) as HTMLInputElement | HTMLSelectElement)?.value ?? "unknown"
+
+                const firstName = get("input[name=firstName]")
+                const lastName = get("input[name=lastName]")
+                const email = get("input[name=email]")
+                const company = get("input[name=company]")
+                const companySize = get("select[name=companySize]")
+                const jobTitle = get("input[name=jobTitle]")
+
+                trackEarlyAccessSubmitted({ companySize, jobTitle, company })
+
+                identifyUser({
+                    email,
+                    name: `${firstName} ${lastName}`.trim(),
+                    company,
+                    companySize,
+                    jobTitle,
+                })
             }
         }
     }, [state])

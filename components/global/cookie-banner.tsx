@@ -10,6 +10,7 @@ import {
   fullConsent,
   type ConsentState,
 } from "@/lib/cookies/consent"
+import { trackCookieConsentAccepted, trackCookieConsentDeclined } from "@/lib/analytics/events"
 import { cn } from "@/lib/utils"
 import { X } from "lucide-react"
 
@@ -28,18 +29,22 @@ export function CookieBanner() {
   const handleAcceptAll = () => {
     setStoredConsent("accepted", fullConsent)
     setVisible(false)
+    trackCookieConsentAccepted()
     window.dispatchEvent(new Event("consent-updated"))
   }
 
   const handleDeclineAll = () => {
     setStoredConsent("declined", defaultConsent)
     setVisible(false)
+    trackCookieConsentDeclined()
     window.dispatchEvent(new Event("consent-updated"))
   }
 
   const handleSaveCustom = () => {
     setStoredConsent("custom", custom)
     setVisible(false)
+    // Track as accepted if analytics is enabled, declined if not
+    custom.analytics ? trackCookieConsentAccepted() : trackCookieConsentDeclined()
     window.dispatchEvent(new Event("consent-updated"))
   }
 
@@ -103,7 +108,7 @@ export function CookieBanner() {
               description="Required for the site to function. Cannot be disabled."
               checked={true}
               disabled={true}
-              onChange={() => {}}
+              onChange={() => { }}
             />
             <ConsentRow
               label="Analytics"

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 import { inject } from "@vercel/analytics"
 import posthog from "posthog-js"
@@ -17,13 +17,20 @@ function initAnalytics(consent: ConsentState) {
   // Vercel Analytics — pageviews only, no PII
   inject()
 
-  // PostHog — events, session replay, funnels
+  // PostHog — events, session replay, funnels, heatmaps
   if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
     posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
       api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com",
-      capture_pageview: false, // we handle pageviews manually below
-      capture_pageleave: true,
+      capture_pageview: false,       // handled manually below
+      capture_pageleave: true,       // track when users leave
       persistence: "localStorage",
+      person_profiles: "identified_only", // only create profiles for identified users
+      session_recording: {
+        maskAllInputs: true,         // mask sensitive input values in replays
+        maskInputOptions: {
+          password: true,
+        },
+      },
       loaded: (ph) => {
         if (process.env.NODE_ENV === "development") ph.debug()
       },
@@ -34,7 +41,6 @@ function initAnalytics(consent: ConsentState) {
 export function AnalyticsProvider({ children }: Props) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const initialised = useRef(false)
 
   // Initialise on mount if consent already given
   useEffect(() => {
@@ -42,7 +48,7 @@ export function AnalyticsProvider({ children }: Props) {
     if (stored?.state) initAnalytics(stored.state)
   }, [])
 
-  // Re-check when user updates consent via banner
+  // Re-initialise when user updates consent via banner
   useEffect(() => {
     const handler = () => {
       const stored = getStoredConsent()
@@ -54,7 +60,7 @@ export function AnalyticsProvider({ children }: Props) {
 
   // Track pageviews manually on route change
   useEffect(() => {
-    if (!posthog.__loaded) return
+    if (!analyticsInitialised) return
     const url = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "")
     posthog.capture("$pageview", { $current_url: url })
   }, [pathname, searchParams])

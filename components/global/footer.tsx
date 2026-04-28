@@ -1,7 +1,10 @@
+"use client"
+
 import Link from "next/link"
 import { Mail, LineChart, ArrowRight } from "lucide-react"
 import { siteConfig } from "@/config/site"
 import Image from "next/image"
+import { trackFooterContactClicked, trackFooterInvestorClicked, trackFooterLinkClicked } from "@/lib/analytics/events"
 
 export function Footer() {
     const year = new Date().getFullYear()
@@ -39,6 +42,7 @@ export function Footer() {
                                     <li key={link.href}>
                                         <Link
                                             href={link.href}
+                                            onClick={() => trackFooterLinkClicked(link.label, link.href)}
                                             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                                         >
                                             {link.label}
@@ -62,6 +66,7 @@ export function Footer() {
                     <div className="flex items-center gap-3">
                         <Link
                             href="/contact"
+                            onClick={trackFooterContactClicked}
                             className="group flex items-center gap-3 px-4 py-2.5 min-w-[160px] rounded-xl border border-border/50 hover:border-border hover:bg-muted/40 transition-all duration-150"
                         >
                             <div className="shrink-0 w-7 h-7 rounded-lg bg-muted flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors">
@@ -78,6 +83,7 @@ export function Footer() {
                             href={siteConfig.investorUrl}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={trackFooterInvestorClicked}
                             className="group flex items-center gap-3 px-4 py-2.5 min-w-[160px] rounded-xl border border-border/50 hover:border-border hover:bg-muted/40 transition-all duration-150"
                         >
                             <div className="shrink-0 w-7 h-7 rounded-lg bg-muted flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors">

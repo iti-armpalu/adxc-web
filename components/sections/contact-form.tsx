@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { ArrowRight, CheckCircle } from "lucide-react"
-import { trackContactSubmitted } from "@/lib/analytics/events"
+import { trackContactSubmitted, identifyUser } from "@/lib/analytics/events"
 
 const schema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -33,6 +33,7 @@ export function ContactForm() {
         register,
         formState: { errors },
         reset,
+        getValues,
     } = useForm<ContactFormData>({
         resolver: zodResolver(schema),
     })
@@ -45,8 +46,20 @@ export function ContactForm() {
     }
 
     useEffect(() => {
-        if (state.status === "success") trackContactSubmitted()
-    }, [state.status])
+        if (state.status === "success") {
+            const { firstName, lastName, email, company } = getValues()
+
+            trackContactSubmitted()
+
+            identifyUser({
+                email,
+                name: `${firstName} ${lastName}`.trim(),
+                company,
+                companySize: "unknown",
+                jobTitle: "unknown",
+            })
+        }
+    }, [state.status, getValues])
 
     if (state.status === "success") {
         return (

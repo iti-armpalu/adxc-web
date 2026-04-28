@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { FadeIn } from "@/components/ui/fade-in"
 import { HeroGraphic } from "./hero-graphic"
+import { trackHeroCtaClicked, trackHeroEmailStarted } from "@/lib/analytics/events"
 
 export function HeroSection() {
     const router = useRouter()
@@ -13,6 +14,7 @@ export function HeroSection() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
+        trackHeroCtaClicked(email)
         if (email) {
             router.push(`/early-access?email=${encodeURIComponent(email)}`)
         }
@@ -42,6 +44,7 @@ export function HeroSection() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             className="h-12 bg-background"
+                            onFocus={trackHeroEmailStarted}
                         />
                         <Button type="submit" size="xl" className="w-full cursor-pointer">
                             Get early access

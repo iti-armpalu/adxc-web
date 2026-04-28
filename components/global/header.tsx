@@ -16,6 +16,13 @@ import type { BlogPostPreview } from "@/lib/cms/types"
 import Image from "next/image"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet"
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
+import {
+    trackMobileMenuClosed,
+    trackMobileMenuOpened,
+    trackNavCtaClicked,
+    trackNavSecondaryCtaClicked,
+    trackNavLinkClicked,
+} from "@/lib/analytics/events"
 
 // Icon registry — maps string names from siteConfig to Lucide components
 const iconMap: Record<string, LucideIcon> = {
@@ -125,6 +132,7 @@ export function Header({ latestPosts = [] }: Props) {
                                 <Link
                                     key={group.label}
                                     href={group.href}
+                                    onClick={() => trackNavLinkClicked(group.label, group.href!)}
                                     className={cn(
                                         "px-3.5 py-2 text-sm rounded-md transition-colors",
                                         active
@@ -169,12 +177,14 @@ export function Header({ latestPosts = [] }: Props) {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-3.5 py-2 text-sm text-ghost-foreground hover:text-muted-foreground transition-colors"
+                        onClick={() => trackNavSecondaryCtaClicked(siteConfig.secondaryCta.label)}
                     >
                         {siteConfig.secondaryCta.label}
                     </Link>
                     <Button
                         asChild
                         size="sm"
+                        onClick={() => trackNavCtaClicked(siteConfig.cta.label)}
                     >
                         <Link href={siteConfig.cta.href}>
                             {siteConfig.cta.label}
@@ -182,20 +192,14 @@ export function Header({ latestPosts = [] }: Props) {
                     </Button>
                 </div>
 
-                {/* Mobile toggle */}
-                {/* <Button
-                    variant="default"
-                    size="icon"
-                    className="lg:hidden rounded-sm"
-                    onClick={() => setMobileOpen((v) => !v)}
-                    aria-label={mobileOpen ? "Close menu" : "Open menu"}
-                    aria-expanded={mobileOpen}
-                >
-                    {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                </Button> */}
-
                 {/* Mobile toggle — Sheet trigger */}
-                <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+                <Sheet
+                    open={mobileOpen}
+                    onOpenChange={(open) => {
+                        setMobileOpen(open)
+                        open ? trackMobileMenuOpened() : trackMobileMenuClosed()
+                    }}
+                >
                     <SheetTrigger asChild>
                         <Button
                             variant="default"
@@ -316,13 +320,19 @@ export function Header({ latestPosts = [] }: Props) {
                                 {siteConfig.secondaryCta && (
                                     <Link
                                         href={siteConfig.secondaryCta.href}
-                                        onClick={() => setMobileOpen(false)}
+                                        onClick={() => {
+                                            setMobileOpen(false)
+                                            trackNavSecondaryCtaClicked(siteConfig.secondaryCta.label)
+                                        }}
                                         className="block px-4 py-3 text-sm text-muted-foreground hover:text-foreground transition-colors"
                                     >
                                         {siteConfig.secondaryCta.label}
                                     </Link>
                                 )}
-                                <Button asChild className="w-full" onClick={() => setMobileOpen(false)}>
+                                <Button asChild className="w-full" onClick={() => {
+                                    setMobileOpen(false)
+                                    trackNavCtaClicked(siteConfig.cta.label)
+                                }}>
                                     <Link href={siteConfig.cta.href}>
                                         {siteConfig.cta.label}
                                     </Link>
@@ -334,98 +344,101 @@ export function Header({ latestPosts = [] }: Props) {
             </div>
 
             {/* Desktop mega panels */}
-            {siteConfig.nav.map((group) => {
-                if (!group.items?.length) return null
-                const isOpen = openPanel === group.label
-                const isResources = group.label === "Resources"
+            {
+                siteConfig.nav.map((group) => {
+                    if (!group.items?.length) return null
+                    const isOpen = openPanel === group.label
+                    const isResources = group.label === "Resources"
 
-                return (
-                    <div
-                        key={group.label}
-                        className={cn(
-                            "hidden lg:block fixed inset-x-0 top-16 z-40",
-                            "transition-all duration-200 ease-out overflow-hidden",
-                            isOpen
-                                ? "opacity-100 translate-y-0 pointer-events-auto"
-                                : "opacity-0 -translate-y-1 pointer-events-none"
-                        )}
-                    >
-                        {/* Panel background — fixed so backdrop-blur works regardless of scroll */}
-                        <div className="bg-background border-b border-border/50 shadow-sm">
-                            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5">
-                                <div className={cn(
-                                    "grid gap-8",
-                                    isResources ? "grid-cols-[auto_300px]" : "grid-cols-[1fr_300px]"
-                                )}>
-
-                                    {/* Left — nav items */}
+                    return (
+                        <div
+                            key={group.label}
+                            className={cn(
+                                "hidden lg:block fixed inset-x-0 top-16 z-40",
+                                "transition-all duration-200 ease-out overflow-hidden",
+                                isOpen
+                                    ? "opacity-100 translate-y-0 pointer-events-auto"
+                                    : "opacity-0 -translate-y-1 pointer-events-none"
+                            )}
+                        >
+                            {/* Panel background — fixed so backdrop-blur works regardless of scroll */}
+                            <div className="bg-background border-b border-border/50 shadow-sm">
+                                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5">
                                     <div className={cn(
-                                        isResources
-                                            ? "flex items-center justify-between w-full gap-2"
-                                            : "grid grid-cols-2 gap-1"
+                                        "grid gap-8",
+                                        isResources ? "grid-cols-[auto_300px]" : "grid-cols-[1fr_300px]"
                                     )}>
-                                        {group.items.map((item) => {
-                                            const active = pathname.startsWith(item.href)
-                                            const Icon = item.icon ? iconMap[item.icon] : null
 
-                                            return (
-                                                <Link
-                                                    key={item.href}
-                                                    href={item.href}
-                                                    className={cn(
-                                                        "group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150",
-                                                        isResources && "flex-1",
-                                                        active
-                                                            ? "bg-muted text-foreground"
-                                                            : "hover:bg-muted text-foreground/80 hover:text-foreground"
-                                                    )}
-                                                >
-                                                    {Icon && (
-                                                        <div className={cn(
-                                                            "shrink-0 w-8 h-8 rounded-md flex items-center justify-center transition-colors",
+                                        {/* Left — nav items */}
+                                        <div className={cn(
+                                            isResources
+                                                ? "flex items-center justify-between w-full gap-2"
+                                                : "grid grid-cols-2 gap-1"
+                                        )}>
+                                            {group.items.map((item) => {
+                                                const active = pathname.startsWith(item.href)
+                                                const Icon = item.icon ? iconMap[item.icon] : null
+
+                                                return (
+                                                    <Link
+                                                        key={item.href}
+                                                        href={item.href}
+                                                        onClick={() => trackNavLinkClicked(item.label, item.href)}
+                                                        className={cn(
+                                                            "group flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150",
+                                                            isResources && "flex-1",
                                                             active
-                                                                ? "bg-foreground/10 text-foreground"
-                                                                : "bg-border/50 text-muted-foreground group-hover:bg-foreground/10 group-hover:text-foreground"
-                                                        )}>
-                                                            <Icon className="w-4 h-4" />
-                                                        </div>
-                                                    )}
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-sm font-medium leading-none mb-1">
-                                                            {item.label}
-                                                        </p>
-                                                        {item.description && (
-                                                            <p className="text-xs text-muted-foreground leading-snug">
-                                                                {item.description}
-                                                            </p>
+                                                                ? "bg-muted text-foreground"
+                                                                : "hover:bg-muted text-foreground/80 hover:text-foreground"
                                                         )}
-                                                    </div>
-                                                    <ArrowRight className={cn(
-                                                        "w-3.5 h-3.5 shrink-0 text-muted-foreground transition-all duration-150",
-                                                        "opacity-0 -translate-x-1",
-                                                        "group-hover:opacity-100 group-hover:translate-x-0"
-                                                    )} />
-                                                </Link>
-                                            )
-                                        })}
-                                    </div>
+                                                    >
+                                                        {Icon && (
+                                                            <div className={cn(
+                                                                "shrink-0 w-8 h-8 rounded-md flex items-center justify-center transition-colors",
+                                                                active
+                                                                    ? "bg-foreground/10 text-foreground"
+                                                                    : "bg-border/50 text-muted-foreground group-hover:bg-foreground/10 group-hover:text-foreground"
+                                                            )}>
+                                                                <Icon className="w-4 h-4" />
+                                                            </div>
+                                                        )}
+                                                        <div className="flex-1 min-w-0">
+                                                            <p className="text-sm font-medium leading-none mb-1">
+                                                                {item.label}
+                                                            </p>
+                                                            {item.description && (
+                                                                <p className="text-xs text-muted-foreground leading-snug">
+                                                                    {item.description}
+                                                                </p>
+                                                            )}
+                                                        </div>
+                                                        <ArrowRight className={cn(
+                                                            "w-3.5 h-3.5 shrink-0 text-muted-foreground transition-all duration-150",
+                                                            "opacity-0 -translate-x-1",
+                                                            "group-hover:opacity-100 group-hover:translate-x-0"
+                                                        )} />
+                                                    </Link>
+                                                )
+                                            })}
+                                        </div>
 
-                                    {/* Right — contextual panel */}
-                                    <div className="border-l border-border/50 pl-8">
-                                        {isResources && latestPosts.length > 0 ? (
-                                            <ResourcesPanel posts={latestPosts} />
-                                        ) : (
-                                            <WhyAdxcPanel />
-                                        )}
-                                    </div>
+                                        {/* Right — contextual panel */}
+                                        <div className="border-l border-border/50 pl-8">
+                                            {isResources && latestPosts.length > 0 ? (
+                                                <ResourcesPanel posts={latestPosts} />
+                                            ) : (
+                                                <WhyAdxcPanel />
+                                            )}
+                                        </div>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                )
-            })}
-        </header>
+                    )
+                })
+            }
+        </header >
     )
 }
 
