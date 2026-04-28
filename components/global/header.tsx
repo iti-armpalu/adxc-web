@@ -175,6 +175,7 @@ export function Header({ latestPosts = [] }: Props) {
                     <Button
                         asChild
                         size="sm"
+                        variant="outline"
                         onClick={() => trackNavSecondaryCtaClicked(siteConfig.secondaryCta.label)}
                     >
                         <Link
@@ -324,6 +325,7 @@ export function Header({ latestPosts = [] }: Props) {
                                 {siteConfig.secondaryCta && (
                                     <Button
                                         asChild
+                                        variant="outline"
                                         className="w-full"
                                         onClick={() => {
                                             setMobileOpen(false)
