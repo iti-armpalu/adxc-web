@@ -54,7 +54,7 @@ export function HeroSection() {
                 </div>
 
                 {/* Mobile — graphic below form */}
-                <div className="flex md:hidden justify-center w-full pt-16 pointer-events-none" aria-hidden>
+                <div className="flex md:hidden justify-center w-full pt-36 pointer-events-none" aria-hidden>
                     <HeroGraphic />
                 </div>
 

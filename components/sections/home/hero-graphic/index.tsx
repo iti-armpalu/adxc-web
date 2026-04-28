@@ -22,21 +22,20 @@ export function HeroGraphic() {
             <div className="flex md:hidden flex-col items-center pointer-events-auto w-full">
 
                 <div className="flex flex-col items-center gap-3 w-full max-w-xl">
-                    <SectionLabel>Marketing Questions</SectionLabel>
-                    <QuestionCarousel step={step} onStep={setStep} />
+                    <SectionLabel>Your key questions</SectionLabel>
+                    <QuestionCarousel step={step} onStep={setStep} visible={3} highlightIndex={2} />
                 </div>
 
                 <ConnectingLine activeQuestion={activeQuestion} vertical />
 
                 <div className="flex flex-col items-center gap-3">
-                    <SectionLabel>AI Agents and Tools</SectionLabel>
                     <AdxcUnit />
                 </div>
 
                 <div className="flex flex-col items-center gap-3 pt-6">
-                 
+
                     <DataProvidersMobile activeQuestion={activeQuestion} />
-                       <SectionLabel>Data Providers</SectionLabel>
+                    <SectionLabel>Data Providers</SectionLabel>
                 </div>
 
             </div>
@@ -45,16 +44,13 @@ export function HeroGraphic() {
             <div className="hidden md:flex items-center pointer-events-auto">
                 <div className="w-[400px] lg:w-[460px] pointer-events-auto relative">
                     <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">
-                        <SectionLabel>Marketing Questions</SectionLabel>
+                        <SectionLabel>Your key questions</SectionLabel>
                     </div>
-                    <QuestionCarousel step={step} onStep={setStep} />
+                    <QuestionCarousel step={step} onStep={setStep} visible={5} highlightIndex={2} />
                 </div>
                 <div className="-translate-y-[10px] flex items-center pointer-events-auto">
                     <ConnectingLine activeQuestion={activeQuestion} width={24} />
                     <div className="relative">
-                        <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">
-                            <SectionLabel>AI Agents and Tools</SectionLabel>
-                        </div>
                         <AdxcUnit />
                     </div>
                     <div className="ml-6 relative">

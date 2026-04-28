@@ -25,7 +25,7 @@ const PROVIDERS: ProviderDot[] = [
     // { x: 96, y: 40, size: 36, color: "16 55% 40%" },   // orange-800
 ]
 
-const WIDTH = 360
+const WIDTH = 350
 const HEIGHT = 220
 const BALL_CX = WIDTH / 2
 const BALL_CY = -110

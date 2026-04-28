@@ -5,7 +5,7 @@ export function HeroBackground() {
             {/* Linear gradient — responsive hard stop and angle via CSS variables */}
             <div
                 className="absolute inset-0
-            [--stop:70%] [--angle:154deg]
+            [--stop:68%] [--angle:154deg]
             sm:[--stop:66%] sm:[--angle:140deg]
             md:[--stop:68%] md:[--angle:126deg]
             lg:[--stop:68%] lg:[--angle:124deg]
@@ -21,7 +21,7 @@ export function HeroBackground() {
                 className="absolute rounded-full
           [--el-top:75%] [--el-left:50%]
           md:[--el-top:85%] md:[--el-left:50%]
-          lg:[--el-top:50%] lg:[--el-left:68%]
+          lg:[--el-top:70%] lg:[--el-left:60%]
           xl:[--el-top:50%] xl:[--el-left:70%]"
                 style={{
                     width: "600px",

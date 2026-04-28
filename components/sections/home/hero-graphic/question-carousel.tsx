@@ -5,8 +5,8 @@ import { Check, Loader2, Send } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { QUESTIONS, STEP_MS } from "./constants"
 
-const VISIBLE = 5
-const HIGHLIGHT_INDEX = 2
+// const VISIBLE = 5
+// const HIGHLIGHT_INDEX = 2
 
 const ARC_X = 55
 
@@ -18,13 +18,15 @@ interface QuestionCarouselProps {
     step: number
     onStep: (next: number) => void
     onPillWidth?: (width: number) => void
+    visible?: number
+    highlightIndex?: number
 }
 
-export function QuestionCarousel({ step, onStep, onPillWidth }: QuestionCarouselProps) {
+export function QuestionCarousel({ step, onStep, onPillWidth, visible = 5, highlightIndex = 2, }: QuestionCarouselProps) {
     const highlightRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        const id = setInterval(() => onStep(step + 1), STEP_MS)
+        const id = setInterval(() => onStep(step - 1), STEP_MS)
         return () => clearInterval(id)
     }, [step, onStep])
 
@@ -41,7 +43,7 @@ export function QuestionCarousel({ step, onStep, onPillWidth }: QuestionCarousel
         return () => window.removeEventListener("resize", measure)
     }, [measure, step]) // re-measure when step changes (new question = new width)
 
-    const total = VISIBLE + 2
+    const total = visible + 2
     const items = Array.from({ length: total }, (_, i) => {
         const qIndex = ((step + i) % QUESTIONS.length + QUESTIONS.length) % QUESTIONS.length
         const cycle = Math.floor((step + i) / QUESTIONS.length)
@@ -53,14 +55,14 @@ export function QuestionCarousel({ step, onStep, onPillWidth }: QuestionCarousel
     return (
         <div
             className="relative w-full max-w-xl mx-auto [--arc-enabled:0] lg:[--arc-enabled:1]"
-            style={{ height: VISIBLE * ROW_HEIGHT + 40 }}
+            style={{ height: visible * ROW_HEIGHT + 40 }}
         >
             <div
                 className="absolute inset-0"
                 style={{ WebkitMaskImage: FADE_MASK, maskImage: FADE_MASK }}
             >
                 {items.map(({ q, pos, key }) => {
-                    const distance = pos - HIGHLIGHT_INDEX
+                    const distance = pos - highlightIndex
                     const absDist = Math.abs(distance)
 
                     const arcX = -Math.pow(absDist, 1.6) * (ARC_X / 4)
@@ -68,8 +70,8 @@ export function QuestionCarousel({ step, onStep, onPillWidth }: QuestionCarousel
                     const y = pos * ROW_HEIGHT + 20
                     const scale = Math.max(0.78, 1 - absDist * 0.07)
                     const opacity =
-                        pos < 0 || pos >= VISIBLE ? 0 : Math.max(0.3, 1 - absDist * 0.22)
-                    const isHighlight = pos === HIGHLIGHT_INDEX
+                        pos < 0 || pos >= visible ? 0 : Math.max(0.3, 1 - absDist * 0.22)
+                    const isHighlight = pos === highlightIndex
 
                     return (
                         <div
@@ -86,7 +88,7 @@ export function QuestionCarousel({ step, onStep, onPillWidth }: QuestionCarousel
                             <div
                                 ref={isHighlight ? highlightRef : undefined}
                                 className={cn(
-                                    "pl-1.5 pr-3 py-1.5 rounded-full border-1 bg-background text-xs lg:text-sm font-medium text-foreground",
+                                    "pl-1.5 pr-3 py-1.5 rounded-full border-1 bg-background text-sm font-medium text-foreground",
                                     "flex items-center gap-3",
                                     "whitespace-normal lg:whitespace-nowrap",
                                     "transition-colors duration-1000 ease-out",
@@ -95,7 +97,7 @@ export function QuestionCarousel({ step, onStep, onPillWidth }: QuestionCarousel
                             >
                                 <span
                                     className={cn(
-                                        "flex h-7 w-7 lg:h-9 lg:w-9 items-center justify-center rounded-full text-sm font-semibold shrink-0",
+                                        "flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold shrink-0",
                                         "bg-secondary text-secondary-foreground border border-border"
                                     )}
                                 >
@@ -104,19 +106,19 @@ export function QuestionCarousel({ step, onStep, onPillWidth }: QuestionCarousel
                                 <span>{q.text}</span>
                                 <span
                                     className={cn(
-                                        "ml-2 flex h-5 w-5 lg:h-7 lg:w-7 items-center justify-center rounded-full border transition-colors duration-500 shrink-0",
-                                        distance < 0 && "bg-emerald-700 border-emerald-700 text-emerald-100",
+                                        "ml-2 flex h-7 w-7 items-center justify-center rounded-full border transition-colors duration-500 shrink-0",
+                                        distance > 0 && "bg-emerald-700 border-emerald-700 text-emerald-100",
                                         distance === 0 && "bg-tyrian-400 border-tyrian-400 text-primary-foreground",
-                                        distance > 0 && "bg-neutral-700 border-neutral-700 text-neutral-100"
+                                        distance < 0 && "bg-neutral-700 border-neutral-700 text-neutral-100"
                                     )}
-                                    aria-label={distance < 0 ? "received" : distance === 0 ? "waiting" : "send"}
+                                    aria-label={distance > 0 ? "received" : distance === 0 ? "waiting" : "send"}
                                 >
-                                    {distance < 0 ? (
-                                        <Check className="h-2.5 w-2.5 lg:h-3.5 lg:w-3.5" strokeWidth={3} />
+                                    {distance > 0 ? (
+                                        <Check className="h-3.5 w-3.5" strokeWidth={3} />
                                     ) : distance === 0 ? (
-                                        <Loader2 className="h-2.5 w-2.5 lg:h-3.5 lg:w-3.5 animate-spin" />
+                                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
                                     ) : (
-                                        <Send className="h-2.5 w-2.5 lg:h-3.5 lg:w-3.5" />
+                                        <Send className="h-3.5 w-3.5" />
                                     )}
                                 </span>
                             </div>
