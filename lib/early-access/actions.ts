@@ -12,7 +12,7 @@ export type { CompanySize } from "./constants"
 const schema = z.object({
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
-    email: z.string().email("Valid work email required"),
+    email: z.string().email("Valid email is required"),
     company: z.string().min(1, "Company is required"),
     companySize: z.string().refine(
         (val) => (companySizes as readonly string[]).includes(val),

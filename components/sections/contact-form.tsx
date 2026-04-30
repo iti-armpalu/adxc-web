@@ -8,6 +8,8 @@ import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile"
 import { submitContact, type ContactState } from "@/lib/contact/actions"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { FormError } from "@/components/ui/form-error"
 import { cn } from "@/lib/utils"
 import { ArrowRight, CheckCircle } from "lucide-react"
 import { trackContactSubmitted, identifyUser } from "@/lib/analytics/events"
@@ -31,11 +33,12 @@ export function ContactForm() {
 
     const {
         register,
-        formState: { errors },
+        formState: { errors, isValid },
         reset,
         getValues,
     } = useForm<ContactFormData>({
         resolver: zodResolver(schema),
+        mode: "onChange",
     })
 
     const handleAction = (formData: globalThis.FormData) => {
@@ -98,11 +101,9 @@ export function ContactForm() {
                         name="firstName"
                         placeholder="Jane"
                         disabled={isPending}
-                        className={cn(errors.firstName && "border-destructive")}
+                        aria-invalid={!!errors.firstName}
                     />
-                    {errors.firstName && (
-                        <p className="text-xs text-destructive">{errors.firstName.message}</p>
-                    )}
+                    <FormError message={errors.firstName?.message} />
                 </div>
 
                 <div className="space-y-1.5">
@@ -114,11 +115,9 @@ export function ContactForm() {
                         name="lastName"
                         placeholder="Smith"
                         disabled={isPending}
-                        className={cn(errors.lastName && "border-destructive")}
+                        aria-invalid={!!errors.lastName}
                     />
-                    {errors.lastName && (
-                        <p className="text-xs text-destructive">{errors.lastName.message}</p>
-                    )}
+                    <FormError message={errors.lastName?.message} />
                 </div>
             </div>
 
@@ -162,23 +161,16 @@ export function ContactForm() {
                 <label className="text-sm text-muted-foreground">
                     Message <span className="text-destructive">*</span>
                 </label>
-                <textarea
+                <Textarea
                     {...register("message")}
                     name="message"
                     rows={5}
                     placeholder="How can we help?"
                     disabled={isPending}
-                    className={cn(
-                        "w-full rounded-md border border-border bg-input px-3 py-2",
-                        "text-sm text-foreground placeholder:text-muted-foreground",
-                        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
-                        "disabled:cursor-not-allowed disabled:opacity-50 resize-none",
-                        errors.message && "border-destructive"
-                    )}
+                    aria-invalid={!!errors.message}
+                    className="resize-none"
                 />
-                {errors.message && (
-                    <p className="text-xs text-destructive">{errors.message.message}</p>
-                )}
+                <FormError message={errors.message?.message} />
             </div>
 
             {/* Turnstile */}
@@ -195,7 +187,7 @@ export function ContactForm() {
                 <p className="text-sm text-destructive">{state.error}</p>
             )}
 
-            <Button type="submit" disabled={isPending} className="w-full group">
+            <Button type="submit" disabled={isPending || !isValid} className="w-full group">
                 {isPending ? "Sending…" : "Send message"}
                 <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
             </Button>
