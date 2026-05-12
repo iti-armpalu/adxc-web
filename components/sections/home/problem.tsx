@@ -21,7 +21,7 @@ export function ProblemSection() {
                 {/* Right — copy */}
                 <div className="space-y-8">
                     <p className="text-2xl sm:text-3xl font-medium text-muted-foreground leading-snug">
-                        99% of businesses can't afford the data they need to make better
+                        99% of businesses can't afford the insight they need to make better
                         marketing decisions. This limits your growth.
                     </p>
                     <p className="text-3xl sm:text-4xl font-semibold text-foreground leading-tight">

@@ -8,6 +8,7 @@ import { PlatformSection } from "@/components/sections/home/platform"
 import { UseCasesSection } from "@/components/sections/home/use-cases"
 import { AudienceCardsSection } from "@/components/sections/home/audience-cards"
 import { HomeCTASection } from "@/components/sections/home/cta"
+import { PartnersSection } from "@/components/sections/home/partners-section"
 
 export const metadata: Metadata = {
     title: "Home",
@@ -18,14 +19,13 @@ export default function HomePage() {
     return (
         <>
             {/* Hero with background bleeding behind fixed header */}
-            <div className="relative px-4 sm:px-6 py-20"> 
+            <div className="relative px-4 sm:px-6 py-20">
                 <HeroBackground />
                 <div className="relative z-10">
                     <HeroSection />
                 </div>
             </div>
-
-            <SocialProofSection />
+            <PartnersSection />
             <ProblemSection />
             <PlatformSection />
             <UseCasesSection />

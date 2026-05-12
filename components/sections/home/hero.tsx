@@ -28,13 +28,14 @@ export function HeroSection() {
                 <div className="space-y-8 w-full lg:max-w-[460px]">
 
                     <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-foreground leading-tight">
-                        Access premium marketing data.{" "}
-                        <span className="text-brand-bright">Pay per answer.</span>
+                        Access premium consumer data.
+                        <span className="block text-brand-bright">Pay-as-you-go.</span>
                     </h1>
 
                     <p className="text-base text-muted-foreground leading-relaxed max-w-sm">
-                        ADXC connects your AI agents to premium data providers. Ask a
-                        question, see a price, pay and get an answer. No subscriptions.
+                        ADXC connects your AI tools to industry-leading data providers. 
+                        Pay per query, no subscriptions, so you can access the insight needed 
+                        to grow your business.
                     </p>
 
                     <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-xs">
