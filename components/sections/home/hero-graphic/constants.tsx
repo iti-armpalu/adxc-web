@@ -9,7 +9,7 @@ export const QUESTIONS: Question[] = [
     { text: "What's trending in my category?", name: "Kai" },
 ]
 
-export const STEP_MS = 5000
+export const STEP_MS = 3000
 
 export const PROVIDER_DOTS: ProviderDot[] = [
     { x: 36, y: 6, size: 56, label: "YouGov", logo: "/yougov-logo.jpg" },
