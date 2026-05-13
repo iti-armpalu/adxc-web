@@ -141,12 +141,15 @@
 //         </section>
 //     )
 // }
+
+
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
 import { Workflow, Banknote, ShieldCheck, type LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { RevenueModelVisual } from "./visuals/revenue-model"
+import { IPProtectionVisual } from "./visuals/ip-protection"
 
 type Step = {
     index: number
@@ -191,6 +194,7 @@ const steps: Step[] = [
 
 function StepVisual({ index }: { index: number }) {
     if (index === 1) return <RevenueModelVisual />
+    if (index === 2) return <IPProtectionVisual />
 
     return (
         <div className="w-full h-full flex items-center justify-center">
@@ -339,7 +343,7 @@ export function DataProvidersHowItWorks() {
                             {/* Step indicator */}
                             <StepIndicator steps={steps} active={activeStep} onChange={scrollToStep} />
                             {/* Visual area — relative so absolute children position correctly */}
-                            <div className="relative flex-1 rounded-lg border border-border bg-muted overflow-hidden">
+                            <div className="relative flex-1 rounded-xl border border-border bg-muted overflow-hidden">
                                 {steps.map((_, i) => (
                                     <div
                                         key={i}
@@ -383,8 +387,8 @@ export function DataProvidersHowItWorks() {
 
                                 {/* Visual */}
                                 <div className={cn(
-                                    "rounded-lg border border-border bg-muted overflow-hidden",
-                                    i === 1 ? "h-[760px] sm:h-80" : "h-80"
+                                    "rounded-xl border border-border bg-muted overflow-hidden",
+                                    i === 1 ? "h-[560px] sm:h-80" : "h-80"
                                 )}>
                                     <StepVisual index={i} />
                                 </div>
