@@ -40,11 +40,25 @@
 //     )
 // }
 
+"use client"
 
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
+
 export function DataProvidersCTA() {
+    const [email, setEmail] = useState("")
+    const router = useRouter()
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
+        const dest = email
+            ? `/for/data-providers/enquiry?email=${encodeURIComponent(email)}`
+            : "/for/data-providers/enquiry"
+        router.push(dest)
+    }
     return (
         <section className="border-t border-border/50 bg-muted/30">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
@@ -64,17 +78,18 @@ export function DataProvidersCTA() {
                         </p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-3 w-full max-w-md">
+                    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-md">
                         <Input
                             type="email"
-                            placeholder="Enter your email..."
-                            className="h-11 bg-background"
+                            placeholder="Enter your work email..."
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="h-10 bg-background"
                         />
-                        <Button size="lg" className="shrink-0" asChild>
-                            <a href="#">Get in touch</a>
+                        <Button type="submit" size="lg" className="shrink-0">
+                            Get in touch
                         </Button>
-                    </div>
-
+                    </form>
                 </div>
             </div>
         </section>

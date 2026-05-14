@@ -11,11 +11,12 @@ export function DataProvidersHero() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        // trackHeroCtaClicked(email)
-        if (email) {
-            router.push(`/early-access?email=${encodeURIComponent(email)}`)
-        }
+        const dest = email
+            ? `/for/data-providers/enquiry?email=${encodeURIComponent(email)}`
+            : "/for/data-providers/enquiry"
+        router.push(dest)
     }
+
     return (
         <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-32">
             <div className="max-w-3xl space-y-8">
