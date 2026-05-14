@@ -24,7 +24,7 @@ const steps: Step[] = [
         title: "Be where the strategic work happens",
         lead: "Marketers are planning, creating and deciding inside workflow tools.",
         description:
-            "ADXC integrates your data directly into the tools they're already using, starting with Miro. No new apps for them to learn, no friction to adoption.",
+            "ADXC integrates your data directly into the tools they're already using, starting with Miro.",
     },
     {
         index: 1,
@@ -33,13 +33,13 @@ const steps: Step[] = [
         title: "New revenue from a market you can't currently serve",
         lead: "SMEs need your data but can't afford your subscriptions.",
         description:
-            "ADXC gives them access on a pay-per-query basis, a completely new buyer with a different need. Incremental revenue, zero cannibalisation of your existing model.",
+            "ADXC gives them access on a pay-per-query basis, a completely new buyer with a different need. Incremental revenue, your existing model stays untouched.",
     },
     {
         index: 2,
         icon: ShieldCheck,
         label: "Protection",
-        title: "Your IP stays yours. Always.",
+        title: "Your IP and brand stay fully protected.",
         lead: "Datasets are never copied, stored, or exposed.",
         description:
             "ADXC queries your data via API or MCP and returns only synthesised answers. End users never see your raw data. Your brand is attributed to every answer delivered.",
