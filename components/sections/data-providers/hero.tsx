@@ -19,7 +19,7 @@ export function DataProvidersHero() {
     return (
         <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-32">
             <div className="max-w-3xl space-y-8">
-                
+
                 <div className="space-y-6">
                     <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-foreground leading-tight">
                         Unlock a market your
@@ -27,21 +27,9 @@ export function DataProvidersHero() {
                     </h1>
                     <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
                         ADXC connects your data to the AI agents and workflows shaping
-                        marketing decisions for SMEs — paying per query, with your IP
-                        fully protected.
+                        marketing decisions for SMEs. Get paid per query, with your IP fully protected.
                     </p>
                 </div>
-
-                {/* <div className="flex flex-col sm:flex-row gap-3 max-w-md">
-                    <Input
-                        type="email"
-                        placeholder="Enter your email..."
-                        className="h-11 bg-background"
-                    />
-                    <Button size="lg" className="shrink-0" asChild>
-                        <Link href="#">Talk with our team</Link>
-                    </Button>
-                </div> */}
                 <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-xs">
                     <Input
                         type="email"

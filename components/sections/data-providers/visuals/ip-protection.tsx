@@ -5,7 +5,7 @@ import { AdxcUnit } from "../../home/hero-graphic/adxc-unit"
 
 export function IPProtectionVisual() {
     return (
-        <div className="relative w-full h-full p-4 pt-12">
+        <div className="relative w-full h-full p-4 sm:pt-12">
             <style>{`
         .adxc-loop {
           animation-duration: 6s;
@@ -45,7 +45,8 @@ export function IPProtectionVisual() {
             98%, 100% { box-shadow: 0 0 0 0 oklch(0.78 0.11 350 / 0); border-color: var(--color-border); }
         }
       `}</style>
-            <div className="relative w-full h-full">
+            {/* <div className="relative w-full h-full"> */}
+            <div className="relative w-full h-full hidden md:block">
 
                 {/* SVG layer for paths + traveling tokens */}
                 <svg
@@ -196,17 +197,17 @@ export function IPProtectionVisual() {
 
                         <div className="flex w-full max-w-[15rem] flex-col gap-3">
                             <div className="rounded-2xl border border-border bg-card p-3 shadow-sm">
-                                <div className="flex items-start gap-2 pl-8">
+                                <div className="flex items-start gap-2">
+
+                                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted">
+                                        <User className="h-3 w-3 text-primary" />
+                                    </div>
                                     <div className="flex-1 rounded-lg bg-muted px-2.5 py-1.5">
                                         <div className="space-y-1">
                                             <div className="h-1.5 w-full rounded-full bg-muted-foreground/30" />
                                             <div className="h-1.5 w-3/4 rounded-full bg-muted-foreground/30" />
                                         </div>
                                     </div>
-                                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted">
-                                        <User className="h-3 w-3 text-primary" />
-                                    </div>
-
                                 </div>
 
                                 <div className="mt-3 flex items-start gap-2">
@@ -240,6 +241,176 @@ export function IPProtectionVisual() {
                     </div>
                 </div>
 
+            </div>
+
+
+            {/* MOBILE: vertical stacked layout */}
+            <div className="mx-auto flex w-full max-w-sm flex-col items-center gap-0.5 md:hidden">
+                {/* Provider */}
+                <div className="flex flex-col items-center gap-8">
+
+                    <div className="text-center">
+                        <p className="text-sm font-medium text-foreground">Data provider</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">Sends full report</p>
+                    </div>
+                    <div
+                        className="relative rounded-2xl bg-card p-5 adxc-loop"
+                        style={{
+                            animationName: "adxc-vault-glow",
+                            boxShadow: "inset 0 0 0 1px oklch(0.32 0.11 340 / 0.15)",
+                        }}
+                    >
+                        <div className="absolute -top-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-primary px-2.5 py-1 text-[10px] font-medium uppercase tracking-wider text-primary-foreground">
+                            <Lock className="h-3 w-3" />
+                            Protected
+                        </div>
+                        <div className="flex w-44 flex-col gap-2 rounded-lg border border-border bg-background p-3">
+                            <div className="flex items-center gap-2">
+                                <Database className="h-3.5 w-3.5 text-primary" />
+                                <span className="text-xs font-semibold text-foreground">Dataset</span>
+                                <span className="ml-auto text-[10px] text-muted-foreground">in place</span>
+                            </div>
+                            <div className="space-y-1.5">
+                                {[0, 1, 2, 3].map((i) => (
+                                    <div
+                                        key={i}
+                                        className="adxc-loop flex items-center gap-1.5"
+                                        style={{ animationName: "adxc-row-scan", animationDelay: `${i * 0.08}s` }}
+                                    >
+                                        <div className="h-1.5 w-1.5 rounded-full bg-rose" />
+                                        <div className="h-1.5 flex-1 rounded-full bg-secondary" />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="mt-3 flex items-center justify-center gap-1.5 rounded-md border border-border bg-secondary/60 px-2 py-1">
+                            <div className="h-2 w-2 rounded-sm bg-primary" />
+                            <span className="text-[10px] font-semibold tracking-wide text-foreground">
+                                PROVIDER&nbsp;BRAND
+                            </span>
+                        </div>
+                    </div>
+                    {/* <div className="flex items-center gap-1.5 rounded-full border border-border bg-card px-2.5 py-1 text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                        <FileText className="h-3 w-3" />
+                        sends full report
+                    </div> */}
+                </div>
+
+                {/* Vertical dotted connector + traveling report */}
+                <svg viewBox="0 0 60 120" className="h-18 w-12" aria-hidden="true">
+                    <path
+                        d="M 30 0 L 30 120"
+                        fill="none"
+                        stroke="oklch(0.32 0.11 340 / 0.55)"
+                        strokeWidth="1.75"
+                        strokeLinecap="round"
+                        strokeDasharray="6 6"
+                    />
+                    <g
+                        className="adxc-loop"
+                        style={{
+                            offsetPath: "path('M 30 0 L 30 120')", offsetRotate: "0deg",
+                            animationName: "adxc-report",
+                        }}
+                    >
+                        <ellipse rx="20" ry="18" fill="oklch(0.32 0.11 340 / 0.10)" />
+                        <rect x="-14" y="-16" width="26" height="32" rx="3" fill="oklch(0.96 0.015 340)" stroke="oklch(0.32 0.11 340 / 0.4)" strokeWidth="1" />
+                        <rect x="-16" y="-18" width="26" height="32" rx="3" fill="oklch(1 0 0)" stroke="oklch(0.32 0.11 340)" strokeWidth="1.5" />
+                        <rect x="-13" y="-14" width="14" height="2" rx="1" fill="oklch(0.32 0.11 340)" />
+                        <rect x="-13" y="-9" width="20" height="1.5" rx="0.75" fill="oklch(0.78 0.11 350 / 0.7)" />
+                        <rect x="-13" y="-5" width="20" height="1.5" rx="0.75" fill="oklch(0.78 0.11 350 / 0.7)" />
+                        <rect x="-13" y="-1" width="16" height="1.5" rx="0.75" fill="oklch(0.78 0.11 350 / 0.7)" />
+                        <rect x="-13" y="3" width="20" height="1.5" rx="0.75" fill="oklch(0.78 0.11 350 / 0.7)" />
+                    </g>
+                </svg>
+
+                {/* ADXC */}
+
+
+                <div className="flex flex-col items-center gap-3">
+                    <div className="text-center">
+                        <p className="text-sm font-medium text-foreground">ADXC</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">Retrieves and synthesises</p>
+                    </div>
+                    <AdxcUnit size={120} ring={6} />
+                </div>
+
+
+
+                {/* Vertical dotted connector + traveling answer */}
+                <svg viewBox="0 0 60 120" className="h-18 w-12" aria-hidden="true">
+                    <path
+                        d="M 30 0 L 30 120"
+                        fill="none"
+                        stroke="oklch(0.32 0.11 340 / 0.55)"
+                        strokeWidth="1.75"
+                        strokeLinecap="round"
+                        strokeDasharray="6 6"
+                    />
+                    <g
+                        className="adxc-loop"
+                        style={{
+                            offsetPath: "path('M 30 0 L 30 120')", offsetRotate: "0deg",
+                            animationName: "adxc-answer",
+                        }}
+                    >
+                        <rect x="-22" y="-10" width="44" height="20" rx="6" fill="oklch(0.32 0.11 340)" />
+                        <rect x="-17" y="-5" width="18" height="2.5" rx="1.25" fill="oklch(0.99 0.005 320 / 0.95)" />
+                        <rect x="-17" y="0" width="26" height="2" rx="1" fill="oklch(0.99 0.005 320 / 0.65)" />
+                        <rect x="-17" y="4" width="14" height="2" rx="1" fill="oklch(0.78 0.11 350)" />
+                    </g>
+                </svg>
+
+                {/* End user */}
+                <div className="flex w-full flex-col items-center gap-3">
+                    <div className="text-center">
+                        <p className="text-sm font-medium text-foreground">End user</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">Receives synthesised answer</p>
+                    </div>
+                    <div className="w-full max-w-[15rem] rounded-2xl border border-border bg-card p-3 shadow-sm">
+                        <div className="flex items-start gap-2">
+                            <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-secondary">
+                                <User className="h-3 w-3 text-primary" />
+                            </div>
+                            <div className="flex-1 rounded-lg rounded-tl-sm bg-secondary px-2.5 py-1.5">
+                                <div className="space-y-1">
+                                    <div className="h-1.5 w-full rounded-full bg-muted-foreground/30" />
+                                    <div className="h-1.5 w-3/4 rounded-full bg-muted-foreground/30" />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mt-3 flex items-start gap-2">
+                            <div className="relative flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary">
+                                <span className="text-[10px] font-bold text-primary-foreground">A</span>
+                                <span
+                                    className="adxc-loop pointer-events-none absolute inset-0 rounded-full ring-2 ring-rose"
+                                    style={{ animationName: "adxc-answer-ping" }}
+                                />
+                            </div>
+                            <div
+                                className="adxc-loop flex-1 rounded-lg rounded-tl-sm border border-border bg-background px-2.5 py-1.5"
+                                style={{ animationName: "adxc-answer-arrive" }}
+                            >
+                                <div className="space-y-1">
+                                    <div className="h-1.5 w-full rounded-full bg-secondary" />
+                                    <div className="h-1.5 w-5/6 rounded-full bg-secondary" />
+                                    <div className="h-1.5 w-2/3 rounded-full bg-secondary" />
+                                </div>
+                                <div className="mt-2 flex items-center gap-1.5 border-t border-border pt-1.5">
+                                    <span className="text-[9px] uppercase tracking-wider text-muted-foreground">
+                                        Source
+                                    </span>
+                                    <div className="ml-auto flex items-center gap-1 rounded bg-secondary px-1.5 py-0.5">
+                                        <div className="h-1.5 w-1.5 rounded-sm bg-primary" />
+                                        <span className="text-[9px] font-semibold tracking-wide text-foreground">
+                                            PROVIDER&nbsp;BRAND
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

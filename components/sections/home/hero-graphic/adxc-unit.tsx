@@ -12,7 +12,7 @@ export function AdxcUnit({ size = DEFAULT_SIZE, ring = DEFAULT_RING }: AdxcUnitP
     const logoSize = Math.round(size * 0.4)
 
     return (
-        <div className="relative flex items-center justify-center shrink-0 pl-3" aria-label="ADXC">
+        <div className="relative flex items-center justify-center shrink-0" aria-label="ADXC">
             {/* Spinning conic ring */}
             <div
                 className="absolute rounded-full animate-spin"

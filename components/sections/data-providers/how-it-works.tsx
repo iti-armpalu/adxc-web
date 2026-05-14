@@ -24,7 +24,7 @@ const steps: Step[] = [
         title: "Be where the strategic work happens",
         lead: "Marketers are planning, creating and deciding inside workflow tools.",
         description:
-            "ADXC integrates your data directly into the tools they're already using — starting with Miro. No new apps for them to learn, no friction to adoption.",
+            "ADXC integrates your data directly into the tools they're already using, starting with Miro. No new apps for them to learn, no friction to adoption.",
     },
     {
         index: 1,
@@ -33,7 +33,7 @@ const steps: Step[] = [
         title: "New revenue from a market you can't currently serve",
         lead: "SMEs need your data but can't afford your subscriptions.",
         description:
-            "ADXC gives them access on a pay-per-query basis — a completely new buyer with a different need. Incremental revenue, zero cannibalisation of your existing model.",
+            "ADXC gives them access on a pay-per-query basis, a completely new buyer with a different need. Incremental revenue, zero cannibalisation of your existing model.",
     },
     {
         index: 2,
@@ -163,9 +163,6 @@ export function DataProvidersHowItWorks() {
                                         )}>
                                             <Icon className="w-4 h-4" strokeWidth={1.5} />
                                         </div>
-                                        <span className="text-xs uppercase tracking-widest text-muted-foreground">
-                                            Step {i + 1}
-                                        </span>
                                     </div>
                                     <h3 className="text-xl font-semibold text-foreground leading-snug">
                                         {step.title}
@@ -217,9 +214,6 @@ export function DataProvidersHowItWorks() {
                                     <div className="w-9 h-9 rounded-md bg-primary flex items-center justify-center shrink-0">
                                         <Icon className="w-4 h-4 text-primary-foreground" strokeWidth={1.5} />
                                     </div>
-                                    <span className="text-xs uppercase tracking-widest text-muted-foreground">
-                                        Step {i + 1}
-                                    </span>
                                 </div>
 
                                 {/* Text */}
