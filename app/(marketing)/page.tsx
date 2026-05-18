@@ -15,9 +15,14 @@ export const metadata: Metadata = {
     description: siteConfig.tagline,
 }
 
+
 export default function HomePage() {
+
+
+
     return (
         <>
+
             {/* Hero with background bleeding behind fixed header */}
             <div className="relative px-4 sm:px-6 py-20">
                 <HeroBackground />

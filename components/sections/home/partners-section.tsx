@@ -1,8 +1,8 @@
 import Image from "next/image"
 
 const dataProviders = [
-    { name: "YouGov", logo: "/yougov-logo.jpg" },
-    { name: "Reddit", logo: "/reddit-logo.png" },
+    { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
+    { name: "Reddit", logo: "/reddit-logo-horizontal.png" },
     { name: "X", logo: "/x-logo.jpg" },
     { name: "Quid", logo: "/quid-logo.svg" },
 ]
@@ -13,7 +13,7 @@ const accessThrough = [
 
 export function PartnersSection() {
     return (
-        <section className="border-y border-border/50">
+        <section className="bg-tyrian-100">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
                 <div className="flex flex-col items-center sm:flex-row sm:justify-center sm:divide-x sm:divide-border/40 gap-6 sm:gap-0">
 
@@ -49,7 +49,7 @@ export function PartnersSection() {
                                     alt={p.name}
                                     width={80}
                                     height={28}
-                                    className="h-10 w-auto object-contain"
+                                    className="h-14 w-auto object-contain"
                                 />
                             ))}
                         </div>

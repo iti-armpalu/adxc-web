@@ -43,11 +43,11 @@ export function PlatformSection() {
           <p className="text-xs uppercase tracking-widest text-muted-foreground">
             How It Works
           </p>
-          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground max-w-2xl">
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary max-w-2xl">
             The ADXC platform
           </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
-            Connect ADXC to your existing AI tools, starting with Miro Sidekick at launch. 
+          <p className="text-lg text-neutral-600 leading-relaxed max-w-2xl">
+            Connect ADXC to your existing AI tools, starting with Miro Sidekick at launch.
             More integrations coming soon…
           </p>
         </div>
@@ -63,7 +63,7 @@ export function PlatformSection() {
                   <div className="flex items-center justify-between mb-4">
                     {/* Small brand icon */}
                     <div className="w-8 h-8 rounded-md flex items-center justify-center shrink-0 bg-primary">
-                      <Icon className="w-4 h-4 text-primary-foreground" strokeWidth={1.5} />
+                      {step.number}
                     </div>
                     {/* Ghost step number */}
                     <span className="text-5xl font-bold tracking-tighter select-none leading-none text-primary opacity-15">
