@@ -24,8 +24,63 @@ export const siteConfig = {
     contactEmail: "contact@adxc.ai",
     investorUrl: "https://investor.adxc.ai",
 
-    // Header nav — stripped to live pages only, restore when pages are ready
-    nav: [] as NavGroup[],
+    nav: [
+        { label: "Product", href: "/product" },
+        {
+            label: "Partners",
+            items: [
+                {
+                    label: "For Brands",
+                    href: "/for/brands",
+                    description: "Access marketing data on demand",
+                    icon: "TrendingUp",
+                },
+                {
+                    label: "For Agencies",
+                    href: "/for/agencies",
+                    description: "Unified data for your clients",
+                    icon: "Users",
+                },
+                {
+                    label: "For Data Providers",
+                    href: "/for/data-providers",
+                    description: "Monetise your data without overhead",
+                    icon: "Database",
+                },
+                {
+                    label: "For AI Platforms",
+                    href: "/for/ai-platforms",
+                    description: "Structured feeds built for models",
+                    icon: "Cpu",
+                },
+            ],
+
+        },
+        { label: "Pricing", href: "/pricing" },
+        {
+            label: "Resources",
+            items: [
+                {
+                    label: "FAQs",
+                    href: "/faq",
+                    description: "Common questions answered",
+                    icon: "CircleHelp",
+                },
+                {
+                    label: "Guides",
+                    href: "/guides",
+                    description: "How to get the most from ADXC",
+                    icon: "BookOpen",
+                },
+                {
+                    label: "Blog",
+                    href: "/blog",
+                    description: "Thinking on data and AI",
+                    icon: "Newspaper",
+                },
+            ],
+        },
+    ] as NavGroup[],
 
     cta: {
         label: "Get early access",
