@@ -8,6 +8,7 @@ const ALLOWED_ROUTES = [
   "/legal/privacy",
   "/legal/terms",
   "/legal/cookies",
+  "/for/data-providers",
 ]
 
 function isPublicAsset(pathname: string) {
