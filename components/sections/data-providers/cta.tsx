@@ -1,97 +1,176 @@
-// import { Button } from "@/components/ui/button"
-// import { FadeIn } from "@/components/ui/fade-in"
-// import { Input } from "@/components/ui/input"
-// import Link from "next/link"
-
-// export function DataProvidersCTA() {
-//     return (
-//         <FadeIn>
-//             <section className="border-t border-border/50 bg-muted/30">
-//                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
-//                     <div className="max-w-2xl space-y-8">
-
-//                         <div className="space-y-4">
-//                             <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
-//                                 Become a data partner
-//                             </h2>
-//                             <p className="text-lg text-muted-foreground leading-relaxed">
-//                                 Talk to our team about how ADXC can put your data inside the workflows
-//                                 shaping marketing decisions for SMEs.
-//                             </p>
-//                         </div>
-
-//                         <div className="flex flex-col sm:flex-row gap-3 max-w-md">
-//                             <Input
-//                                 type="email"
-//                                 placeholder="Enter your email..."
-//                                 className="h-11 bg-background"
-//                             />
-//                             <Button asChild size="lg" className="shrink-0">
-//                                 <Link href="#">
-//                                     Get in touch
-//                                 </Link>
-//                             </Button>
-//                         </div>
-
-//                     </div>
-//                 </div>
-//             </section>
-//         </FadeIn>
-//     )
-// }
-
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useActionState, useEffect, useRef, useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile"
+import { submitDataProviderEnquiry, type DataProviderEnquiryState } from "@/lib/data-provider-enquiry/actions"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { FormError } from "@/components/ui/form-error"
+import { ArrowRight, CheckCircle } from "lucide-react"
+import { identifyUser } from "@/lib/analytics/events"
+import { FadeIn } from "@/components/ui/fade-in"
 
+const schema = z.object({
+    firstName: z.string().min(1, "First name is required"),
+    lastName: z.string().min(1, "Last name is required"),
+    email: z.string().email("Valid email is required"),
+    company: z.string().min(1, "Company is required"),
+    jobTitle: z.string().min(1, "Job title is required"),
+    message: z.string().optional(),
+})
 
-export function DataProvidersCTA() {
-    const [email, setEmail] = useState("")
-    const router = useRouter()
+type FormData = z.infer<typeof schema>
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        const dest = email
-            ? `/for/data-providers/enquiry?email=${encodeURIComponent(email)}`
-            : "/for/data-providers/enquiry"
-        router.push(dest)
+const initialState: DataProviderEnquiryState = { status: "idle" }
+
+type Props = { prefillEmail?: string }
+
+export function DataProvidersCTA({ prefillEmail = "" }: Props) {
+
+    const [state, action, isPending] = useActionState(submitDataProviderEnquiry, initialState)
+    const [localStatus, setLocalStatus] = useState<DataProviderEnquiryState>(initialState)
+    const [turnstileToken, setTurnstileToken] = useState("")
+    const turnstileRef = useRef<TurnstileInstance>(null)
+
+    const { register, formState: { errors, isValid }, getValues, reset } = useForm<FormData>({
+        resolver: zodResolver(schema),
+        defaultValues: { email: prefillEmail },
+        mode: "onChange",
+    })
+
+    useEffect(() => {
+        if (prefillEmail) {
+            reset({ email: prefillEmail })
+        }
+    }, [prefillEmail, reset])
+
+    const handleAction = (formData: globalThis.FormData) => {
+        formData.set("turnstileToken", turnstileToken)
+        return action(formData)
     }
+
+    useEffect(() => {
+        if (state.status !== "idle") {
+            setLocalStatus(state)
+            if (state.status === "success") {
+                const { firstName, lastName, email, company, jobTitle } = getValues()
+                identifyUser({ email, name: `${firstName} ${lastName}`.trim(), company, companySize: "unknown", jobTitle })
+            }
+        }
+    }, [state, getValues])
+
     return (
-        <section className="border-t border-border/50 bg-muted/30">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
-                <div className="flex flex-col items-center text-center gap-10 max-w-2xl mx-auto">
+        <FadeIn>
+            <section id="cta-data-rovider" className="bg-muted/30">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-5xl mx-auto">
 
-                    <div className="space-y-4">
-                        <p className="text-xs uppercase tracking-widest text-muted-foreground">
-                            Become a data partner
-                        </p>
-                        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
-                            Put your data inside the workflows
-                            <span className="block text-brand-bright">shaping marketing decisions.</span>
-                        </h2>
-                        <p className="text-lg text-muted-foreground leading-relaxed">
-                            Talk to our team about how ADXC can open a new market for your data,
-                            without disrupting your existing model.
-                        </p>
+                        <div className="space-y-6">
+                            <div className="space-y-3">
+                                <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                                    Become a data partner
+                                </p>
+                                <h2 className="text-3xl sm:text-4xl font-semibold leading-none text-primary">
+                                    Put your data inside the workflows shaping marketing decisions.
+                                </h2>
+                            </div>
+                            <p className="text-lg text-neutral-600 leading-relaxed">
+                                Talk to our team about how ADXC can open a new market for your data,
+                                without disrupting your existing model.
+                            </p>
+                        </div>
+
+                        {/* Right — form */}
+                        <div>
+                            {localStatus.status === "success" ? (
+                                <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
+                                    <CheckCircle className="w-10 h-10 text-success" />
+                                    <h3 className="text-xl font-semibold text-foreground">Enquiry received</h3>
+                                    <p className="text-neutral-600 max-w-sm text-sm leading-relaxed">
+                                        Thanks for reaching out. We'll be in touch within 2 business days.
+                                    </p>
+                                </div>
+                            ) : (
+                                <form action={handleAction} className="space-y-4">
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div className="space-y-1.5">
+                                            <label className="text-sm text-foreground">First name <span className="text-destructive">*</span></label>
+                                            <Input {...register("firstName")} name="firstName" placeholder="Jane"
+                                                disabled={isPending} aria-invalid={!!errors.firstName} />
+                                            <FormError message={errors.firstName?.message} />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className="text-sm text-foreground">Last name <span className="text-destructive">*</span></label>
+                                            <Input {...register("lastName")} name="lastName" placeholder="Smith"
+                                                disabled={isPending} aria-invalid={!!errors.lastName} />
+                                            <FormError message={errors.lastName?.message} />
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm text-foreground">Email <span className="text-destructive">*</span></label>
+                                        <Input {...register("email")} name="email" type="email" placeholder="you@company.com"
+                                            disabled={isPending} aria-invalid={!!errors.email} />
+                                        <FormError message={errors.email?.message} />
+                                    </div>
+
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div className="space-y-1.5">
+                                            <label className="text-sm text-foreground">Company <span className="text-destructive">*</span></label>
+                                            <Input {...register("company")} name="company" placeholder="Company name"
+                                                disabled={isPending} aria-invalid={!!errors.company} />
+                                            <FormError message={errors.company?.message} />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className="text-sm text-foreground">Job title <span className="text-destructive">*</span></label>
+                                            <Input {...register("jobTitle")} name="jobTitle" placeholder="Head of Product"
+                                                disabled={isPending} aria-invalid={!!errors.jobTitle} />
+                                            <FormError message={errors.jobTitle?.message} />
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-1.5">
+                                        <label className="text-sm text-foreground">
+                                            Message <span className="text-muted-foreground/60 text-xs">(optional)</span>
+                                        </label>
+                                        <Textarea {...register("message")} name="message" rows={4}
+                                            placeholder="Tell us about your platform and what you're hoping to achieve..."
+                                            disabled={isPending} className="resize-none" />
+                                    </div>
+
+                                    <Turnstile ref={turnstileRef} siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                                        onSuccess={(token) => setTurnstileToken(token)}
+                                        onError={() => setTurnstileToken("")}
+                                        onExpire={() => setTurnstileToken("")} />
+
+                                    {localStatus.status === "error" && (
+                                        <p className="text-sm text-destructive">{localStatus.error}</p>
+                                    )}
+
+                                    <Button type="submit" disabled={isPending || !turnstileToken || !isValid}
+                                        className="w-full group" size="lg">
+                                        {isPending ? "Sending…" : "Get in touch"}
+                                        <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                                    </Button>
+
+                                    {!isValid && (
+                                        <p className="text-xs text-neutral-600 text-center">
+                                            Please fill in all the fields above before submitting.
+                                        </p>
+                                    )}
+
+                                </form>
+                            )}
+                        </div>
+
                     </div>
-
-                    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-md">
-                        <Input
-                            type="email"
-                            placeholder="Enter your work email..."
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="h-10 bg-background"
-                        />
-                        <Button type="submit" size="lg" className="shrink-0">
-                            Get in touch
-                        </Button>
-                    </form>
                 </div>
-            </div>
-        </section>
+            </section>
+        </FadeIn>
     )
 }

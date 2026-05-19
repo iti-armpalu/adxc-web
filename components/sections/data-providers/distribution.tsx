@@ -58,9 +58,8 @@ export function DataProvidersDistribution() {
                     {/* Left — copy */}
                     <div className="space-y-8">
                         <div className="space-y-3">
-                            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
-                                Built-in distribution from
-                                <span className="block text-brand-bright">day one.</span>
+                            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary leading-none">
+                                Built-in distribution from day one.
                             </h2>
                         </div>
 
@@ -94,7 +93,7 @@ export function DataProvidersDistribution() {
                     <div className="flex items-center justify-center">
                         <div className="bg-background rounded-xl border border-border p-12 flex flex-col items-center gap-6 w-full max-w-xs">
                             <Image
-                                src="/miro-logo.png"
+                                src="/miro-logo.svg"
                                 alt="Miro"
                                 width={120}
                                 height={40}

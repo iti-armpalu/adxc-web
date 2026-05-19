@@ -56,7 +56,7 @@ export function DataProvidersStat() {
                             your data.
                         </p>
                         <p className="text-base text-muted-foreground leading-relaxed">
-                            Until now, there was no viable way to serve them. ADXC changes that.
+                            Until now, there was no viable way to serve them.
                         </p>
                     </div>
 
