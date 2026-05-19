@@ -25,7 +25,23 @@ export const siteConfig = {
     investorUrl: "https://investor.adxc.ai",
 
     nav: [
-        { label: "Product", href: "/product" },
+        {
+            label: "Product",
+            items: [
+                {
+                    label: "Platform",
+                    href: "/product/platform",
+                    description: "How ADXC works",
+                    icon: "Layers",
+                },
+                {
+                    label: "For Data Providers",
+                    href: "/product/data-providers",
+                    description: "Connect your data to ADXC",
+                    icon: "Database",
+                },
+            ],
+        },
         {
             label: "Partners",
             items: [
@@ -54,7 +70,6 @@ export const siteConfig = {
                     icon: "Cpu",
                 },
             ],
-
         },
         { label: "Pricing", href: "/pricing" },
         {
@@ -92,7 +107,6 @@ export const siteConfig = {
         href: "https://investor.adxc.ai",
     },
 
-    // Footer — legal only, restore other groups when pages are ready
     footerLinks: [
         {
             label: "Legal",

@@ -8,7 +8,7 @@ import { siteConfig, type NavGroup } from "@/config/site"
 import { Button } from "@/components/ui/button"
 import {
     ChevronDown, Menu, ArrowRight,
-    TrendingUp, Users, Database, Cpu,
+    TrendingUp, Users, Database, Cpu, Layers,
     CircleHelp, BookOpen, Newspaper,
     type LucideIcon,
 } from "lucide-react"
@@ -28,7 +28,7 @@ import { createPortal } from "react-dom"
 // ─── Icon registry ────────────────────────────────────────────────────────────
 
 const iconMap: Record<string, LucideIcon> = {
-    TrendingUp, Users, Database, Cpu,
+    TrendingUp, Users, Database, Cpu, Layers,
     CircleHelp, BookOpen, Newspaper,
 }
 
