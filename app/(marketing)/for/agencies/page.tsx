@@ -4,6 +4,7 @@ import { AgenciesHowItWorks } from "@/components/sections/agencies/how-it-works"
 import { AgenciesIntegrations } from "@/components/sections/agencies/integrations"
 import { AgenciesPartners } from "@/components/sections/agencies/partners"
 import { AgenciesCTA } from "@/components/sections/agencies/cta"
+import { AgenciesOtherWays } from "@/components/sections/agencies/other-ways"
 
 export const metadata: Metadata = {
     title: "For Agencies",
@@ -18,6 +19,7 @@ export default function AgenciesPage() {
             <AgenciesIntegrations />
             <AgenciesPartners />
             <AgenciesCTA />
+            <AgenciesOtherWays />
         </>
     )
 }
