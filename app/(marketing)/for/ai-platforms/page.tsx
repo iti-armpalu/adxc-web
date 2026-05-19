@@ -1,4 +1,3 @@
-// page.tsx — server component, has metadata
 import type { Metadata } from "next"
 import AIPlatformsPageClient from "./page-client"
 
