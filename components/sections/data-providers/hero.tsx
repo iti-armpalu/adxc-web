@@ -34,7 +34,8 @@ export function DataProvidersHero({ onEmailSubmit }: Props) {
                         </h1>
                         <p className="text-lg text-foreground leading-relaxed max-w-xl">
                             ADXC connects your data to the AI agents and workflows shaping
-                            marketing decisions for SMEs. Get paid per query, with your IP fully protected.
+                            marketing decisions for SMEs.
+                            <span className="block">Get paid per query, with your IP fully protected.</span>
                         </p>
                     </div>
 
