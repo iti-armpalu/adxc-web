@@ -1,6 +1,6 @@
 export function HeroBackground() {
     return (
-        <div className="absolute inset-x-0 -top-16 bottom-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-x-0 -top-[var(--header-h)] bottom-0 z-0 overflow-hidden pointer-events-none">
 
             {/* Linear gradient — responsive hard stop and angle via CSS variables */}
             <div
@@ -15,7 +15,6 @@ export function HeroBackground() {
                 }}
             />
 
-            {/* Ellipse — #C46184 glow, responsive position */}
             {/* Ellipse — #C46184 glow, responsive position */}
             <div
                 className="absolute rounded-full

@@ -21,22 +21,23 @@ export function HeroSection() {
     }
 
     return (
-        <FadeIn className="flex-1 flex items-center">
-            <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 relative min-h-[600px] flex flex-col lg:block">
+        <FadeIn>
+            <section className="relative w-full max-w-7xl mx-auto px-8 sm:px-6 min-h-[calc(100dvh-var(--header-h))] mt-header flex flex-col justify-center pt-10 xl:pt-0 py-8">
+                <div className="max-w-xl space-y-10">
 
-                {/* Left — content */}
-                <div className="space-y-8 w-full lg:max-w-[460px]">
+                    {/* Left — content */}
+                    <div className="space-y-6">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold sm:font-medium tracking-tight text-foreground leading-none">
+                            Access premium consumer data.{" "}
+                            <span className="block text-brand-bright">Pay-as-you-go.</span>
+                        </h1>
 
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-foreground leading-tight">
-                        Access premium consumer data.
-                        <span className="block text-brand-bright">Pay-as-you-go.</span>
-                    </h1>
-
-                    <p className="text-base text-muted-foreground leading-relaxed max-w-sm">
-                        ADXC connects your AI tools to industry-leading data providers. 
-                        Pay per query, no subscriptions, so you can access the insight needed 
-                        to grow your business.
-                    </p>
+                        <p className="text-lg text-foreground leading-relaxed max-w-sm">
+                            ADXC connects your AI tools to industry-leading data providers.
+                            Pay per query, no subscriptions, so you can access the insight needed
+                            to grow your business.
+                        </p>
+                    </div>
 
                     <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-xs">
                         <Input
@@ -44,7 +45,6 @@ export function HeroSection() {
                             placeholder="Enter your email..."
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="h-12 bg-background"
                             onFocus={trackHeroEmailStarted}
                         />
                         <Button type="submit" size="xl" className="w-full cursor-pointer">
@@ -52,6 +52,7 @@ export function HeroSection() {
                         </Button>
                     </form>
 
+                    {/* </div> */}
                 </div>
 
                 {/* Mobile — graphic below form */}
@@ -66,13 +67,21 @@ export function HeroSection() {
 
                 {/* Desktop — graphic beside text, absolute */}
                 <div
-                    className="hidden xl:flex absolute bottom-15 right-0 xl:-right-25 items-center pointer-events-none"
+                    // className="hidden xl:flex absolute bottom-15 right-0 xl:-right-25 items-center pointer-events-none"
+                    // className="hidden xl:flex absolute bottom-15 right-0 items-center pointer-events-none"
+                    className="hidden xl:flex absolute items-center pointer-events-none"
+                    style={{
+                        top: 'var(--hero-adxc-top)',
+                        left: 'var(--hero-adxc-left)',
+                        transform: 'translateY(-50%)',
+                    }}
+
                     aria-hidden
                 >
                     <HeroGraphic />
                 </div>
 
             </section>
-        </FadeIn>
+        </FadeIn >
     )
 }

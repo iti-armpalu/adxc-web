@@ -109,6 +109,30 @@ export const siteConfig = {
 
     footerLinks: [
         {
+            label: "Product",
+            links: [
+                { label: "Platform", href: "/product/platform" },
+                { label: "Data Providers", href: "/product/data-providers" },
+            ],
+        },
+        {
+            label: "Why ADXC",
+            links: [
+                { label: "For Brands", href: "/for/brands" },
+                { label: "For Agencies", href: "/for/agencies" },
+                { label: "For Data Providers", href: "/for/data-providers" },
+                { label: "For AI Platforms", href: "/for/ai-platforms" },
+            ],
+        },
+        {
+            label: "Resources",
+            links: [
+                { label: "FAQs", href: "/faq" },
+                { label: "Guides", href: "/guides" },
+                { label: "Blog", href: "/blog" },
+            ],
+        },
+        {
             label: "Legal",
             links: [
                 { label: "Privacy Notice", href: "/legal/privacy" },

@@ -1,3 +1,4 @@
+import { FadeIn } from "@/components/ui/fade-in"
 import Image from "next/image"
 
 const dataProviders = [
@@ -8,55 +9,60 @@ const dataProviders = [
 ]
 
 const accessThrough = [
-    { name: "Miro", logo: "/miro-logo.png" },
+    { name: "Miro", logo: "/miro-logo.svg" },
 ]
 
 export function PartnersSection() {
     return (
-        <section className="bg-tyrian-100">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
-                <div className="flex flex-col items-center sm:flex-row sm:justify-center sm:divide-x sm:divide-border/40 gap-6 sm:gap-0">
+        <FadeIn>
+            <section className="bg-tyrian-100">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+                    <div className="flex flex-col items-center gap-8 sm:gap-0 sm:flex-row sm:justify-center sm:divide-x sm:divide-border">
 
-                    {/* Row 1 — Access data from */}
-                    <div className="flex flex-col items-center sm:flex-row  gap-4 sm:gap-8 sm:pr-12">
-                        <p className="text-xs uppercase tracking-widest text-muted-foreground shrink-0">
-                            Access data from
-                        </p>
-                        <div className="flex items-center gap-6 sm:gap-12 flex-wrap">
-                            {dataProviders.map((p) => (
-                                <Image
-                                    key={p.name}
-                                    src={p.logo}
-                                    alt={p.name}
-                                    width={80}
-                                    height={28}
-                                    className="h-7 w-auto object-contain"
-                                />
-                            ))}
+                        {/* Access data from */}
+                        <div className="flex flex-col items-center gap-4 sm:flex-row sm:pr-12">
+                            <p className="text-sm text-foreground shrink-0 sm:text-base">
+                                Access data from
+                            </p>
+                            <div className="flex items-center flex-wrap justify-center gap-6 sm:gap-8">
+                                {dataProviders.map((p) => (
+                                    <Image
+                                        key={p.name}
+                                        src={p.logo}
+                                        alt={p.name}
+                                        width={80}
+                                        height={28}
+                                        className="h-6 sm:h-7 w-auto object-contain"
+                                    />
+                                ))}
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Row 2 — Access through */}
-                    <div className="flex flex-col items-center sm:flex-row  gap-4 sm:gap-8 sm:pl-12">
-                        <p className="text-xs uppercase tracking-widest text-muted-foreground shrink-0">
-                            Access through
-                        </p>
-                        <div className="flex items-center gap-6 sm:gap-12 flex-wrap">
-                            {accessThrough.map((p) => (
-                                <Image
-                                    key={p.name}
-                                    src={p.logo}
-                                    alt={p.name}
-                                    width={80}
-                                    height={28}
-                                    className="h-14 w-auto object-contain"
-                                />
-                            ))}
+                        {/* Mobile divider */}
+                        <div className="w-full max-w-xs h-px bg-border sm:hidden" />
+
+                        {/* Access through */}
+                        <div className="flex flex-col items-center gap-4 sm:flex-row sm:pl-12">
+                            <p className="text-sm text-foreground shrink-0 sm:text-base">
+                                Access through
+                            </p>
+                            <div className="flex items-center flex-wrap justify-center gap-6 sm:gap-8">
+                                {accessThrough.map((p) => (
+                                    <Image
+                                        key={p.name}
+                                        src={p.logo}
+                                        alt={p.name}
+                                        width={80}
+                                        height={28}
+                                        className="h-7 sm:h-8 w-auto object-contain"
+                                    />
+                                ))}
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </FadeIn>
     )
 }
