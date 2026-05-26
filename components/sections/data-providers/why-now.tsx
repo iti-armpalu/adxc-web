@@ -6,13 +6,11 @@ export function DataProvidersWhyNow() {
 
         <section
             style={{
-                background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand) 80%)",
+                background: "linear-gradient(135deg, var(--color-blue-900) 0%, var(--color-blue-600) 80%)",
             }}
         >
             <FadeIn>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
-                    {/* <FadeIn>
-            <section className="max-w-7xl mx-auto px-4 sm:px-6 py-24"> */}
                     <div className="space-y-12 sm:space-y-16 max-w-3xl mx-auto">
 
                         <div className="space-y-4">
@@ -23,7 +21,6 @@ export function DataProvidersWhyNow() {
 
                         <div>
                             <Separator />
-                            {/* Stat 1 */}
 
                             <div className="flex flex-col gap-4 py-8 md:grid md:grid-cols-[220px_1fr] md:items-center">
                                 <div>
@@ -48,7 +45,6 @@ export function DataProvidersWhyNow() {
                             </div>
 
                             <Separator />
-                            {/* Stat 2 */}
 
                             <div className="flex flex-col gap-4 py-8 md:grid md:grid-cols-[220px_1fr] md:items-center">
                                 <div>

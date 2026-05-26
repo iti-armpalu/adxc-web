@@ -67,8 +67,6 @@ export function HeroSection() {
 
                 {/* Desktop — graphic beside text, absolute */}
                 <div
-                    // className="hidden xl:flex absolute bottom-15 right-0 xl:-right-25 items-center pointer-events-none"
-                    // className="hidden xl:flex absolute bottom-15 right-0 items-center pointer-events-none"
                     className="hidden xl:flex absolute items-center pointer-events-none"
                     style={{
                         top: 'var(--hero-adxc-top)',

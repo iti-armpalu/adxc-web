@@ -21,21 +21,21 @@ export function DataProvidersHero({ onEmailSubmit }: Props) {
 
     return (
         <FadeIn>
-            <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-32">
-                <div className="max-w-lg space-y-10">
+            <section className="relative w-full max-w-7xl mx-auto px-8 sm:px-6 min-h-[calc(100dvh-var(--header-h))] mt-header flex flex-col justify-center pt-10 xl:pt-0 py-8">
+                <div className="max-w-2xl space-y-10">
 
                     <div className="space-y-6">
                         <p className="text-xs uppercase tracking-widest text-muted-foreground">
                             For data providers
                         </p>
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-medium tracking-tight text-foreground leading-none">
-                            Unlock a market your{" "}
-                            <span className="text-brand-bright">enterprise model can't reach.</span>
+
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold sm:font-medium tracking-tight text-foreground leading-none">
+                            <span className="text-blue-400">Unlock a market</span>{" "}
+                            your enterprise model can't reach.
                         </h1>
                         <p className="text-lg text-foreground leading-relaxed max-w-xl">
                             ADXC connects your data to the AI agents and workflows shaping
-                            marketing decisions for SMEs.
-                            <span className="block">Get paid per query, with your IP fully protected.</span>
+                            marketing decisions for SMEs. Get paid per query, with your IP fully protected.
                         </p>
                     </div>
 

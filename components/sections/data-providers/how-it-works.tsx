@@ -1,14 +1,11 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useRef } from "react"
 import { Workflow, Banknote, ShieldCheck, type LucideIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { RevenueModelVisual } from "./visuals/revenue-model"
-import { IPProtectionVisual } from "./visuals/ip-protection"
-import { DistributionVisual } from "./visuals/distribution"
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { FadeIn } from "@/components/ui/fade-in"
 
-type Step = {
+type Benefit = {
     index: number
     icon: LucideIcon
     label: string
@@ -17,7 +14,7 @@ type Step = {
     description: string
 }
 
-const steps: Step[] = [
+const benefits: Benefit[] = [
     {
         index: 0,
         icon: Workflow,
@@ -47,188 +44,41 @@ const steps: Step[] = [
     },
 ]
 
-// ─── Placeholder visuals — replace with your interactive components ──────────
-
-function StepVisual({ index }: { index: number }) {
-    if (index === 0) return <DistributionVisual />
-    if (index === 1) return <RevenueModelVisual />
-    if (index === 2) return <IPProtectionVisual />
-    return null
-}
-
-// ─── Step indicator ──────────────────────────────────────────────────────────
-
-function StepIndicator({
-    steps,
-    active,
-    onChange,
-}: {
-    steps: Step[]
-    active: number
-    onChange: (i: number) => void
-}) {
-    return (
-        <div className="flex items-center gap-2">
-            {steps.map((step, i) => {
-                const Icon = step.icon
-                return (
-                    <button
-                        key={i}
-                        onClick={() => onChange(i)}
-                        className={cn(
-                            "flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300",
-                            active === i
-                                ? "bg-primary text-primary-foreground"
-                                : "bg-muted text-muted-foreground hover:text-foreground hover:bg-muted/80"
-                        )}
-                    >
-                        <Icon className="w-3 h-3 shrink-0" strokeWidth={2} />
-                        {step.label}
-                    </button>
-                )
-            })}
-        </div>
-    )
-}
-
 // ─── Main component ──────────────────────────────────────────────────────────
 
 export function DataProvidersHowItWorks() {
-    const [activeStep, setActiveStep] = useState(0)
     const sectionRef = useRef<HTMLDivElement>(null)
-    const stepRefs = useRef<(HTMLDivElement | null)[]>([])
-
-    // Scroll observer — update active step based on which text panel is in view
-    const handleScroll = useCallback(() => {
-        const section = sectionRef.current
-        if (!section) return
-
-        const sectionTop = section.getBoundingClientRect().top
-        const viewportMid = window.innerHeight * 0.5
-
-        stepRefs.current.forEach((el, i) => {
-            if (!el) return
-            const { top, bottom } = el.getBoundingClientRect()
-            if (top <= viewportMid && bottom >= viewportMid) {
-                setActiveStep(i)
-            }
-        })
-    }, [])
-
-    useEffect(() => {
-        window.addEventListener("scroll", handleScroll, { passive: true })
-        return () => window.removeEventListener("scroll", handleScroll)
-    }, [handleScroll])
-
-    // Click on indicator — scroll to that step
-    const scrollToStep = (index: number) => {
-        stepRefs.current[index]?.scrollIntoView({ behavior: "smooth", block: "center" })
-        setActiveStep(index)
-    }
 
     return (
         <FadeIn>
-            <section ref={sectionRef} className="border-t border-border/50">
+            <section ref={sectionRef} className="bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
 
                     {/* Section header */}
                     <div className="space-y-3 mb-16">
-                        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary max-w-xl leading-none">
+                        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-blue-900 max-w-xl leading-none">
                             How ADXC works for you
                         </h2>
                     </div>
 
-                    {/* Desktop sticky scroll — hidden on mobile */}
-                    <div className="hidden lg:grid lg:grid-cols-[1fr_2fr] lg:gap-16">
-
-                        {/* Left — scrolling text panels, narrower */}
-                        <div className="space-y-[30vh] py-[15vh]">
-                            {steps.map((step, i) => {
-                                const Icon = step.icon
-                                return (
-                                    <div
-                                        key={i}
-                                        ref={el => { stepRefs.current[i] = el }}
-                                        className={cn(
-                                            "space-y-4 transition-opacity duration-500",
-                                            activeStep === i ? "opacity-100" : "opacity-30"
-                                        )}
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <div className={cn(
-                                                "w-9 h-9 rounded-md flex items-center justify-center shrink-0 transition-colors duration-300",
-                                                activeStep === i ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
-                                            )}>
-                                                <Icon className="w-4 h-4" strokeWidth={1.5} />
-                                            </div>
-                                        </div>
-                                        <h3 className="text-xl font-semibold text-foreground leading-snug">
-                                            {step.title}
-                                        </h3>
-                                        <p className="text-sm font-medium text-foreground">
-                                            {step.lead}
-                                        </p>
-                                        <p className="text-sm text-muted-foreground leading-relaxed">
-                                            {step.description}
-                                        </p>
-                                    </div>
-                                )
-                            })}
-                        </div>
-
-                        {/* Right — sticky visual, wider */}
-                        <div className="relative">
-                            <div className="sticky top-[15vh] h-[55vh] flex flex-col gap-4">
-                                {/* Step indicator */}
-                                <StepIndicator steps={steps} active={activeStep} onChange={scrollToStep} />
-                                {/* Visual area — relative so absolute children position correctly */}
-                                <div className="relative flex-1 rounded-xl border border-border bg-muted overflow-hidden">
-                                    {steps.map((_, i) => (
-                                        <div
-                                            key={i}
-                                            className={cn(
-                                                "absolute inset-0 transition-opacity duration-500",
-                                                activeStep === i ? "opacity-100" : "opacity-0 pointer-events-none"
-                                            )}
-                                        >
-                                            <StepVisual index={i} />
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    {/* Mobile — fully stacked steps */}
-                    <div className="lg:hidden space-y-12">
-                        {steps.map((step, i) => {
-                            const Icon = step.icon
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {benefits.map((benefit, i) => {
+                            const Icon = benefit.icon
                             return (
-                                <div key={i} className="space-y-4">
-
-                                    {/* Step label */}
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-9 h-9 rounded-md bg-primary flex items-center justify-center shrink-0">
-                                            <Icon className="w-4 h-4 text-primary-foreground" strokeWidth={1.5} />
+                                <Card key={i}>
+                                    <CardHeader>
+                                        <div className="w-10 h-10 rounded-md bg-blue-600 flex items-center justify-center mb-4 shrink-0">
+                                            <Icon className="w-5 h-5 text-primary-foreground" strokeWidth={1.5} />
                                         </div>
-                                    </div>
-
-                                    {/* Text */}
-                                    <h3 className="text-xl font-semibold text-foreground leading-snug">
-                                        {step.title}
-                                    </h3>
-                                    <p className="text-sm font-medium text-foreground">{step.lead}</p>
-                                    <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
-
-                                    {/* Visual */}
-                                    <div className={cn(
-                                        "rounded-xl border border-border bg-muted overflow-hidden h-[780px] sm:h-80"
-                                    )}>
-                                        <StepVisual index={i} />
-                                    </div>
-
-                                </div>
+                                        <CardTitle className="text-base text-blue-900">{benefit.title}</CardTitle>
+                                        <p className="text-sm font-medium text-foreground mt-1">
+                                            {benefit.lead}
+                                        </p>
+                                        <CardDescription className="text-sm mt-1 text-neutral-600">
+                                            {benefit.description}
+                                        </CardDescription>
+                                    </CardHeader>
+                                </Card>
                             )
                         })}
                     </div>

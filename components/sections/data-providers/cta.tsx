@@ -13,6 +13,7 @@ import { FormError } from "@/components/ui/form-error"
 import { ArrowRight, CheckCircle } from "lucide-react"
 import { identifyUser } from "@/lib/analytics/events"
 import { FadeIn } from "@/components/ui/fade-in"
+import { Card, CardContent } from "@/components/ui/card"
 
 const schema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -65,22 +66,21 @@ export function DataProvidersCTA({ prefillEmail = "" }: Props) {
 
     return (
         <FadeIn>
-            <section id="cta-data-rovider" className="bg-muted/30">
+            <section id="cta-data-rovider" className="bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-5xl mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 sm:gap-24 max-w-5xl mx-auto">
 
                         <div className="space-y-6">
                             <div className="space-y-3">
                                 <p className="text-xs uppercase tracking-widest text-muted-foreground">
                                     Become a data partner
                                 </p>
-                                <h2 className="text-3xl sm:text-4xl font-semibold leading-none text-primary">
-                                    Put your data inside the workflows shaping marketing decisions.
+                                <h2 className="text-3xl sm:text-4xl font-semibold leading-none text-blue-900">
+                                    Put your data inside the workflows shaping marketing decisions
                                 </h2>
                             </div>
                             <p className="text-lg text-neutral-600 leading-relaxed">
-                                Talk to our team about how ADXC can open a new market for your data,
-                                without disrupting your existing model.
+                                Talk to our team about how ADXC can open a new market for your data.
                             </p>
                         </div>
 
@@ -95,76 +95,80 @@ export function DataProvidersCTA({ prefillEmail = "" }: Props) {
                                     </p>
                                 </div>
                             ) : (
-                                <form action={handleAction} className="space-y-4">
+                                <Card>
+                                    <CardContent>
+                                        <form action={handleAction} className="space-y-4">
 
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div className="space-y-1.5">
-                                            <label className="text-sm text-foreground">First name <span className="text-destructive">*</span></label>
-                                            <Input {...register("firstName")} name="firstName" placeholder="Jane"
-                                                disabled={isPending} aria-invalid={!!errors.firstName} />
-                                            <FormError message={errors.firstName?.message} />
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <label className="text-sm text-foreground">Last name <span className="text-destructive">*</span></label>
-                                            <Input {...register("lastName")} name="lastName" placeholder="Smith"
-                                                disabled={isPending} aria-invalid={!!errors.lastName} />
-                                            <FormError message={errors.lastName?.message} />
-                                        </div>
-                                    </div>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                <div className="space-y-1.5">
+                                                    <label className="text-sm text-foreground">First name <span className="text-destructive">*</span></label>
+                                                    <Input {...register("firstName")} name="firstName" placeholder="Jane"
+                                                        disabled={isPending} aria-invalid={!!errors.firstName} />
+                                                    <FormError message={errors.firstName?.message} />
+                                                </div>
+                                                <div className="space-y-1.5">
+                                                    <label className="text-sm text-foreground">Last name <span className="text-destructive">*</span></label>
+                                                    <Input {...register("lastName")} name="lastName" placeholder="Smith"
+                                                        disabled={isPending} aria-invalid={!!errors.lastName} />
+                                                    <FormError message={errors.lastName?.message} />
+                                                </div>
+                                            </div>
 
-                                    <div className="space-y-1.5">
-                                        <label className="text-sm text-foreground">Email <span className="text-destructive">*</span></label>
-                                        <Input {...register("email")} name="email" type="email" placeholder="you@company.com"
-                                            disabled={isPending} aria-invalid={!!errors.email} />
-                                        <FormError message={errors.email?.message} />
-                                    </div>
+                                            <div className="space-y-1.5">
+                                                <label className="text-sm text-foreground">Email <span className="text-destructive">*</span></label>
+                                                <Input {...register("email")} name="email" type="email" placeholder="you@company.com"
+                                                    disabled={isPending} aria-invalid={!!errors.email} />
+                                                <FormError message={errors.email?.message} />
+                                            </div>
 
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div className="space-y-1.5">
-                                            <label className="text-sm text-foreground">Company <span className="text-destructive">*</span></label>
-                                            <Input {...register("company")} name="company" placeholder="Company name"
-                                                disabled={isPending} aria-invalid={!!errors.company} />
-                                            <FormError message={errors.company?.message} />
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <label className="text-sm text-foreground">Job title <span className="text-destructive">*</span></label>
-                                            <Input {...register("jobTitle")} name="jobTitle" placeholder="Head of Product"
-                                                disabled={isPending} aria-invalid={!!errors.jobTitle} />
-                                            <FormError message={errors.jobTitle?.message} />
-                                        </div>
-                                    </div>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                <div className="space-y-1.5">
+                                                    <label className="text-sm text-foreground">Company <span className="text-destructive">*</span></label>
+                                                    <Input {...register("company")} name="company" placeholder="Company name"
+                                                        disabled={isPending} aria-invalid={!!errors.company} />
+                                                    <FormError message={errors.company?.message} />
+                                                </div>
+                                                <div className="space-y-1.5">
+                                                    <label className="text-sm text-foreground">Job title <span className="text-destructive">*</span></label>
+                                                    <Input {...register("jobTitle")} name="jobTitle" placeholder="Head of Product"
+                                                        disabled={isPending} aria-invalid={!!errors.jobTitle} />
+                                                    <FormError message={errors.jobTitle?.message} />
+                                                </div>
+                                            </div>
 
-                                    <div className="space-y-1.5">
-                                        <label className="text-sm text-foreground">
-                                            Message <span className="text-muted-foreground/60 text-xs">(optional)</span>
-                                        </label>
-                                        <Textarea {...register("message")} name="message" rows={4}
-                                            placeholder="Tell us about your platform and what you're hoping to achieve..."
-                                            disabled={isPending} className="resize-none" />
-                                    </div>
+                                            <div className="space-y-1.5">
+                                                <label className="text-sm text-foreground">
+                                                    Message <span className="text-muted-foreground/60 text-xs">(optional)</span>
+                                                </label>
+                                                <Textarea {...register("message")} name="message" rows={4}
+                                                    placeholder="Tell us about your platform and what you're hoping to achieve..."
+                                                    disabled={isPending} className="resize-none" />
+                                            </div>
 
-                                    <Turnstile ref={turnstileRef} siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-                                        onSuccess={(token) => setTurnstileToken(token)}
-                                        onError={() => setTurnstileToken("")}
-                                        onExpire={() => setTurnstileToken("")} />
+                                            <Turnstile ref={turnstileRef} siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                                                onSuccess={(token) => setTurnstileToken(token)}
+                                                onError={() => setTurnstileToken("")}
+                                                onExpire={() => setTurnstileToken("")} />
 
-                                    {localStatus.status === "error" && (
-                                        <p className="text-sm text-destructive">{localStatus.error}</p>
-                                    )}
+                                            {localStatus.status === "error" && (
+                                                <p className="text-sm text-destructive">{localStatus.error}</p>
+                                            )}
 
-                                    <Button type="submit" disabled={isPending || !turnstileToken || !isValid}
-                                        className="w-full group" size="lg">
-                                        {isPending ? "Sending…" : "Get in touch"}
-                                        <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                                    </Button>
+                                            <Button type="submit" disabled={isPending || !turnstileToken || !isValid}
+                                                className="w-full group" size="lg">
+                                                {isPending ? "Sending…" : "Get in touch"}
+                                                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                                            </Button>
 
-                                    {!isValid && (
-                                        <p className="text-xs text-neutral-600 text-center">
-                                            Please fill in all the fields above before submitting.
-                                        </p>
-                                    )}
+                                            {!isValid && (
+                                                <p className="text-xs text-neutral-600 text-center">
+                                                    Please fill in all the fields above before submitting.
+                                                </p>
+                                            )}
 
-                                </form>
+                                        </form>
+                                    </CardContent>
+                                </Card>
                             )}
                         </div>
 
