@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { BrandsHero } from "@/components/sections/brands/hero"
+import { BrandsDataProviders } from "@/components/sections/brands/data-providers"
 import { BrandsProblem } from "@/components/sections/brands/problem"
 import { BrandsHowItWorks } from "@/components/sections/brands/how-it-works"
 import { BrandsIntegrations } from "@/components/sections/brands/integrations"
@@ -15,6 +16,7 @@ export default function BrandsPage() {
     return (
         <>
             <BrandsHero />
+            <BrandsDataProviders />
             <BrandsProblem />
             <BrandsHowItWorks />
             <BrandsIntegrations />

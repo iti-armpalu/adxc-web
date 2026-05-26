@@ -1,4 +1,5 @@
 import { FadeIn } from "@/components/ui/fade-in"
+import { Separator } from "@/components/ui/separator"
 
 export function BrandsProblem() {
     const scenarios = [
@@ -8,25 +9,29 @@ export function BrandsProblem() {
     ]
 
     return (
-        <FadeIn>
-            <section className="border-t border-border/50">
+        <section
+            style={{
+                background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand) 80%)",
+            }}
+        >
+            <FadeIn>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
-                    <div className="max-w-3xl mx-auto space-y-8">
+                    <div className="max-w-3xl mx-auto space-y-8 text-primary-foreground">
                         {scenarios.map((scenario, i) => (
-                            <div key={i} className="border-t border-foreground/80 pt-8">
-                                <p className="text-lg sm:text-xl text-foreground leading-relaxed">
+                            <div key={i}>
+                                <p className="text-lg sm:text-xl leading-relaxed pb-8">
                                     {scenario}
                                 </p>
+                                <Separator />
                             </div>
                         ))}
-                        <div className="border-t border-foreground/80 pt-8">
-                            <p className="text-2xl sm:text-3xl font-semibold text-brand-bright">
-                                Sound familiar?
-                            </p>
-                        </div>
+                        <p className="text-2xl sm:text-3xl font-semibold">
+                            Sound familiar?
+                        </p>
                     </div>
                 </div>
-            </section>
-        </FadeIn>
+            </FadeIn>
+        </section>
+
     )
 }
