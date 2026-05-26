@@ -52,16 +52,16 @@ export const siteConfig = {
                     icon: "TrendingUp",
                 },
                 {
-                    label: "For Agencies",
-                    href: "/for/agencies",
-                    description: "Unified data for your clients",
-                    icon: "Users",
-                },
-                {
                     label: "For Data Providers",
                     href: "/for/data-providers",
                     description: "Monetise your data without overhead",
                     icon: "Database",
+                },
+                {
+                    label: "For Agencies",
+                    href: "/for/agencies",
+                    description: "Unified data for your clients",
+                    icon: "Users",
                 },
                 {
                     label: "For AI Platforms",
