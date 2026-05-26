@@ -70,13 +70,10 @@ export function DataProvidersList() {
 
                     <div className="space-y-4 mb-16">
                         <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary max-w-2xl leading-none">
-                            Powered by best-in-class
-                            <span className="block">intelligence partners</span>
+                            Title
                         </h2>
                         <p className="text-lg text-neutral-600 leading-relaxed max-w-2xl">
-                            ADXC combines world-leading consumer research, AI-driven market
-                            intelligence, and real-time social data — so every insight is built
-                            on trusted foundations.
+                            Subtitle
                         </p>
                     </div>
 
@@ -116,10 +113,6 @@ export function DataProvidersList() {
                             </Card>
                         ))}
                     </div>
-
-                    <p className="text-sm text-muted-foreground mt-8">
-                        More data providers coming soon throughout 2026.
-                    </p>
 
                 </div>
             </section>

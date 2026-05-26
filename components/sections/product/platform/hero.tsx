@@ -10,11 +10,11 @@ export function PlatformHero() {
                         <p className="text-xs uppercase tracking-widest text-muted-foreground">
                             The platform
                         </p>
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-foreground leading-tight">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold sm:font-medium tracking-tight text-foreground leading-none">
                             ADXC: The Agentic
                             <span className="block text-brand-bright">Data Exchange</span>
                         </h1>
-                        <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
+                        <p className="text-lg text-foreground leading-relaxed max-w-xl">
                             Consumer insight for AI agents.
                         </p>
                     </div>

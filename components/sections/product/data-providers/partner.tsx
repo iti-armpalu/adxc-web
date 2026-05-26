@@ -13,6 +13,7 @@ import { FormError } from "@/components/ui/form-error"
 import { ArrowRight, CheckCircle } from "lucide-react"
 import { identifyUser } from "@/lib/analytics/events"
 import { FadeIn } from "@/components/ui/fade-in"
+import { Card, CardContent } from "@/components/ui/card"
 
 const schema = z.object({
     firstName: z.string().min(1, "First name is required"),
@@ -61,36 +62,24 @@ export function DataProvidersPartner() {
 
     return (
         <FadeIn>
-            <section className="border-t border-border/50">
+            <section className="bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-5xl mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 sm:gap-24 max-w-5xl mx-auto">
 
                         {/* Left */}
                         <div className="space-y-6">
                             <div className="space-y-3">
                                 <p className="text-xs uppercase tracking-widest text-muted-foreground">
-                                    Data providers
+                                    Become a data partner
                                 </p>
-                                <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+                                <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
                                     Are you a data provider
-                                    <span className="block text-brand-bright">interested in joining?</span>
+                                    <span className="block">interested in joining?</span>
                                 </h2>
                             </div>
-                            <p className="text-lg text-muted-foreground leading-relaxed">
-                                Become a partner and unlock a new market for your data through AI agents.
+                            <p className="text-lg text-neutral-600 leading-relaxed">
+                                Become a partner and unlock a new market for your data.
                             </p>
-                            <div className="space-y-3 pt-2">
-                                {[
-                                    "New revenue from SMEs who can't afford enterprise subscriptions",
-                                    "Your IP stays protected — datasets are never copied or stored",
-                                    "Your brand attributed to every synthesised answer",
-                                ].map((point) => (
-                                    <div key={point} className="flex items-start gap-2.5">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-brand-bright shrink-0 mt-2" />
-                                        <p className="text-sm text-muted-foreground leading-relaxed">{point}</p>
-                                    </div>
-                                ))}
-                            </div>
                         </div>
 
                         {/* Right — form */}
@@ -104,76 +93,84 @@ export function DataProvidersPartner() {
                                     </p>
                                 </div>
                             ) : (
-                                <form action={handleAction} className="space-y-4">
 
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div className="space-y-1.5">
-                                            <label className="text-sm text-muted-foreground">First name <span className="text-destructive">*</span></label>
-                                            <Input {...register("firstName")} name="firstName" placeholder="Jane"
-                                                disabled={isPending} aria-invalid={!!errors.firstName} />
-                                            <FormError message={errors.firstName?.message} />
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <label className="text-sm text-muted-foreground">Last name <span className="text-destructive">*</span></label>
-                                            <Input {...register("lastName")} name="lastName" placeholder="Smith"
-                                                disabled={isPending} aria-invalid={!!errors.lastName} />
-                                            <FormError message={errors.lastName?.message} />
-                                        </div>
-                                    </div>
+                                <Card>
+                                    <CardContent>
 
-                                    <div className="space-y-1.5">
-                                        <label className="text-sm text-muted-foreground">Work email <span className="text-destructive">*</span></label>
-                                        <Input {...register("email")} name="email" type="email" placeholder="you@company.com"
-                                            disabled={isPending} aria-invalid={!!errors.email} />
-                                        <FormError message={errors.email?.message} />
-                                    </div>
+                                        <form action={handleAction} className="space-y-4">
 
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <div className="space-y-1.5">
-                                            <label className="text-sm text-muted-foreground">Company <span className="text-destructive">*</span></label>
-                                            <Input {...register("company")} name="company" placeholder="Company name"
-                                                disabled={isPending} aria-invalid={!!errors.company} />
-                                            <FormError message={errors.company?.message} />
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <label className="text-sm text-muted-foreground">Job title <span className="text-destructive">*</span></label>
-                                            <Input {...register("jobTitle")} name="jobTitle" placeholder="Head of Partnerships"
-                                                disabled={isPending} aria-invalid={!!errors.jobTitle} />
-                                            <FormError message={errors.jobTitle?.message} />
-                                        </div>
-                                    </div>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                <div className="space-y-1.5">
+                                                    <label className="text-sm text-muted-foreground">First name <span className="text-destructive">*</span></label>
+                                                    <Input {...register("firstName")} name="firstName" placeholder="Jane"
+                                                        disabled={isPending} aria-invalid={!!errors.firstName} />
+                                                    <FormError message={errors.firstName?.message} />
+                                                </div>
+                                                <div className="space-y-1.5">
+                                                    <label className="text-sm text-muted-foreground">Last name <span className="text-destructive">*</span></label>
+                                                    <Input {...register("lastName")} name="lastName" placeholder="Smith"
+                                                        disabled={isPending} aria-invalid={!!errors.lastName} />
+                                                    <FormError message={errors.lastName?.message} />
+                                                </div>
+                                            </div>
 
-                                    <div className="space-y-1.5">
-                                        <label className="text-sm text-muted-foreground">
-                                            Message <span className="text-muted-foreground/60 text-xs">(optional)</span>
-                                        </label>
-                                        <Textarea {...register("message")} name="message" rows={4}
-                                            placeholder="Tell us about your data..."
-                                            disabled={isPending} className="resize-none" />
-                                    </div>
+                                            <div className="space-y-1.5">
+                                                <label className="text-sm text-muted-foreground">Work email <span className="text-destructive">*</span></label>
+                                                <Input {...register("email")} name="email" type="email" placeholder="you@company.com"
+                                                    disabled={isPending} aria-invalid={!!errors.email} />
+                                                <FormError message={errors.email?.message} />
+                                            </div>
 
-                                    <Turnstile ref={turnstileRef} siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-                                        onSuccess={(token) => setTurnstileToken(token)}
-                                        onError={() => setTurnstileToken("")}
-                                        onExpire={() => setTurnstileToken("")} />
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                <div className="space-y-1.5">
+                                                    <label className="text-sm text-muted-foreground">Company <span className="text-destructive">*</span></label>
+                                                    <Input {...register("company")} name="company" placeholder="Company name"
+                                                        disabled={isPending} aria-invalid={!!errors.company} />
+                                                    <FormError message={errors.company?.message} />
+                                                </div>
+                                                <div className="space-y-1.5">
+                                                    <label className="text-sm text-muted-foreground">Job title <span className="text-destructive">*</span></label>
+                                                    <Input {...register("jobTitle")} name="jobTitle" placeholder="Head of Partnerships"
+                                                        disabled={isPending} aria-invalid={!!errors.jobTitle} />
+                                                    <FormError message={errors.jobTitle?.message} />
+                                                </div>
+                                            </div>
 
-                                    {localStatus.status === "error" && (
-                                        <p className="text-sm text-destructive">{localStatus.error}</p>
-                                    )}
+                                            <div className="space-y-1.5">
+                                                <label className="text-sm text-muted-foreground">
+                                                    Message <span className="text-muted-foreground/60 text-xs">(optional)</span>
+                                                </label>
+                                                <Textarea {...register("message")} name="message" rows={4}
+                                                    placeholder="Tell us about your data..."
+                                                    disabled={isPending} className="resize-none" />
+                                            </div>
 
-                                    <Button type="submit" disabled={isPending || !turnstileToken || !isValid}
-                                        className="w-full group" size="lg">
-                                        {isPending ? "Sending…" : "Become a partner"}
-                                        <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                                    </Button>
+                                            <Turnstile ref={turnstileRef} siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                                                onSuccess={(token) => setTurnstileToken(token)}
+                                                onError={() => setTurnstileToken("")}
+                                                onExpire={() => setTurnstileToken("")} />
 
-                                    {!isValid && (
-                                        <p className="text-xs text-muted-foreground text-center">
-                                            Please fill in all the fields above before submitting.
-                                        </p>
-                                    )}
+                                            {localStatus.status === "error" && (
+                                                <p className="text-sm text-destructive">{localStatus.error}</p>
+                                            )}
 
-                                </form>
+                                            <Button type="submit" disabled={isPending || !turnstileToken || !isValid}
+                                                className="w-full group" size="lg">
+                                                {isPending ? "Sending…" : "Become a partner"}
+                                                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                                            </Button>
+
+                                            {!isValid && (
+                                                <p className="text-xs text-muted-foreground text-center">
+                                                    Please fill in all the fields above before submitting.
+                                                </p>
+                                            )}
+
+                                        </form>
+
+                                    </CardContent>
+                                </Card>
+
                             )}
                         </div>
 
