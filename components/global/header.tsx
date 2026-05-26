@@ -24,6 +24,7 @@ import {
     trackNavLinkClicked,
 } from "@/lib/analytics/events"
 import { createPortal } from "react-dom"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
 
 // ─── Icon registry ────────────────────────────────────────────────────────────
 
@@ -193,7 +194,7 @@ function DesktopNav({ pathname, openPanel, togglePanel }: NavProps) {
                                 "px-3.5 py-2 text-sm rounded-md transition-colors",
                                 active
                                     ? "text-foreground font-medium"
-                                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                    : "text-ghost-foreground hover:text-primary hover:bg-muted/50"
                             )}
                         >
                             {group.label}
@@ -211,7 +212,7 @@ function DesktopNav({ pathname, openPanel, togglePanel }: NavProps) {
                             "flex items-center gap-1 px-3.5 py-2 text-sm rounded-md transition-colors",
                             active || panelOpen
                                 ? "text-foreground font-medium"
-                                : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                : "text-ghost-foreground hover:text-primary hover:bg-muted/50"
                         )}
                     >
                         {group.label}
@@ -392,6 +393,7 @@ function MegaPanels({ openPanel, latestPosts, headerHeight }: {
                 if (!group.items?.length) return null
                 const isOpen = openPanel === group.label
                 const isResources = group.label === "Resources"
+                const isProduct = group.label === "Product"
 
                 return (
                     <div
@@ -408,13 +410,15 @@ function MegaPanels({ openPanel, latestPosts, headerHeight }: {
                             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5">
                                 <div className={cn(
                                     "grid gap-8",
-                                    isResources ? "grid-cols-[auto_300px]" : "grid-cols-[1fr_300px]"
+                                    "grid-cols-[auto_1fr]"
                                 )}>
-                                    <NavItems group={group} isResources={isResources} />
+                                    <NavItems group={group} />
                                     <div className="border-l border-border/50 pl-8">
                                         {isResources && latestPosts.length > 0
                                             ? <ResourcesPanel posts={latestPosts} />
-                                            : <PartnersPanel />
+                                            : isProduct
+                                                ? <ProductPanel />
+                                                : <PartnersPanel />
                                         }
                                     </div>
                                 </div>
@@ -428,59 +432,105 @@ function MegaPanels({ openPanel, latestPosts, headerHeight }: {
 }
 
 // ─── Nav items grid ───────────────────────────────────────────────────────────
-
-function NavItems({ group, isResources }: { group: NavGroup; isResources: boolean }) {
+function NavItems({ group }: { group: NavGroup }) {
     const pathname = usePathname()
+    const count = group.items?.length ?? 0
 
     return (
-        <div className={cn("grid gap-2",
-            isResources
-                ? "grid-cols-3"
-                : "grid-cols-4"
-        )}>
+        <div
+            className="grid gap-2 min-h-[145px]"
+            style={{ gridTemplateColumns: `repeat(${count}, 210px)` }}
+        >
             {group.items?.map((item) => {
                 if (!item.href) return null
-
                 const active = pathname.startsWith(item.href)
                 const Icon = item.icon ? iconMap[item.icon] : null
 
                 return (
-                    <Link
+                    <Card
                         key={item.href}
-                        href={item.href}
-                        onClick={() => trackNavLinkClicked(item.label, item.href)}
                         className={cn(
-                            "group flex flex-col gap-3 p-4 rounded-md border transition-all duration-150",
-                            isResources && "flex-1",
-                            active
-                                ? "bg-muted border-border text-foreground"
-                                : "border-transparent hover:bg-muted hover:border-border text-foreground/80 hover:text-foreground"
+                            "group transition-all duration-150 hover:border-primary/50",
+                            active && "bg-muted"
                         )}
                     >
-                        {Icon && (
-                            <div className={cn(
-                                "w-8 h-8 rounded-md flex items-center justify-center transition-colors shrink-0",
-                                active
-                                    ? "bg-primary/10 text-primary"
-                                    : "bg-primary/10 text-primary"
-                            )}>
-                                <Icon className="w-4 h-4" />
-                            </div>
-                        )}
-                        <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium leading-none mb-1.5">{item.label}</p>
-                            {item.description && (
-                                <p className="text-xs text-muted-foreground leading-relaxed">{item.description}</p>
-                            )}
-                        </div>
-                        <ArrowRight className={cn(
-                            "w-3.5 h-3.5 text-muted-foreground transition-all duration-150 self-end",
-                            "opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0"
-                        )} />
-                    </Link>
+                        <Link
+                            href={item.href}
+                            onClick={() => trackNavLinkClicked(item.label, item.href)}
+                            className="flex flex-col h-full"
+                        >
+                            <CardHeader>
+                                <div className="flex flex-col items-center gap-3 text-center">
+                                    {Icon && (
+                                        <div
+                                            className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+                                            style={{ backgroundColor: item.color ?? "var(--primary)" }}
+                                        >
+                                            <Icon className="w-5 h-5 text-primary-foreground" />
+                                        </div>
+                                    )}
+                                    <CardTitle className="text-sm font-semibold text-foreground">
+                                        {item.label}
+                                    </CardTitle>
+                                </div>
+                            </CardHeader>
+                            <CardContent className="flex-1 flex flex-col justify-between">
+                                <CardDescription className="text-xs text-neutral-600 leading-relaxed text-center">
+                                    {item.description}
+                                </CardDescription>
+
+                            </CardContent>
+                        </Link>
+                    </Card>
                 )
             })}
         </div>
+    )
+}
+
+
+
+
+
+// ─── Product panel ────────────────────────────────────────────────────────────
+
+function ProductPanel() {
+    return (
+
+        <div className="grid grid-cols-2 gap-8 h-full">
+            <div className="flex flex-col justify-between">
+                <div className="space-y-3">
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest">Patent-pending technology</p>
+                    <p className="text-sm text-foreground font-medium">
+                        ADXC's data orchestration platform is the subject of a US provisional patent application.
+                    </p>
+                </div>
+                <Button asChild size="lg" variant="outline">
+                    <Link href="/product/platform">
+                        Learn more
+                    </Link>
+                </Button>
+
+            </div>
+
+            <div className="h-full flex flex-col justify-between">
+                <div className="space-y-3">
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest">
+                        Get started
+                    </p>
+                    <p className="text-sm text-foreground font-medium">
+                        Access the marketing data you need — pay only for what you use.
+                    </p>
+                </div>
+                <Button asChild size="lg" className="mt-6 w-full">
+                    <Link href="/contact">
+                        Get early access
+                    </Link>
+                </Button>
+            </div>
+
+        </div>
+
     )
 }
 
@@ -529,14 +579,10 @@ function PartnersPanel() {
                 <p className="text-sm text-foreground font-medium leading-snug">
                     Access the marketing data you need — pay only for what you use.
                 </p>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                    ADXC connects brands, agencies, and data providers in a single unified exchange.
-                </p>
             </div>
             <Button asChild size="lg" className="mt-6 w-full">
                 <Link href="/contact">
                     Get early access
-                    <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-0.5" />
                 </Link>
             </Button>
         </div>

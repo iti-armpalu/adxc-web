@@ -2,7 +2,9 @@ export type NavItem = {
     label: string
     href: string
     description?: string
+    longDescription?: string
     icon?: string
+    color?: string
 }
 
 export type NavGroup = {
@@ -26,48 +28,56 @@ export const siteConfig = {
 
     nav: [
         {
+            label: "Why ADXC",
+            items: [
+                {
+                    label: "For Brands",
+                    href: "/for/brands",
+                    description: "Premium data for strategies, briefs and campaigns",
+                    longDescription: "Access premium data for your strategies, briefs and campaigns, without enterprise subscriptions.",
+                    icon: "TrendingUp",
+                    color: "var(--chart-1)",
+                },
+                {
+                    label: "For Agencies",
+                    href: "/for/agencies",
+                    description: "Usage-based data access for every client brief",
+                    longDescription: "Give every client access to the data they need. Usage-based, so costs scale with your work. Earn for referrals.",
+                    icon: "Users",
+                    color: "var(--chart-4)",
+                },
+                {
+                    label: "For Data Providers",
+                    href: "/for/data-providers",
+                    description: "New SME market for your data, pay-per-query",
+                    longDescription: "Unlock a new SME market your enterprise model can't reach. Your data powers AI agents, you earn on every query.",
+                    icon: "Database",
+                    color: "var(--chart-3)",
+                },
+                {
+                    label: "For AI Platforms",
+                    href: "/for/ai-platforms",
+                    description: "One connection, smarter agents, better retention",
+                    longDescription: "Make your agents smarter with premium data. One connection for multiple providers, better outputs, stronger retention.",
+                    icon: "Cpu",
+                    color: "var(--chart-2)",
+                },
+            ],
+        },
+        {
             label: "Product",
             items: [
                 {
                     label: "Platform",
                     href: "/product/platform",
-                    description: "How ADXC works",
+                    description: "How ADXC connects AI agents to premium consumer data",
                     icon: "Layers",
                 },
                 {
-                    label: "For Data Providers",
+                    label: "For data providers",
                     href: "/product/data-providers",
-                    description: "Connect your data to ADXC",
+                    description: "Connect your data to ADXC and unlock a new revenue stream",
                     icon: "Database",
-                },
-            ],
-        },
-        {
-            label: "Partners",
-            items: [
-                {
-                    label: "For Brands",
-                    href: "/for/brands",
-                    description: "Access marketing data on demand",
-                    icon: "TrendingUp",
-                },
-                {
-                    label: "For Data Providers",
-                    href: "/for/data-providers",
-                    description: "Monetise your data without overhead",
-                    icon: "Database",
-                },
-                {
-                    label: "For Agencies",
-                    href: "/for/agencies",
-                    description: "Unified data for your clients",
-                    icon: "Users",
-                },
-                {
-                    label: "For AI Platforms",
-                    href: "/for/ai-platforms",
-                    description: "Structured feeds built for models",
-                    icon: "Cpu",
                 },
             ],
         },
@@ -78,19 +88,19 @@ export const siteConfig = {
                 {
                     label: "FAQs",
                     href: "/faq",
-                    description: "Common questions answered",
+                    description: "Everything you need to know about how ADXC works",
                     icon: "CircleHelp",
                 },
                 {
                     label: "Guides",
                     href: "/guides",
-                    description: "How to get the most from ADXC",
+                    description: "Step-by-step guides to get the most from ADXC",
                     icon: "BookOpen",
                 },
                 {
                     label: "Blog",
                     href: "/blog",
-                    description: "Thinking on data and AI",
+                    description: "Perspectives on data, AI agents and marketing",
                     icon: "Newspaper",
                 },
             ],
