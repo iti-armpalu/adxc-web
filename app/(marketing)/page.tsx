@@ -19,13 +19,7 @@ export default function HomePage() {
 
     return (
         <>
-            {/* Hero with background bleeding behind fixed header */}
-            <div className="relative mt-[var(--header-h)]">
-                <HeroBackground />
-                <div className="relative z-10">
-                    <HeroSection />
-                </div>
-            </div>
+            <HeroSection />
             <PartnersSection />
             <ProblemSection />
             <PlatformSection />
