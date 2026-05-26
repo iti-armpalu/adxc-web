@@ -5,12 +5,12 @@ export function AIPlatformsPartners() {
     return (
 
         <FadeIn>
-            <section className="bg-tyrian-100">
+            <section className="bg-cyan-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
                     <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-12">
 
                         <div className="space-y-3 max-w-xl">
-                            <p className="text-base text-center tracking-tight text-primary">
+                            <p className="text-base text-center tracking-tight text-cyan-950">
                                 Join leading AI platforms
                                 <span className="block">integrated with ADXC</span>
                             </p>
@@ -24,7 +24,7 @@ export function AIPlatformsPartners() {
                                 height={36}
                                 className="h-4 sm:h-8 w-auto object-contain"
                             />
-                            <div className="text-sm text-muted-foreground">
+                            <div className="text-sm text-neutral-600">
                                 More coming soon
                             </div>
                         </div>

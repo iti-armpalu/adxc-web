@@ -5,7 +5,7 @@ export function AIPlatformsWhyNow() {
     return (
         <section
             style={{
-                background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand) 80%)",
+                background: "linear-gradient(135deg, var(--color-cyan-900) 0%, var(--color-cyan-600) 80%)",
             }}
         >
             <FadeIn>
@@ -15,20 +15,17 @@ export function AIPlatformsWhyNow() {
                     <div className="space-y-12 sm:space-y-16 max-w-3xl mx-auto">
 
                         <div className="space-y-4">
-                            <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                            <p className="text-xs uppercase tracking-widest text-neutral-200">
                                 Why this matters now
                             </p>
                             <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary-foreground">
-                                Poor output quality is limiting AI adoption.
+                                Output quality is limiting AI adoption.
                                 <span className="block">Data can be the unlock.</span>
                             </h2>
                         </div>
 
                         <div>
-
-
                             <Separator className="bg-primary-foreground/20" />
-                            {/* Stat 1 */}
 
                             <div className="flex flex-col gap-4 py-8 md:grid md:grid-cols-[220px_1fr] md:items-center">
                                 <div>
@@ -52,10 +49,7 @@ export function AIPlatformsWhyNow() {
                                 </p>
                             </div>
 
-
                             <Separator className="bg-primary-foreground/20" />
-
-                            {/* Stat 2 */}
 
                             <div className="flex flex-col gap-4 py-8 md:grid md:grid-cols-[220px_1fr] md:items-center">
                                 <div>
