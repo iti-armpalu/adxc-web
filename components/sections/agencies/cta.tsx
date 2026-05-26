@@ -20,7 +20,7 @@ export function AgenciesCTA() {
 
     return (
         <FadeIn>
-            <section>
+            <section className="bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
                     <div className="flex flex-col items-center text-center gap-10 max-w-2xl mx-auto">
 

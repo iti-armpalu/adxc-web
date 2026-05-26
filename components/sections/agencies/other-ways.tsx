@@ -23,7 +23,7 @@ const cards = [
 
 export function AgenciesOtherWays() {
     return (
-        <section className="border-t border-border/50 bg-muted/30">
+        <section className="bg-muted/30">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
                 <div className="space-y-10 max-w-5xl mx-auto">
 

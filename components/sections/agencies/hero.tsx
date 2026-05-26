@@ -20,7 +20,7 @@ export function AgenciesHero() {
 
     return (
         <FadeIn>
-            <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-32">
+            <section className="relative w-full max-w-7xl mx-auto px-8 sm:px-6 min-h-[calc(100dvh-var(--header-h))] mt-header flex flex-col justify-center pt-10 xl:pt-0 py-8">
                 <div className="max-w-2xl space-y-10">
 
                     <div className="space-y-6">
