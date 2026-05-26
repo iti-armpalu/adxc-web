@@ -2,7 +2,7 @@ import Image from "next/image"
 import { FadeIn } from "@/components/ui/fade-in"
 
 const providers = [
-    { name: "YouGov", logo: "/yougov-logo.jpg" },
+    { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
     { name: "Quid", logo: "/quid-logo.svg" },
     { name: "Datastreamer", logo: "/datastreamer-logo.webp" },
 ]
