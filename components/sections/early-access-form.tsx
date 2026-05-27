@@ -120,7 +120,7 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
             {/* Email */}
             <div className="space-y-1.5">
                 <label className="text-sm text-muted-foreground">
-                    Work email <span className="text-destructive">*</span>
+                    Email <span className="text-destructive">*</span>
                 </label>
                 <Input
                     {...register("email")}

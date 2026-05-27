@@ -107,7 +107,7 @@ ADXC uses a usage-based pricing model — you pay only for the data you actually
 
 # Getting Access
 
-ADXC is currently in early beta. You can request early access at adxc.ai/early-access by providing your name, work email, company, company size, job title, and what you plan to use ADXC for. The team reviews applications and responds within 2 business days.
+ADXC is currently in early beta. You can request early access at adxc.ai/early-access by providing your name, email, company, company size, job title, and what you plan to use ADXC for. The team reviews applications and responds within 2 business days.
 
 ---
 

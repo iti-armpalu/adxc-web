@@ -18,7 +18,7 @@ import { Card, CardContent } from "@/components/ui/card"
 const schema = z.object({
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
-    email: z.string().email("Valid work email required"),
+    email: z.string().email("Valid email is required"),
     company: z.string().min(1, "Company is required"),
     jobTitle: z.string().min(1, "Job title is required"),
     message: z.string().optional(),
@@ -115,7 +115,7 @@ export function DataProvidersPartner() {
                                             </div>
 
                                             <div className="space-y-1.5">
-                                                <label className="text-sm text-muted-foreground">Work email <span className="text-destructive">*</span></label>
+                                                <label className="text-sm text-muted-foreground">Email <span className="text-destructive">*</span></label>
                                                 <Input {...register("email")} name="email" type="email" placeholder="you@company.com"
                                                     disabled={isPending} aria-invalid={!!errors.email} />
                                                 <FormError message={errors.email?.message} />

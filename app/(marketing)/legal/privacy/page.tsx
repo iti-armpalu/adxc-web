@@ -46,11 +46,11 @@ export default function PrivacyPage() {
                             <ul className="list-disc list-inside space-y-1.5 pt-1">
                                 <li>
                                     <strong className="text-foreground font-medium">Contact form</strong> — first name,
-                                    last name, work email, company name, and message content when you submit an enquiry.
+                                    last name, email, company name, and message content when you submit an enquiry.
                                 </li>
                                 <li>
                                     <strong className="text-foreground font-medium">Early access signup</strong> — first
-                                    name, last name, work email, company name, company size, job title, and intended
+                                    name, last name, email, company name, company size, job title, and intended
                                     use case when requesting beta access.
                                 </li>
                                 <li>

@@ -46,7 +46,7 @@ export function AudienceHero({ config }: Props) {
                         <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
                             <Input
                                 type="email"
-                                placeholder="Enter your work email"
+                                placeholder="Enter your email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="flex-1 h-11"
