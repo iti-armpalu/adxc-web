@@ -5,7 +5,7 @@ export function AgenciesIntegrations() {
     return (
         <section
             style={{
-                background: "linear-gradient(200deg, var(--color-yellow-950) 0%, var(--color-yellow-700) 70%, var(--color-yellow-600) 100%)",
+                background: "linear-gradient(200deg, var(--color-orange-950) 0%, var(--color-orange-700) 70%, var(--color-orange-500) 100%)",
             }}
         >
             <FadeIn>

@@ -54,7 +54,7 @@ export function AgenciesHowItWorks() {
 
                     {/* Section header */}
                     <div className="space-y-3 mb-16">
-                        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-yellow-900 max-w-xl leading-none">
+                        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-orange-900 max-w-xl leading-none">
                             How ADXC works for you
                         </h2>
                     </div>
@@ -65,10 +65,10 @@ export function AgenciesHowItWorks() {
                             return (
                                 <Card key={i}>
                                     <CardHeader>
-                                        <div className="w-10 h-10 rounded-md bg-yellow-600 flex items-center justify-center mb-4 shrink-0">
+                                        <div className="w-10 h-10 rounded-md bg-orange-600 flex items-center justify-center mb-4 shrink-0">
                                             <Icon className="w-5 h-5 text-primary-foreground" strokeWidth={1.5} />
                                         </div>
-                                        <CardTitle className="text-base text-yellow-900">{benefit.title}</CardTitle>
+                                        <CardTitle className="text-base text-orange-900">{benefit.title}</CardTitle>
                                         <p className="text-sm font-medium text-foreground mt-1">
                                             {benefit.lead}
                                         </p>

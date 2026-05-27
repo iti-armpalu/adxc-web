@@ -23,13 +23,13 @@ const cards = [
 
 export function AgenciesOtherWays() {
     return (
-        <section className="bg-yellow-50">
+        <section className="bg-orange-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
                 <div className="space-y-10 max-w-5xl mx-auto">
 
                     <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_1fr] items-start">
 
-                        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-yellow-900 leading-none sm:pr-16 mb-6 sm:mb-0">
+                        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-orange-900 leading-none sm:pr-16 mb-6 sm:mb-0">
                             Other ways to work with us
                         </h2>
 
