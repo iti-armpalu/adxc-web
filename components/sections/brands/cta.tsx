@@ -25,7 +25,7 @@ export function BrandsCTA() {
                     <div className="flex flex-col items-center text-center gap-10 max-w-2xl mx-auto">
 
                         <div className="space-y-4">
-                            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary leading-none">
+                            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-purple-700 leading-none">
                                 Get early access to ADXC
                             </h2>
                             <p className="text-lg text-neutral-600 leading-relaxed">

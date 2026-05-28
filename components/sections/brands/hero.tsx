@@ -24,9 +24,9 @@ export function BrandsHero() {
         <FadeIn>
             <section className="relative w-full mt-header">
                 <HeroBackground
-                    gradientFrom="var(--color-tyrian-700)"
-                    gradientTo="var(--color-tyrian-950)"
-                    glowColor="var(--color-tyrian-500)"
+                    gradientFrom="var(--color-purple-700)"
+                    gradientTo="var(--color-purple-950)"
+                    glowColor="var(--color-purple-500)"
                 />
                 <div className="relative z-10 max-w-7xl mx-auto px-8 sm:px-6 min-h-[calc(100dvh-var(--header-h))] flex flex-col justify-center pt-10 xl:pt-0 py-8">
                     <div className="max-w-2xl space-y-10">
@@ -37,7 +37,7 @@ export function BrandsHero() {
                             </p>
                             <h1 className="text-4xl sm:text-5xl md:text-6xl tracking-tight text-foreground leading-none font-medium">
                                 Real data. Real answers.
-                                <span className="block text-brand-bright">For real budgets.</span>
+                                <span className="block text-purple-400">For real budgets.</span>
                             </h1>
                             <p className="text-lg text-foreground leading-relaxed max-w-2xl">
                                 ADXC is built for businesses who need consumer insight on demand, but

@@ -11,7 +11,7 @@ export function BrandsProblem() {
     return (
         <section
             style={{
-                background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand) 80%)",
+                background: "linear-gradient(135deg, var(--color-purple-800) 0%, var(--color-purple-600) 80%)",
             }}
         >
             <FadeIn>
