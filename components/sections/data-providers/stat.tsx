@@ -1,18 +1,20 @@
-import { FadeIn } from "@/components/ui/fade-in";
+import { FadeIn } from "@/components/ui/fade-in"
 
 export function DataProvidersStat() {
     return (
         <FadeIn>
-            <section className="bg-blue-50">
+            <section className="bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-3xl mx-auto">
 
-                        {/* Left — stat */}
-                        <div className="space-y-1">
+                        {/* Left — stat. text-7xl/8xl intentionally exceeds DS scale for impact */}
+                        <div className="space-y-2">
                             <p className="text-7xl sm:text-8xl font-semibold tracking-tight text-blue-900 leading-none">
                                 &gt;99%
                             </p>
-                            <div className="mt-2 text-sm font-medium text-blue-950 md:text-base">of businesses are SMEs</div>
+                            <p className="text-sm md:text-base font-medium text-blue-950">
+                                of businesses are SMEs
+                            </p>
                         </div>
 
                         {/* Right — explainer */}

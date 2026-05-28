@@ -19,8 +19,8 @@ export default function DataProvidersPageClient() {
             <DataProvidersWhyNow />
             <DataProvidersHowItWorks />
             <DataProvidersDistribution />
-            <DataProvidersPartners />
             <DataProvidersCTA prefillEmail={sharedEmail} />
+            <DataProvidersPartners />
         </>
     )
 }

@@ -14,12 +14,9 @@ export function BrandsPartners() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
                     <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-12">
 
-                        <div className="space-y-3 max-w-xl">
-                            <p className="text-base text-center tracking-tight text-purple-700">
-                                Partnering with the world's leading agencies,
-                                <span className="block">data providers and AI platforms</span>
-                            </p>
-                        </div>
+                        <p className="text-base text-center text-purple-950 shrink-0 max-w-xs">
+                            Partnering with the world's leading agencies, data providers and AI platforms
+                        </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
                             {partners.map((p) => (

@@ -7,33 +7,27 @@ const stats = [
 
 export function DataProvidersDistribution() {
     return (
-        <section
-            style={{
-                background: "linear-gradient(200deg, var(--color-blue-900) 0%, var(--color-blue-600) 50%, var(--color-blue-400) 100%)",
-            }}
-        >
+        <section className="bg-blue-50">
             <FadeIn>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
 
                         {/* Left — copy */}
                         <div className="space-y-8">
-                            <div className="space-y-3">
-                                <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary-foreground leading-none">
-                                    Built-in distribution from day one.
-                                </h2>
-                            </div>
+                            <h2 className="text-blue-900">
+                                Built-in distribution from day one.
+                            </h2>
 
                             <div className="space-y-4">
-                                <p className="text-lg text-neutral-100 font-medium leading-relaxed">
+                                <p className="text-lg text-blue-950 font-medium leading-relaxed">
                                     ADXC is integrated with Miro, putting your data within reach of 100M marketers
                                     who plan, create and make decisions there every day.
                                 </p>
-                                <p className="text-sm text-neutral-200 leading-relaxed">
+                                <p className="text-sm text-blue-900 leading-relaxed">
                                     Your data is available to them the moment they need it, inside the
                                     tool they're already using, without asking them to change how they work.
                                 </p>
-                                <p className="text-sm text-neutral-200 leading-relaxed">
+                                <p className="text-sm text-blue-900 leading-relaxed">
                                     More platform integrations are launching throughout 2026.
                                 </p>
                             </div>
@@ -41,7 +35,7 @@ export function DataProvidersDistribution() {
                             {/* Stats row */}
                             <div className="flex items-center gap-10 pt-2">
                                 <div className="space-y-2">
-                                    <p className="text-xs text-primary-foreground uppercase tracking-widest">Integrated with</p>
+                                    <p className="text-caption text-blue-700">Integrated with</p>
                                     <Image
                                         src="/miro-logo.svg"
                                         alt="Miro"
@@ -51,12 +45,11 @@ export function DataProvidersDistribution() {
                                     />
                                 </div>
                                 {stats.map((s) => (
-                                    <div key={s.label} className="border-l border-border pl-10 space-y-2">
-                                        <p className="text-3xl font-semibold text-primary-foreground">{s.value}</p>
-                                        <p className="text-xs text-primary-foreground uppercase tracking-widest">{s.label}</p>
+                                    <div key={s.label} className="border-l border-blue-200 pl-10 space-y-2">
+                                        <p className="text-3xl font-semibold text-blue-900">{s.value}</p>
+                                        <p className="text-caption text-blue-700">{s.label}</p>
                                     </div>
                                 ))}
-
                             </div>
                         </div>
 
@@ -67,7 +60,7 @@ export function DataProvidersDistribution() {
                                 alt="ADXC inside Miro canvas"
                                 width={800}
                                 height={560}
-                                className="w-full rounded-xl object-cover shadow-lg"
+                                className="w-full rounded-lg object-cover shadow-lg"
                             />
                         </div>
 

@@ -10,8 +10,7 @@ export function BrandsCTA() {
     const [email, setEmail] = useState("")
     const router = useRouter()
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
+    const handleSubmit = () => {
         const dest = email
             ? `/early-access?email=${encodeURIComponent(email)}`
             : "/early-access"
@@ -25,17 +24,16 @@ export function BrandsCTA() {
                     <div className="flex flex-col items-center text-center gap-10 max-w-2xl mx-auto">
 
                         <div className="space-y-4">
-                            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-purple-700 leading-none">
+                            <h2 className="text-primary">
                                 Get early access to ADXC
                             </h2>
-                            <p className="text-lg text-neutral-600 leading-relaxed">
+                            <p className="text-lg text-muted-foreground leading-relaxed">
                                 Join the beta and be one of the first to access premium marketing
                                 data through your AI agents.
                             </p>
                         </div>
 
-
-                        <form onSubmit={handleSubmit} className="w-full max-w-md">
+                        <div className="w-full max-w-md">
                             <div className="flex flex-col sm:flex-row gap-3">
                                 <Input
                                     type="email"
@@ -44,15 +42,15 @@ export function BrandsCTA() {
                                     onChange={(e) => setEmail(e.target.value)}
                                     className="h-10"
                                 />
-                                <Button type="submit" size="lg" className="shrink-0">
+                                <Button size="lg" onClick={handleSubmit} className="shrink-0 h-10">
                                     Get early access
                                 </Button>
                             </div>
-                        </form>
+                        </div>
+
                     </div>
                 </div>
             </section>
         </FadeIn>
     )
 }
-

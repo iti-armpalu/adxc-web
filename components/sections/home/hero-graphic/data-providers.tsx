@@ -3,17 +3,21 @@
 import Image from "next/image"
 import { PROVIDER_DOTS, QUESTION_PROVIDERS, STEP_MS } from "./constants"
 
-const WIDTH = 240
-const HEIGHT = 380
-const BALL_CX = -110
-const BALL_CY = HEIGHT / 2
+const BASE_WIDTH = 240
+const BASE_HEIGHT = 380
+const BALL_CX_OFFSET = -110
 const BALL_R = 96
 
 interface DataProvidersProps {
     activeQuestion: number
+    scale?: number
 }
 
-export function DataProviders({ activeQuestion }: DataProvidersProps) {
+export function DataProviders({ activeQuestion, scale = 1 }: DataProvidersProps) {
+    const WIDTH = Math.round(BASE_WIDTH * scale)
+    const HEIGHT = Math.round(BASE_HEIGHT * scale)
+    const BALL_CX = Math.round(BALL_CX_OFFSET * scale)
+    const BALL_CY = HEIGHT / 2
     const idx = ((activeQuestion % QUESTION_PROVIDERS.length) + QUESTION_PROVIDERS.length) % QUESTION_PROVIDERS.length
     const active = new Set(QUESTION_PROVIDERS[idx])
     const cycleDur = (STEP_MS * 0.9) / 1000
@@ -32,7 +36,7 @@ export function DataProviders({ activeQuestion }: DataProvidersProps) {
                     const cx = (p.x / 100) * WIDTH
                     const cy = (p.y / 100) * HEIGHT
                     const isActive = active.has(i)
-                    const r = p.size / 2
+                    const r = (p.size * scale) / 2
                     const color = p.logo ? "343 10% 75%" : (p.color ?? "343 47% 58%")
 
                     const t = PROVIDER_DOTS.length === 1 ? 0.5 : rankOf[i] / (PROVIDER_DOTS.length - 1)
@@ -63,14 +67,15 @@ export function DataProviders({ activeQuestion }: DataProvidersProps) {
                                 style={{ opacity: isActive ? 0.9 : 0, transition: "opacity 900ms cubic-bezier(0.4, 0, 0.2, 1)" }} />
                             {isActive && (
                                 <>
-                                    <circle r="3.5" fill="#F9EEF5" stroke="#C46184" strokeWidth="1" strokeOpacity="0.5" opacity="0">
+                                    <circle r="3.5" fill="#FFE5F0" stroke="#C46184" strokeWidth="1" fillOpacity={0.5} strokeOpacity={0.5}>
                                         <animate attributeName="opacity" values="0;0;1;1;0;0"
                                             keyTimes="0;0.249;0.25;0.499;0.5;1" dur={`${cycleDur}s`} repeatCount="1" fill="freeze" />
                                         <animateMotion path={d} dur={`${cycleDur}s`}
                                             keyPoints="0;0;1;1;1;1" keyTimes="0;0.25;0.5;0.5;0.75;1"
                                             calcMode="linear" repeatCount="1" fill="freeze" />
                                     </circle>
-                                    <circle r="3.5" fill="#C46184" opacity="0">
+
+                                    <circle r="3.5" fill="#FFFFFF" stroke="#C46184" strokeWidth="1">
                                         <animate attributeName="opacity" values="0;0;1;1;0;0"
                                             keyTimes="0;0.499;0.5;0.749;0.75;1" dur={`${cycleDur}s`} repeatCount="1" fill="freeze" />
                                         <animateMotion path={d} dur={`${cycleDur}s`}
@@ -93,7 +98,7 @@ export function DataProviders({ activeQuestion }: DataProvidersProps) {
                     <div key={i} className="absolute rounded-full flex items-center justify-center overflow-hidden"
                         style={{
                             left: `${p.x}%`, top: `${p.y}%`,
-                            width: p.size, height: p.size,
+                            width: p.size * scale, height: p.size * scale,
                             transform: `translate(-50%, -50%) scale(${isActive ? 1.05 : 1})`,
                             transition: `transform ${DUR}ms ${EASE}`,
                             willChange: "transform",

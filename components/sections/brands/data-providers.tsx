@@ -5,21 +5,18 @@ const dataProviders = [
     { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
     { name: "Reddit", logo: "/reddit-logo-horizontal.png" },
     { name: "X", logo: "/x-logo.jpg" },
-    { name: "Quid", logo: "/quid-logo.svg" },
 ]
 
 export function BrandsDataProviders() {
     return (
         <FadeIn>
-            <section className="bg-purple-50">
+            <section className="bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
                     <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-12">
 
-                        <div className="space-y-3 max-w-xl">
-                            <p className="text-base text-center tracking-tight text-purple-700">
-                                Access data from
-                            </p>
-                        </div>
+                        <p className="text-caption text-muted-foreground shrink-0">
+                            Access data from
+                        </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
                             {dataProviders.map((p) => (
@@ -32,6 +29,7 @@ export function BrandsDataProviders() {
                                     className="h-4 sm:h-6 w-auto object-contain"
                                 />
                             ))}
+                            <p className="text-sm text-muted-foreground">More coming soon</p>
                         </div>
 
                     </div>

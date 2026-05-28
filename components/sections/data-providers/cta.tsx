@@ -8,6 +8,7 @@ import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile"
 import { submitDataProviderEnquiry, type DataProviderEnquiryState } from "@/lib/data-provider-enquiry/actions"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { FormError } from "@/components/ui/form-error"
 import { ArrowRight, CheckCircle } from "lucide-react"
@@ -66,20 +67,20 @@ export function DataProvidersCTA({ prefillEmail = "" }: Props) {
 
     return (
         <FadeIn>
-            <section id="cta-data-rovider" className="bg-white">
+            <section id="cta-data-provider" className="bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 sm:gap-24 max-w-5xl mx-auto">
 
                         <div className="space-y-6">
                             <div className="space-y-3">
-                                <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                                <p className="text-caption text-muted-foreground">
                                     Become a data partner
                                 </p>
-                                <h2 className="text-3xl sm:text-4xl font-semibold leading-none text-blue-900">
+                                <h2 className="text-primary">
                                     Put your data inside the workflows shaping marketing decisions
                                 </h2>
                             </div>
-                            <p className="text-lg text-neutral-600 leading-relaxed">
+                            <p className="text-lg text-muted-foreground leading-relaxed">
                                 Talk to our team about how ADXC can open a new market for your data.
                             </p>
                         </div>
@@ -90,7 +91,7 @@ export function DataProvidersCTA({ prefillEmail = "" }: Props) {
                                 <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
                                     <CheckCircle className="w-10 h-10 text-success" />
                                     <h3 className="text-xl font-semibold text-foreground">Enquiry received</h3>
-                                    <p className="text-neutral-600 max-w-sm text-sm leading-relaxed">
+                                    <p className="text-muted-foreground max-w-sm text-sm leading-relaxed">
                                         Thanks for reaching out. We'll be in touch within 2 business days.
                                     </p>
                                 </div>
@@ -101,13 +102,13 @@ export function DataProvidersCTA({ prefillEmail = "" }: Props) {
 
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 <div className="space-y-1.5">
-                                                    <label className="text-sm text-foreground">First name <span className="text-destructive">*</span></label>
+                                                    <Label>First name <span className="text-destructive">*</span></Label>
                                                     <Input {...register("firstName")} name="firstName" placeholder="Jane"
                                                         disabled={isPending} aria-invalid={!!errors.firstName} />
                                                     <FormError message={errors.firstName?.message} />
                                                 </div>
                                                 <div className="space-y-1.5">
-                                                    <label className="text-sm text-foreground">Last name <span className="text-destructive">*</span></label>
+                                                    <Label>Last name <span className="text-destructive">*</span></Label>
                                                     <Input {...register("lastName")} name="lastName" placeholder="Smith"
                                                         disabled={isPending} aria-invalid={!!errors.lastName} />
                                                     <FormError message={errors.lastName?.message} />
@@ -115,7 +116,7 @@ export function DataProvidersCTA({ prefillEmail = "" }: Props) {
                                             </div>
 
                                             <div className="space-y-1.5">
-                                                <label className="text-sm text-foreground">Email <span className="text-destructive">*</span></label>
+                                                <Label>Email <span className="text-destructive">*</span></Label>
                                                 <Input {...register("email")} name="email" type="email" placeholder="you@company.com"
                                                     disabled={isPending} aria-invalid={!!errors.email} />
                                                 <FormError message={errors.email?.message} />
@@ -123,13 +124,13 @@ export function DataProvidersCTA({ prefillEmail = "" }: Props) {
 
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 <div className="space-y-1.5">
-                                                    <label className="text-sm text-foreground">Company <span className="text-destructive">*</span></label>
+                                                    <Label>Company <span className="text-destructive">*</span></Label>
                                                     <Input {...register("company")} name="company" placeholder="Company name"
                                                         disabled={isPending} aria-invalid={!!errors.company} />
                                                     <FormError message={errors.company?.message} />
                                                 </div>
                                                 <div className="space-y-1.5">
-                                                    <label className="text-sm text-foreground">Job title <span className="text-destructive">*</span></label>
+                                                    <Label>Job title <span className="text-destructive">*</span></Label>
                                                     <Input {...register("jobTitle")} name="jobTitle" placeholder="Head of Product"
                                                         disabled={isPending} aria-invalid={!!errors.jobTitle} />
                                                     <FormError message={errors.jobTitle?.message} />
@@ -137,9 +138,9 @@ export function DataProvidersCTA({ prefillEmail = "" }: Props) {
                                             </div>
 
                                             <div className="space-y-1.5">
-                                                <label className="text-sm text-foreground">
+                                                <Label>
                                                     Message <span className="text-muted-foreground/60 text-xs">(optional)</span>
-                                                </label>
+                                                </Label>
                                                 <Textarea {...register("message")} name="message" rows={4}
                                                     placeholder="Tell us about your platform and what you're hoping to achieve..."
                                                     disabled={isPending} className="resize-none" />
@@ -161,7 +162,7 @@ export function DataProvidersCTA({ prefillEmail = "" }: Props) {
                                             </Button>
 
                                             {!isValid && (
-                                                <p className="text-xs text-neutral-600 text-center">
+                                                <p className="text-xs text-muted-foreground text-center">
                                                     Please fill in all the fields above before submitting.
                                                 </p>
                                             )}

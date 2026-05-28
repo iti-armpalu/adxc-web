@@ -17,8 +17,8 @@ export default function AgenciesPage() {
             <AgenciesHero />
             <AgenciesHowItWorks />
             <AgenciesIntegrations />
-            <AgenciesPartners />
             <AgenciesCTA />
+            <AgenciesPartners />
             <AgenciesOtherWays />
         </>
     )

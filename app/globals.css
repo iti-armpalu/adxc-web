@@ -291,8 +291,17 @@
   --color-chart-fill-2: oklch(from #E2A3C7 l c h / 0.70);
   --color-chart-stroke-2: #A94C7A;
 
-}
+  /* ----------------------------------------------------------
+     ANIMATIONS
+     Defined here so Tailwind generates animate-adxc-* utilities.
+     Usage: className="animate-adxc-spin"
+  ---------------------------------------------------------- */
+  --animate-adxc-spin: adxc-spin 0.8s linear infinite;
+  --animate-adxc-fade: adxc-fade 0.2s ease forwards;
+  --animate-adxc-pop: adxc-pop 0.25s ease forwards;
+  --animate-adxc-fill: adxc-fill 1s ease forwards;
 
+}
 
 /* ============================================================
    THEME BRIDGE
@@ -368,6 +377,9 @@
   --color-border-5: var(--border-5);
   --color-ring-error: var(--ring-error);
   --color-sidebar-muted: var(--sidebar-muted);
+  
+  /* Layout tokens */
+  --spacing-header: var(--header-h);
 }
 
 /* ============================================================
@@ -649,5 +661,53 @@
     --grid-w: 176px;
     --grid-h: 96px;
     --grid-dot: 6px;
+  }
+}
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+@keyframes adxc-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes adxc-fill {
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes adxc-pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+
+  60% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes adxc-fade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

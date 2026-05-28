@@ -20,8 +20,8 @@ export default function BrandsPage() {
             <BrandsProblem />
             <BrandsHowItWorks />
             <BrandsIntegrations />
-            <BrandsPartners />
             <BrandsCTA />
+            <BrandsPartners />
         </>
     )
 }

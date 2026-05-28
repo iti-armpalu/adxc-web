@@ -24,7 +24,8 @@ import {
     trackNavLinkClicked,
 } from "@/lib/analytics/events"
 import { createPortal } from "react-dom"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card"
+import { AudienceCard } from "./audience-card"
+
 
 // ─── Icon registry ────────────────────────────────────────────────────────────
 
@@ -444,44 +445,13 @@ function NavItems({ group }: { group: NavGroup }) {
             {group.items?.map((item) => {
                 if (!item.href) return null
                 const active = pathname.startsWith(item.href)
-                const Icon = item.icon ? iconMap[item.icon] : null
-
                 return (
-                    <Card
+                    <AudienceCard
                         key={item.href}
-                        className={cn(
-                            "group transition-all duration-150 hover:border-primary/50",
-                            active && "bg-muted"
-                        )}
-                    >
-                        <Link
-                            href={item.href}
-                            onClick={() => trackNavLinkClicked(item.label, item.href)}
-                            className="flex flex-col h-full"
-                        >
-                            <CardHeader>
-                                <div className="flex flex-col items-center gap-3 text-center">
-                                    {Icon && (
-                                        <div
-                                            className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-                                            style={{ backgroundColor: item.color ?? "var(--primary)" }}
-                                        >
-                                            <Icon className="w-5 h-5 text-primary-foreground" />
-                                        </div>
-                                    )}
-                                    <CardTitle className="text-sm font-semibold text-foreground">
-                                        {item.label}
-                                    </CardTitle>
-                                </div>
-                            </CardHeader>
-                            <CardContent className="flex-1 flex flex-col justify-between">
-                                <CardDescription className="text-xs text-neutral-600 leading-relaxed text-center">
-                                    {item.description}
-                                </CardDescription>
-
-                            </CardContent>
-                        </Link>
-                    </Card>
+                        item={item}
+                        variant="compact"
+                        active={active}
+                    />
                 )
             })}
         </div>
@@ -498,24 +468,11 @@ function ProductPanel() {
     return (
 
         <div className="grid grid-cols-2 gap-8 h-full">
-            <div className="flex flex-col justify-between">
-                <div className="space-y-3">
-                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest">Patent-pending technology</p>
-                    <p className="text-sm text-foreground font-medium">
-                        ADXC's data orchestration platform is the subject of a US provisional patent application.
-                    </p>
-                </div>
-                <Button asChild size="lg" variant="outline">
-                    <Link href="/product/platform">
-                        Learn more
-                    </Link>
-                </Button>
-
-            </div>
 
             <div className="h-full flex flex-col justify-between">
                 <div className="space-y-3">
-                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest">
+                    {/* <p className="text-xs font-medium text-muted-foreground uppercase tracking-widest"> */}
+                    <p className="text-caption">
                         Get started
                     </p>
                     <p className="text-sm text-foreground font-medium">

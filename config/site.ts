@@ -36,7 +36,7 @@ export const siteConfig = {
                     description: "Premium data for strategies, briefs and campaigns",
                     longDescription: "Access premium data for your strategies, briefs and campaigns, without enterprise subscriptions.",
                     icon: "TrendingUp",
-                    color: "var(--chart-1)",
+                    color: "var(--color-purple-700)",
                 },
                 {
                     label: "For Agencies",
@@ -44,7 +44,7 @@ export const siteConfig = {
                     description: "Usage-based data access for every client brief",
                     longDescription: "Give every client access to the data they need. Usage-based, so costs scale with your work. Earn for referrals.",
                     icon: "Users",
-                    color: "var(--chart-4)",
+                    color: "var(--color-orange-700)",
                 },
                 {
                     label: "For Data Providers",
@@ -52,7 +52,7 @@ export const siteConfig = {
                     description: "New SME market for your data, pay-per-query",
                     longDescription: "Unlock a new SME market your enterprise model can't reach. Your data powers AI agents, you earn on every query.",
                     icon: "Database",
-                    color: "var(--chart-3)",
+                    color: "var(--color-blue-600)",
                 },
                 {
                     label: "For AI Platforms",
@@ -60,7 +60,7 @@ export const siteConfig = {
                     description: "One connection, smarter agents, better retention",
                     longDescription: "Make your agents smarter with premium data. One connection for multiple providers, better outputs, stronger retention.",
                     icon: "Cpu",
-                    color: "var(--chart-2)",
+                    color: "var(--color-cyan-600)",
                 },
             ],
         },
@@ -74,37 +74,13 @@ export const siteConfig = {
                     icon: "Layers",
                 },
                 {
-                    label: "For data providers",
+                    label: "Data sources",
                     href: "/product/data-providers",
-                    description: "Connect your data to ADXC and unlock a new revenue stream",
+                    description: "See which data providers you can access via ADXC",
                     icon: "Database",
                 },
             ],
-        },
-        { label: "Pricing", href: "/pricing" },
-        {
-            label: "Resources",
-            items: [
-                {
-                    label: "FAQs",
-                    href: "/faq",
-                    description: "Everything you need to know about how ADXC works",
-                    icon: "CircleHelp",
-                },
-                {
-                    label: "Guides",
-                    href: "/guides",
-                    description: "Step-by-step guides to get the most from ADXC",
-                    icon: "BookOpen",
-                },
-                {
-                    label: "Blog",
-                    href: "/blog",
-                    description: "Perspectives on data, AI agents and marketing",
-                    icon: "Newspaper",
-                },
-            ],
-        },
+        }
     ] as NavGroup[],
 
     cta: {
@@ -132,14 +108,6 @@ export const siteConfig = {
                 { label: "For Agencies", href: "/for/agencies" },
                 { label: "For Data Providers", href: "/for/data-providers" },
                 { label: "For AI Platforms", href: "/for/ai-platforms" },
-            ],
-        },
-        {
-            label: "Resources",
-            links: [
-                { label: "FAQs", href: "/faq" },
-                { label: "Guides", href: "/guides" },
-                { label: "Blog", href: "/blog" },
             ],
         },
         {

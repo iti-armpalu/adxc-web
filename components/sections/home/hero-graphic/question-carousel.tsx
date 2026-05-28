@@ -8,9 +8,9 @@ import { QUESTIONS, STEP_MS } from "./constants"
 // const VISIBLE = 5
 // const HIGHLIGHT_INDEX = 2
 
-const ARC_X = 55
+const ARC_X = 55   
 
-const ROW_HEIGHT = 64
+const ROW_HEIGHT = 52
 const FADE_MASK =
     "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)"
 
@@ -88,37 +88,37 @@ export function QuestionCarousel({ step, onStep, onPillWidth, visible = 5, highl
                             <div
                                 ref={isHighlight ? highlightRef : undefined}
                                 className={cn(
-                                    "pl-1.5 pr-3 py-1.5 rounded-full border-1 bg-background text-sm font-medium text-foreground",
-                                    "flex items-center gap-3",
+                                    "pl-1.5 pr-3 py-1.5 rounded-full border-1 bg-background text-xs font-medium text-foreground",
+                                    "flex items-center gap-2",
                                     "whitespace-normal lg:whitespace-nowrap",
                                     "transition-colors duration-1000 ease-out",
-                                    isHighlight ? "border-brand-dark shadow-lg" : "border-border"
+                                    isHighlight ? "border-brand-600 shadow-lg" : "border-border"
                                 )}
                             >
                                 <span
                                     className={cn(
-                                        "flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold shrink-0",
+                                        "flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold shrink-0",
                                         "bg-secondary text-secondary-foreground border border-border"
                                     )}
                                 >
                                     {initial(q.name)}
                                 </span>
-                                <span>{q.text}</span>
+                                <span className="lg:max-w-[220px] xl:max-w-none truncate">{q.text}</span>
                                 <span
                                     className={cn(
-                                        "ml-2 flex h-7 w-7 items-center justify-center rounded-full border transition-colors duration-500 shrink-0",
+                                        "ml-1 flex h-6 w-6 items-center justify-center rounded-full border transition-colors duration-500 shrink-0",
                                         distance > 0 && "bg-emerald-700 border-emerald-700 text-emerald-100",
-                                        distance === 0 && "bg-tyrian-400 border-tyrian-400 text-primary-foreground",
+                                        distance === 0 && "bg-brand-400 border-brand-400 text-primary-foreground",
                                         distance < 0 && "bg-neutral-700 border-neutral-700 text-neutral-100"
                                     )}
                                     aria-label={distance > 0 ? "received" : distance === 0 ? "waiting" : "send"}
                                 >
                                     {distance > 0 ? (
-                                        <Check className="h-3.5 w-3.5" strokeWidth={3} />
+                                        <Check className="h-3 w-3" strokeWidth={3} />
                                     ) : distance === 0 ? (
-                                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                                        <Loader2 className="h-3 w-3 animate-spin" />
                                     ) : (
-                                        <Send className="h-3.5 w-3.5" />
+                                        <Send className="h-3 w-3" />
                                     )}
                                 </span>
                             </div>

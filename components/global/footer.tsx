@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { Mail, LineChart, ArrowRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { siteConfig } from "@/config/site"
 import Image from "next/image"
 import { trackFooterContactClicked, trackFooterInvestorClicked, trackFooterLinkClicked } from "@/lib/analytics/events"
@@ -16,14 +17,9 @@ export function Footer() {
     const year = new Date().getFullYear()
 
     return (
-        <footer className="relative border-t border-white/10">
-            {/* Gradient base */}
-            <div
-                className="absolute inset-0 -z-20"
-                style={{ background: "linear-gradient(to right, var(--color-brand) 40%" }}
-            />
+        <footer className="relative border-t border-white/10 bg-brand-700">
             {/* Grid overlay */}
-            <div className="absolute inset-0 -z-10 bg-grid opacity-20" />
+            <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
 
@@ -101,27 +97,21 @@ export function Footer() {
 
                         {/* Contact + Investor buttons */}
                         <div className="flex items-center gap-3">
-                            <Link
-                                href="/contact"
-                                onClick={trackFooterContactClicked}
-                                className="group flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary-foreground hover:border-white/40 hover:bg-white/10 transition-all duration-150"
-                            >
-                                <Mail className="w-3.5 h-3.5 text-primary-foreground group-hover:text-white transition-colors" />
-                                <span className="text-xs text-primary-foreground group-hover:text-white transition-colors">Contact</span>
-                                <ArrowRight className="w-3 h-3 text-white opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-150" />
-                            </Link>
+                            <Button variant="outline-reversed" size="sm" asChild onClick={trackFooterContactClicked}>
+                                <Link href="/contact">
+                                    <Mail />
+                                    Contact
+                                    <ArrowRight />
+                                </Link>
+                            </Button>
 
-                            <Link
-                                href={siteConfig.investorUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={trackFooterInvestorClicked}
-                                className="group flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary-foreground hover:border-white/40 hover:bg-white/10 transition-all duration-150"
-                            >
-                                <LineChart className="w-3.5 h-3.5 text-primary-foreground group-hover:text-white transition-colors" />
-                                <span className="text-xs text-primary-foreground group-hover:text-white transition-colors">Investors</span>
-                                <ArrowRight className="w-3 h-3 text-primary-foreground opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-150" />
-                            </Link>
+                            <Button variant="outline-reversed" size="sm" asChild onClick={trackFooterInvestorClicked}>
+                                <Link href={siteConfig.investorUrl} target="_blank" rel="noopener noreferrer">
+                                    <LineChart />
+                                    Investors
+                                    <ArrowRight />
+                                </Link>
+                            </Button>
                         </div>
 
                     </div>

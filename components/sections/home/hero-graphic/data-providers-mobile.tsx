@@ -101,14 +101,15 @@ export function DataProvidersMobile({ activeQuestion }: Props) {
                             {/* Travelling dots */}
                             {isActive && (
                                 <>
-                                    <circle r="3.5" fill="#F9EEF5" stroke="#C46184" strokeWidth="1" strokeOpacity="0.5" opacity="0">
+                                    <circle r="3.5" fill="#FFE5F0" stroke="#C46184" strokeWidth="1" fillOpacity={0.5} strokeOpacity={0.5}>
                                         <animate attributeName="opacity" values="0;0;1;1;0;0"
                                             keyTimes="0;0.249;0.25;0.499;0.5;1" dur={`${cycleDur}s`} repeatCount="1" fill="freeze" />
                                         <animateMotion path={d} dur={`${cycleDur}s`}
                                             keyPoints="0;0;1;1;1;1" keyTimes="0;0.25;0.5;0.5;0.75;1"
                                             calcMode="linear" repeatCount="1" fill="freeze" />
                                     </circle>
-                                    <circle r="3.5" fill="#C46184" opacity="0">
+
+                                    <circle r="3.5" fill="#FFFFFF" stroke="#C46184" strokeWidth="1">
                                         <animate attributeName="opacity" values="0;0;1;1;0;0"
                                             keyTimes="0;0.499;0.5;0.749;0.75;1" dur={`${cycleDur}s`} repeatCount="1" fill="freeze" />
                                         <animateMotion path={d} dur={`${cycleDur}s`}

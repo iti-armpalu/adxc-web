@@ -3,7 +3,6 @@ import Image from "next/image"
 
 const partners = [
     { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
-    { name: "Quid", logo: "/quid-logo.svg" },
     { name: "Miro", logo: "/miro-logo.svg" },
     { name: "DEPT", logo: "/dept-logo.svg" },
 ]
@@ -15,12 +14,9 @@ export function DataProvidersPartners() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
                     <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-12">
 
-                        <div className="space-y-3 max-w-xl">
-                            <p className="text-base text-center tracking-tight text-blue-700">
-                                Join a network of leading data
-                                <span className="block">and technology partners</span>
-                            </p>
-                        </div>
+                        <p className="text-base text-center text-blue-950 shrink-0 max-w-xs">
+                            Join a network of leading data and technology partners
+                        </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
                             {partners.map((p) => (
