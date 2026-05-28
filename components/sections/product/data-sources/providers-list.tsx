@@ -20,8 +20,7 @@ const providers: Provider[] = [
         logoWidth: 120,
         logoHeight: 40,
         tagline: "One of the world's most trusted consumer research providers.",
-        description:
-            "YouGov is used by the world's largest brands and agencies. Profiles is their syndicated audience and brand dataset, built from their panel of 30+ million registered members across 55 markets. It is a continuously-updated dataset covering millions of consumer datapoints across attitudes, behaviours, demographics, media consumption, and brand affinities.",
+        description: "YouGov is used by the world's largest brands and agencies. Profiles is their syndicated audience and brand dataset, built from their panel of 30+ million registered members across 55 markets. It is a continuously-updated dataset covering millions of consumer datapoints across attitudes, behaviours, demographics, media consumption, and brand affinities.",
         capabilities: [
             "Audience profiling",
             "Brand tracking",
@@ -31,18 +30,18 @@ const providers: Provider[] = [
         ],
     },
     {
-        name: "Quid",
-        logo: "/quid-logo.svg",
-        logoWidth: 80,
+        name: "Google Data Commons",
+        logo: "/data-comms-logo.svg",
+        logoWidth: 120,
         logoHeight: 40,
-        tagline: "AI-powered consumer and market intelligence.",
-        description:
-            "Quid analyses billions of real-time data points from social, news, forum, search, and proprietary sources. Used by brands like Coca-Cola, Walmart, BCG, and Ogilvy, Quid surfaces emerging consumer trends, brand sentiment, competitive dynamics, and cultural shifts before they fully break. The platform combines two decades of proprietary NLP and sentiment methodology with generative AI, ingesting over 300 million documents per day.",
+        tagline: "The world's public statistics, unified into one trusted source.",
+        description: "Google Data Commons unifies thousands of public datasets — from the US Census Bureau, the UN, the World Bank, the CDC, and more — into a single, standardised resource. It covers population, demographics, economic indicators, and other macro-level statistics, drawn from government and institutional sources.",
         capabilities: [
-            "Trend identification",
-            "Brand sentiment analysis",
-            "Cultural insight",
-            "Consumer conversation analysis",
+            "Population data",
+            "Demographic trends",
+            "Economic indicators",
+            "Government statistics",
+            "Macro-level benchmarks",
         ],
     },
     {
@@ -51,8 +50,7 @@ const providers: Provider[] = [
         logoWidth: 120,
         logoHeight: 40,
         tagline: "Social and web data orchestration at scale.",
-        description:
-            "Datastreamer connects to dozens of high-volume data sources — including X, Reddit, forums, blogs, reviews, and news — and delivers them as clean, structured, real-time data feeds. Used by leading intelligence software companies, Datastreamer aggregates and normalises data from across the social web, giving ADXC users direct access to real-time conversations happening on the platforms where consumers are most active.",
+        description: "Datastreamer connects to dozens of high-volume data sources — including X, Reddit, forums, blogs, reviews, and news — and delivers them as clean, structured, real-time data feeds. Used by leading intelligence software companies, Datastreamer aggregates and normalises data from across the social web, giving ADXC users direct access to real-time conversations happening on the platforms where consumers are most active.",
         capabilities: [
             "Trend identification",
             "Brand sentiment analysis",
@@ -65,19 +63,16 @@ const providers: Provider[] = [
 export function DataProvidersList() {
     return (
         <FadeIn>
-            <section>
-                <div className="max-w-5xl mx-auto px-4 sm:px-6 pb-24">
+            <section className="bg-white">
+                <div className="max-w-5xl mx-auto px-4 sm:px-6 py-24">
 
-                    <div className="space-y-4 mb-16">
-                        <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary max-w-2xl leading-none">
-                            Title
+                    <div className="space-y-3 mb-16">
+                        <h2 className="text-primary">
+                            Connected data providers
                         </h2>
-                        <p className="text-lg text-neutral-600 leading-relaxed max-w-2xl">
-                            Subtitle
-                        </p>
                     </div>
 
-                    <div className="space-y-12">
+                    <div className="space-y-6">
                         {providers.map((provider) => (
                             <Card key={provider.name}>
                                 <CardContent className="p-6 sm:p-8">

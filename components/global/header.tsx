@@ -129,7 +129,7 @@ export function Header({ latestPosts = [] }: Props) {
 
                 <Link href="/" className="shrink-0 hover:opacity-70 transition-opacity">
                     <Image
-                        src="/adxc-logo-primary-horizontal.svg"
+                        src="/adxc-logo-with-tagline.svg"
                         alt={siteConfig.name}
                         width={120} height={40} priority
                         className={cn(

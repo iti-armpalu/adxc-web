@@ -75,7 +75,7 @@ export const siteConfig = {
                 },
                 {
                     label: "Data sources",
-                    href: "/product/data-providers",
+                    href: "/product/data-sources",
                     description: "See which data providers you can access via ADXC",
                     icon: "Database",
                 },
@@ -95,19 +95,19 @@ export const siteConfig = {
 
     footerLinks: [
         {
-            label: "Product",
+            label: "Why ADXC",
             links: [
-                { label: "Platform", href: "/product/platform" },
-                { label: "Data Providers", href: "/product/data-providers" },
+                { label: "For brands", href: "/for/brands" },
+                { label: "For agencies", href: "/for/agencies" },
+                { label: "For data providers", href: "/for/data-providers" },
+                { label: "For AI platforms", href: "/for/ai-platforms" },
             ],
         },
         {
-            label: "Why ADXC",
+            label: "Product",
             links: [
-                { label: "For Brands", href: "/for/brands" },
-                { label: "For Agencies", href: "/for/agencies" },
-                { label: "For Data Providers", href: "/for/data-providers" },
-                { label: "For AI Platforms", href: "/for/ai-platforms" },
+                { label: "Platform", href: "/product/platform" },
+                { label: "Data sources", href: "/product/data-sources" },
             ],
         },
         {

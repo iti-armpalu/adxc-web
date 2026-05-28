@@ -8,10 +8,10 @@ import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile"
 import { submitEarlyAccess, type EarlyAccessState } from "@/lib/early-access/actions"
 import { companySizes } from "@/lib/early-access/constants"
 import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { FormError } from "@/components/ui/form-error"
-import { cn } from "@/lib/utils"
 import { ArrowRight, CheckCircle } from "lucide-react"
 import { trackEarlyAccessSubmitted, identifyUser } from "@/lib/analytics/events"
 
@@ -73,7 +73,7 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
         return (
             <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
                 <CheckCircle className="w-10 h-10 text-success" />
-                <h3 className="text-xl font-semibold text-foreground">You're on the list!</h3>
+                <h3 >You're on the list!</h3>
                 <div className="text-muted-foreground max-w-sm space-y-2 text-sm leading-relaxed">
                     <p>If selected, you get $200 in free ADXC credit, no card needed.</p>
                     <p>We ask one thing in return: a 30-minute feedback call.</p>
@@ -90,9 +90,9 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
             {/* First name + Last name */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                    <label className="text-sm text-muted-foreground">
+                    <Label>
                         First name <span className="text-destructive">*</span>
-                    </label>
+                    </Label>
                     <Input
                         {...register("firstName")}
                         name="firstName"
@@ -103,9 +103,9 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
                     <FormError message={errors.firstName?.message} />
                 </div>
                 <div className="space-y-1.5">
-                    <label className="text-sm text-muted-foreground">
+                    <Label>
                         Last name <span className="text-destructive">*</span>
-                    </label>
+                    </Label>
                     <Input
                         {...register("lastName")}
                         name="lastName"
@@ -119,9 +119,9 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
 
             {/* Email */}
             <div className="space-y-1.5">
-                <label className="text-sm text-muted-foreground">
+                <Label>
                     Email <span className="text-destructive">*</span>
-                </label>
+                </Label>
                 <Input
                     {...register("email")}
                     name="email"
@@ -136,9 +136,9 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
             {/* Company + Company size */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                    <label className="text-sm text-muted-foreground">
+                    <Label>
                         Company <span className="text-destructive">*</span>
-                    </label>
+                    </Label>
                     <Input
                         {...register("company")}
                         name="company"
@@ -149,16 +149,16 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
                     <FormError message={errors.company?.message} />
                 </div>
                 <div className="space-y-1.5">
-                    <label className="text-sm text-muted-foreground">
+                    <Label>
                         Company size <span className="text-destructive">*</span>
-                    </label>
+                    </Label>
                     <select
                         {...register("companySize")}
                         name="companySize"
                         disabled={isPending}
                         defaultValue=""
                         aria-invalid={!!errors.companySize}
-                        className="h-8 w-full rounded-lg border border-input bg-input px-2.5 py-1 text-sm text-foreground transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20"
+                        className="h-8 w-full rounded-xs border border-input bg-transparent px-2.5 py-1 text-sm text-foreground transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20"
                     >
                         <option value="" disabled>Select size</option>
                         {companySizes.map((size) => (
@@ -171,9 +171,9 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
 
             {/* Job title */}
             <div className="space-y-1.5">
-                <label className="text-sm text-muted-foreground">
+                <Label>
                     Job title <span className="text-destructive">*</span>
-                </label>
+                </Label>
                 <Input
                     {...register("jobTitle")}
                     name="jobTitle"
@@ -186,9 +186,9 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
 
             {/* Use case */}
             <div className="space-y-1.5">
-                <label className="text-sm text-muted-foreground">
+                <Label>
                     What will you use ADXC for? <span className="text-destructive">*</span>
-                </label>
+                </Label>
                 <Textarea
                     {...register("useCase")}
                     name="useCase"

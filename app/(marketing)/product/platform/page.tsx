@@ -18,10 +18,9 @@ export default function PlatformPage() {
             <PlatformHero />
             <PlatformOverview />
             <PlatformHowItWorks />
-            <PlatformDataProviders />
             <PlatformPatent />
-            {/* <PlatformAudiences /> */}
             <AudienceCardsSection />
+            <PlatformDataProviders />
         </>
     )
 }

@@ -7,6 +7,7 @@ import { z } from "zod"
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile"
 import { submitDataProviderEnquiry, type DataProviderEnquiryState } from "@/lib/data-provider-enquiry/actions"
 import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { FormError } from "@/components/ui/form-error"
@@ -40,7 +41,7 @@ export function DataProvidersPartner() {
         getValues,
     } = useForm<FormData>({
         resolver: zodResolver(schema),
-        defaultValues: { dataTypes: [] } as any,
+        defaultValues: {},
         mode: "onChange",
     })
 
@@ -62,22 +63,21 @@ export function DataProvidersPartner() {
 
     return (
         <FadeIn>
-            <section className="bg-white">
+            <section className="bg-brand-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 sm:gap-24 max-w-5xl mx-auto">
 
                         {/* Left */}
                         <div className="space-y-6">
                             <div className="space-y-3">
-                                <p className="text-xs uppercase tracking-widest text-muted-foreground">
+                                <p className="text-caption text-muted-foreground">
                                     Become a data partner
                                 </p>
-                                <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary">
-                                    Are you a data provider
-                                    <span className="block">interested in joining?</span>
+                                <h2 className="text-primary">
+                                    Are you a data provider interested in joining?
                                 </h2>
                             </div>
-                            <p className="text-lg text-neutral-600 leading-relaxed">
+                            <p className="text-lg text-muted-foreground leading-relaxed">
                                 Become a partner and unlock a new market for your data.
                             </p>
                         </div>
@@ -101,13 +101,13 @@ export function DataProvidersPartner() {
 
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 <div className="space-y-1.5">
-                                                    <label className="text-sm text-muted-foreground">First name <span className="text-destructive">*</span></label>
+                                                    <Label>First name <span className="text-destructive">*</span></Label>
                                                     <Input {...register("firstName")} name="firstName" placeholder="Jane"
                                                         disabled={isPending} aria-invalid={!!errors.firstName} />
                                                     <FormError message={errors.firstName?.message} />
                                                 </div>
                                                 <div className="space-y-1.5">
-                                                    <label className="text-sm text-muted-foreground">Last name <span className="text-destructive">*</span></label>
+                                                    <Label>Last name <span className="text-destructive">*</span></Label>
                                                     <Input {...register("lastName")} name="lastName" placeholder="Smith"
                                                         disabled={isPending} aria-invalid={!!errors.lastName} />
                                                     <FormError message={errors.lastName?.message} />
@@ -115,7 +115,7 @@ export function DataProvidersPartner() {
                                             </div>
 
                                             <div className="space-y-1.5">
-                                                <label className="text-sm text-muted-foreground">Email <span className="text-destructive">*</span></label>
+                                                <Label>Email <span className="text-destructive">*</span></Label>
                                                 <Input {...register("email")} name="email" type="email" placeholder="you@company.com"
                                                     disabled={isPending} aria-invalid={!!errors.email} />
                                                 <FormError message={errors.email?.message} />
@@ -123,13 +123,13 @@ export function DataProvidersPartner() {
 
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 <div className="space-y-1.5">
-                                                    <label className="text-sm text-muted-foreground">Company <span className="text-destructive">*</span></label>
+                                                    <Label>Company <span className="text-destructive">*</span></Label>
                                                     <Input {...register("company")} name="company" placeholder="Company name"
                                                         disabled={isPending} aria-invalid={!!errors.company} />
                                                     <FormError message={errors.company?.message} />
                                                 </div>
                                                 <div className="space-y-1.5">
-                                                    <label className="text-sm text-muted-foreground">Job title <span className="text-destructive">*</span></label>
+                                                    <Label>Job title <span className="text-destructive">*</span></Label>
                                                     <Input {...register("jobTitle")} name="jobTitle" placeholder="Head of Partnerships"
                                                         disabled={isPending} aria-invalid={!!errors.jobTitle} />
                                                     <FormError message={errors.jobTitle?.message} />
@@ -137,9 +137,9 @@ export function DataProvidersPartner() {
                                             </div>
 
                                             <div className="space-y-1.5">
-                                                <label className="text-sm text-muted-foreground">
+                                                <Label>
                                                     Message <span className="text-muted-foreground/60 text-xs">(optional)</span>
-                                                </label>
+                                                </Label>
                                                 <Textarea {...register("message")} name="message" rows={4}
                                                     placeholder="Tell us about your data..."
                                                     disabled={isPending} className="resize-none" />

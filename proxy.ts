@@ -13,7 +13,7 @@ const ALLOWED_ROUTES = [
   "/for/agencies",
   "/for/brands",
   "/product/platform",
-  "/product/data-providers"
+  "/product/data-sources"
 ]
 
 function isPublicAsset(pathname: string) {

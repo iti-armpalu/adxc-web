@@ -1,29 +1,23 @@
-import { FadeIn } from "@/components/ui/fade-in";
+import { FadeIn } from "@/components/ui/fade-in"
 
 export function PlatformOverview() {
     return (
-        <section
-            style={{
-                background: "linear-gradient(135deg, var(--brand-dark) 0%, var(--brand) 80%)",
-            }}
-        >
+        <section className="bg-brand-50">
             <FadeIn>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
                     <div className="max-w-3xl mx-auto space-y-8">
 
-                        <div className="space-y-3">
-                            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-primary-foreground leading-none">
-                                Smart. Simple. Secure.
-                            </h2>
-                        </div>
+                        <h2 className="text-primary">
+                            Smart. Simple. Secure.
+                        </h2>
 
-                        <p className="text-lg text-primary-foreground/70 leading-relaxed">
+                        <p className="text-lg text-foreground leading-relaxed">
                             ADXC connects AI agents to industry-leading consumer data sources. It understands
                             questions in context, orchestrates data retrieval across multiple sources, and
                             returns synthesised answers. All while keeping the underlying data fully protected.
                         </p>
 
-                        <p className="text-sm text-primary-foreground">
+                        <p className="text-sm font-medium text-foreground">
                             Patent-pending technology, built for the way AI agents work.
                         </p>
 

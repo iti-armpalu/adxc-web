@@ -7,10 +7,10 @@ import { z } from "zod"
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile"
 import { submitContact, type ContactState } from "@/lib/contact/actions"
 import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { FormError } from "@/components/ui/form-error"
-import { cn } from "@/lib/utils"
 import { ArrowRight, CheckCircle } from "lucide-react"
 import { trackContactSubmitted, identifyUser } from "@/lib/analytics/events"
 
@@ -67,8 +67,8 @@ export function ContactForm() {
     if (state.status === "success") {
         return (
             <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
-                <CheckCircle className="w-10 h-10 text-green-500" />
-                <h3 className="text-xl font-medium text-foreground">Message sent</h3>
+                <CheckCircle className="w-10 h-10 text-success" />
+                <h3 >Message sent</h3>
                 <p className="text-muted-foreground max-w-sm">
                     Thanks for reaching out. We'll get back to you shortly.
                 </p>
@@ -93,9 +93,9 @@ export function ContactForm() {
             {/* First name + Last name */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                    <label className="text-sm text-muted-foreground">
+                    <Label>
                         First name <span className="text-destructive">*</span>
-                    </label>
+                    </Label>
                     <Input
                         {...register("firstName")}
                         name="firstName"
@@ -107,9 +107,9 @@ export function ContactForm() {
                 </div>
 
                 <div className="space-y-1.5">
-                    <label className="text-sm text-muted-foreground">
+                    <Label>
                         Last name <span className="text-destructive">*</span>
-                    </label>
+                    </Label>
                     <Input
                         {...register("lastName")}
                         name="lastName"
@@ -123,44 +123,36 @@ export function ContactForm() {
 
             {/* Email */}
             <div className="space-y-1.5">
-                <label className="text-sm text-muted-foreground">
-                    Email <span className="text-destructive">*</span>
-                </label>
+                <Label>Email <span className="text-destructive">*</span></Label>
                 <Input
                     {...register("email")}
                     name="email"
                     type="email"
                     placeholder="you@company.com"
                     disabled={isPending}
-                    className={cn(errors.email && "border-destructive")}
+                    aria-invalid={!!errors.email}
                 />
-                {errors.email && (
-                    <p className="text-xs text-destructive">{errors.email.message}</p>
-                )}
+                <FormError message={errors.email?.message} />
             </div>
 
             {/* Company */}
             <div className="space-y-1.5">
-                <label className="text-sm text-muted-foreground">
-                    Company <span className="text-destructive">*</span>
-                </label>
+                <Label>Company <span className="text-destructive">*</span></Label>
                 <Input
                     {...register("company")}
                     name="company"
                     placeholder="Your company"
                     disabled={isPending}
-                    className={cn(errors.company && "border-destructive")}
+                    aria-invalid={!!errors.company}
                 />
-                {errors.company && (
-                    <p className="text-xs text-destructive">{errors.company.message}</p>
-                )}
+                <FormError message={errors.company?.message} />
             </div>
 
             {/* Message */}
             <div className="space-y-1.5">
-                <label className="text-sm text-muted-foreground">
+                <Label>
                     Message <span className="text-destructive">*</span>
-                </label>
+                </Label>
                 <Textarea
                     {...register("message")}
                     name="message"
