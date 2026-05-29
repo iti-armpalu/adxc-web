@@ -19,11 +19,11 @@ export function DataProvidersStat() {
 
                         {/* Right — explainer */}
                         <div className="space-y-3">
-                            <p className="text-lg text-blue-950 leading-relaxed font-medium">
+                            <p className="text-lg text-blue-950 leading-relaxed ">
                                 They can't justify enterprise subscriptions, but they still need
                                 your data.
                             </p>
-                            <p className="text-base text-blue-950 leading-relaxed">
+                            <p className="text-lg text-blue-950 leading-relaxed font-medium">
                                 Until now, there was no viable way to serve them.
                             </p>
                         </div>

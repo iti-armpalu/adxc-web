@@ -94,7 +94,7 @@ export function UseCasesSection() {
 
                         {/* Header */}
                         <div className="space-y-4 mb-12 text-center">
-                        <h2 className="text-primary-foreground">
+                            <h2 className="text-primary-foreground">
                                 Get the data you need for your critical marketing tasks
                             </h2>
                             <p className="text-lg text-primary-foreground/70 leading-relaxed max-w-2xl mx-auto">

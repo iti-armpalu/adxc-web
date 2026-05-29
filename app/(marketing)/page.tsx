@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { siteConfig } from "@/config/site"
 import { HeroSection } from "@/components/sections/home/hero"
-import { ProblemSection } from "@/components/sections/home/problem"
+import { HomeProblemSection } from "@/components/sections/home/problem"
 import { PlatformSection } from "@/components/sections/home/platform"
 import { UseCasesSection } from "@/components/sections/home/use-cases"
 import { AudienceCardsSection } from "@/components/sections/home/audience-cards"
@@ -19,7 +19,7 @@ export default function HomePage() {
         <>
             <HeroSection />
             <PartnersSection />
-            <ProblemSection />
+            <HomeProblemSection />
             <PlatformSection />
             <UseCasesSection />
             <AudienceCardsSection />
