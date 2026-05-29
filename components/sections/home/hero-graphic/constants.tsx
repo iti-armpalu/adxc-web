@@ -20,7 +20,7 @@ export const PROVIDER_DOTS: ProviderDot[] = [
     { x: 52, y: 62, size: 60, label: "US Census Bureau", logo: "/us-census-bureau-logo.png" },
     { x: 30, y: 68, size: 22, color: "214 38% 22%" },   // blue-600
     { x: 60, y: 90, size: 54, label: "Reddit", logo: "/reddit-logo.png" },
-    { x: 32, y: 96, size: 36, color: "16 55% 40%" },   // orange-800
+    { x: 32, y: 96, size: 36, label: "Data Comms", logo: "/data-comms-logo.svg" },
 ]
 
 // Mobile layout — dots spread horizontally, lines come from above
