@@ -19,6 +19,20 @@ export function Footer() {
 
     return (
         <footer className="relative border-t border-white/10 bg-brand-700">
+            {/* Halo glow
+                radial-gradient(ellipse [width] [height] at [x] [y], ...)
+                x: 0% = left edge, 50% = centre, 100% = right edge
+                y: 0% = top edge, 50% = centre, 100% = bottom edge
+                width/height: size of the ellipse as % of the element
+                opacity: controls overall intensity of the glow
+            */}
+            <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                    background: "radial-gradient(ellipse 60% 90% at 70% 100%, var(--color-brand-400) 0%, transparent 70%)",
+                    opacity: 0.4,
+                }}
+            />
             {/* Grid overlay */}
             <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
 
@@ -68,7 +82,7 @@ export function Footer() {
                 </div>
 
                 {/* Bottom bar */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-12 mt-12 border-t border-white/10">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-12 mt-12">
 
                     <p className="text-xs text-primary-foreground/50">
                         &copy; {year} {siteConfig.name}. All rights reserved.
