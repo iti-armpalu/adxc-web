@@ -4,8 +4,8 @@ import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/ca
 
 const cards = [
     {
-        title: "Managing data spend on behalf of clients?",
-        description: "Access our partner programme to earn cashback on spend via ADXC.",
+        title: "Become a referral partner",
+        description: "Managing data spend on behalf of clients? Access our partner programme to earn cashback on spend via ADXC.",
         cta: "Get in touch",
         href: "/contact",
     },

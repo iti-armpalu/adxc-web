@@ -20,12 +20,7 @@ export function DataProvidersDistribution() {
 
                             <div className="space-y-4">
                                 <p className="text-lg text-blue-950 font-medium leading-relaxed">
-                                    ADXC is integrated with Miro, putting your data within reach of 100M marketers
-                                    who plan, create and make decisions there every day.
-                                </p>
-                                <p className="text-sm text-blue-900 leading-relaxed">
-                                    Your data is available to them the moment they need it, inside the
-                                    tool they're already using, without asking them to change how they work.
+                                    ADXC is integrated with Miro, putting your data within reach of 100M marketers using AI agents in their daily workflows.
                                 </p>
                                 <p className="text-sm text-blue-900 leading-relaxed">
                                     More platform integrations are launching throughout 2026.

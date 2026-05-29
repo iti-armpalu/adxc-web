@@ -6,7 +6,7 @@ export function HomeProblemSection() {
             eyebrow="The problem"
             stat="$200k+"
             statLabel="Price for enterprise subscriptions to premium consumer data providers"
-            body="99% of businesses can't afford the insight they need to make better marketing decisions. This limits your growth."
+            body="99% of businesses can't afford the insight they need to make better marketing decisions. This wastes resources and limits your growth."
             closer="ADXC was built for the 99%."
             background="bg-brand-700"
             statColor="text-primary-foreground"

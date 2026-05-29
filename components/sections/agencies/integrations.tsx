@@ -4,7 +4,7 @@ export function AgenciesIntegrations() {
     return (
         <IntegrationsSection
             heading="Available inside the tools your team already uses"
-            description="Your strategists can pull consumer data directly into briefs, workshops, and planning sessions. More platform integrations launching throughout 2026."
+            description="ADXC is integrated with Miro Sidekick, so your strategists can pull consumer data directly into briefs, workshops, and planning sessions.. More platform integrations launching throughout 2026."
             accentBg="bg-orange-50"
             pillBg="bg-orange-100"
             captionColor="text-orange-700"

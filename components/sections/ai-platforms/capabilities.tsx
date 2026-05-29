@@ -18,11 +18,6 @@ export function AIPlatformsCapabilities() {
                             </p>
                         </div>
 
-                        {/* Visual placeholder */}
-                        <div className="rounded-lg border border-border bg-muted h-80 flex items-center justify-center">
-                            <p className="text-sm text-muted-foreground">Visual TBC</p>
-                        </div>
-
                     </div>
                 </div>
             </section>

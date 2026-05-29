@@ -11,12 +11,12 @@ const steps = [
   {
     number: "1",
     title: "Ask a question",
-    description: "through your AI agent",
+    description: "through your AI agent. We understand the context of your Miro board",
   },
   {
     number: "2",
     title: "ADXC finds the data",
-    description: "across multiple premium sources",
+    description: "across multiple premium sources, for your specific question",
   },
   {
     number: "3",

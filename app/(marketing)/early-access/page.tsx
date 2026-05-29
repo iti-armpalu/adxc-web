@@ -47,7 +47,7 @@ export default async function EarlyAccessPage({ searchParams }: Props) {
                         <div className="flex flex-col justify-center space-y-6">
                             <h1>Get early access</h1>
                             <p className="text-lg text-muted-foreground leading-relaxed">
-                                Selected users get $200 in free credits to spend on real marketing data. Beta launches in May, inside Miro.
+                                Selected users get free credits to spend on real consumer data. Beta launches in July, inside Miro.
                             </p>
                         </div>
 

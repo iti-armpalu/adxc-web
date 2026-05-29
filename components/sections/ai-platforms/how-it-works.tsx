@@ -26,7 +26,7 @@ const features: Feature[] = [
         icon: Layers,
         title: "Product differentiation",
         lead: "Data can be a moat.",
-        description: "Access to trusted consumer data creates differentiation vs blunt outputs from generic co-pilots. Give your platform something competitors can't easily replicate.",
+        description: "Access to trusted consumer data creates differentiation vs blunt outputs from generic co-pilots.",
     },
 ]
 

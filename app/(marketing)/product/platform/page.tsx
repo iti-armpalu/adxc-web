@@ -19,7 +19,7 @@ export default function PlatformPage() {
             <PlatformOverview />
             <PlatformHowItWorks />
             <PlatformPatent />
-            <AudienceCardsSection />
+            <PlatformAudiences />
             <PlatformDataProviders />
         </>
     )

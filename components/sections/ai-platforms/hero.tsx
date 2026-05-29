@@ -40,7 +40,7 @@ export function AIPlatformsHero({ onEmailSubmit }: Props) {
                             <p className="text-lg text-foreground leading-relaxed">
                                 ADXC connects your platform to industry-leading consumer data sources,
                                 with one connection, so your AI agents can pull real research into the
-                                work — right when users need it.
+                                work, right when users need it.
                             </p>
                         </div>
 

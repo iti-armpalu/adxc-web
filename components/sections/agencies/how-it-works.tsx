@@ -13,20 +13,20 @@ const features: Feature[] = [
     {
         icon: Layers,
         title: "Varied work. Varied clients. Varied data needs.",
-        lead: "No two briefs ask the same question.",
-        description: "ADXC gives your team access to the right data for each one, through your existing AI tools. Audience, category and competition, trends and more — the same data used by the world's largest brands, now available for every client.",
+        lead: "No two briefs ask the same question. ADXC gives your team access to the right data for each one, through your existing AI tools.",
+        description: "Audience, category and competition, trends and more; the same data used by the world's largest brands, now available for every client.",
     },
     {
         icon: Coins,
         title: "Only pay for the data you need",
-        lead: "Top up from as little as $50 and use it as briefs come in.",
-        description: "No subscriptions, no annual commitments, no minimum spend per provider. Your data costs match the shape of your work: varied, project-based, and only when it matters.",
+        lead: "Top up from as little as $50 and use it as briefs come in. No subscriptions, no annual commitments, no minimum spend per provider.",
+        description: "Your data costs match the shape of your work: varied, project-based, and only when it matters.",
     },
     {
         icon: SlidersHorizontal,
         title: "Spend controls across your team",
         lead: "Set spend caps by client, project, or team.",
-        description: "Track usage in real time. Bill back to client engagements with full transparency — no more buried data costs in agency overhead.",
+        description: "Track usage in real time. Bill back to client engagements with full transparency, no more buried data costs in agency overhead.",
     },
 ]
 
