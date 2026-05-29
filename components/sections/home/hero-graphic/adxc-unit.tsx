@@ -27,7 +27,7 @@ export function AdxcUnit({ size = DEFAULT_SIZE, ring = DEFAULT_RING }: AdxcUnitP
                 }}
             />
             <div
-                className="relative rounded-full border-2 bg-background flex items-center justify-center shadow-2xl"
+                className="relative rounded-full border-4 bg-background flex items-center justify-center shadow-2xl"
                 style={{ width: size, height: size, borderColor: brandColor }}
             >
                 <Image

@@ -24,11 +24,11 @@ export function HeroSection() {
         <FadeIn>
             <section className="relative w-full mt-header">
                 <HeroBackground />
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 min-h-[calc(100dvh-var(--header-h))] flex flex-col justify-center pt-10 xl:pt-0 py-8">
+                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 min-h-[calc(100dvh-var(--header-h))] flex flex-col justify-center py-16">
 
-                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-16 items-center">
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-16 items-start h-full flex-1">
 
-                        {/* Left — content */}
+                        {/* Left — content, starts from top */}
                         <div className="max-w-xl space-y-10">
                             <div className="space-y-6">
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl">
@@ -56,8 +56,8 @@ export function HeroSection() {
                             </div>
                         </div>
 
-                        {/* Right — graphic */}
-                        <div className="flex justify-center pointer-events-none pt-16" aria-hidden>
+                        {/* Right — graphic, centred in its column */}
+                        <div className="flex justify-center pointer-events-none self-center" aria-hidden>
                             <HeroGraphic />
                         </div>
 
