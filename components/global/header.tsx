@@ -118,16 +118,16 @@ export function Header({ latestPosts = [] }: Props) {
             className={cn(
                 "fixed top-0 inset-x-0 z-50 transition-all duration-300",
                 scrolled
-                    ? "bg-background/95 backdrop-blur-md border-b border-border/40"
+                    ? "bg-white/95 backdrop-blur-md border-b border-border/40"
                     : "bg-transparent"
             )}
         >
             <div className={cn(
                 "max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-8 transition-all duration-300",
-                scrolled ? "py-3" : "py-4 sm:py-5 lg:py-6"
+                scrolled ? "h-[60px]" : "h-[68px] sm:h-[76px] lg:h-[88px]"
             )}>
 
-                <Link href="/" className="shrink-0 hover:opacity-70 transition-opacity">
+                <Link href="/" className="shrink-0 hover:opacity-70 transition-opacity w-[120px]">
                     <Image
                         src="/adxc-logo-with-tagline.svg"
                         alt={siteConfig.name}
