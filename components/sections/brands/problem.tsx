@@ -6,17 +6,17 @@ const SENTENCES = [
     {
         id: 1,
         label: "01",
-        text: "You commission a study. Six weeks later you get a deck with a bar chart and a caveat.",
+        text: "You've been quoted $100K for a data subscription you'd use twice a year.",
     },
     {
         id: 2,
         label: "02",
-        text: "You brief an agency. They resurface last year's syndicated data and call it insight.",
+        text: "You've built a brief as best you can using gut instinct and the data your LLM can gather (the killer stat is, on checking, a hallucination…).",
     },
     {
         id: 3,
         label: "03",
-        text: "You ask your AI tool. It hallucinates a statistic and cites a source that doesn't exist.",
+        text: "You've spent half a Tuesday hunting for category stats across PDFs, free trials, and outdated reports.",
     },
     {
         id: 4,
@@ -26,6 +26,8 @@ const SENTENCES = [
 ];
 
 const SENTENCE_COUNT = SENTENCES.length;
+const slice = 1 / SENTENCE_COUNT;
+const fade = slice * 0.15;
 
 function useScrollProgress(ref: React.RefObject<HTMLElement | null>) {
     const [progress, setProgress] = useState(0);
@@ -50,35 +52,37 @@ function useScrollProgress(ref: React.RefObject<HTMLElement | null>) {
     return progress;
 }
 
+function lerp(a: number, b: number, t: number) {
+    return a + (b - a) * Math.max(0, Math.min(1, t));
+}
+
+function invLerp(a: number, b: number, v: number) {
+    if (b === a) return 0;
+    return Math.max(0, Math.min(1, (v - a) / (b - a)));
+}
+
 interface WordRevealProps {
     text: string;
     progress: number;
-    phase: "before" | "in" | "after";
+    start: number; // absolute scroll start for this sentence
 }
 
-function WordReveal({ text, progress, phase }: WordRevealProps) {
+function WordReveal({ text, progress, start }: WordRevealProps) {
     const words = text.split(" ");
-    const revealProgress = Math.min(1, progress / 0.6);
 
     return (
         <span className="inline">
             {words.map((word, i) => {
-                const threshold = i / words.length;
-                const wordProgress = Math.max(
-                    0,
-                    Math.min(1, (revealProgress - threshold) / (1 / words.length))
-                );
-                const opacity = phase === "after" ? 0 : phase === "before" ? 0 : wordProgress;
-                const translateY = phase === "after" ? -8 : phase === "before" ? 8 : (1 - wordProgress) * 10;
+                const wordStart = start + fade + (i / words.length) * (slice - fade * 2) * 0.8;
+                const wordEnd = wordStart + slice * 0.08;
+                const wordOpacity = lerp(0.15, 1, invLerp(wordStart, wordEnd, progress));
 
                 return (
                     <span
                         key={i}
                         style={{
                             display: "inline-block",
-                            opacity,
-                            transform: `translateY(${translateY}px)`,
-                            transition: "none",
+                            opacity: wordOpacity,
                             marginRight: "0.25em",
                         }}
                     >
@@ -94,47 +98,36 @@ export function BrandsProblem() {
     const containerRef = useRef<HTMLDivElement>(null);
     const progress = useScrollProgress(containerRef as React.RefObject<HTMLElement>);
 
-    const windowSize = 1 / SENTENCE_COUNT;
-
-    function getSentenceState(index: number): {
-        phase: "before" | "in" | "after";
-        localProgress: number;
-        globalOpacity: number;
-        translateY: number;
-    } {
-        const start = index * windowSize;
-        const end = start + windowSize;
-
+    function getSentenceState(index: number) {
+        const start = index * slice;
+        const end = start + slice;
         const isLast = index === SENTENCE_COUNT - 1;
 
-        const localProgress = Math.max(0, Math.min(1, (progress - start) / windowSize));
-
-        let phase: "before" | "in" | "after" = "before";
-        if (progress >= start && progress < end) {
-            phase = "in";
-        } else if (progress >= end) {
-            phase = isLast ? "in" : "after";
-        }
-
+        // Opacity: fade in, hold, fade out — last sentence never fades out
         let globalOpacity = 0;
-        if (phase === "in") {
-            const fadeIn = Math.min(1, localProgress / 0.2);
-            const fadeOut = isLast ? 1 : 1 - Math.max(0, (localProgress - 0.7) / 0.3);
-            globalOpacity = Math.min(fadeIn, fadeOut);
+        if (progress < start) {
+            globalOpacity = 0;
+        } else if (progress < start + fade) {
+            globalOpacity = invLerp(start, start + fade, progress);
+        } else if (isLast || progress < end - fade) {
+            globalOpacity = 1;
+        } else {
+            globalOpacity = invLerp(end, end - fade, progress); // fade out
         }
 
+        // Y: enters from below, exits upward — last sentence stays
         let translateY = 0;
-        if (phase === "before") {
+        if (progress < start) {
             translateY = 40;
-        } else if (phase === "in") {
-            const enterOffset = Math.max(0, 1 - localProgress / 0.2) * 40;
-            const exitOffset = isLast ? 0 : Math.max(0, (localProgress - 0.7) / 0.3) * -40;
-            translateY = enterOffset + exitOffset;
-        } else if (phase === "after") {
-            translateY = -40;
+        } else if (progress < start + fade) {
+            translateY = lerp(40, 0, invLerp(start, start + fade, progress));
+        } else if (!isLast && progress >= end - fade) {
+            translateY = lerp(0, -40, invLerp(end - fade, end, progress));
+        } else {
+            translateY = 0;
         }
 
-        return { phase, localProgress, globalOpacity, translateY };
+        return { start, globalOpacity, translateY };
     }
 
     const activeDot = Math.min(SENTENCE_COUNT - 1, Math.floor(progress * SENTENCE_COUNT));
@@ -148,8 +141,6 @@ export function BrandsProblem() {
             {/* Sticky viewport */}
             <div className="sticky top-0 h-screen w-full overflow-hidden bg-purple-50 flex items-center justify-center">
 
-
-
                 {/* Diagonal grid overlay */}
                 <div
                     className="pointer-events-none absolute inset-0"
@@ -161,10 +152,10 @@ export function BrandsProblem() {
                     <div className="absolute inset-0 bg-grid opacity-20" />
                 </div>
 
-                {/* Sentences */}
+                {/* Sentences — all always rendered, opacity driven by scroll */}
                 <div className="relative z-10 w-full max-w-4xl px-8 md:px-16">
                     {SENTENCES.map((sentence, index) => {
-                        const { phase, localProgress, globalOpacity, translateY } = getSentenceState(index);
+                        const { start, globalOpacity, translateY } = getSentenceState(index);
                         const isLast = index === SENTENCE_COUNT - 1;
 
                         return (
@@ -186,20 +177,14 @@ export function BrandsProblem() {
                                         </p>
                                     ) : (
                                         <div className="flex items-start gap-6 md:gap-10">
-                                            {/* Label */}
-                                            <span
-                                                className="font-mono text-xs tracking-[0.15em] text-purple-400 shrink-0 min-w-10 pt-1.5"
-                                                style={{ opacity: globalOpacity > 0.1 ? 1 : 0 }}
-                                            >
+                                            <span className="font-mono text-xs tracking-[0.15em] text-purple-400 shrink-0 min-w-10 pt-1.5">
                                                 {sentence.label}
                                             </span>
-
-                                            {/* Text */}
                                             <p
                                                 className="font-heading font-medium text-purple-900 leading-[1.15] tracking-[-0.03em]"
                                                 style={{ fontSize: "clamp(1.75rem, 4.5vw, 3.5rem)" }}
                                             >
-                                                <WordReveal text={sentence.text} progress={localProgress} phase={phase} />
+                                                <WordReveal text={sentence.text} progress={progress} start={start} />
                                             </p>
                                         </div>
                                     )}
@@ -222,7 +207,7 @@ export function BrandsProblem() {
 
                 {/* Scroll hint */}
                 <div
-                    className="absolute bottom-10 right-10 z-20 flex flex-col items-center gap-2 transition-opacity duration-100"
+                    className="absolute bottom-10 right-10 z-20 flex flex-col items-center gap-2"
                     style={{ opacity: Math.max(0, 1 - progress * 8) }}
                 >
                     <span
@@ -231,9 +216,7 @@ export function BrandsProblem() {
                     >
                         scroll
                     </span>
-                    <div
-                        className="w-px h-8 bg-gradient-to-b from-purple-300 to-transparent"
-                    />
+                    <div className="w-px h-8 bg-gradient-to-b from-purple-300 to-transparent" />
                 </div>
             </div>
         </div>
