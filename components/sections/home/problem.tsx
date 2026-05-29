@@ -22,7 +22,7 @@ export function ProblemSection() {
                                     $200k+
                                 </h2>
                                 <p className="text-base text-primary-foreground/70">
-                                    Price for enterprise subscriptions to premium marketing data providers
+                                    Price for enterprise subscriptions to premium consumer data providers
                                 </p>
                             </div>
                         </div>
