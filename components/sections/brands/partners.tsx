@@ -5,6 +5,7 @@ const partners = [
     { name: "Miro", logo: "/miro-logo.svg" },
     { name: "DEPT", logo: "/dept-logo.svg" },
     { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
+    { name: "Google Data Commons", logo: "/data-comms-logo.svg" },
 ]
 
 export function BrandsPartners() {

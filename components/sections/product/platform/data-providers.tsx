@@ -3,6 +3,7 @@ import { FadeIn } from "@/components/ui/fade-in"
 
 const providers = [
     { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
+    { name: "Google Data Commons", logo: "/data-comms-logo.svg" },
     { name: "Datastreamer", logo: "/datastreamer-logo.webp" },
 ]
 

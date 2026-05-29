@@ -3,6 +3,7 @@ import Image from "next/image"
 
 const partners = [
     { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
+    { name: "Google Data Commons", logo: "/data-comms-logo.svg" },
     { name: "Miro", logo: "/miro-logo.svg" },
     { name: "DEPT", logo: "/dept-logo.svg" },
 ]

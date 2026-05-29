@@ -3,6 +3,7 @@ import { FadeIn } from "@/components/ui/fade-in"
 
 const dataProviders = [
     { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
+    { name: "Google Data Commons", logo: "/data-comms-logo.svg" },
     { name: "Reddit", logo: "/reddit-logo-horizontal.png" },
     { name: "X", logo: "/x-logo.jpg" },
 ]

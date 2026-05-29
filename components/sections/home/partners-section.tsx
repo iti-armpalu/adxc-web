@@ -3,8 +3,10 @@ import Image from "next/image"
 
 const dataProviders = [
     { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
+    { name: "Google Data Commons", logo: "/data-comms-logo.svg" },
     { name: "Reddit", logo: "/reddit-logo-horizontal.png" },
-    { name: "X", logo: "/x-logo.jpg" }
+    { name: "X", logo: "/x-logo.jpg" },
+
 ]
 
 const accessThrough = [
