@@ -1,219 +1,241 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import { cn } from "@/lib/utils"
+import { useRef, useEffect, useState } from "react";
 
-const scenarios = [
-    "You've been quoted $100K for a data subscription you'd use twice a year.",
-    "You've built a brief as best you can using gut instinct and the data your LLM can gather (the killer stat is, on checking, a hallucination…).",
-    "You've spent half a Tuesday hunting for category stats across PDFs, free trials, and outdated reports.",
-]
+const SENTENCES = [
+    {
+        id: 1,
+        label: "01",
+        text: "You commission a study. Six weeks later you get a deck with a bar chart and a caveat.",
+    },
+    {
+        id: 2,
+        label: "02",
+        text: "You brief an agency. They resurface last year's syndicated data and call it insight.",
+    },
+    {
+        id: 3,
+        label: "03",
+        text: "You ask your AI tool. It hallucinates a statistic and cites a source that doesn't exist.",
+    },
+    {
+        id: 4,
+        label: null,
+        text: "Sound familiar?",
+    },
+];
 
-type Variant = "numbered" | "large-type" | "split" | "highlighted" | "asymmetric" | "cinematic"
+const SENTENCE_COUNT = SENTENCES.length;
 
-const variants: { id: Variant; label: string }[] = [
-    { id: "numbered", label: "A — Numbered" },
-    { id: "large-type", label: "B — Large type" },
-    { id: "split", label: "C — Split" },
-    { id: "highlighted", label: "D — Highlighted" },
-    { id: "asymmetric", label: "E — Asymmetric" },
-    { id: "cinematic", label: "F — Cinematic" },
-]
-
-function Highlight({ children }: { children: React.ReactNode }) {
-    return (
-        <mark className="bg-purple-100 text-purple-800 px-1 rounded-xs not-italic">
-            {children}
-        </mark>
-    )
-}
-
-function HighlightedScenarios() {
-    return (
-        <>
-            <p className="text-lg sm:text-xl text-foreground leading-relaxed">
-                You've been quoted <Highlight>$100K</Highlight> for a data subscription you'd use <Highlight>twice a year</Highlight>.
-            </p>
-            <p className="text-lg sm:text-xl text-foreground leading-relaxed">
-                You've built a brief as best you can using gut instinct and the data your LLM can gather (the killer stat is, on checking, <Highlight>a hallucination…</Highlight>).
-            </p>
-            <p className="text-lg sm:text-xl text-foreground leading-relaxed">
-                You've spent <Highlight>half a Tuesday</Highlight> hunting for category stats across PDFs, free trials, and outdated reports.
-            </p>
-        </>
-    )
-}
-
-function NumberedLayout() {
-    return (
-        <div className="space-y-6">
-            {scenarios.map((s, i) => (
-                <div key={i} className="flex gap-6 items-start">
-                    <span className="text-5xl font-semibold leading-none text-purple-200 shrink-0 w-12 text-right">
-                        {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <p className="text-lg sm:text-xl text-foreground leading-relaxed pt-1">{s}</p>
-                </div>
-            ))}
-            <p className="text-2xl sm:text-3xl font-semibold text-primary ml-[4.5rem] pt-2">
-                Sound familiar?
-            </p>
-        </div>
-    )
-}
-
-function LargeTypeLayout() {
-    return (
-        <div className="space-y-6">
-            {scenarios.map((s, i) => (
-                <p key={i} className="text-xl sm:text-2xl font-medium text-foreground leading-snug">{s}</p>
-            ))}
-            <p className="text-3xl sm:text-4xl font-semibold text-primary pt-4">
-                Sound familiar?
-            </p>
-        </div>
-    )
-}
-
-function SplitLayout() {
-    return (
-        <div className="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-8 md:gap-12">
-            <div className="md:pt-1">
-                <span className="text-caption text-primary border-t-2 border-primary pt-2 inline-block">
-                    The problem
-                </span>
-            </div>
-            <div className="space-y-6">
-                {scenarios.map((s, i) => (
-                    <p key={i} className="text-lg sm:text-xl text-foreground leading-relaxed pb-6 border-b border-border last:border-none last:pb-0">
-                        {s}
-                    </p>
-                ))}
-                <p className="text-2xl sm:text-3xl font-semibold text-primary pt-2">
-                    Sound familiar?
-                </p>
-            </div>
-        </div>
-    )
-}
-
-function HighlightedLayout() {
-    return (
-        <div className="space-y-6">
-            <HighlightedScenarios />
-            <p className="text-2xl sm:text-3xl font-semibold text-primary pt-2">
-                Sound familiar?
-            </p>
-        </div>
-    )
-}
-
-function AsymmetricLayout() {
-    return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
-            <div className="space-y-6">
-                {scenarios.map((s, i) => (
-                    <p key={i} className="text-lg text-foreground leading-relaxed pb-6 border-b border-border last:border-none last:pb-0">
-                        {s}
-                    </p>
-                ))}
-            </div>
-            <div className="flex items-center justify-center md:justify-start">
-                <p className="text-4xl sm:text-5xl font-semibold text-primary leading-tight">
-                    Sound<br />familiar?
-                </p>
-            </div>
-        </div>
-    )
-}
-
-function CinematicLayout() {
-    const [activeIndex, setActiveIndex] = useState(0)
-    const itemRefs = useRef<(HTMLDivElement | null)[]>([])
-    const allItems = [...scenarios, "Sound familiar?"]
+function useScrollProgress(ref: React.RefObject<HTMLElement | null>) {
+    const [progress, setProgress] = useState(0);
 
     useEffect(() => {
-        const observers: IntersectionObserver[] = []
+        const el = ref.current;
+        if (!el) return;
 
-        itemRefs.current.forEach((el, i) => {
-            if (!el) return
-            const observer = new IntersectionObserver(
-                ([entry]) => {
-                    if (entry.isIntersecting) setActiveIndex(i)
-                },
-                { threshold: 0.6 }
-            )
-            observer.observe(el)
-            observers.push(observer)
-        })
+        const onScroll = () => {
+            const rect = el.getBoundingClientRect();
+            const totalScrollable = el.scrollHeight - window.innerHeight;
+            const scrolled = -rect.top;
+            const p = Math.max(0, Math.min(1, scrolled / totalScrollable));
+            setProgress(p);
+        };
 
-        return () => observers.forEach((o) => o.disconnect())
-    }, [])
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+        return () => window.removeEventListener("scroll", onScroll);
+    }, [ref]);
+
+    return progress;
+}
+
+interface WordRevealProps {
+    text: string;
+    progress: number;
+    phase: "before" | "in" | "after";
+}
+
+function WordReveal({ text, progress, phase }: WordRevealProps) {
+    const words = text.split(" ");
+    const revealProgress = Math.min(1, progress / 0.6);
 
     return (
-        <div>
-            {allItems.map((text, i) => {
-                const isFinal = i === allItems.length - 1
+        <span className="inline">
+            {words.map((word, i) => {
+                const threshold = i / words.length;
+                const wordProgress = Math.max(
+                    0,
+                    Math.min(1, (revealProgress - threshold) / (1 / words.length))
+                );
+                const opacity = phase === "after" ? 0 : phase === "before" ? 0 : wordProgress;
+                const translateY = phase === "after" ? -8 : phase === "before" ? 8 : (1 - wordProgress) * 10;
+
                 return (
-                    <div
+                    <span
                         key={i}
-                        ref={(el) => { itemRefs.current[i] = el }}
-                        className={cn(
-                            "min-h-[60vh] flex items-center transition-all duration-700",
-                            activeIndex === i ? "opacity-100" : "opacity-20"
-                        )}
+                        style={{
+                            display: "inline-block",
+                            opacity,
+                            transform: `translateY(${translateY}px)`,
+                            transition: "none",
+                            marginRight: "0.25em",
+                        }}
                     >
-                        <p className={cn(
-                            "leading-tight transition-all duration-700",
-                            isFinal
-                                ? "text-4xl sm:text-5xl font-semibold text-primary"
-                                : "text-2xl sm:text-3xl font-medium text-foreground",
-                            activeIndex === i && !isFinal && "text-3xl sm:text-4xl"
-                        )}>
-                            {text}
-                        </p>
-                    </div>
-                )
+                        {word}
+                    </span>
+                );
             })}
-        </div>
-    )
+        </span>
+    );
 }
 
 export function BrandsProblem() {
-    const [active, setActive] = useState<Variant>("numbered")
+    const containerRef = useRef<HTMLDivElement>(null);
+    const progress = useScrollProgress(containerRef as React.RefObject<HTMLElement>);
+
+    const windowSize = 1 / SENTENCE_COUNT;
+
+    function getSentenceState(index: number): {
+        phase: "before" | "in" | "after";
+        localProgress: number;
+        globalOpacity: number;
+        translateY: number;
+    } {
+        const start = index * windowSize;
+        const end = start + windowSize;
+
+        const isLast = index === SENTENCE_COUNT - 1;
+
+        const localProgress = Math.max(0, Math.min(1, (progress - start) / windowSize));
+
+        let phase: "before" | "in" | "after" = "before";
+        if (progress >= start && progress < end) {
+            phase = "in";
+        } else if (progress >= end) {
+            phase = isLast ? "in" : "after";
+        }
+
+        let globalOpacity = 0;
+        if (phase === "in") {
+            const fadeIn = Math.min(1, localProgress / 0.2);
+            const fadeOut = isLast ? 1 : 1 - Math.max(0, (localProgress - 0.7) / 0.3);
+            globalOpacity = Math.min(fadeIn, fadeOut);
+        }
+
+        let translateY = 0;
+        if (phase === "before") {
+            translateY = 40;
+        } else if (phase === "in") {
+            const enterOffset = Math.max(0, 1 - localProgress / 0.2) * 40;
+            const exitOffset = isLast ? 0 : Math.max(0, (localProgress - 0.7) / 0.3) * -40;
+            translateY = enterOffset + exitOffset;
+        } else if (phase === "after") {
+            translateY = -40;
+        }
+
+        return { phase, localProgress, globalOpacity, translateY };
+    }
+
+    const activeDot = Math.min(SENTENCE_COUNT - 1, Math.floor(progress * SENTENCE_COUNT));
 
     return (
-        <section className="bg-purple-50">
-            {/* Toggle — visible in dev/staging, remove before final launch */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 flex justify-end">
-                <div className="flex flex-wrap gap-2">
-                    {variants.map((v) => (
-                        <button
-                            key={v.id}
-                            onClick={() => setActive(v.id)}
-                            className={cn(
-                                "px-3 py-1.5 text-xs rounded-full border transition-all duration-150 cursor-pointer",
-                                active === v.id
-                                    ? "bg-primary text-primary-foreground border-primary"
-                                    : "bg-transparent text-muted-foreground border-border hover:border-primary/50"
-                            )}
-                        >
-                            {v.label}
-                        </button>
+        <div
+            ref={containerRef}
+            style={{ height: `${SENTENCE_COUNT * 120}vh` }}
+            className="relative"
+        >
+            {/* Sticky viewport */}
+            <div className="sticky top-0 h-screen w-full overflow-hidden bg-purple-50 flex items-center justify-center">
+
+
+
+                {/* Diagonal grid overlay */}
+                <div
+                    className="pointer-events-none absolute inset-0"
+                    style={{
+                        maskImage: "linear-gradient(135deg, transparent 35%, black 65%)",
+                        WebkitMaskImage: "linear-gradient(135deg, transparent 35%, black 65%)",
+                    }}
+                >
+                    <div className="absolute inset-0 bg-grid opacity-20" />
+                </div>
+
+                {/* Sentences */}
+                <div className="relative z-10 w-full max-w-4xl px-8 md:px-16">
+                    {SENTENCES.map((sentence, index) => {
+                        const { phase, localProgress, globalOpacity, translateY } = getSentenceState(index);
+                        const isLast = index === SENTENCE_COUNT - 1;
+
+                        return (
+                            <div
+                                key={sentence.id}
+                                className="absolute inset-0 flex items-center justify-center px-8 md:px-16 pointer-events-none"
+                                style={{
+                                    opacity: globalOpacity,
+                                    transform: `translateY(${translateY}px)`,
+                                }}
+                            >
+                                <div className="w-full max-w-4xl">
+                                    {isLast ? (
+                                        <p
+                                            className="font-heading font-bold text-purple-700 text-center tracking-[-0.04em] leading-none"
+                                            style={{ fontSize: "clamp(3rem, 8vw, 6rem)" }}
+                                        >
+                                            {sentence.text}
+                                        </p>
+                                    ) : (
+                                        <div className="flex items-start gap-6 md:gap-10">
+                                            {/* Label */}
+                                            <span
+                                                className="font-mono text-xs tracking-[0.15em] text-purple-400 shrink-0 min-w-10 pt-1.5"
+                                                style={{ opacity: globalOpacity > 0.1 ? 1 : 0 }}
+                                            >
+                                                {sentence.label}
+                                            </span>
+
+                                            {/* Text */}
+                                            <p
+                                                className="font-heading font-medium text-purple-900 leading-[1.15] tracking-[-0.03em]"
+                                                style={{ fontSize: "clamp(1.75rem, 4.5vw, 3.5rem)" }}
+                                            >
+                                                <WordReveal text={sentence.text} progress={localProgress} phase={phase} />
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+
+                {/* Progress dots */}
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+                    {SENTENCES.map((_, i) => (
+                        <div
+                            key={i}
+                            className={`h-1.5 rounded-full transition-all duration-300 ${i === activeDot ? "w-7 bg-purple-600" : "w-1.5 bg-purple-200"
+                                }`}
+                        />
                     ))}
                 </div>
-            </div>
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-                <div className={cn("mx-auto", active === "cinematic" ? "max-w-2xl" : "max-w-3xl")}>
-                    {active === "numbered" && <NumberedLayout />}
-                    {active === "large-type" && <LargeTypeLayout />}
-                    {active === "split" && <SplitLayout />}
-                    {active === "highlighted" && <HighlightedLayout />}
-                    {active === "asymmetric" && <AsymmetricLayout />}
-                    {active === "cinematic" && <CinematicLayout />}
+                {/* Scroll hint */}
+                <div
+                    className="absolute bottom-10 right-10 z-20 flex flex-col items-center gap-2 transition-opacity duration-100"
+                    style={{ opacity: Math.max(0, 1 - progress * 8) }}
+                >
+                    <span
+                        className="font-mono text-[0.625rem] tracking-[0.15em] text-purple-300 uppercase"
+                        style={{ writingMode: "vertical-rl" }}
+                    >
+                        scroll
+                    </span>
+                    <div
+                        className="w-px h-8 bg-gradient-to-b from-purple-300 to-transparent"
+                    />
                 </div>
             </div>
-        </section>
-    )
+        </div>
+    );
 }
