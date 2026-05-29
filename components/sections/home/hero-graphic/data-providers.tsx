@@ -37,7 +37,7 @@ export function DataProviders({ activeQuestion, scale = 1 }: DataProvidersProps)
                     const cy = (p.y / 100) * HEIGHT
                     const isActive = active.has(i)
                     const r = (p.size * scale) / 2
-                    const color = p.logo ? "343 10% 75%" : (p.color ?? "343 47% 58%")
+                    const color = p.logo ? "var(--color-neutral-400)" : (p.color ?? "var(--color-brand-400)")
 
                     const t = PROVIDER_DOTS.length === 1 ? 0.5 : rankOf[i] / (PROVIDER_DOTS.length - 1)
                     const angle = (-Math.PI / 8) + t * (Math.PI / 4)
@@ -63,7 +63,7 @@ export function DataProviders({ activeQuestion, scale = 1 }: DataProvidersProps)
                             <path d={d} fill="none" strokeLinecap="round"
                                 stroke="#C46184" strokeOpacity={0.2} strokeWidth={1} strokeDasharray="3 4" />
                             <path d={d} fill="none" strokeLinecap="round"
-                                stroke="#C46184" strokeWidth={2}
+                                stroke="#B44774" strokeWidth={2}
                                 style={{ opacity: isActive ? 0.9 : 0, transition: "opacity 900ms cubic-bezier(0.4, 0, 0.2, 1)" }} />
                             {isActive && (
                                 <>
@@ -91,7 +91,7 @@ export function DataProviders({ activeQuestion, scale = 1 }: DataProvidersProps)
 
             {PROVIDER_DOTS.map((p, i) => {
                 const isActive = active.has(i)
-                const color = p.logo ? "343 10% 75%" : (p.color ?? "343 47% 58%")
+                const color = p.logo ? "var(--color-neutral-400)" : (p.color ?? "var(--color-brand-400)")
                 const DUR = 900
                 const EASE = "cubic-bezier(0.4, 0, 0.2, 1)"
                 return (
@@ -102,9 +102,9 @@ export function DataProviders({ activeQuestion, scale = 1 }: DataProvidersProps)
                             transform: `translate(-50%, -50%) scale(${isActive ? 1.05 : 1})`,
                             transition: `transform ${DUR}ms ${EASE}`,
                             willChange: "transform",
-                            backgroundColor: p.logo ? "transparent" : `hsl(${color})`,
+                            backgroundColor: p.logo ? "transparent" : color,
                             opacity: isActive ? 1 : 0.35,
-                            boxShadow: isActive && !p.logo ? `0 0 20px hsl(${color} / 0.5)` : "none",
+                            boxShadow: isActive && !p.logo ? `0 0 20px oklch(from ${color} l c h / 0.5)` : "none",
                         }}
                     >
                         {p.logo ? (

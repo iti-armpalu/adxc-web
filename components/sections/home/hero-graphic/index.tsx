@@ -61,7 +61,7 @@ export function HeroGraphic() {
                     </div>
                     <QuestionCarousel step={step} onStep={setStep} visible={5} highlightIndex={2} />
                 </div>
-                <div className="-translate-y-[8px] flex items-center pointer-events-auto">
+                <div className="-translate-y-[6px] flex items-center pointer-events-auto">
                     <ConnectingLine activeQuestion={activeQuestion} width={24} />
                     <div className="relative">
                         <AdxcUnit size={adxcSize} />

@@ -23,8 +23,8 @@ export function ConnectingLine({ activeQuestion, width = 64, vertical = false }:
                 >
                     <line
                         x1="12" y1="0" x2="12" y2={height}
-                        stroke="#C46184"
-                        strokeWidth="2"
+                        stroke="#B44774"
+                        strokeWidth={1}
                         strokeLinecap="round"
                     />
 
@@ -59,8 +59,8 @@ export function ConnectingLine({ activeQuestion, width = 64, vertical = false }:
             >
                 <line
                     x1="0" y1="12" x2={width} y2="12"
-                    stroke="#C46184"
-                    strokeWidth="2"
+                    stroke="#B44774" 
+                    strokeWidth={2}
                     strokeLinecap="round"
                 />
                 {/* <circle r="3.5" cy="12" fill="#FFE5F0"> */}

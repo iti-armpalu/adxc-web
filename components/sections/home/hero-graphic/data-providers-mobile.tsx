@@ -9,20 +9,15 @@ import type { ProviderDot } from "./types"
 const PROVIDERS: ProviderDot[] = [
     // Top row — closer to ADXC
     { x: 6, y: 40, size: 56, label: "YouGov", logo: "/yougov-logo.jpg" },
-    { x: 20, y: 40, size: 20, color: "343 70% 40%" },   // tyrian-600
-    { x: 54, y: 40, size: 26, color: "174 55% 35%" },   // cyan-700
-    { x: 80, y: 40, size: 22, color: "214 38% 22%" },   // blue-600
-    { x: 96, y: 40, size: 36, color: "16 55% 40%" },   // orange-800
+    { x: 20, y: 40, size: 20, color: "var(--color-brand-600)" },   // tyrian-600
+    { x: 54, y: 40, size: 26, color: "var(--color-cyan-700)" },   // cyan-700
+    { x: 80, y: 40, size: 22, color: "var(--color-blue-600)" },   // blue-600
+    { x: 96, y: 40, size: 36, color: "var(--color-orange-700)" },   // orange-800
     // Bottom row — farther from ADXC
-    // { x: 6, y: 40, size: 56, label: "YouGov", logo: "/yougov-logo.jpg" },
-    { x: 18, y: 75, size: 18, color: "42 100% 42%" },   // gold
-    // { x: 30, y: 40, size: 20, color: "343 70% 40%" },   // tyrian-600
+    { x: 18, y: 75, size: 18, color: "var(--color-orange-600)" },   // gold
     { x: 42, y: 65, size: 50, label: "X", logo: "/x-logo.jpg" },
-    // { x: 54, y: 40, size: 26, color: "174 55% 35%" },   // cyan-700
     { x: 66, y: 85, size: 60, label: "US Census Bureau", logo: "/us-census-bureau-logo.png" },
-    // { x: 76, y: 40, size: 22, color: "214 38% 22%" },   // blue-600
     { x: 88, y: 75, size: 54, label: "Reddit", logo: "/reddit-logo.png" },
-    // { x: 96, y: 40, size: 36, color: "16 55% 40%" },   // orange-800
 ]
 
 const WIDTH = 350
@@ -59,7 +54,7 @@ export function DataProvidersMobile({ activeQuestion }: Props) {
                     const cy = (p.y / 100) * HEIGHT
                     const isActive = active.has(i)
                     const r = p.size / 2
-                    const color = p.logo ? "343 10% 75%" : (p.color ?? "343 47% 58%")
+                    const color = p.logo ? "var(--color-neutral-400)" : (p.color ?? "var(--color-brand-400)")
 
                     const isTop = i < TOP_COUNT
                     let angle: number
@@ -96,7 +91,7 @@ export function DataProvidersMobile({ activeQuestion }: Props) {
                                 stroke="#C46184" strokeOpacity={0.2} strokeWidth={1} strokeDasharray="3 4" />
                             {/* Active line */}
                             <path d={d} fill="none" strokeLinecap="round"
-                                stroke="#C46184" strokeWidth={2}
+                                stroke="#B44774" strokeWidth={2}
                                 style={{ opacity: isActive ? 0.9 : 0, transition: "opacity 900ms cubic-bezier(0.4, 0, 0.2, 1)" }} />
                             {/* Travelling dots */}
                             {isActive && (
@@ -125,7 +120,7 @@ export function DataProvidersMobile({ activeQuestion }: Props) {
 
             {PROVIDERS.map((p, i) => {
                 const isActive = active.has(i)
-                const color = p.logo ? "343 10% 75%" : (p.color ?? "343 47% 58%")
+                const color = p.logo ? "var(--color-neutral-400)" : (p.color ?? "var(--color-brand-400)")
                 const DUR = 900
                 const EASE = "cubic-bezier(0.4, 0, 0.2, 1)"
                 return (
@@ -140,9 +135,9 @@ export function DataProvidersMobile({ activeQuestion }: Props) {
                             transform: `translate(-50%, -50%) scale(${isActive ? 1.05 : 1})`,
                             transition: `transform ${DUR}ms ${EASE}`,
                             willChange: "transform",
-                            backgroundColor: p.logo ? "transparent" : `hsl(${color})`,
+                            backgroundColor: p.logo ? "transparent" : color,
                             opacity: isActive ? 1 : 0.35,
-                            boxShadow: isActive && !p.logo ? `0 0 20px hsl(${color} / 0.5)` : "none",
+                            boxShadow: isActive && !p.logo ? `0 0 20px oklch(from ${color} l c h / 0.5)` : "none",
                         }}
                     >
                         {p.logo ? (

@@ -92,7 +92,7 @@ export function QuestionCarousel({ step, onStep, onPillWidth, visible = 5, highl
                                     "flex items-center gap-2",
                                     "whitespace-normal lg:whitespace-nowrap",
                                     "transition-colors duration-1000 ease-out",
-                                    isHighlight ? "border-brand-600 shadow-lg" : "border-border"
+                                    isHighlight ? "border-brand-900 shadow-lg" : "border-border"
                                 )}
                             >
                                 <span
@@ -103,7 +103,7 @@ export function QuestionCarousel({ step, onStep, onPillWidth, visible = 5, highl
                                 >
                                     {initial(q.name)}
                                 </span>
-                                <span className="lg:max-w-[220px] xl:max-w-none truncate">{q.text}</span>
+                                <span className="lg:max-w-[220px] xl:max-w-none truncate text-brand-900 font-semibold">{q.text}</span>
                                 <span
                                     className={cn(
                                         "ml-1 flex h-6 w-6 items-center justify-center rounded-full border transition-colors duration-500 shrink-0",
