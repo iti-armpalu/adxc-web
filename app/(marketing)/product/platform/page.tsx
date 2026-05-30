@@ -5,7 +5,6 @@ import { PlatformHowItWorks } from "@/components/sections/product/platform/how-i
 import { PlatformDataProviders } from "@/components/sections/product/platform/data-providers"
 import { PlatformPatent } from "@/components/sections/product/platform/patent"
 import { PlatformAudiences } from "@/components/sections/product/platform/audiences"
-import { AudienceCardsSection } from "@/components/sections/home/audience-cards"
 
 export const metadata: Metadata = {
     title: "Platform",

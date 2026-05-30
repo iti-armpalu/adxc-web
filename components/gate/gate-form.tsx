@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect, useMemo, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { unlockAction } from "@/lib/gate/actions";
 import type { UnlockState } from "@/lib/gate/actions";
 import { Input } from "@/components/ui/input";
