@@ -9,7 +9,7 @@ export function AIPlatformsPartners() {
                     <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-12">
 
                         <p className="text-base text-center text-cyan-950 shrink-0 max-w-xs">
-                            Join leading AI platforms integrated with ADXC
+                            Join leading AI platforms integrating with ADXC
                         </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
@@ -18,7 +18,7 @@ export function AIPlatformsPartners() {
                                 alt="Miro"
                                 width={100}
                                 height={36}
-                                className="h-4 sm:h-8 w-auto object-contain"
+                                className="h-8 w-auto object-contain"
                             />
                             <p className="text-sm text-cyan-950">More coming soon</p>
                         </div>
