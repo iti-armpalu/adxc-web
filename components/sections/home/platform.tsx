@@ -43,7 +43,7 @@ export function PlatformSection() {
 
           <div className="space-y-4 mb-16">
             <h2 className="text-primary">
-              The ADXC platform
+              How it works
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed max-w-lg">
               Connect ADXC to your existing AI tools, starting with Miro Sidekick at launch.

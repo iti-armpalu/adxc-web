@@ -24,7 +24,7 @@ export function HeroSection() {
         <FadeIn>
             <section className="relative w-full mt-header">
                 <HeroBackground />
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 min-h-[calc(100dvh-var(--header-h))] flex flex-col justify-center py-16">
+                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 min-h-[calc(90dvh-var(--header-h))] flex flex-col justify-center py-16">
 
                     <div className="grid grid-cols-1 xl:grid-cols-2 gap-16 items-start h-full flex-1">
 
@@ -32,13 +32,11 @@ export function HeroSection() {
                         <div className="max-w-xl space-y-10">
                             <div className="space-y-6">
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl">
-                                    Access premium consumer data.{" "}
-                                    <span className="text-brand-400">Pay-as-you-go.</span>
+                                    Premium consumer data.{" "}
+                                    <span className="text-brand-400">Pay per answer.</span>
                                 </h1>
                                 <p className="text-lg text-foreground leading-relaxed max-w-md">
-                                    ADXC connects your AI tools to industry-leading data providers.
-                                    Pay per query, no subscriptions, so you can access the insight needed
-                                    to grow your business.
+                                    Connect your AI tools to industry-leading data providers to make important business decisions backed by real, trusted data. Only pay for what you need.
                                 </p>
                             </div>
 

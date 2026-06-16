@@ -4,9 +4,7 @@ import Image from "next/image"
 const dataProviders = [
     { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
     { name: "Google Data Commons", logo: "/data-comms-logo.svg" },
-    { name: "Reddit", logo: "/reddit-logo-horizontal.png" },
-    { name: "X", logo: "/x-logo.jpg" },
-
+    { name: "Datastreamer", logo: "/datastreamer-logo.webp" },
 ]
 
 const accessThrough = [
@@ -17,7 +15,7 @@ export function PartnersSection() {
     return (
         <FadeIn>
             <section className="bg-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
                     <div className="flex flex-col items-center gap-8 sm:gap-0 sm:flex-row sm:justify-center sm:divide-x sm:divide-border">
 
                         {/* Access data from */}

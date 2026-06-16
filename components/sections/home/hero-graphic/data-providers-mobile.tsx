@@ -9,15 +9,15 @@ import type { ProviderDot } from "./types"
 const PROVIDERS: ProviderDot[] = [
     // Top row — closer to ADXC
     { x: 6, y: 40, size: 56, label: "YouGov", logo: "/yougov-logo.jpg" },
-    { x: 20, y: 40, size: 20, color: "var(--color-brand-600)" },   // tyrian-600
-    { x: 54, y: 40, size: 26, color: "var(--color-cyan-700)" },   // cyan-700
-    { x: 80, y: 40, size: 22, color: "var(--color-blue-600)" },   // blue-600
-    { x: 96, y: 40, size: 36, color: "var(--color-orange-700)" },   // orange-800
+    { x: 20, y: 40, size: 20, color: "var(--color-brand-600)" },
+    { x: 54, y: 40, size: 26, color: "var(--color-cyan-700)" },
+    { x: 80, y: 40, size: 22, color: "var(--color-blue-600)" },
+    { x: 96, y: 40, size: 36, color: "var(--color-orange-700)" },
     // Bottom row — farther from ADXC
-    { x: 18, y: 75, size: 18, color: "var(--color-orange-600)" },   // gold
-    { x: 42, y: 65, size: 50, label: "X", logo: "/x-logo.jpg" },
+    { x: 18, y: 75, size: 18, color: "var(--color-orange-600)" },
+    { x: 42, y: 65, size: 50, color: "var(--color-purple-600)" },
     { x: 66, y: 85, size: 60, label: "US Census Bureau", logo: "/us-census-bureau-logo.png" },
-    { x: 88, y: 75, size: 54, label: "Reddit", logo: "/reddit-logo.png" },
+    { x: 88, y: 75, size: 54, color: "var(--color-orange-700)" },
 ]
 
 const WIDTH = 350
