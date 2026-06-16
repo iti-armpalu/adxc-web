@@ -1,6 +1,7 @@
 import crypto from "crypto";
 
 export const COOKIE_NAME = "__Host-site_unlocked";
+export const DEPT_COOKIE_NAME = "__Host-dept_unlocked";
 export const MAX_AGE_SECONDS = 24 * 60 * 60;
 
 // token = base64url(payload) + "." + base64url(hmac(payload))

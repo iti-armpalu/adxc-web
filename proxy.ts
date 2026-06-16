@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
+import { verifyEdge } from "@/lib/gate/token-edge"
+import { DEPT_COOKIE_NAME } from "@/lib/gate/token"
 
 // Pages accessible to the public
 const ALLOWED_ROUTES = [
@@ -29,6 +31,43 @@ function isPublicAsset(pathname: string) {
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
+  const host = req.headers.get("host") ?? ""
+
+  // ----------------------------------------------------------------
+  // DEPT subdomain — completely isolated from main site logic
+  // ----------------------------------------------------------------
+  if (
+    host === "dept.adxc.ai" ||
+    host.startsWith("dept.adxc.ai:") ||
+    host === "localhost:3000" // temporary — remove before merging to main
+  ) {
+    // Always allow assets
+    if (isPublicAsset(pathname)) return NextResponse.next()
+
+    const secret = process.env.DEPT_GATE_COOKIE_SECRET
+    const cookieValue = req.cookies.get(DEPT_COOKIE_NAME)?.value
+
+    // Check for valid gate cookie
+    const valid = secret && cookieValue
+      ? await verifyEdge(cookieValue, secret)
+      : null
+
+    if (!valid) {
+      // Not authenticated — rewrite to gate page
+      return NextResponse.rewrite(new URL("/dept/gate", req.url))
+    }
+
+    // Authenticated — rewrite root to calculator
+    if (pathname === "/" || pathname === "") {
+      return NextResponse.rewrite(new URL("/dept/calculator", req.url))
+    }
+
+    return NextResponse.next()
+  }
+
+  // ----------------------------------------------------------------
+  // Main site — existing allowlist logic unchanged
+  // ----------------------------------------------------------------
 
   // Always allow assets and API routes
   if (isPublicAsset(pathname)) return NextResponse.next()
