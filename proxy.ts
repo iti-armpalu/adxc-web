@@ -25,7 +25,8 @@ function isPublicAsset(pathname: string) {
     pathname === "/favicon.ico" ||
     pathname === "/robots.txt" ||
     pathname === "/sitemap.xml" ||
-    /\.(png|jpg|jpeg|svg|webp|css|js|ico|txt|map|json)$/.test(pathname)
+    pathname === "/site.webmanifest" ||
+    /\.(png|jpg|jpeg|svg|webp|css|js|ico|txt|map|json|webmanifest)$/.test(pathname)
   )
 }
 

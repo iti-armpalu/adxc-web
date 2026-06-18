@@ -13,9 +13,8 @@ export default function DeptGatePage() {
                     <Image
                         src="/adxc-logo-primary-horizontal.svg"
                         alt="ADXC"
-                        width={80}
-                        height={24}
-                        priority
+                        width={60}
+                        height={22}
                     />
                 </div>
             </header>
@@ -29,15 +28,15 @@ export default function DeptGatePage() {
                         <Image
                             src="/adxc-logo-primary-horizontal.svg"
                             alt="ADXC"
-                            width={60}
-                            height={22}
+                            width={120}
+                            height={28}
                         />
                         <span className="text-neutral-300 select-none">×</span>
                         <Image
                             src="/dept-logo.svg"
                             alt="DEPT®"
-                            width={60}
-                            height={22}
+                            width={120}
+                            height={28}
                         />
                     </div>
 

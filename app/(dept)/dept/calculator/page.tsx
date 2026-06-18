@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge"
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ADXC_NET_REVENUE_RATE = 0.50 // ADXC takes 50% of total spend as net revenue
+const ADXC_NET_REVENUE_RATE = 0.50 // hidden from UI — ADXC takes 50% of total spend as net revenue
 
 const TIERS = [
     {
@@ -43,12 +43,8 @@ const TIERS = [
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function formatCurrency(value: number): string {
-    if (value >= 1_000_000) {
-        return `$${(value / 1_000_000).toFixed(2)}M`
-    }
-    if (value >= 1_000) {
-        return `$${(value / 1_000).toFixed(1)}k`
-    }
+    if (value >= 1_000_000) return `$${(value / 1_000_000).toFixed(2)}M`
+    if (value >= 1_000) return `$${(value / 1_000).toFixed(1)}k`
     return `$${value.toFixed(0)}`
 }
 
@@ -75,7 +71,7 @@ type TierState = {
     annualSpend: number
 }
 
-// ─── Tier Input Row ───────────────────────────────────────────────────────────
+// ─── Tier Input Card ──────────────────────────────────────────────────────────
 
 function TierInputCard({
     tier,
@@ -89,21 +85,16 @@ function TierInputCard({
     const [clientsStr, setClientsStr] = useState(String(state.clients))
     const [spendStr, setSpendStr] = useState(String(state.annualSpend))
 
-    // Keep local string in sync when slider updates the value
-    useState(() => { setClientsStr(String(state.clients)) })
-
     return (
         <Card>
             <CardContent className="p-0">
-                <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] divide-y lg:divide-y-0 lg:divide-x divide-border">
+                <div className="grid grid-cols-1 lg:grid-cols-[180px_1fr] divide-y lg:divide-y-0 lg:divide-x divide-border">
 
                     {/* LEFT — tier info */}
                     <div className="p-4 space-y-1.5">
-                        <div className="flex items-center gap-2">
-                            <Badge variant="secondary" className="text-xs font-semibold tabular-nums">
-                                {tier.rateLabel}
-                            </Badge>
-                        </div>
+                        <Badge variant="secondary" className="text-xs font-semibold tabular-nums">
+                            {tier.rateLabel}
+                        </Badge>
                         <p className="text-sm font-semibold leading-snug">
                             Tier {tier.id} — {tier.label}
                         </p>
@@ -201,6 +192,9 @@ const DEFAULT_STATE: TierState[] = [
     { clients: 2, annualSpend: 100_000 },
 ]
 
+// Display order: Tier 3 → 2 → 1 (reversed)
+const DISPLAY_TIERS = [...TIERS].reverse()
+
 export default function DeptCalculatorPage() {
     const [tiers, setTiers] = useState<TierState[]>(DEFAULT_STATE)
     const [view, setView] = useState<"annual" | "monthly">("annual")
@@ -209,21 +203,15 @@ export default function DeptCalculatorPage() {
         setTiers((prev) => prev.map((t, i) => (i === index ? { ...t, ...next } : t)))
     }
 
-    // ─── Calculations ────────────────────────────────────────────────────────
-
-    const tierResults = tiers.map((t, i) => {
-        const adxcNetRevenue = t.clients * t.annualSpend * ADXC_NET_REVENUE_RATE
-        const deptEarning = adxcNetRevenue * TIERS[i].rate
-        return {
-            adxcNetRevenue,
-            deptEarning,
-            totalClientSpend: t.clients * t.annualSpend,
-        }
+    // Calculations always use TIERS order (0=Introduce, 1=Manage, 2=Integrate)
+    const tierResults = TIERS.map((tier, i) => {
+        const adxcNetRevenue = tiers[i].clients * tiers[i].annualSpend * ADXC_NET_REVENUE_RATE
+        const deptEarning = adxcNetRevenue * tier.rate
+        return { adxcNetRevenue, deptEarning }
     })
 
     const totalDeptEarning = tierResults.reduce((s, r) => s + r.deptEarning, 0)
-    const monthlyDeptEarning = totalDeptEarning / 12
-    const displayEarning = view === "annual" ? totalDeptEarning : monthlyDeptEarning
+    const displayEarning = view === "annual" ? totalDeptEarning : totalDeptEarning / 12
 
     return (
         <div className="min-h-screen flex flex-col bg-background">
@@ -259,23 +247,25 @@ export default function DeptCalculatorPage() {
             <main className="flex-1 px-4 py-8 md:px-8 md:py-10">
                 <div className="max-w-7xl mx-auto">
 
-                    {/* Page title */}
                     <p className="text-sm text-muted-foreground mb-6">
                         Estimate DEPT®'s annual revenue share based on client portfolio and engagement tier.
                     </p>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 items-stretch">
+                    <div className="grid grid-cols-1 lg:grid-cols-[1fr_460px] gap-6 items-stretch">
 
-                        {/* ── LEFT: Inputs ── */}
+                        {/* ── LEFT: Inputs — displayed Tier 3 → 2 → 1 ── */}
                         <div className="space-y-4">
-                            {TIERS.map((tier, i) => (
-                                <TierInputCard
-                                    key={tier.id}
-                                    tier={tier}
-                                    state={tiers[i]}
-                                    onChange={(next) => updateTier(i, next)}
-                                />
-                            ))}
+                            {DISPLAY_TIERS.map((tier) => {
+                                const i = TIERS.indexOf(tier)
+                                return (
+                                    <TierInputCard
+                                        key={tier.id}
+                                        tier={tier}
+                                        state={tiers[i]}
+                                        onChange={(next) => updateTier(i, next)}
+                                    />
+                                )
+                            })}
                         </div>
 
                         {/* ── RIGHT: Summary ── */}
@@ -304,7 +294,7 @@ export default function DeptCalculatorPage() {
                                         <p className="text-xs text-primary-foreground/60 uppercase tracking-widest">
                                             Estimated DEPT® earnings
                                         </p>
-                                        <p className="text-4xl font-semibold tabular-nums tracking-tight">
+                                        <p className="text-6xl font-semibold tabular-nums tracking-tight">
                                             {formatCurrency(displayEarning)}
                                         </p>
                                         <p className="text-sm text-primary-foreground/60">
@@ -314,27 +304,30 @@ export default function DeptCalculatorPage() {
 
                                     <Separator className="bg-primary-foreground/20" />
 
-                                    {/* Per-tier breakdown */}
+                                    {/* Per-tier breakdown — also Tier 3 → 2 → 1 */}
                                     <div className="space-y-6">
-                                        {TIERS.map((tier, i) => (
-                                            <div key={tier.id} className="space-y-1">
-                                                <div className="flex items-center justify-between text-sm">
-                                                    <span className="text-primary-foreground/80 font-medium">
-                                                        Tier {tier.id} — {tier.label}
-                                                    </span>
-                                                    <span className="tabular-nums font-semibold">
-                                                        {formatCurrencyFull(
-                                                            view === "annual"
-                                                                ? tierResults[i].deptEarning
-                                                                : tierResults[i].deptEarning / 12
-                                                        )}
-                                                    </span>
+                                        {DISPLAY_TIERS.map((tier) => {
+                                            const i = TIERS.indexOf(tier)
+                                            return (
+                                                <div key={tier.id} className="space-y-1">
+                                                    <div className="flex items-center justify-between text-sm">
+                                                        <span className="text-primary-foreground/80 font-medium">
+                                                            Tier {tier.id} — {tier.label}
+                                                        </span>
+                                                        <span className="tabular-nums font-semibold">
+                                                            {formatCurrencyFull(
+                                                                view === "annual"
+                                                                    ? tierResults[i].deptEarning
+                                                                    : tierResults[i].deptEarning / 12
+                                                            )}
+                                                        </span>
+                                                    </div>
+                                                    <p className="text-xs text-primary-foreground/50">
+                                                        {tiers[i].clients} client{tiers[i].clients !== 1 ? "s" : ""} × {formatCurrency(tiers[i].annualSpend)} × {tier.rateLabel}
+                                                    </p>
                                                 </div>
-                                                <p className="text-xs text-primary-foreground/50">
-                                                    {tiers[i].clients} client{tiers[i].clients !== 1 ? "s" : ""} × {formatCurrency(tiers[i].annualSpend)} × {tier.rateLabel}
-                                                </p>
-                                            </div>
-                                        ))}
+                                            )
+                                        })}
                                     </div>
 
                                     <Separator className="bg-primary-foreground/20" />

@@ -8,7 +8,7 @@ import { Suspense } from "react"
 
 const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-manrope",
+  variable: "--font-sans",
 })
 
 export const metadata: Metadata = {
