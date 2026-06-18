@@ -53,8 +53,10 @@ function clampClients(v: number) {
     return Math.max(0, Math.min(50, Math.round(v)))
 }
 
+const MAX_SPEND = 99_999_999
+
 function clampSpend(v: number) {
-    return Math.max(0, v)
+    return Math.max(0, Math.min(MAX_SPEND, v))
 }
 
 // ─── Copy ─────────────────────────────────────────────────────────────────────
@@ -79,6 +81,12 @@ function TierInputCard({
 }) {
     const [clientsStr, setClientsStr] = useState(String(state.clients))
     const [spendStr, setSpendStr] = useState(String(state.annualSpend))
+    const [spendFocused, setSpendFocused] = useState(false)
+    const [spendAtMax, setSpendAtMax] = useState(false)
+
+    const formattedSpend = spendFocused
+        ? spendStr
+        : Number(spendStr).toLocaleString("en-US")
 
     return (
         <Card>
@@ -143,12 +151,20 @@ function TierInputCard({
                                     $
                                 </span>
                                 <input
-                                    type="number"
-                                    min={0}
-                                    value={spendStr}
-                                    onChange={(e) => setSpendStr(e.target.value)}
+                                    type="text"
+                                    inputMode="numeric"
+                                    value={formattedSpend}
+                                    maxLength={spendFocused ? 8 : undefined}
+                                    onFocus={() => {
+                                        setSpendFocused(true)
+                                        setSpendAtMax(false)
+                                    }}
+                                    onChange={(e) => setSpendStr(e.target.value.replace(/,/g, ""))}
                                     onBlur={() => {
-                                        const clamped = clampSpend(Number(spendStr))
+                                        setSpendFocused(false)
+                                        const raw = Number(spendStr.replace(/,/g, ""))
+                                        const clamped = clampSpend(raw)
+                                        setSpendAtMax(raw > MAX_SPEND)
                                         setSpendStr(String(clamped))
                                         onChange({ annualSpend: clamped })
                                     }}
@@ -156,6 +172,11 @@ function TierInputCard({
                                     placeholder="100,000"
                                 />
                             </div>
+                            {spendAtMax && (
+                                <p className="text-xs text-warning">
+                                    Max. $99,999,999 per client
+                                </p>
+                            )}
                         </div>
 
                     </div>
@@ -305,7 +326,7 @@ export default function DeptCalculatorPage() {
 
             {/* Header */}
             <header className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border bg-card sticky top-0 z-10">
-                <div className="max-w-7xl mx-auto flex items-center justify-between">
+                <div className="max-w-6xl mx-auto flex items-center justify-between">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6">
                         <div className="flex items-center gap-3">
                             <Image
