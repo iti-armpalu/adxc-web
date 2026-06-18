@@ -12,26 +12,14 @@ import { ChevronDown } from "lucide-react"
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ADXC_NET_REVENUE_RATE = 0.50 // hidden from UI
+const ADXC_NET_REVENUE_RATE = 0.50
+const MAX_SPEND = 99_999_999
 
-const TIERS = [
-    {
-        id: 1,
-        label: "Client Resell",
-        description: "Clients use ADXC through D",
-        rate: 0.25,
-        rateLabel: "25%",
-        note: "All direct client usage via D",
-    },
-    {
-        id: 2,
-        label: "Internal Use",
-        description: "DEPT® internal usage + topups through D",
-        rate: 0.10,
-        rateLabel: "10%",
-        note: "All internal usage via D",
-    },
-]
+const TIER_1 = { id: 1, label: "Client Resell", description: "Clients use ADXC through D", rate: 0.25, rateLabel: "25%", note: "All direct client usage via D" }
+const TIER_2 = { id: 2, label: "Internal Use", description: "DEPT® internal usage + topups via D", rate: 0.10, rateLabel: "10%", note: "All internal usage via D" }
+
+const SUBTITLE_HEADING = "Calculate how much DEPT® can earn through usage of ADXC via DEPT®'s AI platform (D)."
+const SUBTITLE_BODY = "ADXC pays DEPT® a platform fee, calculated as a % of ADXC net revenue*, based on usage type)."
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -42,97 +30,87 @@ function formatCurrency(value: number): string {
 }
 
 function formatCurrencyFull(value: number): string {
-    return new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-        maximumFractionDigits: 0,
-    }).format(value)
+    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(value)
 }
 
-function clampClients(v: number) {
-    return Math.max(0, Math.min(50, Math.round(v)))
-}
+function clampClients(v: number) { return Math.max(0, Math.min(50, Math.round(v))) }
+function clampSpend(v: number) { return Math.max(0, Math.min(MAX_SPEND, v)) }
 
-const MAX_SPEND = 99_999_999
+// ─── Types ────────────────────────────────────────────────────────────────────
 
-function clampSpend(v: number) {
-    return Math.max(0, Math.min(MAX_SPEND, v))
-}
+type Tier1State = { clients: number; annualSpend: number }
+type Tier2State = { annualSpend: number }
 
-// ─── Copy ─────────────────────────────────────────────────────────────────────
+// ─── Spend Input ──────────────────────────────────────────────────────────────
 
-const SUBTITLE = "Calculate how much DEPT® can earn through usage of ADXC via DEPT®'s AI platform (D). ADXC pays DEPT® a platform fee, calculated as a % of ADXC net revenue*, based on usage type."
-
-type TierState = {
-    clients: number
-    annualSpend: number
-}
-
-// ─── Tier Input Card ──────────────────────────────────────────────────────────
-
-function TierInputCard({
-    tier,
-    state,
-    onChange,
-}: {
-    tier: typeof TIERS[0]
-    state: TierState
-    onChange: (next: Partial<TierState>) => void
+function SpendInput({ value, onChange, label = "Avg. annual spend per client", placeholder = "100,000" }: {
+    value: number; onChange: (v: number) => void; label?: string; placeholder?: string
 }) {
-    const [clientsStr, setClientsStr] = useState(String(state.clients))
-    const [spendStr, setSpendStr] = useState(String(state.annualSpend))
-    const [spendFocused, setSpendFocused] = useState(false)
-    const [spendAtMax, setSpendAtMax] = useState(false)
+    const [str, setStr] = useState(String(value))
+    const [focused, setFocused] = useState(false)
+    const [atMax, setAtMax] = useState(false)
+    const displayed = focused ? str : Number(str).toLocaleString("en-US")
 
-    const formattedSpend = spendFocused
-        ? spendStr
-        : Number(spendStr).toLocaleString("en-US")
+    return (
+        <div className="space-y-1.5">
+            <Label className="text-xs text-muted-foreground">{label}</Label>
+            <div className="inline-flex items-center rounded-xs border border-input bg-transparent focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 transition-colors">
+                <span className="px-2.5 text-sm text-muted-foreground border-r border-input bg-muted/40 h-7 flex items-center rounded-l-xs select-none">$</span>
+                <input
+                    type="text" inputMode="numeric" value={displayed}
+                    maxLength={focused ? 8 : undefined}
+                    onFocus={() => { setFocused(true); setAtMax(false) }}
+                    onChange={(e) => setStr(e.target.value.replace(/,/g, ""))}
+                    onBlur={() => {
+                        setFocused(false)
+                        const raw = Number(str.replace(/,/g, ""))
+                        const clamped = clampSpend(raw)
+                        setAtMax(raw > MAX_SPEND)
+                        setStr(String(clamped))
+                        onChange(clamped)
+                    }}
+                    className="w-32 h-7 text-sm tabular-nums px-2 bg-transparent outline-none placeholder:text-muted-foreground"
+                    placeholder={placeholder}
+                />
+            </div>
+            {atMax && <p className="text-xs text-warning">Max. $99,999,999</p>}
+        </div>
+    )
+}
+
+// ─── Tier 1 Card ──────────────────────────────────────────────────────────────
+
+function Tier1Card({ state, onChange }: { state: Tier1State; onChange: (next: Partial<Tier1State>) => void }) {
+    const [clientsStr, setClientsStr] = useState(String(state.clients))
 
     return (
         <Card>
             <CardContent className="p-0">
-                <div className="grid grid-cols-1 lg:grid-cols-[180px_1fr] divide-y lg:divide-y-0 lg:divide-x divide-border">
-
-                    {/* LEFT — tier info */}
+                <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] divide-y lg:divide-y-0 lg:divide-x divide-border">
                     <div className="p-4 space-y-1.5">
-                        <Badge variant="default" className="text-xs font-semibold tabular-nums">
-                            {tier.rateLabel}
-                        </Badge>
-                        <p className="text-sm font-semibold leading-snug">
-                            Tier {tier.id} — {tier.label}
-                        </p>
-                        <p className="text-xs text-muted-foreground leading-snug">
-                            {tier.description}
-                        </p>
-                        <p className="text-xs text-muted-foreground italic">{tier.note}</p>
+                        <Badge variant="default" className="text-xs font-semibold tabular-nums">{TIER_1.rateLabel}</Badge>
+                        <p className="text-sm font-semibold leading-snug">Tier {TIER_1.id} — {TIER_1.label}</p>
+                        <p className="text-xs text-muted-foreground leading-snug">{TIER_1.description}</p>
+                        <p className="text-xs text-muted-foreground italic">{TIER_1.note}</p>
                     </div>
-
-                    {/* RIGHT — inputs */}
                     <div className="p-4 space-y-4">
-
-                        {/* Number of clients — slider + input */}
+                        {/* No. of clients — slider + input */}
                         <div className="space-y-1.5">
                             <div className="flex items-center justify-between">
                                 <Label className="text-xs text-muted-foreground">No. of clients</Label>
                                 <Input
-                                    type="number"
-                                    min={0}
-                                    max={50}
+                                    type="number" min={0} max={50}
                                     value={clientsStr}
                                     onChange={(e) => setClientsStr(e.target.value)}
                                     onBlur={() => {
-                                        const clamped = clampClients(Number(clientsStr))
-                                        setClientsStr(String(clamped))
-                                        onChange({ clients: clamped })
+                                        const c = clampClients(Number(clientsStr))
+                                        setClientsStr(String(c))
+                                        onChange({ clients: c })
                                     }}
                                     className="w-20 h-7 text-sm text-right tabular-nums px-2"
                                 />
                             </div>
-                            <Slider
-                                min={0}
-                                max={50}
-                                step={1}
-                                value={[state.clients]}
+                            <Slider min={0} max={50} step={1} value={[state.clients]}
                                 onValueChange={([v]) => {
                                     setClientsStr(String(v))
                                     onChange({ clients: v })
@@ -142,43 +120,29 @@ function TierInputCard({
                                 <span>0</span><span>50</span>
                             </div>
                         </div>
+                        <SpendInput value={state.annualSpend} onChange={(v) => onChange({ annualSpend: v })} />
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
 
-                        {/* Avg annual spend — text input only */}
-                        <div className="space-y-1.5">
-                            <Label className="text-xs text-muted-foreground">Avg. annual spend per client</Label>
-                            <div className="inline-flex items-center rounded-xs border border-input bg-transparent focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 transition-colors">
-                                <span className="px-2.5 text-sm text-muted-foreground border-r border-input bg-muted/40 h-7 flex items-center rounded-l-xs select-none">
-                                    $
-                                </span>
-                                <input
-                                    type="text"
-                                    inputMode="numeric"
-                                    value={formattedSpend}
-                                    maxLength={spendFocused ? 8 : undefined}
-                                    onFocus={() => {
-                                        setSpendFocused(true)
-                                        setSpendAtMax(false)
-                                    }}
-                                    onChange={(e) => setSpendStr(e.target.value.replace(/,/g, ""))}
-                                    onBlur={() => {
-                                        setSpendFocused(false)
-                                        const raw = Number(spendStr.replace(/,/g, ""))
-                                        const clamped = clampSpend(raw)
-                                        setSpendAtMax(raw > MAX_SPEND)
-                                        setSpendStr(String(clamped))
-                                        onChange({ annualSpend: clamped })
-                                    }}
-                                    className="w-32 h-7 text-sm tabular-nums px-2 bg-transparent outline-none placeholder:text-muted-foreground"
-                                    placeholder="100,000"
-                                />
-                            </div>
-                            {spendAtMax && (
-                                <p className="text-xs text-warning">
-                                    Max. $99,999,999 per client
-                                </p>
-                            )}
-                        </div>
+// ─── Tier 2 Card ──────────────────────────────────────────────────────────────
 
+function Tier2Card({ state, onChange }: { state: Tier2State; onChange: (next: Partial<Tier2State>) => void }) {
+    return (
+        <Card>
+            <CardContent className="p-0">
+                <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] divide-y lg:divide-y-0 lg:divide-x divide-border h-full">
+                    <div className="p-4 space-y-1.5">
+                        <Badge variant="default" className="text-xs font-semibold tabular-nums">{TIER_2.rateLabel}</Badge>
+                        <p className="text-sm font-semibold leading-snug">Tier {TIER_2.id} — {TIER_2.label}</p>
+                        <p className="text-xs text-muted-foreground leading-snug">{TIER_2.description}</p>
+                        <p className="text-xs text-muted-foreground italic">{TIER_2.note}</p>
+                    </div>
+                    <div className="p-4 flex flex-col justify-center gap-3">
+                        <SpendInput value={state.annualSpend} onChange={(v) => onChange({ annualSpend: v })} label="Annual spend by DEPT" placeholder="150,000" />
                     </div>
                 </div>
             </CardContent>
@@ -188,214 +152,152 @@ function TierInputCard({
 
 // ─── Summary Panel ────────────────────────────────────────────────────────────
 
-function SummaryPanel({
-    tiers,
-    tierResults,
-    view,
-    setView,
-    totalDeptEarning,
-    displayEarning,
-    mobile = false,
-}: {
-    tiers: TierState[]
-    tierResults: { deptEarning: number }[]
-    view: "annual" | "monthly"
-    setView: (v: "annual" | "monthly") => void
-    totalDeptEarning: number
-    displayEarning: number
-    mobile?: boolean
+function SummaryPanel({ tier1, tier2, tier1Result, tier2Result, view, setView, displayEarning, mobile = false }: {
+    tier1: Tier1State; tier2: Tier2State
+    tier1Result: { deptEarning: number }; tier2Result: { deptEarning: number }
+    view: "annual" | "monthly"; setView: (v: "annual" | "monthly") => void
+    displayEarning: number; mobile?: boolean
 }) {
     const [breakdownOpen, setBreakdownOpen] = useState(false)
 
+    const rows = [
+        { tier: TIER_1, earning: tier1Result.deptEarning, detail: `${tier1.clients} client${tier1.clients !== 1 ? "s" : ""} × ${formatCurrency(tier1.annualSpend)} × ${TIER_1.rateLabel}` },
+        { tier: TIER_2, earning: tier2Result.deptEarning, detail: `${formatCurrency(tier2.annualSpend)} × ${TIER_2.rateLabel}` },
+    ]
+
     return (
-        <Card className="overflow-hidden bg-primary text-primary-foreground border-0 h-full flex flex-col">
-            <CardContent className="p-5 sm:p-8 flex flex-col flex-1">
+        <div className="flex flex-col h-full py-1">
+            {/* Toggle */}
+            <div className="flex items-center gap-1 bg-primary-foreground/10 rounded-xs p-0.5 w-fit mb-4 sm:mb-8">
+                {(["annual", "monthly"] as const).map((v) => (
+                    <button key={v} onClick={() => setView(v)}
+                        className={`px-3 py-1 text-xs font-medium rounded-xs transition-colors capitalize ${view === v ? "bg-primary-foreground text-primary" : "text-primary-foreground/70 hover:text-primary-foreground"}`}
+                    >{v}</button>
+                ))}
+            </div>
 
-                {/* Toggle */}
-                <div className="flex items-center gap-1 bg-primary-foreground/10 rounded-xs p-0.5 w-fit mb-10">
-                    {(["annual", "monthly"] as const).map((v) => (
-                        <button
-                            key={v}
-                            onClick={() => setView(v)}
-                            className={`px-3 py-1 text-xs font-medium rounded-xs transition-colors capitalize ${view === v
-                                ? "bg-primary-foreground text-primary"
-                                : "text-primary-foreground/70 hover:text-primary-foreground"
-                                }`}
-                        >
-                            {v}
-                        </button>
-                    ))}
-                </div>
+            {/* Hero */}
+            <div className="space-y-1 mb-4 sm:mb-8">
+                <p className="text-xs text-primary-foreground/60 uppercase tracking-widest">Estimated DEPT® earnings</p>
+                <p className="text-5xl sm:text-7xl xl:text-9xl font-semibold tabular-nums tracking-tight leading-none">
+                    {formatCurrency(displayEarning)}
+                </p>
+                <p className="text-base text-primary-foreground/70">{view === "annual" ? "per year" : "per month avg."}</p>
+            </div>
 
-                {/* Hero number */}
-                <div className="space-y-2 mb-6 sm:mb-12">
-                    <p className="text-xs text-primary-foreground/60 uppercase tracking-widest">
-                        Estimated DEPT® earnings
-                    </p>
-                    <p className="text-5xl sm:text-7xl lg:text-8xl font-semibold tabular-nums tracking-tight leading-none">
-                        {formatCurrency(displayEarning)}
-                    </p>
-                    <p className="text-sm text-primary-foreground/60">
-                        {view === "annual" ? "per year" : "per month avg."}
-                    </p>
-                </div>
+            <Separator className="bg-primary-foreground/20 mb-4 sm:mb-6" />
 
-                <Separator className="bg-primary-foreground/20 mb-8" />
-
-                {/* Per-tier breakdown — collapsible on mobile */}
-                <div className="space-y-4 flex-1">
-                    {mobile && (
-                        <button
-                            onClick={() => setBreakdownOpen((o) => !o)}
-                            className="flex items-center justify-between w-full text-sm text-primary-foreground/80 font-medium"
-                        >
-                            <span>Breakdown by tier</span>
-                            <ChevronDown
-                                size={16}
-                                className={`transition-transform ${breakdownOpen ? "rotate-180" : ""}`}
-                            />
-                        </button>
-                    )}
-
-                    {(!mobile || breakdownOpen) && (
-                        <div className="space-y-6">
-                            {TIERS.map((tier, i) => (
-                                <div key={tier.id} className="space-y-1">
-                                    <div className="flex items-center justify-between text-sm">
-                                        <span className="text-primary-foreground/80 font-medium">
-                                            Tier {tier.id} — {tier.label}
-                                        </span>
-                                        <span className="tabular-nums font-semibold">
-                                            {formatCurrencyFull(
-                                                view === "annual"
-                                                    ? tierResults[i].deptEarning
-                                                    : tierResults[i].deptEarning / 12
-                                            )}
-                                        </span>
-                                    </div>
-                                    <p className="text-xs text-primary-foreground/50">
-                                        {tiers[i].clients} client{tiers[i].clients !== 1 ? "s" : ""} × {formatCurrency(tiers[i].annualSpend)} × {tier.rateLabel}
-                                    </p>
+            {/* Breakdown */}
+            <div className="flex-1 space-y-2">
+                {mobile && (
+                    <button onClick={() => setBreakdownOpen((o) => !o)}
+                        className="flex items-center justify-between w-full text-sm text-primary-foreground/80 font-medium mb-2"
+                    >
+                        <span>Breakdown by tier</span>
+                        <ChevronDown size={16} className={`transition-transform ${breakdownOpen ? "rotate-180" : ""}`} />
+                    </button>
+                )}
+                {(!mobile || breakdownOpen) && (
+                    <div className="space-y-4">
+                        {rows.map(({ tier, earning, detail }) => (
+                            <div key={tier.id} className="space-y-0.5">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm text-primary-foreground/80 font-medium">Tier {tier.id} — {tier.label}</span>
+                                    <span className="text-sm tabular-nums font-semibold">{formatCurrencyFull(view === "annual" ? earning : earning / 12)}</span>
                                 </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
+                                <p className="text-xs text-primary-foreground/50">{detail}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
 
-                {/* Note — pinned to bottom */}
-                <div className="mt-auto pt-8">
-                    <Separator className="bg-primary-foreground/20 mb-4" />
-                    <p className="text-xs text-primary-foreground/50 leading-relaxed">
-                        *ADXC net revenue = 50% total revenue
-                    </p>
-                </div>
-
-            </CardContent>
-        </Card>
+            {/* Note */}
+            <div className="mt-auto pt-6">
+                <Separator className="bg-primary-foreground/20 mb-3" />
+                <p className="text-xs text-primary-foreground/50">*ADXC net revenue = 50% total revenue</p>
+            </div>
+        </div>
     )
 }
 
-// ─── Main Calculator ──────────────────────────────────────────────────────────
-
-const DEFAULT_STATE: TierState[] = [
-    { clients: 5, annualSpend: 100_000 },
-    { clients: 3, annualSpend: 100_000 },
-]
+// ─── Main ─────────────────────────────────────────────────────────────────────
 
 export default function DeptCalculatorPage() {
-    const [tiers, setTiers] = useState<TierState[]>(DEFAULT_STATE)
+    const [tier1, setTier1] = useState<Tier1State>({ clients: 5, annualSpend: 100_000 })
+    const [tier2, setTier2] = useState<Tier2State>({ annualSpend: 150_000 })
     const [view, setView] = useState<"annual" | "monthly">("annual")
 
-    function updateTier(index: number, next: Partial<TierState>) {
-        setTiers((prev) => prev.map((t, i) => (i === index ? { ...t, ...next } : t)))
-    }
-
-    const tierResults = TIERS.map((tier, i) => {
-        const adxcNetRevenue = tiers[i].clients * tiers[i].annualSpend * ADXC_NET_REVENUE_RATE
-        const deptEarning = adxcNetRevenue * tier.rate
-        return { adxcNetRevenue, deptEarning }
-    })
-
-    const totalDeptEarning = tierResults.reduce((s, r) => s + r.deptEarning, 0)
+    const tier1Result = { deptEarning: tier1.clients * tier1.annualSpend * ADXC_NET_REVENUE_RATE * TIER_1.rate }
+    const tier2Result = { deptEarning: tier2.annualSpend * ADXC_NET_REVENUE_RATE * TIER_2.rate }
+    const totalDeptEarning = tier1Result.deptEarning + tier2Result.deptEarning
     const displayEarning = view === "annual" ? totalDeptEarning : totalDeptEarning / 12
-
-    const summaryProps = { tiers, tierResults, view, setView, totalDeptEarning, displayEarning }
+    const summaryProps = { tier1, tier2, tier1Result, tier2Result, view, setView, displayEarning }
 
     return (
-        <div className="min-h-screen flex flex-col bg-background">
+        <div className="min-h-screen flex flex-col lg:h-screen lg:overflow-hidden">
 
             {/* Header */}
             <header className="px-4 sm:px-6 py-3 sm:py-4 border-b border-border bg-card sticky top-0 z-10">
                 <div className="max-w-6xl mx-auto flex items-center justify-between">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6">
                         <div className="flex items-center gap-3">
-                            <Image
-                                src="/adxc-logo-primary-horizontal.svg"
-                                alt="ADXC"
-                                width={60}
-                                height={22}
-                            />
+                            <Image src="/adxc-logo-primary-horizontal.svg" alt="ADXC" width={60} height={22} priority />
                             <span className="text-neutral-300 select-none">×</span>
-                            <Image
-                                src="/dept-logo.svg"
-                                alt="DEPT®"
-                                width={60}
-                                height={22}
-                            />
+                            <Image src="/dept-logo.svg" alt="DEPT®" width={60} height={22} />
                         </div>
                         <div className="hidden sm:block w-px h-5 bg-neutral-200 shrink-0" />
-                        <span className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-widest">
-                            revenue calculator
-                        </span>
+                        <span className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-widest">revenue calculator</span>
                     </div>
                 </div>
             </header>
 
-            {/* Body */}
-            <main className="flex-1 px-4 py-8 md:px-8 md:py-16">
-                <div className="max-w-6xl mx-auto">
+            {/* Body — full height split background */}
+            <div className="flex-1 flex flex-col lg:flex-row min-h-0">
 
-                    {/* Mobile: subtitle + summary on top */}
-                    <div className="lg:hidden mb-6 space-y-4">
-                        <p className="text-sm text-muted-foreground">{SUBTITLE}</p>
-                        <SummaryPanel {...summaryProps} mobile />
-                    </div>
+                {/* LEFT — light background */}
+                <div className="flex-1 bg-background px-6 sm:px-12 py-8 min-w-0 flex items-center justify-end lg:overflow-y-auto">
+                    <div className="w-full max-w-lg pr-0 lg:pr-12 flex flex-col gap-5">
 
-                    <div className="grid grid-cols-1 lg:grid-cols-[1fr_500px] gap-6 items-stretch">
-
-                        {/* ── LEFT: Inputs ── */}
-                        <div className="flex flex-col justify-between gap-4">
-                            <p className="text-sm text-muted-foreground hidden lg:block max-w-md mb-2">{SUBTITLE}</p>
-                            <div className="space-y-4">
-                                {TIERS.map((tier, i) => (
-                                    <TierInputCard
-                                        key={tier.id}
-                                        tier={tier}
-                                        state={tiers[i]}
-                                        onChange={(next) => updateTier(i, next)}
-                                    />
-                                ))}
+                        {/* Mobile summary */}
+                        <div className="lg:hidden space-y-3">
+                            <div className="space-y-1">
+                                <p className="text-base font-semibold text-foreground">{SUBTITLE_HEADING}</p>
+                                <p className="text-sm text-muted-foreground">{SUBTITLE_BODY}</p>
+                            </div>
+                            <div className="bg-primary text-primary-foreground rounded-xl p-4">
+                                <SummaryPanel {...summaryProps} mobile />
                             </div>
                         </div>
 
-                        {/* ── RIGHT: Summary (desktop only) ── */}
-                        <div className="hidden lg:flex flex-col lg:sticky lg:top-[73px]">
-                            <SummaryPanel {...summaryProps} />
+                        {/* Subtitle — desktop */}
+                        <div className="hidden lg:block space-y-1 mb-4">
+                            <p className="text-base font-semibold text-foreground">{SUBTITLE_HEADING}</p>
+                            <p className="text-sm text-muted-foreground">{SUBTITLE_BODY}</p>
                         </div>
 
+                        {/* Tier cards */}
+                        <div className="space-y-2 lg:space-y-3">
+                            <Tier1Card state={tier1} onChange={(next) => setTier1((prev) => ({ ...prev, ...next }))} />
+                            <Tier2Card state={tier2} onChange={(next) => setTier2((prev) => ({ ...prev, ...next }))} />
+                        </div>
                     </div>
                 </div>
-            </main>
+
+                {/* RIGHT — full plum background */}
+                <div className="hidden lg:flex w-[50vw] shrink-0 bg-primary text-primary-foreground px-12 xl:px-20 py-12 items-center justify-start overflow-y-auto">
+                    <div className="w-full max-w-sm">
+                        <SummaryPanel {...summaryProps} />
+                    </div>
+                </div>
+
+            </div>
 
             {/* Footer */}
-            <footer className="px-4 sm:px-6 py-4 border-t border-border">
-                <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-0">
-                    <span className="text-xs text-muted-foreground">
-                        Confidential. DEPT® internal use only
-                    </span>
-                    <span className="text-xs text-muted-foreground" suppressHydrationWarning>
-                        © {new Date().getFullYear()} ADXC
-                    </span>
+            <footer className="px-4 sm:px-6 py-4 border-t border-border bg-background">
+                <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
+                    <span className="text-xs text-muted-foreground">Confidential. DEPT® internal use only</span>
+                    <span className="text-xs text-muted-foreground" suppressHydrationWarning>© {new Date().getFullYear()} ADXC</span>
                 </div>
             </footer>
 
