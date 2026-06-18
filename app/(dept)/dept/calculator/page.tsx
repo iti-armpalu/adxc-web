@@ -5,9 +5,7 @@ import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Slider } from "@/components/ui/slider"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
 import { ChevronDown } from "lucide-react"
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -19,7 +17,7 @@ const TIER_1 = { id: 1, label: "Client Resell", description: "Clients use ADXC t
 const TIER_2 = { id: 2, label: "Internal Use", description: "DEPT® internal usage + topups via D", rate: 0.10, rateLabel: "10%", note: "All internal usage via D" }
 
 const SUBTITLE_HEADING = "Calculate how much DEPT® can earn through usage of ADXC via DEPT®'s AI platform (D)."
-const SUBTITLE_BODY = "ADXC pays DEPT® a platform fee, calculated as a % of ADXC net revenue*, based on usage type)."
+const SUBTITLE_BODY = "ADXC pays DEPT® a platform fee, calculated as a % of ADXC net revenue*, based on usage type."
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -41,6 +39,17 @@ function clampSpend(v: number) { return Math.max(0, Math.min(MAX_SPEND, v)) }
 type Tier1State = { clients: number; annualSpend: number }
 type Tier2State = { annualSpend: number }
 
+// ─── Earn Badge ───────────────────────────────────────────────────────────────
+
+function EarnBadge({ rateLabel }: { rateLabel: string }) {
+    return (
+        <div className="pt-2">
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-0.5">Earn:</p>
+            <p className="text-2xl font-bold text-primary tabular-nums leading-none">{rateLabel}</p>
+        </div>
+    )
+}
+
 // ─── Spend Input ──────────────────────────────────────────────────────────────
 
 function SpendInput({ value, onChange, label = "Avg. annual spend per client", placeholder = "100,000" }: {
@@ -61,6 +70,17 @@ function SpendInput({ value, onChange, label = "Avg. annual spend per client", p
                     maxLength={focused ? 8 : undefined}
                     onFocus={() => { setFocused(true); setAtMax(false) }}
                     onChange={(e) => setStr(e.target.value.replace(/,/g, ""))}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            setFocused(false)
+                            const raw = Number(str.replace(/,/g, ""))
+                            const clamped = clampSpend(raw)
+                            setAtMax(raw > MAX_SPEND)
+                            setStr(String(clamped))
+                            onChange(clamped)
+                            e.currentTarget.blur()
+                        }
+                    }}
                     onBlur={() => {
                         setFocused(false)
                         const raw = Number(str.replace(/,/g, ""))
@@ -87,35 +107,50 @@ function Tier1Card({ state, onChange }: { state: Tier1State; onChange: (next: Pa
         <Card>
             <CardContent className="p-0">
                 <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] divide-y lg:divide-y-0 lg:divide-x divide-border">
-                    <div className="p-4 space-y-1.5">
-                        <Badge variant="default" className="text-xs font-semibold tabular-nums">{TIER_1.rateLabel}</Badge>
+                    <div className="p-4 space-y-2">
                         <p className="text-sm font-semibold leading-snug">Tier {TIER_1.id} — {TIER_1.label}</p>
                         <p className="text-xs text-muted-foreground leading-snug">{TIER_1.description}</p>
                         <p className="text-xs text-muted-foreground italic">{TIER_1.note}</p>
+                        <EarnBadge rateLabel={TIER_1.rateLabel} />
                     </div>
                     <div className="p-4 space-y-4">
-                        {/* No. of clients — slider + input */}
+                        {/* No. of clients — input group + slider */}
                         <div className="space-y-1.5">
                             <div className="flex items-center justify-between">
                                 <Label className="text-xs text-muted-foreground">No. of clients</Label>
-                                <Input
-                                    type="number" min={0} max={50}
-                                    value={clientsStr}
-                                    onChange={(e) => setClientsStr(e.target.value)}
-                                    onBlur={() => {
-                                        const c = clampClients(Number(clientsStr))
-                                        setClientsStr(String(c))
-                                        onChange({ clients: c })
+                                <div className="inline-flex items-center rounded-xs border border-input bg-transparent focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50 transition-colors">
+                                    <span className="px-2 text-sm text-muted-foreground border-r border-input bg-muted/40 h-7 flex items-center rounded-l-xs select-none">#</span>
+                                    <input
+                                        type="text"
+                                        inputMode="numeric"
+                                        value={clientsStr}
+                                        onChange={(e) => setClientsStr(e.target.value.replace(/[^0-9]/g, ""))}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                const c = clampClients(Number(clientsStr))
+                                                setClientsStr(String(c))
+                                                onChange({ clients: c })
+                                                e.currentTarget.blur()
+                                            }
+                                        }}
+                                        onBlur={() => {
+                                            const c = clampClients(Number(clientsStr))
+                                            setClientsStr(String(c))
+                                            onChange({ clients: c })
+                                        }}
+                                        className="w-10 h-7 text-sm tabular-nums px-2 bg-transparent outline-none text-center"
+                                        placeholder="5"
+                                    />
+                                </div>
+                            </div>
+                            <div className="pt-2">
+                                <Slider min={0} max={50} step={1} value={[state.clients]}
+                                    onValueChange={([v]) => {
+                                        setClientsStr(String(v))
+                                        onChange({ clients: v })
                                     }}
-                                    className="w-20 h-7 text-sm text-right tabular-nums px-2"
                                 />
                             </div>
-                            <Slider min={0} max={50} step={1} value={[state.clients]}
-                                onValueChange={([v]) => {
-                                    setClientsStr(String(v))
-                                    onChange({ clients: v })
-                                }}
-                            />
                             <div className="flex justify-between text-xs text-muted-foreground">
                                 <span>0</span><span>50</span>
                             </div>
@@ -135,11 +170,11 @@ function Tier2Card({ state, onChange }: { state: Tier2State; onChange: (next: Pa
         <Card>
             <CardContent className="p-0">
                 <div className="grid grid-cols-1 lg:grid-cols-[200px_1fr] divide-y lg:divide-y-0 lg:divide-x divide-border h-full">
-                    <div className="p-4 space-y-1.5">
-                        <Badge variant="default" className="text-xs font-semibold tabular-nums">{TIER_2.rateLabel}</Badge>
+                    <div className="p-4 space-y-2">
                         <p className="text-sm font-semibold leading-snug">Tier {TIER_2.id} — {TIER_2.label}</p>
                         <p className="text-xs text-muted-foreground leading-snug">{TIER_2.description}</p>
                         <p className="text-xs text-muted-foreground italic">{TIER_2.note}</p>
+                        <EarnBadge rateLabel={TIER_2.rateLabel} />
                     </div>
                     <div className="p-4 flex flex-col justify-center gap-3">
                         <SpendInput value={state.annualSpend} onChange={(v) => onChange({ annualSpend: v })} label="Annual spend by DEPT" placeholder="150,000" />
