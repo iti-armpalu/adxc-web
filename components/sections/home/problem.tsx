@@ -22,9 +22,12 @@ const SENTENCES = [
         id: 4,
         label: null,
         text: "Sound familiar?",
-
     },
-
+    {
+        id: 5,
+        label: "solution",
+        text: "ADXC solves this, giving you instant access to trusted consumer data previously locked behind expensive subscriptions.",
+    },
 ];
 
 const SENTENCE_COUNT = SENTENCES.length;
@@ -171,18 +174,24 @@ export function HomeProblemSection() {
                             >
                                 <div className="w-full max-w-4xl">
                                     {isLast ? (
-                                        <div className="flex flex-col items-center gap-12 text-center">
+                                        <div className="flex items-start gap-6 md:gap-10">
+                                            <span className="font-mono text-xs tracking-[0.15em] text-brand-400 shrink-0 min-w-10 pt-1.5">
+                                                {sentence.label}
+                                            </span>
+                                            <p
+                                                className="font-heading font-medium text-brand-900 leading-[1.15] tracking-[-0.03em]"
+                                                style={{ fontSize: "clamp(1.75rem, 4.5vw, 3.5rem)" }}
+                                            >
+                                                <WordReveal text={sentence.text} progress={progress} start={start} />
+                                            </p>
+                                        </div>
+                                    ) : index === SENTENCE_COUNT - 2 ? (
+                                        <div className="text-center">
                                             <p
                                                 className="font-heading font-bold text-primary tracking-[-0.04em] leading-none"
                                                 style={{ fontSize: "clamp(3rem, 8vw, 6rem)" }}
                                             >
                                                 {sentence.text}
-                                            </p>
-                                            <p
-                                                className="font-heading font-medium text-brand-900 leading-relaxed max-w-2xl"
-                                                style={{ fontSize: "clamp(1rem, 2vw, 1.25rem)" }}
-                                            >
-                                                ADXC solves this, giving you instant access to trusted consumer data previously locked behind expensive subscriptions.
                                             </p>
                                         </div>
                                     ) : (
