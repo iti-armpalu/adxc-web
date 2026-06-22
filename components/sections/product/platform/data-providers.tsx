@@ -3,8 +3,7 @@ import { FadeIn } from "@/components/ui/fade-in"
 
 const providers = [
     { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
-    { name: "Data Commons", logo: "/data-comms-logo.svg", showName: true },
-    { name: "Datastreamer", logo: "/datastreamer-logo.webp" },
+    { name: "Data Commons", logo: "/data-comms-logo.svg", showName: true }
 ]
 
 export function PlatformDataProviders() {
