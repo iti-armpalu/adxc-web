@@ -3,7 +3,8 @@ import { FadeIn } from "@/components/ui/fade-in"
 
 const dataProviders = [
     { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
-    { name: "Google Data Commons", logo: "/data-comms-logo.svg" },
+    { name: "Quid", logo: "/quid-logo.svg" },
+    { name: "Data Commons", logo: "/data-comms-logo.svg", showName: true },
 ]
 
 export function BrandsDataProviders() {
@@ -17,20 +18,25 @@ export function BrandsDataProviders() {
                             Access data from
                         </p>
 
-                        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
+                        <div className="flex items-center flex-wrap justify-center gap-6 sm:gap-8">
                             {dataProviders.map((p) => (
-                                <Image
-                                    key={p.name}
-                                    src={p.logo}
-                                    alt={p.name}
-                                    width={100}
-                                    height={36}
-                                    className="h-7 sm:h-8 w-auto object-contain"
-                                />
+                                <div key={p.name} className="flex items-center gap-2">
+                                    <Image
+                                        src={p.logo}
+                                        alt={p.name}
+                                        width={80}
+                                        height={28}
+                                        className="h-6 sm:h-7 w-auto object-contain"
+                                    />
+                                    {p.showName && (
+                                        <span style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, color: "#000000" }} className="text-sm">{p.name}</span>
+                                    )}
+                                </div>
                             ))}
-                            <p className="text-sm text-muted-foreground">More coming soon</p>
+                            <div className="text-sm text-muted-foreground">
+                                More coming soon
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </section>

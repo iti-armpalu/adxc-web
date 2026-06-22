@@ -3,7 +3,7 @@ import { FadeIn } from "@/components/ui/fade-in"
 
 const providers = [
     { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
-    { name: "Google Data Commons", logo: "/data-comms-logo.svg" },
+    { name: "Data Commons", logo: "/data-comms-logo.svg", showName: true },
     { name: "Datastreamer", logo: "/datastreamer-logo.webp" },
 ]
 
@@ -20,14 +20,19 @@ export function PlatformDataProviders() {
 
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
                             {providers.map((p) => (
-                                <Image
-                                    key={p.name}
-                                    src={p.logo}
-                                    alt={p.name}
-                                    width={100}
-                                    height={36}
-                                    className="h-4 sm:h-6 w-auto object-contain"
-                                />
+                                <div key={p.name} className="flex items-center gap-2">
+                                    <Image
+                                        key={p.name}
+                                        src={p.logo}
+                                        alt={p.name}
+                                        width={100}
+                                        height={36}
+                                        className="h-4 sm:h-6 w-auto object-contain"
+                                    />
+                                    {p.showName && (
+                                        <span style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, color: "#000000" }} className="text-sm">{p.name}</span>
+                                    )}
+                                </div>
                             ))}
                             <p className="text-sm text-muted-foreground">More coming soon</p>
                         </div>

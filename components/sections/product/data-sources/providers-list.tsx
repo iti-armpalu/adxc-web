@@ -30,6 +30,21 @@ const providers: Provider[] = [
         ],
     },
     {
+        name: "Quid",
+        logo: "/quid-logo.svg",
+        logoWidth: 80,
+        logoHeight: 40,
+        tagline: "AI-powered consumer and market intelligence.",
+        description:
+            "Quid analyses billions of indexed sources — social media, news, forums, reviews, and more — using AI to find the themes and sentiment shaping a category. It surfaces the patterns, narratives, and emerging trends behind the conversation, giving ADXC users a synthesised read on how consumers and markets are moving.",
+        capabilities: [
+            "Trend identification",
+            "Brand sentiment analysis",
+            "Cultural insight",
+            "Consumer conversation analysis",
+        ],
+    },
+    {
         name: "Google Data Commons",
         logo: "/data-comms-logo.svg",
         logoWidth: 120,
@@ -43,21 +58,7 @@ const providers: Provider[] = [
             "Government statistics",
             "Macro-level benchmarks",
         ],
-    },
-    {
-        name: "Datastreamer",
-        logo: "/datastreamer-logo.webp",
-        logoWidth: 120,
-        logoHeight: 40,
-        tagline: "Social and web data orchestration at scale.",
-        description: "Datastreamer connects to dozens of high-volume data sources — including X, Reddit, forums, blogs, reviews, and news — and delivers them as clean, structured, real-time data feeds. Used by leading intelligence software companies, Datastreamer aggregates and normalises data from across the social web, giving ADXC users direct access to real-time conversations happening on the platforms where consumers are most active.",
-        capabilities: [
-            "Trend identification",
-            "Brand sentiment analysis",
-            "Cultural insight",
-            "Consumer conversation analysis",
-        ],
-    },
+    }
 ]
 
 export function DataProvidersList() {

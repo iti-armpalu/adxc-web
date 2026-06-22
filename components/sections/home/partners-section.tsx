@@ -3,8 +3,8 @@ import Image from "next/image"
 
 const dataProviders = [
     { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
-    { name: "Google Data Commons", logo: "/data-comms-logo.svg" },
-    { name: "Datastreamer", logo: "/datastreamer-logo.webp" },
+    { name: "Quid", logo: "/quid-logo.svg" },
+    { name: "Data Commons", logo: "/data-comms-logo.svg", showName: true },
 ]
 
 const accessThrough = [
@@ -25,14 +25,18 @@ export function PartnersSection() {
                             </p>
                             <div className="flex items-center flex-wrap justify-center gap-6 sm:gap-8">
                                 {dataProviders.map((p) => (
-                                    <Image
-                                        key={p.name}
-                                        src={p.logo}
-                                        alt={p.name}
-                                        width={80}
-                                        height={28}
-                                        className="h-6 sm:h-7 w-auto object-contain"
-                                    />
+                                    <div key={p.name} className="flex items-center gap-2">
+                                        <Image
+                                            src={p.logo}
+                                            alt={p.name}
+                                            width={80}
+                                            height={28}
+                                            className="h-6 sm:h-7 w-auto object-contain"
+                                        />
+                                        {p.showName && (
+                                            <span style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, color: "#000000" }} className="text-sm">{p.name}</span>
+                                        )}
+                                    </div>
                                 ))}
                                 <div className="text-sm text-muted-foreground">
                                     More coming soon
