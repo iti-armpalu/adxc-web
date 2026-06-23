@@ -12,11 +12,11 @@ const PROVIDERS: ProviderDot[] = [
     { x: 20, y: 40, size: 20, color: "var(--color-brand-600)" },
     { x: 54, y: 40, size: 26, color: "var(--color-cyan-700)" },
     { x: 80, y: 40, size: 22, color: "var(--color-blue-600)" },
-    { x: 96, y: 40, size: 36, color: "var(--color-orange-700)" },
+    { x: 96, y: 40, size: 36, label: "Data Comms", logo: "/data-comms-logo.svg" },
     // Bottom row — farther from ADXC
     { x: 18, y: 75, size: 18, color: "var(--color-orange-600)" },
     { x: 42, y: 65, size: 50, color: "var(--color-purple-600)" },
-    { x: 66, y: 85, size: 60, label: "US Census Bureau", logo: "/us-census-bureau-logo.png" },
+    { x: 66, y: 85, size: 60, label: "Quid", logo: "/quid-logo-square.svg" },
     { x: 88, y: 75, size: 54, color: "var(--color-orange-700)" },
 ]
 
