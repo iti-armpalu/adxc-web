@@ -26,7 +26,7 @@ export function AgenciesHero() {
                     gradientTo="var(--color-orange-950)"
                     glowColor="var(--color-orange-500)"
                 />
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 min-h-[calc(100dvh-var(--header-h))] flex flex-col justify-center pt-10 xl:pt-0 py-8">
+                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 min-h-[calc(90dvh-var(--header-h))] flex flex-col justify-center pt-10 xl:pt-0 py-16">
                     <div className="max-w-xl space-y-10 pt-8 xl:pt-16 pb-48 sm:pb-0">
 
                         <div className="space-y-6">

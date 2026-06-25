@@ -15,10 +15,10 @@ export default function AgenciesPage() {
     return (
         <>
             <AgenciesHero />
+            <AgenciesPartners />
             <AgenciesHowItWorks />
             <AgenciesIntegrations />
             <AgenciesCTA />
-            <AgenciesPartners />
             <AgenciesOtherWays />
         </>
     )

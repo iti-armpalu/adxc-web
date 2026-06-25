@@ -25,7 +25,7 @@ const SENTENCES = [
     },
     {
         id: 5,
-        label: "solution",
+        label: null,
         text: "ADXC solves this, giving you instant access to trusted consumer data previously locked behind expensive subscriptions.",
     },
 ];

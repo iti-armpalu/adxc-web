@@ -8,6 +8,7 @@ import { DataProvidersHowItWorks } from "@/components/sections/data-providers/ho
 import { DataProvidersDistribution } from "@/components/sections/data-providers/distribution"
 import { DataProvidersPartners } from "@/components/sections/data-providers/partners"
 import { DataProvidersCTA } from "@/components/sections/data-providers/cta"
+import { DataProvidersDataProviders } from "@/components/sections/data-providers/data-providers"
 
 export default function DataProvidersPageClient() {
     const [sharedEmail, setSharedEmail] = useState("")
@@ -15,6 +16,7 @@ export default function DataProvidersPageClient() {
     return (
         <>
             <DataProvidersHero onEmailSubmit={(email) => setSharedEmail(email)} />
+            <DataProvidersDataProviders />
             <DataProvidersStat />
             <DataProvidersWhyNow />
             <DataProvidersHowItWorks />
