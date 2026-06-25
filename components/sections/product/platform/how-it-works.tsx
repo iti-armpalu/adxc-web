@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
-import { BarChart3, Brain, Layers, type LucideIcon } from "lucide-react"
+import { Brain, Lock, Zap, type LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 type Step = {
@@ -16,27 +16,27 @@ type Step = {
 const steps: Step[] = [
     {
         index: 0,
-        icon: BarChart3,
-        label: "Better outputs",
-        title: "Dramatically better outputs",
-        lead: "AI agents deliver materially better results when powered by trusted, premium consumer data.",
-        description: "Users stay inside your workflows because the answers are actually useful.",
+        icon: Brain,
+        label: "context",
+        title: "Understands questions in their full context",
+        lead: "When a user asks a question through their AI agent, ADXC reads the work surrounding it too.",
+        description: "The brief, the audience, the brand, whatever's in the workflow. This enables ADXC to find the specific, relevant data to the question at hand.",
     },
     {
         index: 1,
-        icon: Brain,
-        label: "Context-aware",
-        title: "Context-aware answers",
-        lead: "ADXC reads what users are working on to tailor the data retrieval to that context.",
-        description: "Users get answers specific to their work, not generic dumps. The right data, at the right moment, in the right format.",
+        icon: Zap,
+        label: "connection",
+        title: "One connection. Every data source.",
+        lead: "One connection via API/MCP gives your AI agents access to every data source ADXC supports.",
+        description: "ADXC takes a single question, breaks it down into subqueries to help find the most relevant data, and returns a single answer. Natural language in, synthesised answer out.",
     },
     {
         index: 2,
-        icon: Layers,
-        label: "Differentiation",
-        title: "Product differentiation",
-        lead: "Data can be a moat.",
-        description: "Access to trusted consumer data creates differentiation vs blunt outputs from generic co-pilots. Give your platform something competitors can't easily replicate.",
+        icon: Lock,
+        label: "security",
+        title: "Data that never leaves the provider's control",
+        lead: "Data providers' raw datasets are never copied, stored, or exposed to end users.",
+        description: "ADXC retrieves only what's needed to answer each specific question, and returns synthesised answers, keeping the underlying data fully within the provider's control.",
     },
 ]
 
