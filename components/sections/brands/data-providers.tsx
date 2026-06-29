@@ -12,7 +12,7 @@ export function BrandsDataProviders() {
         <FadeIn>
             <section className="bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-                    <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-12">
+                    <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-6 lg:gap-12">
 
                         <p className="text-caption text-muted-foreground shrink-0">
                             Access data from
