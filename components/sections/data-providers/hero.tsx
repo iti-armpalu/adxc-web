@@ -39,7 +39,7 @@ export function DataProvidersHero({ onEmailSubmit }: Props) {
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl">
                                     Unlock a market your enterprise model can't reach.
                                 </h1>
-                                <p className="text-lg text-foreground leading-relaxed">
+                                <p className="text-lg text-foreground leading-relaxed max-w-md">
                                     ADXC connects your data to the AI agents and workflows shaping
                                     marketing decisions for SMEs. Get paid per query, with your IP fully protected.
                                 </p>
