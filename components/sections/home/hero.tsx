@@ -32,11 +32,10 @@ export function HeroSection() {
                         <div className="max-w-xl space-y-10">
                             <div className="space-y-6">
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl">
-                                    Premium consumer data.{" "}
-                                    <span className="text-brand-400">Pay per answer.</span>
+                                    Trusted market research data, inside your AI tools
                                 </h1>
                                 <p className="text-lg text-foreground leading-relaxed max-w-md">
-                                    Connect your AI tools to industry-leading data providers to make important business decisions backed by real, trusted data. Only pay for what you need.
+                                    Connect your AI to data previously locked behind multiple enterprise subscriptions, for sharper insight you can rely on. Pay per answer.
                                 </p>
                             </div>
 

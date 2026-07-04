@@ -26,7 +26,7 @@ const features: Feature[] = [
         icon: ShieldCheck,
         title: "Answers you can stand behind",
         lead: "ADXC pulls from premium, recognised data sources, like YouGov.",
-        description: `So when someone asks "what's this based on?", you can answer confidently.`,
+        description: `Every insight and statistic is attributed to the source, so you can be confident in the data.`,
     },
 ]
 
