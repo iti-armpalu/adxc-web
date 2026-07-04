@@ -63,15 +63,17 @@ export function AgenciesHero() {
 
                 {/* Illustration — flows below text on mobile, absolute on xl */}
                 <img
-                    src="/illustration-agencies.svg"
-                    alt=""
-                    aria-hidden="true"
-                    className="absolute inset-y-0 right-0 h-full w-[90%] object-cover pointer-events-none select-none"
-                    style={{
-                        maskImage: "linear-gradient(to right, transparent 25%, black 55%)",
-                        WebkitMaskImage: "linear-gradient(to right, transparent 25%, black 55%)",
-                    }}
-                />
+    src="/illustration-agencies.svg"
+    alt=""
+    aria-hidden="true"
+    className="relative w-[min(800px,160vw)] max-w-none ml-[calc(100%-min(800px,160vw))] xl:absolute xl:inset-y-0 xl:right-0 xl:w-[90%] xl:h-full xl:object-cover pointer-events-none select-none"
+    style={{
+        maskImage: "linear-gradient(to right, transparent 25%, black 55%)",
+        WebkitMaskImage: "linear-gradient(to right, transparent 25%, black 55%)",
+    }}
+/>
+
+
             </section>
         </FadeIn>
     )
