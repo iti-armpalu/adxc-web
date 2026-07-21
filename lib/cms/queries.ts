@@ -126,3 +126,22 @@ export async function getDataProvidersPage(): Promise<AudiencePageContent | null
   }`
   )
 }
+
+export async function getAIPlatformsPage(): Promise<AudiencePageContent | null> {
+  return sanityClient.fetch(
+    `*[_type == "audiencePage" && _id == "audience-ai-platforms"][0] {
+    audience,
+    heroLabel,
+    heroHeadline,
+    heroSubtext,
+    howItWorksHeadline,
+    howItWorksSubtext,
+    howItWorksFeatures[] {
+      icon,
+      title,
+      lead,
+      description
+    }
+  }`
+  )
+}

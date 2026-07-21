@@ -11,6 +11,8 @@ import {
     SlidersHorizontal,
     Workflow,
     Banknote,
+    BarChart3,
+    Brain,
     type LucideIcon,
 } from "lucide-react"
 
@@ -28,4 +30,6 @@ export const iconMap: Record<string, LucideIcon> = {
     "sliders-horizontal": SlidersHorizontal,
     workflow: Workflow,
     banknote: Banknote,
+    "bar-chart-3": BarChart3,
+    brain: Brain,
 }

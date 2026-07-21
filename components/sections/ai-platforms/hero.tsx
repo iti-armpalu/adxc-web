@@ -7,10 +7,13 @@ import { FadeIn } from "@/components/ui/fade-in"
 import { HeroBackground } from "@/components/sections/home/hero-background"
 
 type Props = {
+    label: string
+    headline: string
+    subtext: string
     onEmailSubmit: (email: string) => void
 }
 
-export function AIPlatformsHero({ onEmailSubmit }: Props) {
+export function AIPlatformsHero({ label, headline, subtext, onEmailSubmit }: Props) {
     const [email, setEmail] = useState("")
 
     const handleSubmit = () => {
@@ -33,15 +36,13 @@ export function AIPlatformsHero({ onEmailSubmit }: Props) {
 
                             <div className="space-y-6">
                                 <p className="text-caption text-muted-foreground">
-                                    For AI platforms
+                                    {label}
                                 </p>
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl">
-                                    Consumer insight, built for AI agents.
+                                    {headline}
                                 </h1>
                                 <p className="text-lg text-foreground leading-relaxed max-w-md">
-                                    ADXC connects your platform to industry-leading consumer data sources,
-                                    with one connection, so your AI agents can pull real research into the
-                                    work, right when users need it.
+                                    {subtext}
                                 </p>
                             </div>
 

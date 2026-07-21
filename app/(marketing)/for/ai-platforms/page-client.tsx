@@ -7,16 +7,30 @@ import { AIPlatformsWhyNow } from "@/components/sections/ai-platforms/why-now"
 import { AIPlatformsHowItWorks } from "@/components/sections/ai-platforms/how-it-works"
 import { AIPlatformsPartners } from "@/components/sections/ai-platforms/partners"
 import { AIPlatformsCTA } from "@/components/sections/ai-platforms/cta"
+import type { AudiencePageContent } from "@/lib/cms/types"
 
-export default function AIPlatformsPageClient() {
+interface AIPlatformsPageClientProps {
+    data: AudiencePageContent
+}
+
+export default function AIPlatformsPageClient({ data }: AIPlatformsPageClientProps) {
     const [sharedEmail, setSharedEmail] = useState("")
 
     return (
         <>
-            <AIPlatformsHero onEmailSubmit={(email) => setSharedEmail(email)} />
+            <AIPlatformsHero
+                label={data.heroLabel}
+                headline={data.heroHeadline}
+                subtext={data.heroSubtext}
+                onEmailSubmit={(email) => setSharedEmail(email)}
+            />
             <AIPlatformsCapabilities />
             <AIPlatformsWhyNow />
-            <AIPlatformsHowItWorks />
+            <AIPlatformsHowItWorks
+                headline={data.howItWorksHeadline}
+                subtext={data.howItWorksSubtext}
+                features={data.howItWorksFeatures}
+            />
             <AIPlatformsPartners />
             <AIPlatformsCTA prefillEmail={sharedEmail} />
         </>

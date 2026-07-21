@@ -63,5 +63,6 @@ export type AudiencePageContent = {
     heroHeadline: string
     heroSubtext: string
     howItWorksHeadline: string
+    howItWorksSubtext?: string
     howItWorksFeatures: AudienceFeature[]
 }
