@@ -48,3 +48,20 @@ export type HomeContent = {
     useCasesSubtext: string
     useCases: UseCase[]
 }
+
+
+export type AudienceFeature = {
+    icon: string
+    title: string
+    lead: string
+    description: string
+}
+
+export type AudiencePageContent = {
+    audience: "brands" | "agencies" | "data-providers" | "ai-platforms"
+    heroLabel: string
+    heroHeadline: string
+    heroSubtext: string
+    howItWorksHeadline: string
+    howItWorksFeatures: AudienceFeature[]
+}

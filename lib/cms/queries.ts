@@ -1,5 +1,6 @@
 import { sanityClient } from "./client"
-import type { BlogPost, BlogPostPreview, HomeContent } from "./types"
+import type { AudiencePageContent, BlogPost, BlogPostPreview, HomeContent } from "./types"
+
 
 // All posts for listing page — no body field (keeps response lean)
 export async function getPosts(): Promise<BlogPostPreview[]> {
@@ -67,4 +68,25 @@ export async function getHome(): Promise<HomeContent | null> {
       }
     }`
   )
+}
+
+// Audience pages are pinned singletons — _id: "audience-brands", etc.
+// (see studio-adxc/structure.ts). Add more as Agencies / Data Providers /
+// AI Platforms pages are built.
+export async function getBrandsPage(): Promise<AudiencePageContent | null> {
+    return sanityClient.fetch(
+        `*[_type == "audiencePage" && _id == "audience-brands"][0] {
+      audience,
+      heroLabel,
+      heroHeadline,
+      heroSubtext,
+      howItWorksHeadline,
+      howItWorksFeatures[] {
+        icon,
+        title,
+        lead,
+        description
+      }
+    }`
+    )
 }

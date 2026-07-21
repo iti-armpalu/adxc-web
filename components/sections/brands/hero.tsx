@@ -7,7 +7,13 @@ import { Input } from "@/components/ui/input"
 import { FadeIn } from "@/components/ui/fade-in"
 import { HeroBackground } from "../home/hero-background"
 
-export function BrandsHero() {
+interface BrandsHeroProps {
+    label: string
+    headline: string
+    subtext: string
+}
+
+export function BrandsHero({ label, headline, subtext }: BrandsHeroProps) {
     const [email, setEmail] = useState("")
     const router = useRouter()
 
@@ -34,15 +40,13 @@ export function BrandsHero() {
                         <div className="max-w-xl space-y-10">
                             <div className="space-y-6">
                                 <p className="text-caption text-muted-foreground">
-                                    For brands
+                                    {label}
                                 </p>
                                 <h1>
-                                    Real data. Real answers. For real budgets.
+                                    {headline}
                                 </h1>
                                 <p className="text-lg text-foreground leading-relaxed max-w-md">
-                                    ADXC is built for businesses who need consumer insight on demand, but
-                                    don't want annual data subscriptions. Connect your AI agents to
-                                    industry-leading providers, and pay only for the answers you need.
+                                    {subtext}
                                 </p>
                             </div>
 
