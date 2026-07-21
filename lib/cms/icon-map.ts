@@ -9,6 +9,8 @@ import {
     BarChart,
     Layers,
     SlidersHorizontal,
+    Workflow,
+    Banknote,
     type LucideIcon,
 } from "lucide-react"
 
@@ -24,4 +26,6 @@ export const iconMap: Record<string, LucideIcon> = {
     "bar-chart": BarChart,
     layers: Layers,
     "sliders-horizontal": SlidersHorizontal,
+    workflow: Workflow,
+    banknote: Banknote,
 }

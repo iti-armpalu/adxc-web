@@ -74,8 +74,8 @@ export async function getHome(): Promise<HomeContent | null> {
 // (see studio-adxc/structure.ts). Add more as Agencies / Data Providers /
 // AI Platforms pages are built.
 export async function getBrandsPage(): Promise<AudiencePageContent | null> {
-    return sanityClient.fetch(
-        `*[_type == "audiencePage" && _id == "audience-brands"][0] {
+  return sanityClient.fetch(
+    `*[_type == "audiencePage" && _id == "audience-brands"][0] {
       audience,
       heroLabel,
       heroHeadline,
@@ -88,12 +88,30 @@ export async function getBrandsPage(): Promise<AudiencePageContent | null> {
         description
       }
     }`
-    )
+  )
 }
 
 export async function getAgenciesPage(): Promise<AudiencePageContent | null> {
   return sanityClient.fetch(
-      `*[_type == "audiencePage" && _id == "audience-agencies"][0] {
+    `*[_type == "audiencePage" && _id == "audience-agencies"][0] {
+    audience,
+    heroLabel,
+    heroHeadline,
+    heroSubtext,
+    howItWorksHeadline,
+    howItWorksFeatures[] {
+      icon,
+      title,
+      lead,
+      description
+    }
+  }`
+  )
+}
+
+export async function getDataProvidersPage(): Promise<AudiencePageContent | null> {
+  return sanityClient.fetch(
+    `*[_type == "audiencePage" && _id == "audience-data-providers"][0] {
     audience,
     heroLabel,
     heroHeadline,

@@ -9,17 +9,30 @@ import { DataProvidersDistribution } from "@/components/sections/data-providers/
 import { DataProvidersPartners } from "@/components/sections/data-providers/partners"
 import { DataProvidersCTA } from "@/components/sections/data-providers/cta"
 import { DataProvidersDataProviders } from "@/components/sections/data-providers/data-providers"
+import type { AudiencePageContent } from "@/lib/cms/types"
 
-export default function DataProvidersPageClient() {
+interface DataProvidersPageClientProps {
+    data: AudiencePageContent
+}
+
+export default function DataProvidersPageClient({ data }: DataProvidersPageClientProps) {
     const [sharedEmail, setSharedEmail] = useState("")
 
     return (
         <>
-            <DataProvidersHero onEmailSubmit={(email) => setSharedEmail(email)} />
+            <DataProvidersHero
+                label={data.heroLabel}
+                headline={data.heroHeadline}
+                subtext={data.heroSubtext}
+                onEmailSubmit={(email) => setSharedEmail(email)}
+            />
             <DataProvidersDataProviders />
             <DataProvidersStat />
             <DataProvidersWhyNow />
-            <DataProvidersHowItWorks />
+            <DataProvidersHowItWorks
+                headline={data.howItWorksHeadline}
+                features={data.howItWorksFeatures}
+            />
             <DataProvidersDistribution />
             <DataProvidersCTA prefillEmail={sharedEmail} />
             <DataProvidersPartners />

@@ -7,10 +7,13 @@ import { FadeIn } from "@/components/ui/fade-in"
 import { HeroBackground } from "../home/hero-background"
 
 type Props = {
+    label: string
+    headline: string
+    subtext: string
     onEmailSubmit: (email: string) => void
 }
 
-export function DataProvidersHero({ onEmailSubmit }: Props) {
+export function DataProvidersHero({ label, headline, subtext, onEmailSubmit }: Props) {
     const [email, setEmail] = useState("")
 
     const handleSubmit = () => {
@@ -34,14 +37,13 @@ export function DataProvidersHero({ onEmailSubmit }: Props) {
                         <div className="max-w-xl space-y-10">
                             <div className="space-y-6">
                                 <p className="text-caption text-muted-foreground">
-                                    For data providers
+                                    {label}
                                 </p>
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl">
-                                    Unlock a market your enterprise model can't reach.
+                                    {headline}
                                 </h1>
                                 <p className="text-lg text-foreground leading-relaxed max-w-md">
-                                    ADXC connects your data to the AI agents and workflows shaping
-                                    marketing decisions for SMEs. Get paid per query, with your IP fully protected.
+                                    {subtext}
                                 </p>
                             </div>
 
