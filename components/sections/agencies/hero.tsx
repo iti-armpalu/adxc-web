@@ -7,7 +7,13 @@ import { Input } from "@/components/ui/input"
 import { FadeIn } from "@/components/ui/fade-in"
 import { HeroBackground } from "../home/hero-background"
 
-export function AgenciesHero() {
+interface AgenciesHeroProps {
+    label: string
+    headline: string
+    subtext: string
+}
+
+export function AgenciesHero({ label, headline, subtext }: AgenciesHeroProps) {
     const [email, setEmail] = useState("")
     const router = useRouter()
 
@@ -34,15 +40,13 @@ export function AgenciesHero() {
 
                             <div className="space-y-6">
                                 <p className="text-caption text-muted-foreground">
-                                    For agencies
+                                    {label}
                                 </p>
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl">
-                                    Premium consumer data. For every client, every brief.
+                                    {headline}
                                 </h1>
                                 <p className="text-lg text-foreground leading-relaxed max-w-md">
-                                    ADXC connects your team's AI tools to industry-leading consumer data sources,
-                                    with one connection. Deliver evidence-backed work for clients of every type
-                                    and size — only paying for the data you actually use.
+                                    {subtext}
                                 </p>
                             </div>
 
@@ -63,15 +67,15 @@ export function AgenciesHero() {
 
                 {/* Illustration — flows below text on mobile, absolute on xl */}
                 <img
-    src="/illustration-agencies.svg"
-    alt=""
-    aria-hidden="true"
-    className="relative w-[min(800px,160vw)] max-w-none ml-[calc(100%-min(800px,160vw))] xl:absolute xl:inset-y-0 xl:right-0 xl:w-[90%] xl:h-full xl:object-cover pointer-events-none select-none"
-    style={{
-        maskImage: "linear-gradient(to right, transparent 25%, black 55%)",
-        WebkitMaskImage: "linear-gradient(to right, transparent 25%, black 55%)",
-    }}
-/>
+                    src="/illustration-agencies.svg"
+                    alt=""
+                    aria-hidden="true"
+                    className="relative w-[min(800px,160vw)] max-w-none ml-[calc(100%-min(800px,160vw))] xl:absolute xl:inset-y-0 xl:right-0 xl:w-[90%] xl:h-full xl:object-cover pointer-events-none select-none"
+                    style={{
+                        maskImage: "linear-gradient(to right, transparent 25%, black 55%)",
+                        WebkitMaskImage: "linear-gradient(to right, transparent 25%, black 55%)",
+                    }}
+                />
 
 
             </section>

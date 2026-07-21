@@ -90,3 +90,21 @@ export async function getBrandsPage(): Promise<AudiencePageContent | null> {
     }`
     )
 }
+
+export async function getAgenciesPage(): Promise<AudiencePageContent | null> {
+  return sanityClient.fetch(
+      `*[_type == "audiencePage" && _id == "audience-agencies"][0] {
+    audience,
+    heroLabel,
+    heroHeadline,
+    heroSubtext,
+    howItWorksHeadline,
+    howItWorksFeatures[] {
+      icon,
+      title,
+      lead,
+      description
+    }
+  }`
+  )
+}
