@@ -5,51 +5,21 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
 import { FadeIn } from "@/components/ui/fade-in"
 import { Card, CardContent } from "@/components/ui/card"
+import type { UseCase } from "@/lib/cms/types"
 
-const useCases = [
-    {
-        value: "audience",
-        title: "Audience research",
-        description: "Understand who your buyers are, what they believe, and what drives their decisions.",
-        bullets: [
-            "Profile and segment your target audience",
-            "Uncover behaviours, beliefs, barriers and motivations",
-            "Build data-backed personas in minutes",
-        ],
-    },
-    {
-        value: "competitive",
-        title: "Competitive intelligence",
-        description: "Know where you stand in the category and where your competitors are vulnerable.",
-        bullets: [
-            "Track trending topics and conversations in your category",
-            "Identify competitor weaknesses and gaps",
-            "Understand brand sentiment and perception",
-        ],
-    },
-    {
-        value: "brief",
-        title: "Brief development",
-        description: "Ground your briefs in real data, not assumptions. Give your creative teams the insight they need to do their best work.",
-        bullets: [
-            "Validate strategic territories before briefing",
-            "Rank messaging against audience priorities",
-            "Back every claim with a citable source",
-        ],
-    },
-    {
-        value: "ideation",
-        title: "Ideation and innovation",
-        description: "Evaluate new markets and new ideas before you invest in them.",
-        bullets: [
-            "Explore new markets and categories with real data",
-            "Validate claims and messaging before you commit to them",
-            "Stress test creative territories with real audience data",
-        ],
-    },
-]
+interface UseCasesSectionProps {
+    headline: string
+    subtext: string
+    useCases: UseCase[]
+}
 
-function UseCaseCard({ uc }: { uc: typeof useCases[number] }) {
+// Tab "value" is derived from the title here — not stored in Sanity —
+// so growth editing a title doesn't require touching a separate slug field.
+function slugify(title: string) {
+    return title.toLowerCase().replace(/\s+/g, "-")
+}
+
+function UseCaseCard({ uc }: { uc: UseCase }) {
     return (
         <Card>
             <CardContent>
@@ -79,8 +49,8 @@ function UseCaseCard({ uc }: { uc: typeof useCases[number] }) {
     )
 }
 
-export function UseCasesSection() {
-    const [active, setActive] = useState(useCases[0].value)
+export function UseCasesSection({ headline, subtext, useCases }: UseCasesSectionProps) {
+    const [active, setActive] = useState(slugify(useCases[0].title))
 
     return (
         <section
@@ -95,18 +65,17 @@ export function UseCasesSection() {
                         {/* Header */}
                         <div className="space-y-4 mb-12 text-center">
                             <h2 className="text-primary-foreground">
-                                Get the data you need for your critical marketing tasks
+                                {headline}
                             </h2>
                             <p className="text-lg text-primary-foreground/70 leading-relaxed max-w-2xl mx-auto">
-                                From simple fact finding, to deep audience understanding, to category
-                                trends, ADXC helps you get the answers you need instantly.
+                                {subtext}
                             </p>
                         </div>
 
                         {/* Mobile — stacked cards */}
                         <div className="flex flex-col gap-10 w-full md:hidden">
                             {useCases.map((uc) => (
-                                <div key={uc.value}>
+                                <div key={uc.title}>
                                     <UseCaseCard uc={uc} />
                                 </div>
                             ))}
@@ -122,8 +91,8 @@ export function UseCasesSection() {
                                 <TabsList className="flex flex-wrap h-auto gap-2 bg-transparent p-0">
                                     {useCases.map((uc) => (
                                         <TabsTrigger
-                                            key={uc.value}
-                                            value={uc.value}
+                                            key={uc.title}
+                                            value={slugify(uc.title)}
                                             className="rounded-full px-4 py-2 text-sm data-[state=active]:bg-primary-foreground data-[state=active]:text-foreground data-[state=inactive]:bg-primary-foreground/20 data-[state=inactive]:text-primary-foreground cursor-pointer"
                                         >
                                             {uc.title}
@@ -134,8 +103,8 @@ export function UseCasesSection() {
 
                             {useCases.map((uc) => (
                                 <TabsContent
-                                    key={uc.value}
-                                    value={uc.value}
+                                    key={uc.title}
+                                    value={slugify(uc.title)}
                                     className={cn("mt-0 animate-in fade-in-0 slide-in-from-bottom-2 duration-300")}
                                 >
                                     <UseCaseCard uc={uc} />

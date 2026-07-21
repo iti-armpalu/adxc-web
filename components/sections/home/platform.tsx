@@ -7,35 +7,16 @@ import {
 } from "@/components/ui/card"
 import { FadeIn } from "@/components/ui/fade-in"
 import Image from "next/image"
+import { urlFor } from "@/lib/cms/image"
+import type { PlatformStep } from "@/lib/cms/types"
 
-const steps = [
-  {
-    number: "1",
-    title: "Ask a question",
-    description: "through your AI agent. We understand the context of your Miro board.",
-    image: "/adxc-how-1.png",
-  },
-  {
-    number: "2",
-    title: "ADXC finds the data",
-    description: "across multiple premium sources, for your specific question.",
-    image: "/adxc-how-2.png",
-  },
-  {
-    number: "3",
-    title: "See an abstract and price",
-    description: "before you commit",
-    image: "/adxc-how-3.png",
-  },
-  {
-    number: "4",
-    title: "Approve and pay",
-    description: "only for what you use",
-    image: "/adxc-how-4.png",
-  },
-]
+interface PlatformSectionProps {
+  headline: string
+  subtext: string
+  steps: PlatformStep[]
+}
 
-export function PlatformSection() {
+export function PlatformSection({ headline, subtext, steps }: PlatformSectionProps) {
   return (
     <FadeIn>
       <section className="bg-white">
@@ -43,20 +24,19 @@ export function PlatformSection() {
 
           <div className="space-y-4 mb-16">
             <h2 className="text-primary">
-              How it works
+              {headline}
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed max-w-lg">
-              Connect ADXC to your existing AI tools, starting with Miro Sidekick at launch.
-              More integrations coming soon…
+              {subtext}
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {steps.map((step) => (
-              <Card key={step.number} className="gap-0 overflow-hidden">
+            {steps.map((step, index) => (
+              <Card key={step.title} className="gap-0 overflow-hidden">
                 <CardHeader className="pb-0">
                   <div className="w-8 h-8 rounded-xs flex items-center justify-center shrink-0 bg-primary text-primary-foreground text-sm font-medium mb-4">
-                    {step.number}
+                    {index + 1}
                   </div>
                   <CardTitle className="text-lg text-primary">
                     {step.title}
@@ -70,7 +50,11 @@ export function PlatformSection() {
                 <div className="px-4 pt-6 mt-auto">
                   <div className="relative w-full aspect-video overflow-hidden">
                     <Image
-                      src={step.image}
+                      src={
+                        typeof step.image === "string"
+                          ? step.image
+                          : urlFor(step.image).width(800).auto("format").url()
+                      }
                       alt={step.title}
                       fill
                       className="object-cover"

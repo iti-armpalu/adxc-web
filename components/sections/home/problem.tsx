@@ -2,35 +2,20 @@
 
 import { useRef, useEffect, useState } from "react";
 
-const SENTENCES = [
-    {
-        id: 1,
-        label: "01",
-        text: "You've built a brief as best you can using gut instinct and the data your LLM can gather (the killer stat is, on checking, a hallucination…).",
-    },
-    {
-        id: 2,
-        label: "02",
-        text: "You've been quoted $100K for a data subscription you'd use twice a year.",
-    },
-    {
-        id: 3,
-        label: "03",
-        text: "You've spent half a Tuesday hunting for category stats across PDFs, free trials, and outdated reports.",
-    },
-    {
-        id: 4,
-        label: null,
-        text: "Sound familiar?",
-    },
-    {
-        id: 5,
-        label: null,
-        text: "ADXC solves this, giving you instant access to trusted consumer data previously locked behind expensive subscriptions.",
-    },
-];
+interface HomeProblemSectionProps {
+    sentenceOne: string
+    sentenceTwo: string
+    sentenceThree: string
+    punchline: string
+    solution: string
+}
 
-const SENTENCE_COUNT = SENTENCES.length;
+// Labels are derived here, not stored in Sanity — only the first three
+// sentences get a numbered label; punchline/solution never do.
+// Sentence count is fixed at 5 by the schema (see homeType.ts) so the
+// scroll-slice math below can safely assume SENTENCE_COUNT = 5.
+
+const SENTENCE_COUNT = 5;
 const slice = 1 / SENTENCE_COUNT;
 const fade = slice * 0.15;
 
@@ -99,9 +84,23 @@ function WordReveal({ text, progress, start }: WordRevealProps) {
     );
 }
 
-export function HomeProblemSection() {
+export function HomeProblemSection({
+    sentenceOne,
+    sentenceTwo,
+    sentenceThree,
+    punchline,
+    solution,
+}: HomeProblemSectionProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const progress = useScrollProgress(containerRef as React.RefObject<HTMLElement>);
+
+    const SENTENCES = [
+        { id: 1, label: "01", text: sentenceOne },
+        { id: 2, label: "02", text: sentenceTwo },
+        { id: 3, label: "03", text: sentenceThree },
+        { id: 4, label: null, text: punchline },
+        { id: 5, label: null, text: solution },
+    ];
 
     function getSentenceState(index: number) {
         const start = index * slice;

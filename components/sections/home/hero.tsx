@@ -9,7 +9,12 @@ import { HeroGraphic } from "./hero-graphic"
 import { trackHeroCtaClicked, trackHeroEmailStarted } from "@/lib/analytics/events"
 import { HeroBackground } from "./hero-background"
 
-export function HeroSection() {
+interface HeroSectionProps {
+    headline: string
+    subtext: string
+}
+
+export function HeroSection({ headline, subtext }: HeroSectionProps) {
     const router = useRouter()
     const [email, setEmail] = useState("")
 
@@ -32,10 +37,10 @@ export function HeroSection() {
                         <div className="max-w-xl space-y-10">
                             <div className="space-y-6">
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl">
-                                    Trusted market research data, inside your AI tools
+                                    {headline}
                                 </h1>
                                 <p className="text-lg text-foreground leading-relaxed max-w-md">
-                                    Connect your AI to data previously locked behind multiple enterprise subscriptions, for sharper insight you can rely on. Pay per answer.
+                                    {subtext}
                                 </p>
                             </div>
 
