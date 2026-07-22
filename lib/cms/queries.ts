@@ -1,6 +1,16 @@
 import { sanityClient } from "./client"
-import type { AudiencePageContent, BlogPost, BlogPostPreview, HomeContent } from "./types"
+import type { AudiencePageContent, BlogPost, BlogPostPreview, HomeContent, SiteSeoContent } from "./types"
 
+const SEO_PROJECTION = `
+      seo {
+        metaTitle,
+        metaDescription,
+        canonicalUrl,
+        ogTitle,
+        ogDescription,
+        ogImage
+      }
+`
 
 // All posts for listing page — no body field (keeps response lean)
 export async function getPosts(): Promise<BlogPostPreview[]> {
@@ -65,14 +75,14 @@ export async function getHome(): Promise<HomeContent | null> {
         title,
         description,
         bullets
-      }
+      },
+      ${SEO_PROJECTION}
     }`
   )
 }
 
 // Audience pages are pinned singletons — _id: "audience-brands", etc.
-// (see studio-adxc/structure.ts). Add more as Agencies / Data Providers /
-// AI Platforms pages are built.
+// (see studio-adxc/structure.ts).
 export async function getBrandsPage(): Promise<AudiencePageContent | null> {
   return sanityClient.fetch(
     `*[_type == "audiencePage" && _id == "audience-brands"][0] {
@@ -86,7 +96,8 @@ export async function getBrandsPage(): Promise<AudiencePageContent | null> {
         title,
         lead,
         description
-      }
+      },
+      ${SEO_PROJECTION}
     }`
   )
 }
@@ -94,54 +105,66 @@ export async function getBrandsPage(): Promise<AudiencePageContent | null> {
 export async function getAgenciesPage(): Promise<AudiencePageContent | null> {
   return sanityClient.fetch(
     `*[_type == "audiencePage" && _id == "audience-agencies"][0] {
-    audience,
-    heroLabel,
-    heroHeadline,
-    heroSubtext,
-    howItWorksHeadline,
-    howItWorksFeatures[] {
-      icon,
-      title,
-      lead,
-      description
-    }
-  }`
+      audience,
+      heroLabel,
+      heroHeadline,
+      heroSubtext,
+      howItWorksHeadline,
+      howItWorksFeatures[] {
+        icon,
+        title,
+        lead,
+        description
+      },
+      ${SEO_PROJECTION}
+    }`
   )
 }
 
 export async function getDataProvidersPage(): Promise<AudiencePageContent | null> {
   return sanityClient.fetch(
     `*[_type == "audiencePage" && _id == "audience-data-providers"][0] {
-    audience,
-    heroLabel,
-    heroHeadline,
-    heroSubtext,
-    howItWorksHeadline,
-    howItWorksFeatures[] {
-      icon,
-      title,
-      lead,
-      description
-    }
-  }`
+      audience,
+      heroLabel,
+      heroHeadline,
+      heroSubtext,
+      howItWorksHeadline,
+      howItWorksFeatures[] {
+        icon,
+        title,
+        lead,
+        description
+      },
+      ${SEO_PROJECTION}
+    }`
   )
 }
 
 export async function getAIPlatformsPage(): Promise<AudiencePageContent | null> {
   return sanityClient.fetch(
     `*[_type == "audiencePage" && _id == "audience-ai-platforms"][0] {
-    audience,
-    heroLabel,
-    heroHeadline,
-    heroSubtext,
-    howItWorksHeadline,
-    howItWorksSubtext,
-    howItWorksFeatures[] {
-      icon,
-      title,
-      lead,
-      description
-    }
-  }`
+      audience,
+      heroLabel,
+      heroHeadline,
+      heroSubtext,
+      howItWorksHeadline,
+      howItWorksSubtext,
+      howItWorksFeatures[] {
+        icon,
+        title,
+        lead,
+        description
+      },
+      ${SEO_PROJECTION}
+    }`
+  )
+}
+
+// Site-wide SEO fallback — singleton, fixed _id "siteSeo"
+export async function getSiteSeo(): Promise<SiteSeoContent | null> {
+  return sanityClient.fetch(
+    `*[_type == "siteSeo" && _id == "siteSeo"][0] {
+      defaultOgImage
+    }`
   )
 }

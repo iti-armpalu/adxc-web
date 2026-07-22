@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
-import { siteConfig } from "@/config/site"
-import { getHome } from "@/lib/cms/queries"
+import { getHome, getSiteSeo } from "@/lib/cms/queries"
+import { buildMetadata } from "@/lib/seo/build-metadata"
 import { HeroSection } from "@/components/sections/home/hero"
 import { HomeProblemSection } from "@/components/sections/home/problem"
 import { PlatformSection } from "@/components/sections/home/platform"
@@ -9,9 +9,9 @@ import { AudienceCardsSection } from "@/components/sections/home/audience-cards"
 import { HomeCTASection } from "@/components/sections/home/cta"
 import { PartnersSection } from "@/components/sections/home/partners-section"
 
-export const metadata: Metadata = {
-    title: "Home",
-    description: siteConfig.tagline,
+export async function generateMetadata(): Promise<Metadata> {
+    const [home, siteSeo] = await Promise.all([getHome(), getSiteSeo()])
+    return buildMetadata({ seo: home?.seo, siteSeo, path: "/" })
 }
 
 export default async function HomePage() {

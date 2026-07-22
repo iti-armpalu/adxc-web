@@ -19,6 +19,21 @@ export type BlogPost = {
 // Listing variant — no body, used on /blog page
 export type BlogPostPreview = Omit<BlogPost, "body">
 
+// --- SEO ---
+
+export type SeoContent = {
+    metaTitle: string
+    metaDescription: string
+    canonicalUrl?: string
+    ogTitle?: string
+    ogDescription?: string
+    ogImage?: SanityImage
+}
+
+export type SiteSeoContent = {
+    defaultOgImage: SanityImage
+}
+
 // --- Home page ---
 
 export type PlatformStep = {
@@ -47,8 +62,10 @@ export type HomeContent = {
     useCasesHeadline: string
     useCasesSubtext: string
     useCases: UseCase[]
+    seo?: SeoContent
 }
 
+// --- Audience pages (Brands / Agencies / Data Providers / AI Platforms) ---
 
 export type AudienceFeature = {
     icon: string
@@ -65,4 +82,5 @@ export type AudiencePageContent = {
     howItWorksHeadline: string
     howItWorksSubtext?: string
     howItWorksFeatures: AudienceFeature[]
+    seo?: SeoContent
 }
