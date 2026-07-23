@@ -1,5 +1,5 @@
 import { sanityFetch } from "./client"
-import type { AudiencePageContent, BlogPost, BlogPostPreview, HomeContent, SiteSeoContent } from "./types"
+import type { AudiencePageContent, BlogPost, BlogPostPreview, HomeContent, PlatformPageContent, SiteSeoContent } from "./types"
 
 const SEO_PROJECTION = `
       seo {
@@ -151,6 +151,29 @@ export async function getAIPlatformsPage(): Promise<AudiencePageContent | null> 
       howItWorksSubtext,
       howItWorksFeatures[] {
         icon,
+        title,
+        lead,
+        description
+      },
+      ${SEO_PROJECTION}
+    }`
+  )
+}
+
+// Append into lib/cms/queries.ts, using the existing sanityFetch import
+// and SEO_PROJECTION constant already defined there.
+
+export async function getPlatformPage(): Promise<PlatformPageContent | null> {
+  return sanityFetch(
+    `*[_type == "productPlatformPage" && _id == "product-platform"][0] {
+       heroLabel,
+      heroHeadline,
+      heroSubtext,
+      howItWorksHeadline,
+      howItWorksSubtext,
+      howItWorksSteps[] {
+        icon,
+        label,
         title,
         lead,
         description

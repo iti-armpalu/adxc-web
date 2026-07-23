@@ -1,11 +1,17 @@
 import { ProductHero } from "../product-hero";
 
-export function PlatformHero() {
+interface PlatformHeroProps {
+    label: string
+    headline: string
+    subtext: string
+}
+
+export function PlatformHero({ label, headline, subtext }: PlatformHeroProps) {
     return (
         <ProductHero
-            eyebrow="The platform"
-            title="ADXC: The Agentic Data Exchange"
-            description="Consumer insight for AI agents."
+            eyebrow={label}
+            title={headline}
+            description={subtext}
         />
     )
 }

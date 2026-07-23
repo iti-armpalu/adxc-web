@@ -69,6 +69,7 @@ export type HomeContent = {
 
 export type AudienceFeature = {
     icon: string
+    label?: string
     title: string
     lead: string
     description: string
@@ -82,5 +83,15 @@ export type AudiencePageContent = {
     howItWorksHeadline: string
     howItWorksSubtext?: string
     howItWorksFeatures: AudienceFeature[]
+    seo?: SeoContent
+}
+
+export interface PlatformPageContent {
+    heroLabel: string
+    heroHeadline: string
+    heroSubtext: string
+    howItWorksHeadline: string
+    howItWorksSubtext: string
+    howItWorksSteps: AudienceFeature[]
     seo?: SeoContent
 }

@@ -1,46 +1,17 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
-import { Brain, Lock, Zap, type LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { iconMap } from "@/lib/cms/icon-map"
+import type { AudienceFeature } from "@/lib/cms/types"
 
-type Step = {
-    index: number
-    icon: LucideIcon
-    label: string
-    title: string
-    lead: string
-    description: string
+interface PlatformHowItWorksProps {
+    headline: string
+    subtext: string
+    steps: AudienceFeature[]
 }
 
-const steps: Step[] = [
-    {
-        index: 0,
-        icon: Brain,
-        label: "context",
-        title: "Understands questions in their full context",
-        lead: "When a user asks a question through their AI agent, ADXC reads the work surrounding it too.",
-        description: "The brief, the audience, the brand, whatever's in the workflow. This enables ADXC to find the specific, relevant data to the question at hand.",
-    },
-    {
-        index: 1,
-        icon: Zap,
-        label: "connection",
-        title: "One connection. Every data source.",
-        lead: "One connection via API/MCP gives your AI agents access to every data source ADXC supports.",
-        description: "ADXC takes a single question, breaks it down into subqueries to help find the most relevant data, and returns a single answer. Natural language in, synthesised answer out.",
-    },
-    {
-        index: 2,
-        icon: Lock,
-        label: "security",
-        title: "Data that never leaves the provider's control",
-        lead: "Data providers' raw datasets are never copied, stored, or exposed to end users.",
-        description: "ADXC retrieves only what's needed to answer each specific question, and returns synthesised answers, keeping the underlying data fully within the provider's control.",
-    },
-]
-
-export function PlatformHowItWorks() {
+export function PlatformHowItWorks({ headline, subtext, steps }: PlatformHowItWorksProps) {
     const [activeStep, setActiveStep] = useState(0)
     const sectionRef = useRef<HTMLDivElement>(null)
     const stepRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -65,10 +36,10 @@ export function PlatformHowItWorks() {
 
                 <div className="space-y-3 mb-16">
                     <h2 className="text-primary">
-                        How ADXC works for you
+                        {headline}
                     </h2>
                     <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
-                        ADXC connects your platform to multiple premium consumer data providers via a single connection.
+                        {subtext}
                     </p>
                 </div>
 
@@ -76,7 +47,7 @@ export function PlatformHowItWorks() {
                 <div className="hidden lg:block">
                     <div className="space-y-[30vh] pb-[15vh]">
                         {steps.map((step, i) => {
-                            const Icon = step.icon
+                            const Icon = iconMap[step.icon]
                             return (
                                 <div key={i} ref={el => { stepRefs.current[i] = el }}
                                     className={cn("max-w-2xl space-y-4 transition-opacity duration-500", activeStep === i ? "opacity-100" : "opacity-30")}>
@@ -98,7 +69,7 @@ export function PlatformHowItWorks() {
                 {/* Mobile */}
                 <div className="lg:hidden space-y-12">
                     {steps.map((step, i) => {
-                        const Icon = step.icon
+                        const Icon = iconMap[step.icon]
                         return (
                             <div key={i} className="space-y-4">
                                 <div className="flex items-center gap-3">
