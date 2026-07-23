@@ -1,10 +1,11 @@
 import type { Metadata } from "next"
-import { getAIPlatformsPage } from "@/lib/cms/queries"
+import { getAIPlatformsPage, getSiteSeo } from "@/lib/cms/queries"
+import { buildMetadata } from "@/lib/seo/build-metadata"
 import AIPlatformsPageClient from "./page-client"
 
-export const metadata: Metadata = {
-    title: "For AI Platforms",
-    description: "ADXC connects your platform to industry-leading consumer data sources.",
+export async function generateMetadata(): Promise<Metadata> {
+    const [aiPlatforms, siteSeo] = await Promise.all([getAIPlatformsPage(), getSiteSeo()])
+    return buildMetadata({ seo: aiPlatforms?.seo, siteSeo, path: "/ai-platforms" })
 }
 
 export default async function AIPlatformsPage() {

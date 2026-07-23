@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
-import { getAgenciesPage } from "@/lib/cms/queries"
+import { getAgenciesPage, getSiteSeo } from "@/lib/cms/queries"
+import { buildMetadata } from "@/lib/seo/build-metadata"
 import { AgenciesHero } from "@/components/sections/agencies/hero"
 import { AgenciesHowItWorks } from "@/components/sections/agencies/how-it-works"
 import { AgenciesIntegrations } from "@/components/sections/agencies/integrations"
@@ -7,9 +8,9 @@ import { AgenciesPartners } from "@/components/sections/agencies/partners"
 import { AgenciesCTA } from "@/components/sections/agencies/cta"
 import { AgenciesOtherWays } from "@/components/sections/agencies/other-ways"
 
-export const metadata: Metadata = {
-    title: "For Agencies",
-    description: "ADXC connects your team's AI tools to industry-leading consumer data sources, with one connection.",
+export async function generateMetadata(): Promise<Metadata> {
+    const [agencies, siteSeo] = await Promise.all([getAgenciesPage(), getSiteSeo()])
+    return buildMetadata({ seo: agencies?.seo, siteSeo, path: "/agencies" })
 }
 
 export default async function AgenciesPage() {

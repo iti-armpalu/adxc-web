@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
-import { getBrandsPage } from "@/lib/cms/queries"
+import { getBrandsPage, getSiteSeo } from "@/lib/cms/queries"
+import { buildMetadata } from "@/lib/seo/build-metadata"
 import { BrandsHero } from "@/components/sections/brands/hero"
 import { BrandsDataProviders } from "@/components/sections/brands/data-providers"
 import { BrandsProblem } from "@/components/sections/brands/problem"
@@ -8,9 +9,9 @@ import { BrandsIntegrations } from "@/components/sections/brands/integrations"
 import { BrandsPartners } from "@/components/sections/brands/partners"
 import { BrandsCTA } from "@/components/sections/brands/cta"
 
-export const metadata: Metadata = {
-    title: "For Brands",
-    description: "Consumer insight on demand. Connect your AI agents to industry-leading providers and pay only for the answers you need.",
+export async function generateMetadata(): Promise<Metadata> {
+    const [brands, siteSeo] = await Promise.all([getBrandsPage(), getSiteSeo()])
+    return buildMetadata({ seo: brands?.seo, siteSeo, path: "/brands" })
 }
 
 export default async function BrandsPage() {

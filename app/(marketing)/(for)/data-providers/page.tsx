@@ -1,10 +1,11 @@
 import type { Metadata } from "next"
-import { getDataProvidersPage } from "@/lib/cms/queries"
+import { getDataProvidersPage, getSiteSeo } from "@/lib/cms/queries"
+import { buildMetadata } from "@/lib/seo/build-metadata"
 import DataProvidersPageClient from "./page-client"
 
-export const metadata: Metadata = {
-    title: "For Data Providers",
-    description: "Unlock a market your enterprise model can't reach. ADXC connects your data to the AI agents and workflows shaping marketing decisions for SMEs.",
+export async function generateMetadata(): Promise<Metadata> {
+    const [dataProviders, siteSeo] = await Promise.all([getDataProvidersPage(), getSiteSeo()])
+    return buildMetadata({ seo: dataProviders?.seo, siteSeo, path: "/data-providers" })
 }
 
 export default async function DataProvidersPage() {
