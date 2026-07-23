@@ -13,7 +13,7 @@ const cards = [
         title: "Building an AI platform?",
         description: "Get trusted consumer insight in the AI tools you're building.",
         cta: "ADXC for AI platforms",
-        href: "/for/ai-platforms",
+        href: "/ai-platforms",
     },
 ]
 

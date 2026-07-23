@@ -8,10 +8,10 @@ const ALLOWED_ROUTES = [
   "/legal/privacy",
   "/legal/terms",
   "/legal/cookies",
-  "/for/data-providers",
-  "/for/ai-platforms",
-  "/for/agencies",
-  "/for/brands",
+  "/data-providers",
+  "/ai-platforms",
+  "/agencies",
+  "/brands",
   "/product/platform",
   "/product/data-sources"
 ]

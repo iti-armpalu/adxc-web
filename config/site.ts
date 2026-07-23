@@ -32,7 +32,7 @@ export const siteConfig = {
             items: [
                 {
                     label: "For Brands",
-                    href: "/for/brands",
+                    href: "/brands",
                     description: "Premium data for strategies, briefs and campaigns",
                     longDescription: "Access premium data for your strategies, briefs and campaigns, without enterprise subscriptions.",
                     icon: "TrendingUp",
@@ -40,7 +40,7 @@ export const siteConfig = {
                 },
                 {
                     label: "For Agencies",
-                    href: "/for/agencies",
+                    href: "/agencies",
                     description: "Usage-based data access for every client brief",
                     longDescription: "Give every client access to the data they need. Usage-based, so costs scale with your work. Earn for referrals.",
                     icon: "Users",
@@ -48,7 +48,7 @@ export const siteConfig = {
                 },
                 {
                     label: "For Data Providers",
-                    href: "/for/data-providers",
+                    href: "/data-providers",
                     description: "New SME market for your data, pay-per-query",
                     longDescription: "Unlock a new SME market your enterprise model can't reach. Your data powers AI agents, you earn on every query.",
                     icon: "Database",
@@ -56,7 +56,7 @@ export const siteConfig = {
                 },
                 {
                     label: "For AI Platforms",
-                    href: "/for/ai-platforms",
+                    href: "/ai-platforms",
                     description: "One connection, smarter agents, better retention",
                     longDescription: "Make your agents smarter with premium data. One connection for multiple providers, better outputs, stronger retention.",
                     icon: "Cpu",
@@ -97,10 +97,10 @@ export const siteConfig = {
         {
             label: "Why ADXC",
             links: [
-                { label: "For brands", href: "/for/brands" },
-                { label: "For agencies", href: "/for/agencies" },
-                { label: "For data providers", href: "/for/data-providers" },
-                { label: "For AI platforms", href: "/for/ai-platforms" },
+                { label: "For brands", href: "/brands" },
+                { label: "For agencies", href: "/agencies" },
+                { label: "For data providers", href: "/data-providers" },
+                { label: "For AI platforms", href: "/ai-platforms" },
             ],
         },
         {
