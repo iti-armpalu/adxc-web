@@ -1,5 +1,5 @@
 import { sanityFetch } from "./client"
-import type { AudiencePageContent, BlogPost, BlogPostPreview, HomeContent, PlatformPageContent, SiteSeoContent } from "./types"
+import type { AudiencePageContent, BlogPost, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent } from "./types"
 
 const SEO_PROJECTION = `
       seo {
@@ -55,7 +55,9 @@ export async function getPostSlugs(): Promise<{ slug: string }[]> {
 export async function getHome(): Promise<HomeContent | null> {
   return sanityFetch(
     `*[_type == "home" && _id == "home"][0] {
-      heroHeadline,
+      heroHeadlineLine1,
+      heroHeadlineLine2,
+      heroHeadlineLine3,
       heroSubtext,
       platformHeadline,
       platformSubtext,
@@ -88,7 +90,9 @@ export async function getBrandsPage(): Promise<AudiencePageContent | null> {
     `*[_type == "audiencePage" && _id == "audience-brands"][0] {
       audience,
       heroLabel,
-      heroHeadline,
+      heroHeadlineLine1,
+      heroHeadlineLine2,
+      heroHeadlineLine3,
       heroSubtext,
       howItWorksHeadline,
       howItWorksFeatures[] {
@@ -107,7 +111,9 @@ export async function getAgenciesPage(): Promise<AudiencePageContent | null> {
     `*[_type == "audiencePage" && _id == "audience-agencies"][0] {
       audience,
       heroLabel,
-      heroHeadline,
+      heroHeadlineLine1,
+      heroHeadlineLine2,
+      heroHeadlineLine3,
       heroSubtext,
       howItWorksHeadline,
       howItWorksFeatures[] {
@@ -126,7 +132,9 @@ export async function getDataProvidersPage(): Promise<AudiencePageContent | null
     `*[_type == "audiencePage" && _id == "audience-data-providers"][0] {
       audience,
       heroLabel,
-      heroHeadline,
+      heroHeadlineLine1,
+      heroHeadlineLine2,
+      heroHeadlineLine3,
       heroSubtext,
       howItWorksHeadline,
       howItWorksFeatures[] {
@@ -145,7 +153,9 @@ export async function getAIPlatformsPage(): Promise<AudiencePageContent | null> 
     `*[_type == "audiencePage" && _id == "audience-ai-platforms"][0] {
       audience,
       heroLabel,
-      heroHeadline,
+      heroHeadlineLine1,
+      heroHeadlineLine2,
+      heroHeadlineLine3,
       heroSubtext,
       howItWorksHeadline,
       howItWorksSubtext,
@@ -160,14 +170,14 @@ export async function getAIPlatformsPage(): Promise<AudiencePageContent | null> 
   )
 }
 
-// Append into lib/cms/queries.ts, using the existing sanityFetch import
-// and SEO_PROJECTION constant already defined there.
-
+// Product — Platform. Singleton, fixed _id "product-platform".
 export async function getPlatformPage(): Promise<PlatformPageContent | null> {
   return sanityFetch(
     `*[_type == "productPlatformPage" && _id == "product-platform"][0] {
-       heroLabel,
-      heroHeadline,
+      heroLabel,
+      heroHeadlineLine1,
+      heroHeadlineLine2,
+      heroHeadlineLine3,
       heroSubtext,
       howItWorksHeadline,
       howItWorksSubtext,
@@ -177,6 +187,27 @@ export async function getPlatformPage(): Promise<PlatformPageContent | null> {
         title,
         lead,
         description
+      },
+      ${SEO_PROJECTION}
+    }`
+  )
+}
+
+// Product — Data Sources. Singleton, fixed _id "product-data-sources".
+export async function getDataSourcesPage(): Promise<DataSourcesPageContent | null> {
+  return sanityFetch(
+    `*[_type == "dataSourcesPage" && _id == "product-data-sources"][0] {
+      heroHeadlineLine1,
+      heroHeadlineLine2,
+      heroHeadlineLine3,
+      heroSubtext,
+      providersHeadline,
+      providers[] {
+        name,
+        logo,
+        tagline,
+        description,
+        capabilities
       },
       ${SEO_PROJECTION}
     }`

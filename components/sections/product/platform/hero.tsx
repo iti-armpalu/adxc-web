@@ -2,16 +2,20 @@ import { ProductHero } from "../product-hero";
 
 interface PlatformHeroProps {
     label: string
-    headline: string
+    headlineLine1: string
+    headlineLine2?: string
+    headlineLine3?: string
     subtext: string
 }
 
-export function PlatformHero({ label, headline, subtext }: PlatformHeroProps) {
+export function PlatformHero({ label, headlineLine1, headlineLine2, headlineLine3, subtext }: PlatformHeroProps) {
     return (
         <ProductHero
-            eyebrow={label}
-            title={headline}
-            description={subtext}
+            label={label}
+            headlineLine1={headlineLine1}
+            headlineLine2={headlineLine2}
+            headlineLine3={headlineLine3}
+            subtext={subtext}
         />
     )
 }

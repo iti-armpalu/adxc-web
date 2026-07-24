@@ -8,13 +8,16 @@ import { HeroBackground } from "@/components/sections/home/hero-background"
 
 type Props = {
     label: string
-    headline: string
+    headlineLine1: string
+    headlineLine2?: string
+    headlineLine3?: string
     subtext: string
     onEmailSubmit: (email: string) => void
 }
 
-export function AIPlatformsHero({ label, headline, subtext, onEmailSubmit }: Props) {
+export function AIPlatformsHero({ label, headlineLine1, headlineLine2, headlineLine3, subtext, onEmailSubmit }: Props) {
     const [email, setEmail] = useState("")
+    const headlineLines = [headlineLine1, headlineLine2, headlineLine3].filter(Boolean)
 
     const handleSubmit = () => {
         onEmailSubmit(email)
@@ -39,7 +42,12 @@ export function AIPlatformsHero({ label, headline, subtext, onEmailSubmit }: Pro
                                     {label}
                                 </p>
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl">
-                                    {headline}
+                                    {headlineLines.map((line, i) => (
+                                        <span key={i}>
+                                            {line}
+                                            {i < headlineLines.length - 1 && <br />}
+                                        </span>
+                                    ))}
                                 </h1>
                                 <p className="text-lg text-foreground leading-relaxed max-w-md">
                                     {subtext}

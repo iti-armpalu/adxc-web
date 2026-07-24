@@ -1,10 +1,19 @@
 import { ProductHero } from "../product-hero";
 
-export function DataSourcesHero() {
+interface DataSourcesHeroProps {
+    headlineLine1: string
+    headlineLine2?: string
+    headlineLine3?: string
+    subtext: string
+}
+
+export function DataSourcesHero({ headlineLine1, headlineLine2, headlineLine3, subtext }: DataSourcesHeroProps) {
     return (
         <ProductHero
-            title="Multiple industry-leading data providers. One connection."
-            description="The data providers connected to ADXC that you can access, pay-per-query."
+            headlineLine1={headlineLine1}
+            headlineLine2={headlineLine2}
+            headlineLine3={headlineLine3}
+            subtext={subtext}
         />
     )
 }

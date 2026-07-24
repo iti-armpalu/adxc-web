@@ -1,67 +1,15 @@
-import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { FadeIn } from "@/components/ui/fade-in"
+import { urlFor } from "@/lib/cms/image"
+import type { DataProviderContent } from "@/lib/cms/types"
 
-type Provider = {
-    name: string
-    logo: string
-    logoWidth: number
-    logoHeight: number
-    tagline: string
-    description: string
-    capabilities: string[]
+interface DataProvidersListProps {
+    headline: string
+    providers: DataProviderContent[]
 }
 
-const providers: Provider[] = [
-    {
-        name: "YouGov Profiles",
-        logo: "/yougov-logo-horizontal.png",
-        logoWidth: 120,
-        logoHeight: 40,
-        tagline: "One of the world's most trusted consumer research providers.",
-        description: "YouGov is used by the world's largest brands and agencies. Profiles is their syndicated audience and brand dataset, built from their panel of 30+ million registered members across 55 markets. It is a continuously-updated dataset covering millions of consumer datapoints across attitudes, behaviours, demographics, media consumption, and brand affinities.",
-        capabilities: [
-            "Audience profiling",
-            "Brand tracking",
-            "Category intelligence",
-            "Media and channel preferences",
-            "Attitudinal data",
-        ],
-    },
-    {
-        name: "Quid",
-        logo: "/quid-logo.svg",
-        logoWidth: 80,
-        logoHeight: 40,
-        tagline: "AI-powered consumer and market intelligence.",
-        description:
-            "Quid analyses billions of indexed sources — social media, news, forums, reviews, and more — using AI to find the themes and sentiment shaping a category. It surfaces the patterns, narratives, and emerging trends behind the conversation, giving ADXC users a synthesised read on how consumers and markets are moving.",
-        capabilities: [
-            "Trend identification",
-            "Brand sentiment analysis",
-            "Cultural insight",
-            "Consumer conversation analysis",
-        ],
-    },
-    {
-        name: "Google Data Commons",
-        logo: "/data-comms-logo.svg",
-        logoWidth: 120,
-        logoHeight: 40,
-        tagline: "The world's public statistics, unified into one trusted source.",
-        description: "Google Data Commons unifies thousands of public datasets — from the US Census Bureau, the UN, the World Bank, the CDC, and more — into a single, standardised resource. It covers population, demographics, economic indicators, and other macro-level statistics, drawn from government and institutional sources.",
-        capabilities: [
-            "Population data",
-            "Demographic trends",
-            "Economic indicators",
-            "Government statistics",
-            "Macro-level benchmarks",
-        ],
-    }
-]
-
-export function DataProvidersList() {
+export function DataProvidersList({ headline, providers }: DataProvidersListProps) {
     return (
         <FadeIn>
             <section className="bg-white">
@@ -69,7 +17,7 @@ export function DataProvidersList() {
 
                     <div className="space-y-3 mb-16">
                         <h2 className="text-primary">
-                            Connected data providers
+                            {headline}
                         </h2>
                     </div>
 
@@ -81,11 +29,9 @@ export function DataProvidersList() {
 
                                         {/* Left — logo + name + tagline */}
                                         <div className="space-y-4">
-                                            <Image
-                                                src={provider.logo}
+                                            <img
+                                                src={urlFor(provider.logo).width(400).auto("format").url()}
                                                 alt={provider.name}
-                                                width={provider.logoWidth}
-                                                height={provider.logoHeight}
                                                 className="h-7 w-auto object-contain"
                                             />
                                             <div className="space-y-1">

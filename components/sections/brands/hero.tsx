@@ -9,13 +9,16 @@ import { HeroBackground } from "../home/hero-background"
 
 interface BrandsHeroProps {
     label: string
-    headline: string
+    headlineLine1: string
+    headlineLine2?: string
+    headlineLine3?: string
     subtext: string
 }
 
-export function BrandsHero({ label, headline, subtext }: BrandsHeroProps) {
+export function BrandsHero({ label, headlineLine1, headlineLine2, headlineLine3, subtext }: BrandsHeroProps) {
     const [email, setEmail] = useState("")
     const router = useRouter()
+    const headlineLines = [headlineLine1, headlineLine2, headlineLine3].filter(Boolean)
 
     const handleSubmit = () => {
         const dest = email
@@ -43,7 +46,12 @@ export function BrandsHero({ label, headline, subtext }: BrandsHeroProps) {
                                     {label}
                                 </p>
                                 <h1>
-                                    {headline}
+                                    {headlineLines.map((line, i) => (
+                                        <span key={i}>
+                                            {line}
+                                            {i < headlineLines.length - 1 && <br />}
+                                        </span>
+                                    ))}
                                 </h1>
                                 <p className="text-lg text-foreground leading-relaxed max-w-md">
                                     {subtext}

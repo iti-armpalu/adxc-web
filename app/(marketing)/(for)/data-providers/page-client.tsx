@@ -22,7 +22,9 @@ export default function DataProvidersPageClient({ data }: DataProvidersPageClien
         <>
             <DataProvidersHero
                 label={data.heroLabel}
-                headline={data.heroHeadline}
+                headlineLine1={data.heroHeadlineLine1}
+                headlineLine2={data.heroHeadlineLine2}
+                headlineLine3={data.heroHeadlineLine3}
                 subtext={data.heroSubtext}
                 onEmailSubmit={(email) => setSharedEmail(email)}
             />

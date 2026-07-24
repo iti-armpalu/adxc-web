@@ -38,7 +38,9 @@ export default async function PlatformPage() {
         <>
             <PlatformHero
                 label={platform.heroLabel}
-                headline={platform.heroHeadline}
+                headlineLine1={platform.heroHeadlineLine1}
+                headlineLine2={platform.heroHeadlineLine2}
+                headlineLine3={platform.heroHeadlineLine3}
                 subtext={platform.heroSubtext}
             />
             <PlatformOverview />

@@ -49,7 +49,9 @@ export type UseCase = {
 }
 
 export type HomeContent = {
-    heroHeadline: string
+    heroHeadlineLine1: string
+    heroHeadlineLine2?: string
+    heroHeadlineLine3?: string
     heroSubtext: string
     platformHeadline: string
     platformSubtext: string
@@ -78,7 +80,9 @@ export type AudienceFeature = {
 export type AudiencePageContent = {
     audience: "brands" | "agencies" | "data-providers" | "ai-platforms"
     heroLabel: string
-    heroHeadline: string
+    heroHeadlineLine1: string
+    heroHeadlineLine2?: string
+    heroHeadlineLine3?: string
     heroSubtext: string
     howItWorksHeadline: string
     howItWorksSubtext?: string
@@ -86,12 +90,36 @@ export type AudiencePageContent = {
     seo?: SeoContent
 }
 
+// --- Product — Platform ---
+
 export interface PlatformPageContent {
     heroLabel: string
-    heroHeadline: string
+    heroHeadlineLine1: string
+    heroHeadlineLine2?: string
+    heroHeadlineLine3?: string
     heroSubtext: string
     howItWorksHeadline: string
     howItWorksSubtext: string
     howItWorksSteps: AudienceFeature[]
+    seo?: SeoContent
+}
+
+// --- Product — Data Sources ---
+
+export interface DataProviderContent {
+    name: string
+    logo: SanityImage
+    tagline: string
+    description: string
+    capabilities: string[]
+}
+
+export interface DataSourcesPageContent {
+    heroHeadlineLine1: string
+    heroHeadlineLine2?: string
+    heroHeadlineLine3?: string
+    heroSubtext: string
+    providersHeadline: string
+    providers: DataProviderContent[]
     seo?: SeoContent
 }

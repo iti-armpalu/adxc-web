@@ -10,13 +10,16 @@ import { trackHeroCtaClicked, trackHeroEmailStarted } from "@/lib/analytics/even
 import { HeroBackground } from "./hero-background"
 
 interface HeroSectionProps {
-    headline: string
+    headlineLine1: string
+    headlineLine2?: string
+    headlineLine3?: string
     subtext: string
 }
 
-export function HeroSection({ headline, subtext }: HeroSectionProps) {
+export function HeroSection({ headlineLine1, headlineLine2, headlineLine3, subtext }: HeroSectionProps) {
     const router = useRouter()
     const [email, setEmail] = useState("")
+    const headlineLines = [headlineLine1, headlineLine2, headlineLine3].filter(Boolean)
 
     const handleSubmit = () => {
         trackHeroCtaClicked(email)
@@ -37,7 +40,12 @@ export function HeroSection({ headline, subtext }: HeroSectionProps) {
                         <div className="max-w-xl space-y-10">
                             <div className="space-y-6">
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl">
-                                    {headline}
+                                    {headlineLines.map((line, i) => (
+                                        <span key={i}>
+                                            {line}
+                                            {i < headlineLines.length - 1 && <br />}
+                                        </span>
+                                    ))}
                                 </h1>
                                 <p className="text-lg text-foreground leading-relaxed max-w-md">
                                     {subtext}

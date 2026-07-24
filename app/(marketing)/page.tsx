@@ -18,16 +18,12 @@ export default async function HomePage() {
     const home = await getHome()
 
     if (!home) {
-        // Dev: throw so it's impossible to miss locally — surfaces as
-        // Next.js's error overlay with a full stack trace.
         if (process.env.NODE_ENV === "development") {
             throw new Error(
                 "getHome() returned null — has the Home document been created in Sanity Studio?"
             )
         }
 
-        // Prod: log for monitoring, then render a minimal fallback
-        // rather than a blank page or Next's generic error screen.
         console.error("[HomePage] getHome() returned null in production")
 
         return (
@@ -42,7 +38,9 @@ export default async function HomePage() {
     return (
         <>
             <HeroSection
-                headline={home.heroHeadline}
+                headlineLine1={home.heroHeadlineLine1}
+                headlineLine2={home.heroHeadlineLine2}
+                headlineLine3={home.heroHeadlineLine3}
                 subtext={home.heroSubtext}
             />
             <PartnersSection />

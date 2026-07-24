@@ -38,7 +38,9 @@ export default async function AgenciesPage() {
         <>
             <AgenciesHero
                 label={agencies.heroLabel}
-                headline={agencies.heroHeadline}
+                headlineLine1={agencies.heroHeadlineLine1}
+                headlineLine2={agencies.heroHeadlineLine2}
+                headlineLine3={agencies.heroHeadlineLine3}
                 subtext={agencies.heroSubtext}
             />
             <AgenciesPartners />

@@ -9,13 +9,16 @@ import { HeroBackground } from "../home/hero-background"
 
 interface AgenciesHeroProps {
     label: string
-    headline: string
+    headlineLine1: string
+    headlineLine2?: string
+    headlineLine3?: string
     subtext: string
 }
 
-export function AgenciesHero({ label, headline, subtext }: AgenciesHeroProps) {
+export function AgenciesHero({ label, headlineLine1, headlineLine2, headlineLine3, subtext }: AgenciesHeroProps) {
     const [email, setEmail] = useState("")
     const router = useRouter()
+    const headlineLines = [headlineLine1, headlineLine2, headlineLine3].filter(Boolean)
 
     const handleSubmit = () => {
         const dest = email
@@ -43,7 +46,12 @@ export function AgenciesHero({ label, headline, subtext }: AgenciesHeroProps) {
                                     {label}
                                 </p>
                                 <h1 className="text-3xl sm:text-4xl md:text-5xl">
-                                    {headline}
+                                    {headlineLines.map((line, i) => (
+                                        <span key={i}>
+                                            {line}
+                                            {i < headlineLines.length - 1 && <br />}
+                                        </span>
+                                    ))}
                                 </h1>
                                 <p className="text-lg text-foreground leading-relaxed max-w-md">
                                     {subtext}

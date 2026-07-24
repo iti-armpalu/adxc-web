@@ -39,7 +39,9 @@ export default async function BrandsPage() {
         <>
             <BrandsHero
                 label={brands.heroLabel}
-                headline={brands.heroHeadline}
+                headlineLine1={brands.heroHeadlineLine1}
+                headlineLine2={brands.heroHeadlineLine2}
+                headlineLine3={brands.heroHeadlineLine3}
                 subtext={brands.heroSubtext}
             />
             <BrandsDataProviders />
