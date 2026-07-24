@@ -54,5 +54,10 @@ export async function sanityFetch<QueryResponse>(
         })
     }
 
-    return sanityClient.fetch<QueryResponse>(query, params)
+    return sanityClient.fetch<QueryResponse>(query, params, {
+        next: {
+            revalidate: 60, // fallback ceiling — content is never more than 60s stale, even if the webhook never fires
+            tags: ["sanity-content"], // lets the webhook force an instant refresh on publish
+        },
+    })
 }
