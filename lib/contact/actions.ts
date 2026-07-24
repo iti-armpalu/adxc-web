@@ -3,6 +3,7 @@
 import { z } from "zod"
 import { Resend } from "resend"
 import { siteConfig } from "@/config/site"
+import { upsertHubspotContact } from "@/lib/hubspot/client"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -47,21 +48,36 @@ export async function submitContact(
             return { status: "error", error: "Bot verification failed" }
         }
 
-        await resend.emails.send({
-            // TODO: switch once adxc.ai is verified in Resend dashboard
-            from: `${siteConfig.name} <contact@adxc.ai>`,
-            // from: "onboarding@resend.dev",
-            to: siteConfig.contactEmail,
-            replyTo: email,
-            subject: `Contact: ${name}${company ? ` — ${company}` : ""}`,
-            text: [
-                `Name: ${name}`,
-                `Email: ${email}`,
-                `Company: ${company ?? "—"}`,
-                ``,
-                message,
-            ].join("\n"),
+        // HubSpot sync runs alongside the email send. Its own errors are caught
+        // and logged here so a CRM hiccup never blocks the user-facing submission —
+        // only a Resend failure below causes an error response.
+        const hubspotSync = upsertHubspotContact({
+            email,
+            firstName,
+            lastName,
+            company,
+            message,
+            source: "contact_form",
+        }).catch((err) => {
+            console.error("[contact] hubspot error:", err)
         })
+
+        await Promise.all([
+            resend.emails.send({
+                from: `${siteConfig.name} <contact@adxc.ai>`,
+                to: siteConfig.contactEmail,
+                replyTo: email,
+                subject: `Contact: ${name}${company ? ` — ${company}` : ""}`,
+                text: [
+                    `Name: ${name}`,
+                    `Email: ${email}`,
+                    `Company: ${company ?? "—"}`,
+                    ``,
+                    message,
+                ].join("\n"),
+            }),
+            hubspotSync,
+        ])
 
         return { status: "success" }
     } catch (err) {
