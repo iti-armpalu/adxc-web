@@ -32,7 +32,7 @@ export function PlatformHowItWorks({ headline, subtext, steps }: PlatformHowItWo
 
     return (
         <section ref={sectionRef} className="bg-white">
-            <div className="max-w-3xl mx-auto py-24">
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-0 py-24">
 
                 <div className="space-y-3 mb-16">
                     <h2 className="text-primary">
