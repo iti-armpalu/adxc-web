@@ -73,12 +73,12 @@ export function AgenciesHero({ label, headlineLine1, headlineLine2, headlineLine
                     </div>
                 </div>
 
-                {/* Illustration — flows below text on mobile, absolute on xl */}
+                {/* Illustration — desktop only */}
                 <img
                     src="/illustration-agencies.svg"
                     alt=""
                     aria-hidden="true"
-                    className="relative w-[min(800px,160vw)] max-w-none ml-[calc(100%-min(800px,160vw))] xl:absolute xl:inset-y-0 xl:right-0 xl:w-[90%] xl:h-full xl:object-cover pointer-events-none select-none"
+                    className="hidden xl:flex relative w-[min(800px,160vw)] max-w-none ml-[calc(100%-min(800px,160vw))] xl:absolute xl:inset-y-0 xl:right-0 xl:w-[90%] xl:h-full xl:object-cover pointer-events-none select-none"
                     style={{
                         maskImage: "linear-gradient(to right, transparent 25%, black 55%)",
                         WebkitMaskImage: "linear-gradient(to right, transparent 25%, black 55%)",
