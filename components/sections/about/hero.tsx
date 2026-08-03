@@ -1,6 +1,15 @@
 import { FadeIn } from "@/components/ui/fade-in"
 
-export function AboutHero() {
+interface AboutHeroProps {
+    headlineLine1: string
+    headlineLine2?: string
+    headlineLine3?: string
+    subtext: string
+}
+
+export function AboutHero({ headlineLine1, headlineLine2, headlineLine3, subtext }: AboutHeroProps) {
+    const headlineLines = [headlineLine1, headlineLine2, headlineLine3].filter(Boolean)
+
     return (
         <FadeIn>
             <section className="bg-background relative overflow-hidden">
@@ -25,10 +34,15 @@ export function AboutHero() {
                 <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 py-24 sm:py-32">
                     <div className="space-y-8">
                         <h1 className="leading-[1.05] tracking-tight text-foreground">
-                            Making the world's best consumer data accessible to every business, not just the biggest.
+                            {headlineLines.map((line, i) => (
+                                <span key={i}>
+                                    {line}
+                                    {i < headlineLines.length - 1 && <br />}
+                                </span>
+                            ))}
                         </h1>
                         <p className="text-lg text-muted-foreground leading-relaxed max-w-[65ch]">
-                            Premium marketing intelligence has always been locked behind six-figure subscriptions. ADXC changes that — connecting AI agents directly to trusted data providers, so any business can get the insight it needs, exactly when it needs it, and pay only for what it uses.
+                            {subtext}
                         </p>
                     </div>
                 </div>

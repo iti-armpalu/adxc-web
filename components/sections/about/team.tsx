@@ -1,6 +1,8 @@
 import Image from "next/image"
 import Link from "next/link"
 import { FadeIn } from "@/components/ui/fade-in"
+import { urlFor } from "@/lib/cms/image"
+import type { TeamMemberContent } from "@/lib/cms/types"
 
 function LinkedInIcon() {
     return (
@@ -10,34 +12,18 @@ function LinkedInIcon() {
     )
 }
 
-const team = [
-    {
-        name: "Roy",
-        title: "Co-founder",
-        photo: "/roy.jpeg",
-        linkedin: "https://linkedin.com/in/roy",
-    },
-    {
-        name: "Josh",
-        title: "Co-founder",
-        photo: "/josh.jpeg",
-        linkedin: "https://linkedin.com/in/josh",
-    },
-    {
-        name: "George",
-        title: "Co-founder",
-        photo: "/george.jpeg",
-        linkedin: "https://linkedin.com/in/george",
-    },
-]
+interface AboutTeamProps {
+    headline: string
+    team: TeamMemberContent[]
+}
 
-export function AboutTeam() {
+export function AboutTeam({ headline, team }: AboutTeamProps) {
     return (
         <FadeIn>
             <section className="bg-brand-50">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 py-24">
                     <div className="space-y-3 mb-16">
-                        <h2 className="text-primary">The team</h2>
+                        <h2 className="text-primary">{headline}</h2>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-12">
@@ -45,7 +31,7 @@ export function AboutTeam() {
                             <div key={person.name} className="flex flex-col items-center text-center gap-4">
                                 <div className="relative w-48 h-48 shrink-0 group">
                                     <Image
-                                        src={person.photo}
+                                        src={urlFor(person.photo).width(400).height(400).fit("crop").url()}
                                         alt={person.name}
                                         fill
                                         className="object-cover rounded-lg grayscale group-hover:grayscale-0 transition-all duration-500"

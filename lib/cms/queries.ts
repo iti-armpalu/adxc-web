@@ -1,5 +1,5 @@
 import { sanityFetch } from "./client"
-import type { AudiencePageContent, BlogPost, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent } from "./types"
+import type { AboutPageContent, AudiencePageContent, BlogPost, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent } from "./types"
 
 const SEO_PROJECTION = `
       seo {
@@ -208,6 +208,25 @@ export async function getDataSourcesPage(): Promise<DataSourcesPageContent | nul
         tagline,
         description,
         capabilities
+      },
+      ${SEO_PROJECTION}
+    }`
+  )
+}
+
+export async function getAboutPage(): Promise<AboutPageContent | null> {
+  return sanityFetch(
+    `*[_type == "aboutPage" && _id == "about"][0] {
+      heroHeadlineLine1,
+      heroHeadlineLine2,
+      heroHeadlineLine3,
+      heroSubtext,
+      teamHeadline,
+      team[] {
+        name,
+        title,
+        photo,
+        linkedin
       },
       ${SEO_PROJECTION}
     }`

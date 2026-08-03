@@ -123,3 +123,20 @@ export interface DataSourcesPageContent {
     providers: DataProviderContent[]
     seo?: SeoContent
 }
+
+export interface TeamMemberContent {
+    name: string
+    title: string
+    photo: SanityImage
+    linkedin: string
+}
+
+export interface AboutPageContent {
+    heroHeadlineLine1: string
+    heroHeadlineLine2?: string
+    heroHeadlineLine3?: string
+    heroSubtext: string
+    teamHeadline: string
+    team: TeamMemberContent[]
+    seo?: SeoContent
+}
