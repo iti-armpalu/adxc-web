@@ -107,13 +107,6 @@ export function Footer() {
 
                         {/* Contact + Investor buttons */}
                         <div className="flex items-center gap-3">
-                            <Button variant="outline-reversed" size="sm" asChild onClick={trackFooterContactClicked}>
-                                <Link href="/contact">
-                                    <Mail />
-                                    Contact
-                                    <ArrowRight />
-                                </Link>
-                            </Button>
                             <Button variant="outline-reversed" size="sm" asChild onClick={trackFooterInvestorClicked}>
                                 <Link href={siteConfig.investorUrl} target="_blank" rel="noopener noreferrer">
                                     <LineChart />
