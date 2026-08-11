@@ -4,7 +4,7 @@ interface AboutHeroProps {
     headlineLine1: string
     headlineLine2?: string
     headlineLine3?: string
-    subtext: string
+    subtext: string[]
 }
 
 export function AboutHero({ headlineLine1, headlineLine2, headlineLine3, subtext }: AboutHeroProps) {
@@ -41,9 +41,13 @@ export function AboutHero({ headlineLine1, headlineLine2, headlineLine3, subtext
                                 </span>
                             ))}
                         </h1>
-                        <p className="text-lg text-muted-foreground leading-relaxed max-w-[65ch]">
-                            {subtext}
-                        </p>
+                        <div className="space-y-4">
+                            {subtext.map((paragraph, i) => (
+                                <p key={i} className="text-lg text-muted-foreground leading-relaxed max-w-[65ch]">
+                                    {paragraph}
+                                </p>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>

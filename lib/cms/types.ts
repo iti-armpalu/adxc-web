@@ -135,7 +135,7 @@ export interface AboutPageContent {
     heroHeadlineLine1: string
     heroHeadlineLine2?: string
     heroHeadlineLine3?: string
-    heroSubtext: string
+    heroSubtext: string[]
     teamHeadline: string
     team: TeamMemberContent[]
     seo?: SeoContent
