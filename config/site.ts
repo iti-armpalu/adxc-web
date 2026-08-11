@@ -111,6 +111,13 @@ export const siteConfig = {
             ],
         },
         {
+            label: "Company",
+            links: [
+                { label: "About ADXC", href: "/about" },
+                { label: "Contact", href: "/contact" },
+            ],
+        },
+        {
             label: "Legal",
             links: [
                 { label: "Privacy Notice", href: "/legal/privacy" },
