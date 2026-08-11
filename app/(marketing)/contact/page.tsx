@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { ContactForm } from "@/components/sections/contact-form"
+import { CopyEmail } from "@/components/ui/copy-email"
 import { siteConfig } from "@/config/site"
 import { FadeIn } from "@/components/ui/fade-in"
 
@@ -46,12 +47,7 @@ export default function ContactPage() {
                             </p>
                             <div className="pt-4 space-y-2">
                                 <p className="text-sm text-muted-foreground">Or email us directly</p>
-                                <a
-                                    href={`mailto:${siteConfig.contactEmail}`}
-                                    className="text-sm text-foreground hover:underline underline-offset-4 transition-colors"
-                                >
-                                    {siteConfig.contactEmail}
-                                </a>
+                                <CopyEmail email={siteConfig.contactEmail} />
                             </div>
                         </div>
 
