@@ -114,6 +114,7 @@ export const siteConfig = {
             label: "Company",
             links: [
                 { label: "About ADXC", href: "/about" },
+                { label: "Team", href: "/about#team" },
                 { label: "Contact", href: "/contact" },
             ],
         },

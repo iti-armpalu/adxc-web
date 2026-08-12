@@ -20,7 +20,7 @@ interface AboutTeamProps {
 export function AboutTeam({ headline, team }: AboutTeamProps) {
     return (
         <FadeIn>
-            <section className="bg-brand-50">
+            <section id="team" className="bg-brand-50">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 py-24">
                     <div className="space-y-3 mb-16">
                         <h2 className="text-primary">{headline}</h2>
