@@ -9,7 +9,7 @@ export function AIPlatformsPartners() {
                     <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-12">
 
                         <p className="text-base text-center text-cyan-950 shrink-0 max-w-xs">
-                            Join leading AI platforms integrating with ADXC
+                            Join leading AI platforms integrating ADXC
                         </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
