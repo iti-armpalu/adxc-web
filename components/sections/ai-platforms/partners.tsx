@@ -1,6 +1,11 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import Image from "next/image"
 
+const partners = [
+    { name: "Miro", logo: "/miro-logo.svg" },
+    { name: "Deptify", logo: "/deptify-logo.svg" },
+]
+
 export function AIPlatformsPartners() {
     return (
         <FadeIn>
@@ -13,13 +18,16 @@ export function AIPlatformsPartners() {
                         </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
-                            <Image
-                                src="/miro-logo.svg"
-                                alt="Miro"
-                                width={100}
-                                height={36}
-                                className="h-8 w-auto object-contain"
-                            />
+                            {partners.map((p) => (
+                                <Image
+                                    key={p.name}
+                                    src={p.logo}
+                                    alt={p.name}
+                                    width={100}
+                                    height={36}
+                                    className="h-8 w-auto object-contain"
+                                />
+                            ))}
                             <p className="text-sm text-cyan-950">More coming soon</p>
                         </div>
 
