@@ -62,7 +62,11 @@ export default async function HomePage() {
                 useCases={home.useCases}
             />
             <AudienceCardsSection />
-            <HomeCTASection />
+            <HomeCTASection
+                headline={home.ctaHeadline}
+                subtext={home.ctaSubtext}
+                buttonLabel={home.ctaButtonLabel}
+            />
         </>
     )
 }

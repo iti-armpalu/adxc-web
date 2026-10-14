@@ -64,6 +64,9 @@ export type HomeContent = {
     useCasesHeadline: string
     useCasesSubtext: string
     useCases: UseCase[]
+    ctaHeadline: string
+    ctaSubtext: string
+    ctaButtonLabel: string
     seo?: SeoContent
 }
 

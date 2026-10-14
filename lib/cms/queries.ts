@@ -78,6 +78,9 @@ export async function getHome(): Promise<HomeContent | null> {
         description,
         bullets
       },
+      ctaHeadline,
+      ctaSubtext,
+      ctaButtonLabel,
       ${SEO_PROJECTION}
     }`
   )
