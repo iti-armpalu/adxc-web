@@ -19,9 +19,37 @@ export function CookieBanner() {
   const [showManage, setShowManage] = useState(false)
   const [custom, setCustom] = useState<ConsentState>(defaultConsent)
 
+  // Only show the banner once the page has loaded and the main thread is free.
+  // Showing it during hydration meant taps were queued behind page work and
+  // the buttons looked broken for several seconds on mobile.
   useEffect(() => {
-    const stored = getStoredConsent()
-    if (!stored) setVisible(true)
+    if (getStoredConsent()) return
+
+    let idleId: number | undefined
+    let timeoutId: ReturnType<typeof setTimeout> | undefined
+
+    const show = () => setVisible(true)
+
+    const scheduleShow = () => {
+      if (typeof window.requestIdleCallback === "function") {
+        idleId = window.requestIdleCallback(show, { timeout: 3000 })
+      } else {
+        // Safari has no requestIdleCallback
+        timeoutId = setTimeout(show, 1500)
+      }
+    }
+
+    if (document.readyState === "complete") {
+      scheduleShow()
+    } else {
+      window.addEventListener("load", scheduleShow, { once: true })
+    }
+
+    return () => {
+      window.removeEventListener("load", scheduleShow)
+      if (idleId !== undefined) window.cancelIdleCallback(idleId)
+      if (timeoutId !== undefined) clearTimeout(timeoutId)
+    }
   }, [])
 
   if (!visible) return null
