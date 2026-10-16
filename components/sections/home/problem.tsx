@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useSyncExternalStore } from "react";
 
 interface HomeProblemSectionProps {
     sentenceOne: string
@@ -18,6 +18,22 @@ interface HomeProblemSectionProps {
 const SENTENCE_COUNT = 5;
 const slice = 1 / SENTENCE_COUNT;
 const fade = slice * 0.15;
+
+// TEMP (mobile perf test): section is not mounted below 768px.
+// Remove this hook + the gate in HomeProblemSection once troubleshooting is done.
+const MOBILE_QUERY = "(max-width: 767px)";
+
+function useIsMobile() {
+    return useSyncExternalStore(
+        (onChange) => {
+            const mql = window.matchMedia(MOBILE_QUERY);
+            mql.addEventListener("change", onChange);
+            return () => mql.removeEventListener("change", onChange);
+        },
+        () => window.matchMedia(MOBILE_QUERY).matches,
+        () => true, // server: render nothing, so it never mounts on mobile
+    );
+}
 
 function useScrollProgress(ref: React.RefObject<HTMLElement | null>) {
     const [progress, setProgress] = useState(0);
@@ -84,7 +100,15 @@ function WordReveal({ text, progress, start }: WordRevealProps) {
     );
 }
 
-export function HomeProblemSection({
+// TEMP: gate wrapper. Kept separate so the inner component's ref + scroll
+// effect only run once the element actually exists (desktop).
+export function HomeProblemSection(props: HomeProblemSectionProps) {
+    const isMobile = useIsMobile();
+    if (isMobile) return null;
+    return <HomeProblemSectionInner {...props} />;
+}
+
+function HomeProblemSectionInner({
     sentenceOne,
     sentenceTwo,
     sentenceThree,
