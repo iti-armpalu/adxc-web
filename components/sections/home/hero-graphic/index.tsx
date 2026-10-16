@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useSyncExternalStore } from "react"
 import SectionLabel from "./section-label"
 import { QuestionCarousel } from "./question-carousel"
 import { ConnectingLine } from "./connecting-line"
@@ -8,6 +8,22 @@ import { AdxcUnit } from "./adxc-unit"
 import { DataProviders } from "./data-providers"
 import { QUESTIONS } from "./constants"
 import { DataProvidersMobile } from "./data-providers-mobile"
+
+// TEMP (mobile perf test): HeroGraphic renders nothing below 768px.
+// Remove this hook + the early return in HeroGraphic once troubleshooting is done.
+const MOBILE_QUERY = "(max-width: 767px)"
+
+function useIsMobile() {
+    return useSyncExternalStore(
+        (onChange) => {
+            const mql = window.matchMedia(MOBILE_QUERY)
+            mql.addEventListener("change", onChange)
+            return () => mql.removeEventListener("change", onChange)
+        },
+        () => window.matchMedia(MOBILE_QUERY).matches,
+        () => true, // server: render nothing, avoids mounting on mobile at all
+    )
+}
 
 function useBreakpoint() {
     const [bp, setBp] = useState<"md" | "lg" | "xl">("lg")
@@ -28,12 +44,16 @@ export function HeroGraphic() {
     const [step, setStep] = useState(0)
     const activeQuestion = step % QUESTIONS.length
     const bp = useBreakpoint()
+    const isMobile = useIsMobile()
 
     const isXl = bp === "xl"
 
     const carouselWidth = isXl ? 420 : 340
     const adxcSize = isXl ? 140 : 110
     const dataScale = isXl ? 1 : 0.75
+
+    // TEMP: mobile perf test
+    if (isMobile) return null
 
     return (
         <>
