@@ -116,15 +116,17 @@ export function Header({ latestPosts = [] }: Props) {
         <header
             ref={headerRef}
             className={cn(
-                "fixed top-0 inset-x-0 z-50 transition-all duration-300",
+                // Mobile/tablet: solid bg, no blur, no transitions (iOS paint cost).
+                // Desktop (lg+): translucent blur + animated shrink.
+                "fixed top-0 inset-x-0 z-50 lg:transition-all lg:duration-300",
                 scrolled
-                    ? "bg-white/95 backdrop-blur-md border-b border-border/40"
+                    ? "bg-white border-b border-border/40 lg:bg-white/95 lg:backdrop-blur-md"
                     : "bg-transparent"
             )}
         >
             <div className={cn(
-                "max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-8 transition-all duration-300",
-                scrolled ? "h-[60px]" : "h-[68px] sm:h-[76px] lg:h-[88px]"
+                "max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-8 h-[68px] sm:h-[76px] lg:transition-all lg:duration-300",
+                scrolled ? "lg:h-[60px]" : "lg:h-[88px]"
             )}>
 
                 <Link href="/" className="shrink-0 hover:opacity-70 transition-opacity w-[120px]">
@@ -133,8 +135,8 @@ export function Header({ latestPosts = [] }: Props) {
                         alt={siteConfig.name}
                         width={120} height={40} priority
                         className={cn(
-                            "transition-all duration-300 w-auto",
-                            scrolled ? "h-6" : "h-7 sm:h-8 lg:h-10"
+                            "w-auto h-7 sm:h-8 lg:transition-all lg:duration-300",
+                            scrolled ? "lg:h-6" : "lg:h-10"
                         )}
                     />
                 </Link>
@@ -252,134 +254,6 @@ function DesktopCTAs() {
         </div>
     )
 }
-
-// ─── Mobile sheet ─────────────────────────────────────────────────────────────
-
-// function MobileSheet({ mobileOpen, setMobileOpen, mobileExpanded, setMobileExpanded, pathname }: MobileProps) {
-//     return (
-//         <Sheet
-//             open={mobileOpen}
-//             onOpenChange={(open) => {
-//                 setMobileOpen(open)
-//                 open ? trackMobileMenuOpened() : trackMobileMenuClosed()
-//             }}
-//         >
-//             <SheetTrigger asChild>
-//                 <Button variant="default" size="icon" className="lg:hidden rounded-sm" aria-label="Open menu">
-//                     <Menu className="w-5 h-5" />
-//                 </Button>
-//             </SheetTrigger>
-//             <SheetContent side="left" className="w-[280px] sm:w-[320px] px-0 py-0" aria-describedby={undefined}>
-//                 <VisuallyHidden><SheetTitle>Navigation menu</SheetTitle></VisuallyHidden>
-//                 <div className="h-full overflow-y-auto px-4 py-6 space-y-1">
-
-//                     <div className="mb-6">
-//                         <Link href="/" onClick={() => setMobileOpen(false)}>
-//                             <Image
-//                                 src="/adxc-logo-primary-horizontal.svg"
-//                                 alt={siteConfig.name}
-//                                 width={120} height={40}
-//                                 className="h-3 w-auto"
-//                             />
-//                         </Link>
-//                     </div>
-
-//                     {siteConfig.nav.map((group) => {
-//                         const hasItems = !!group.items?.length
-//                         const expanded = mobileExpanded === group.label
-
-//                         if (!hasItems && group.href) {
-//                             return (
-//                                 <Link
-//                                     key={group.label}
-//                                     href={group.href}
-//                                     onClick={() => setMobileOpen(false)}
-//                                     className={cn(
-//                                         "block px-4 py-3 text-sm rounded-lg transition-colors",
-//                                         pathname === group.href
-//                                             ? "text-foreground font-medium bg-muted"
-//                                             : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-//                                     )}
-//                                 >
-//                                     {group.label}
-//                                 </Link>
-//                             )
-//                         }
-
-//                         return (
-//                             <div key={group.label}>
-//                                 <button
-//                                     aria-label={`${group.label} menu`}
-//                                     aria-expanded={expanded}
-//                                     onClick={() => setMobileExpanded((prev) => prev === group.label ? null : group.label)}
-//                                     className={cn(
-//                                         "w-full flex items-center justify-between px-4 py-3 text-sm rounded-lg transition-colors",
-//                                         expanded
-//                                             ? "text-foreground font-medium"
-//                                             : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-//                                     )}
-//                                 >
-//                                     {group.label}
-//                                     <ChevronDown className={cn(
-//                                         "w-4 h-4 transition-transform duration-200",
-//                                         expanded && "rotate-180"
-//                                     )} />
-//                                 </button>
-
-//                                 <div className={cn(
-//                                     "overflow-hidden transition-all duration-200",
-//                                     expanded ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-//                                 )}>
-//                                     <div className="pl-2 pt-1 pb-2 space-y-0.5">
-//                                         {group.items?.map((item) => {
-//                                             const Icon = item.icon ? iconMap[item.icon] : null
-//                                             return (
-//                                                 <Link
-//                                                     key={item.href}
-//                                                     href={item.href}
-//                                                     onClick={() => setMobileOpen(false)}
-//                                                     className={cn(
-//                                                         "flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors",
-//                                                         pathname.startsWith(item.href)
-//                                                             ? "text-foreground font-medium bg-muted"
-//                                                             : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-//                                                     )}
-//                                                 >
-//                                                     {Icon && <Icon className="w-4 h-4 shrink-0" />}
-//                                                     <div>
-//                                                         <p className="text-sm">{item.label}</p>
-//                                                         {item.description && (
-//                                                             <p className="text-xs text-muted-foreground/70 mt-0.5">
-//                                                                 {item.description}
-//                                                             </p>
-//                                                         )}
-//                                                     </div>
-//                                                 </Link>
-//                                             )
-//                                         })}
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                         )
-//                     })}
-
-//                     <div className="pt-4 mt-4 border-t border-border/50 space-y-2">
-//                         {siteConfig.secondaryCta && (
-//                             <Button asChild variant="outline" className="w-full text-foreground"
-//                                 onClick={() => { setMobileOpen(false); trackNavSecondaryCtaClicked(siteConfig.secondaryCta.label) }}>
-//                                 <Link href={siteConfig.secondaryCta.href}>{siteConfig.secondaryCta.label}</Link>
-//                             </Button>
-//                         )}
-//                         <Button asChild className="w-full"
-//                             onClick={() => { setMobileOpen(false); trackNavCtaClicked(siteConfig.cta.label) }}>
-//                             <Link href={siteConfig.cta.href}>{siteConfig.cta.label}</Link>
-//                         </Button>
-//                     </div>
-//                 </div>
-//             </SheetContent>
-//         </Sheet>
-//     )
-// }
 
 function MobileSheet({ mobileOpen, setMobileOpen, mobileExpanded, setMobileExpanded, pathname }: MobileProps) {
     return (
