@@ -1,4 +1,21 @@
-import posthog from "posthog-js"
+// ─── Analytics transport ──────────────────────────────────────────────────────
+// TODO: re-add analytics provider. PostHog was removed (Oct 2026) during mobile
+// performance troubleshooting — session replay / dead-click capture was a major
+// cost on iOS Safari. All track* functions below are kept so call sites don't
+// change; to re-enable, implement `capture` and `identify` here only.
+// In development, events are logged to the console so you can still verify them.
+
+function capture(event: string, properties?: Record<string, unknown>): void {
+    if (process.env.NODE_ENV === "development") {
+        console.debug("[analytics]", event, properties ?? {})
+    }
+}
+
+function identify(distinctId: string, properties: Record<string, unknown>): void {
+    if (process.env.NODE_ENV === "development") {
+        console.debug("[analytics] identify", distinctId, properties)
+    }
+}
 
 // ─── User Identity ────────────────────────────────────────────────────────────
 
@@ -15,7 +32,7 @@ export function identifyUser({
     companySize: string
     jobTitle: string
 }) {
-    posthog.identify(email, {
+    identify(email, {
         email,
         name,
         company,
@@ -27,17 +44,17 @@ export function identifyUser({
 // ─── Page Events ─────────────────────────────────────────────────────────────
 
 export function trackPageView(path: string) {
-    posthog.capture("page_viewed", { path })
+    capture("page_viewed", { path })
 }
 
 // ─── Hero Section ─────────────────────────────────────────────────────────────
 
 export function trackHeroEmailStarted() {
-    posthog.capture("hero_email_input_started")
+    capture("hero_email_input_started")
 }
 
 export function trackHeroCtaClicked(email: string) {
-    posthog.capture("hero_cta_clicked", {
+    capture("hero_cta_clicked", {
         has_email: !!email,
     })
 }
@@ -45,11 +62,11 @@ export function trackHeroCtaClicked(email: string) {
 // ─── Early Access ─────────────────────────────────────────────────────────────
 
 export function trackEarlyAccessPageViewed() {
-    posthog.capture("early_access_page_viewed")
+    capture("early_access_page_viewed")
 }
 
 export function trackEarlyAccessFormStarted() {
-    posthog.capture("early_access_form_started")
+    capture("early_access_form_started")
 }
 
 export function trackEarlyAccessSubmitted({
@@ -61,7 +78,7 @@ export function trackEarlyAccessSubmitted({
     jobTitle: string
     company: string
 }) {
-    posthog.capture("early_access_submitted", {
+    capture("early_access_submitted", {
         company_size: companySize,
         job_title: jobTitle,
         company,
@@ -69,85 +86,85 @@ export function trackEarlyAccessSubmitted({
 }
 
 export function trackEarlyAccessError(error: string) {
-    posthog.capture("early_access_form_error", { error })
+    capture("early_access_form_error", { error })
 }
 
 // ─── Contact ─────────────────────────────────────────────────────────────────
 
 export function trackContactPageViewed() {
-    posthog.capture("contact_page_viewed")
+    capture("contact_page_viewed")
 }
 
 export function trackContactFormStarted() {
-    posthog.capture("contact_form_started")
+    capture("contact_form_started")
 }
 
 export function trackContactSubmitted() {
-    posthog.capture("contact_submitted")
+    capture("contact_submitted")
 }
 
 export function trackContactError(error: string) {
-    posthog.capture("contact_form_error", { error })
+    capture("contact_form_error", { error })
 }
 
 // ─── Navigation ───────────────────────────────────────────────────────────────
 
 export function trackNavCtaClicked(label: string) {
-    posthog.capture("nav_cta_clicked", { label })
+    capture("nav_cta_clicked", { label })
 }
 
 export function trackNavSecondaryCtaClicked(label: string) {
-    posthog.capture("nav_secondary_cta_clicked", { label })
+    capture("nav_secondary_cta_clicked", { label })
 }
 
 export function trackMobileMenuOpened() {
-    posthog.capture("mobile_menu_opened")
+    capture("mobile_menu_opened")
 }
 
 export function trackMobileMenuClosed() {
-    posthog.capture("mobile_menu_closed")
+    capture("mobile_menu_closed")
 }
 
 export function trackNavLinkClicked(label: string, href: string) {
-    posthog.capture("nav_link_clicked", { label, href })
+    capture("nav_link_clicked", { label, href })
 }
 
 // ─── Hero Graphic ─────────────────────────────────────────────────────────────
 
 export function trackHeroGraphicQuestionViewed(question: string) {
-    posthog.capture("hero_graphic_question_viewed", { question })
+    capture("hero_graphic_question_viewed", { question })
 }
 
 // ─── AI Widget ────────────────────────────────────────────────────────────────
 
 export function trackAIWidgetOpened(surface: string) {
-    posthog.capture("ai_widget_opened", { surface })
+    capture("ai_widget_opened", { surface })
 }
 
 export function trackAIQuestionAsked(surface: string, question?: string) {
-    posthog.capture("ai_question_asked", { surface, question })
+    capture("ai_question_asked", { surface, question })
 }
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
 
 export function trackFooterLinkClicked(label: string, href: string) {
-    posthog.capture("footer_link_clicked", { label, href })
+    capture("footer_link_clicked", { label, href })
 }
 
 export function trackFooterInvestorClicked() {
-    posthog.capture("footer_investor_clicked")
+    capture("footer_investor_clicked")
 }
 
 export function trackFooterContactClicked() {
-    posthog.capture("footer_contact_clicked")
+    capture("footer_contact_clicked")
 }
 
 // ─── Cookie Consent ───────────────────────────────────────────────────────────
 
 export function trackCookieConsentAccepted() {
-    posthog.capture("cookie_consent_accepted")
+    capture("cookie_consent_accepted")
 }
 
 export function trackCookieConsentDeclined() {
-    posthog.capture("cookie_consent_declined")
+    capture("cookie_consent_declined")
 }

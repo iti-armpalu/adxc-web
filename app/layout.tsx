@@ -4,7 +4,6 @@ import "./globals.css"
 import { AnalyticsProvider } from "@/components/global/analytics-provider"
 import { CookieBanner } from "@/components/global/cookie-banner"
 import { siteConfig } from "@/config/site"
-import { Suspense } from "react"
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -26,12 +25,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${manrope.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <Suspense>
-          <AnalyticsProvider>
-            {children}
-            <CookieBanner />
-          </AnalyticsProvider>
-        </Suspense>
+        <AnalyticsProvider>
+          {children}
+          <CookieBanner />
+        </AnalyticsProvider>
       </body>
     </html>
   )

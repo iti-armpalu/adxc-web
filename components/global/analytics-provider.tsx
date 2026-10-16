@@ -1,10 +1,13 @@
 "use client"
 
 import { useEffect } from "react"
-import { usePathname, useSearchParams } from "next/navigation"
 import { inject } from "@vercel/analytics"
-import posthog from "posthog-js"
 import { getStoredConsent, type ConsentState } from "@/lib/cookies/consent"
+
+// TODO: re-add PostHog (removed Oct 2026 for mobile perf). If it comes back:
+// events only, no session replay / dead clicks on mobile, init deferred to idle.
+// Route-change pageviews will need usePathname/useSearchParams again — put that
+// in its own small component inside a local <Suspense>, not around the whole app.
 
 type Props = { children: React.ReactNode }
 
@@ -16,39 +19,16 @@ function initAnalytics(consent: ConsentState) {
 
   // Vercel Analytics — pageviews only, no PII
   inject()
-
-  // PostHog — events, session replay, funnels, heatmaps
-  if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
-    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://us.i.posthog.com",
-      capture_pageview: false,       // handled manually below
-      capture_pageleave: true,       // track when users leave
-      persistence: "localStorage",
-      person_profiles: "identified_only", // only create profiles for identified users
-      session_recording: {
-        maskAllInputs: true,         // mask sensitive input values in replays
-        maskInputOptions: {
-          password: true,
-        },
-      },
-      loaded: (ph) => {
-        if (process.env.NODE_ENV === "development") ph.debug()
-      },
-    })
-  }
 }
 
 export function AnalyticsProvider({ children }: Props) {
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-
   // Initialise on mount if consent already given
   useEffect(() => {
     const stored = getStoredConsent()
     if (stored?.state) initAnalytics(stored.state)
   }, [])
 
-  // Re-initialise when user updates consent via banner
+  // Initialise when user updates consent via banner
   useEffect(() => {
     const handler = () => {
       const stored = getStoredConsent()
@@ -57,13 +37,6 @@ export function AnalyticsProvider({ children }: Props) {
     window.addEventListener("consent-updated", handler)
     return () => window.removeEventListener("consent-updated", handler)
   }, [])
-
-  // Track pageviews manually on route change
-  useEffect(() => {
-    if (!analyticsInitialised) return
-    const url = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : "")
-    posthog.capture("$pageview", { $current_url: url })
-  }, [pathname, searchParams])
 
   return <>{children}</>
 }
