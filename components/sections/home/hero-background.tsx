@@ -25,21 +25,24 @@ export function HeroBackground({
                 }}
             />
 
-            {/* Ellipse glow */}
+            {/* Ellipse glow
+                Previously a 600px circle with filter: blur(280px), which forces a
+                ~2300px off-screen buffer (×3 on iPhone ≈ 150MB+ of GPU memory) and
+                crashed iOS Safari. A radial gradient draws the same soft glow with
+                no filter cost. Size/opacity tuned to approximate the old look. */}
             <div
-                className="absolute rounded-full
+                className="absolute
                 [--el-top:75%] [--el-left:50%]
                 md:[--el-top:85%] md:[--el-left:50%]
                 lg:[--el-top:70%] lg:[--el-left:60%]
                 xl:[--el-top:50%] xl:[--el-left:70%]"
                 style={{
-                    width: "600px",
-                    height: "600px",
+                    width: "1200px",
+                    height: "1200px",
                     top: "var(--el-top)",
                     left: "var(--el-left)",
                     transform: "translate(-50%, -50%)",
-                    background: glowColor,
-                    filter: "blur(280px)",
+                    background: `radial-gradient(closest-side, ${glowColor}, transparent)`,
                     opacity: 0.3,
                 }}
             />
