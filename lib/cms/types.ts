@@ -36,6 +36,12 @@ export type SiteSeoContent = {
 
 // --- Home page ---
 
+export type PartnerLogoContent = {
+    name: string
+    logo: SanityImage
+    showName?: boolean
+}
+
 export type PlatformStep = {
     title: string
     description: string
@@ -53,6 +59,11 @@ export type HomeContent = {
     heroHeadlineLine2?: string
     heroHeadlineLine3?: string
     heroSubtext: string
+    partnersDataLabel: string
+    partnersDataLogos: PartnerLogoContent[]
+    partnersMoreText?: string
+    partnersAccessLabel: string
+    partnersAccessLogos: PartnerLogoContent[]
     platformHeadline: string
     platformSubtext: string
     platformSteps: PlatformStep[]

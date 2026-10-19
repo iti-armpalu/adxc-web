@@ -43,7 +43,13 @@ export default async function HomePage() {
                 headlineLine3={home.heroHeadlineLine3}
                 subtext={home.heroSubtext}
             />
-            <PartnersSection />
+            <PartnersSection
+                dataLabel={home.partnersDataLabel}
+                dataLogos={home.partnersDataLogos}
+                moreText={home.partnersMoreText}
+                accessLabel={home.partnersAccessLabel}
+                accessLogos={home.partnersAccessLogos}
+            />
             <HomeProblemSection
                 sentenceOne={home.problemSentenceOne}
                 sentenceTwo={home.problemSentenceTwo}

@@ -59,6 +59,19 @@ export async function getHome(): Promise<HomeContent | null> {
       heroHeadlineLine2,
       heroHeadlineLine3,
       heroSubtext,
+      partnersDataLabel,
+      partnersDataLogos[] {
+        name,
+        logo,
+        showName
+      },
+      partnersMoreText,
+      partnersAccessLabel,
+      partnersAccessLogos[] {
+        name,
+        logo,
+        showName
+      },
       platformHeadline,
       platformSubtext,
       platformSteps[] {
