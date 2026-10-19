@@ -210,8 +210,14 @@ export function HomeProblemSection({
                                             </p>
                                         </div>
                                     ) : (
-                                        <div className="flex items-start gap-6 md:gap-10">
-                                            <span className="font-mono text-xs tracking-[0.15em] text-brand-400 shrink-0 min-w-10 pt-1.5">
+                                        <div className="flex flex-col md:flex-row items-start gap-3 md:gap-10">
+                                            {/* Mobile: label stacks above the text. md+: label sits left.
+                                                Unlabelled sentence keeps the empty column on md+ for alignment,
+                                                but is removed on mobile so it doesn't add a gap. */}
+                                            <span
+                                                className={`font-mono text-xs tracking-[0.15em] text-brand-400 shrink-0 md:min-w-10 md:pt-1.5 ${sentence.label ? "" : "hidden md:block"
+                                                    }`}
+                                            >
                                                 {sentence.label}
                                             </span>
                                             <p
