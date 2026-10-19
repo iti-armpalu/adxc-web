@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState, useSyncExternalStore } from "react";
+import { useRef, useEffect, useState } from "react";
 
 interface HomeProblemSectionProps {
     sentenceOne: string
@@ -19,45 +19,6 @@ const SENTENCE_COUNT = 5;
 const slice = 1 / SENTENCE_COUNT;
 const fade = slice * 0.15;
 
-// TEMP (mobile perf test): section is not mounted below 768px.
-// Remove this hook + the gate in HomeProblemSection once troubleshooting is done.
-const MOBILE_QUERY = "(max-width: 767px)";
-
-function useIsMobile() {
-    return useSyncExternalStore(
-        (onChange) => {
-            const mql = window.matchMedia(MOBILE_QUERY);
-            mql.addEventListener("change", onChange);
-            return () => mql.removeEventListener("change", onChange);
-        },
-        () => window.matchMedia(MOBILE_QUERY).matches,
-        () => true, // server: render nothing, so it never mounts on mobile
-    );
-}
-
-function useScrollProgress(ref: React.RefObject<HTMLElement | null>) {
-    const [progress, setProgress] = useState(0);
-
-    useEffect(() => {
-        const el = ref.current;
-        if (!el) return;
-
-        const onScroll = () => {
-            const rect = el.getBoundingClientRect();
-            const totalScrollable = el.scrollHeight - window.innerHeight;
-            const scrolled = -rect.top;
-            const p = Math.max(0, Math.min(1, scrolled / totalScrollable));
-            setProgress(p);
-        };
-
-        window.addEventListener("scroll", onScroll, { passive: true });
-        onScroll();
-        return () => window.removeEventListener("scroll", onScroll);
-    }, [ref]);
-
-    return progress;
-}
-
 function lerp(a: number, b: number, t: number) {
     return a + (b - a) * Math.max(0, Math.min(1, t));
 }
@@ -67,48 +28,52 @@ function invLerp(a: number, b: number, v: number) {
     return Math.max(0, Math.min(1, (v - a) / (b - a)));
 }
 
-interface WordRevealProps {
-    text: string;
-    progress: number;
-    start: number; // absolute scroll start for this sentence
+function getSentenceState(index: number, progress: number) {
+    const start = index * slice;
+    const end = start + slice;
+    const isLast = index === SENTENCE_COUNT - 1;
+
+    // Opacity: fade in, hold, fade out — last sentence never fades out
+    let opacity = 0;
+    if (progress < start) {
+        opacity = 0;
+    } else if (progress < start + fade) {
+        opacity = invLerp(start, start + fade, progress);
+    } else if (isLast || progress < end - fade) {
+        opacity = 1;
+    } else {
+        opacity = invLerp(end, end - fade, progress); // fade out
+    }
+
+    // Y: enters from below, exits upward — last sentence stays
+    let translateY = 0;
+    if (progress < start) {
+        translateY = 40;
+    } else if (progress < start + fade) {
+        translateY = lerp(40, 0, invLerp(start, start + fade, progress));
+    } else if (!isLast && progress >= end - fade) {
+        translateY = lerp(0, -40, invLerp(end - fade, end, progress));
+    }
+
+    return { opacity, translateY };
 }
 
-function WordReveal({ text, progress, start }: WordRevealProps) {
-    const words = text.split(" ");
-
-    return (
-        <span className="inline">
-            {words.map((word, i) => {
-                const wordStart = start + fade + (i / words.length) * (slice - fade * 2) * 0.8;
-                const wordEnd = wordStart + slice * 0.08;
-                const wordOpacity = lerp(0.15, 1, invLerp(wordStart, wordEnd, progress));
-
-                return (
-                    <span
-                        key={i}
-                        style={{
-                            display: "inline-block",
-                            opacity: wordOpacity,
-                            marginRight: "0.25em",
-                        }}
-                    >
-                        {word}
-                    </span>
-                );
-            })}
-        </span>
-    );
+function getWordOpacity(wordIndex: number, wordCount: number, sentenceIndex: number, progress: number) {
+    const start = sentenceIndex * slice;
+    const wordStart = start + fade + (wordIndex / wordCount) * (slice - fade * 2) * 0.8;
+    const wordEnd = wordStart + slice * 0.08;
+    return lerp(0.15, 1, invLerp(wordStart, wordEnd, progress));
 }
 
-// TEMP: gate wrapper. Kept separate so the inner component's ref + scroll
-// effect only run once the element actually exists (desktop).
-export function HomeProblemSection(props: HomeProblemSectionProps) {
-    const isMobile = useIsMobile();
-    if (isMobile) return null;
-    return <HomeProblemSectionInner {...props} />;
-}
+// Performance notes (mobile Safari):
+// - Scroll progress is read once per animation frame and written straight to
+//   the DOM via refs. No React state per scroll, so nothing re-renders.
+// - Invisible sentences get visibility:hidden so the browser skips painting them.
+// - Only words in visible sentences are updated.
+// - The masked grid sits on its own compositing layer so it isn't repainted
+//   under the changing text.
 
-function HomeProblemSectionInner({
+export function HomeProblemSection({
     sentenceOne,
     sentenceTwo,
     sentenceThree,
@@ -116,7 +81,10 @@ function HomeProblemSectionInner({
     solution,
 }: HomeProblemSectionProps) {
     const containerRef = useRef<HTMLDivElement>(null);
-    const progress = useScrollProgress(containerRef as React.RefObject<HTMLElement>);
+    const sentenceRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const wordRefs = useRef<(HTMLSpanElement | null)[][]>([]);
+    const hintRef = useRef<HTMLDivElement>(null);
+    const [activeDot, setActiveDot] = useState(0);
 
     const SENTENCES = [
         { id: 1, label: "01", text: sentenceOne },
@@ -126,39 +94,76 @@ function HomeProblemSectionInner({
         { id: 5, label: null, text: solution },
     ];
 
-    function getSentenceState(index: number) {
-        const start = index * slice;
-        const end = start + slice;
-        const isLast = index === SENTENCE_COUNT - 1;
+    useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
 
-        // Opacity: fade in, hold, fade out — last sentence never fades out
-        let globalOpacity = 0;
-        if (progress < start) {
-            globalOpacity = 0;
-        } else if (progress < start + fade) {
-            globalOpacity = invLerp(start, start + fade, progress);
-        } else if (isLast || progress < end - fade) {
-            globalOpacity = 1;
-        } else {
-            globalOpacity = invLerp(end, end - fade, progress); // fade out
-        }
+        let frame = 0;
 
-        // Y: enters from below, exits upward — last sentence stays
-        let translateY = 0;
-        if (progress < start) {
-            translateY = 40;
-        } else if (progress < start + fade) {
-            translateY = lerp(40, 0, invLerp(start, start + fade, progress));
-        } else if (!isLast && progress >= end - fade) {
-            translateY = lerp(0, -40, invLerp(end - fade, end, progress));
-        } else {
-            translateY = 0;
-        }
+        const update = () => {
+            frame = 0;
+            const rect = el.getBoundingClientRect();
+            const totalScrollable = el.offsetHeight - window.innerHeight;
+            const progress =
+                totalScrollable > 0 ? Math.max(0, Math.min(1, -rect.top / totalScrollable)) : 0;
 
-        return { start, globalOpacity, translateY };
-    }
+            for (let i = 0; i < SENTENCE_COUNT; i++) {
+                const node = sentenceRefs.current[i];
+                if (!node) continue;
 
-    const activeDot = Math.min(SENTENCE_COUNT - 1, Math.floor(progress * SENTENCE_COUNT));
+                const { opacity, translateY } = getSentenceState(i, progress);
+                node.style.opacity = String(opacity);
+                node.style.transform = `translate3d(0, ${translateY}px, 0)`;
+                node.style.visibility = opacity === 0 ? "hidden" : "visible";
+
+                const words = wordRefs.current[i];
+                if (words && opacity > 0) {
+                    for (let w = 0; w < words.length; w++) {
+                        const word = words[w];
+                        if (word) word.style.opacity = String(getWordOpacity(w, words.length, i, progress));
+                    }
+                }
+            }
+
+            if (hintRef.current) {
+                hintRef.current.style.opacity = String(Math.max(0, 1 - progress * 8));
+            }
+
+            // React bails out when the value is unchanged, so this only re-renders
+            // when the active sentence actually changes (5 times per full scroll).
+            setActiveDot(Math.min(SENTENCE_COUNT - 1, Math.floor(progress * SENTENCE_COUNT)));
+        };
+
+        const onScroll = () => {
+            if (!frame) frame = requestAnimationFrame(update);
+        };
+
+        update();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
+        return () => {
+            window.removeEventListener("scroll", onScroll);
+            window.removeEventListener("resize", onScroll);
+            if (frame) cancelAnimationFrame(frame);
+        };
+    }, []);
+
+    const renderWords = (text: string, sentenceIndex: number) => {
+        const words = text.split(" ");
+        return words.map((word, i) => (
+            <span
+                key={i}
+                className="opacity-[0.15]"
+                ref={(node) => {
+                    if (!wordRefs.current[sentenceIndex]) wordRefs.current[sentenceIndex] = [];
+                    wordRefs.current[sentenceIndex][i] = node;
+                }}
+            >
+                {word}
+                {i < words.length - 1 ? " " : ""}
+            </span>
+        ));
+    };
 
     return (
         <div
@@ -166,49 +171,36 @@ function HomeProblemSectionInner({
             style={{ height: `${SENTENCE_COUNT * 120}vh` }}
             className="relative"
         >
-            {/* Sticky viewport */}
-            <div className="sticky top-0 h-screen w-full overflow-hidden bg-brand-50 flex items-center justify-center">
+            {/* Sticky viewport — svh avoids jumps when the iOS toolbar shows/hides */}
+            <div className="sticky top-0 h-svh w-full overflow-hidden bg-brand-50 flex items-center justify-center">
 
-                {/* Diagonal grid overlay */}
+                {/* Diagonal grid overlay — own layer so it's painted once */}
                 <div
                     className="pointer-events-none absolute inset-0"
                     style={{
                         maskImage: "linear-gradient(135deg, transparent 35%, black 65%)",
                         WebkitMaskImage: "linear-gradient(135deg, transparent 35%, black 65%)",
+                        transform: "translateZ(0)",
                     }}
                 >
                     <div className="absolute inset-0 bg-grid opacity-20" />
                 </div>
 
-                {/* Sentences — all always rendered, opacity driven by scroll */}
+                {/* Sentences — positioned absolutely, opacity/transform driven by scroll */}
                 <div className="relative z-10 w-full max-w-4xl px-8 md:px-16">
                     {SENTENCES.map((sentence, index) => {
-                        const { start, globalOpacity, translateY } = getSentenceState(index);
-                        const isLast = index === SENTENCE_COUNT - 1;
+                        const isPunchline = index === SENTENCE_COUNT - 2;
 
                         return (
                             <div
                                 key={sentence.id}
-                                className="absolute inset-0 flex items-center justify-center px-8 md:px-16 pointer-events-none"
-                                style={{
-                                    opacity: globalOpacity,
-                                    transform: `translateY(${translateY}px)`,
+                                ref={(node) => {
+                                    sentenceRefs.current[index] = node;
                                 }}
+                                className="absolute inset-0 flex items-center justify-center px-8 md:px-16 pointer-events-none opacity-0 invisible"
                             >
                                 <div className="w-full max-w-4xl">
-                                    {isLast ? (
-                                        <div className="flex items-start gap-6 md:gap-10">
-                                            <span className="font-mono text-xs tracking-[0.15em] text-brand-400 shrink-0 min-w-10 pt-1.5">
-                                                {sentence.label}
-                                            </span>
-                                            <p
-                                                className="font-heading font-medium text-brand-900 leading-[1.15] tracking-[-0.03em]"
-                                                style={{ fontSize: "clamp(1.75rem, 4.5vw, 3.5rem)" }}
-                                            >
-                                                <WordReveal text={sentence.text} progress={progress} start={start} />
-                                            </p>
-                                        </div>
-                                    ) : index === SENTENCE_COUNT - 2 ? (
+                                    {isPunchline ? (
                                         <div className="text-center">
                                             <p
                                                 className="font-heading font-bold text-primary tracking-[-0.04em] leading-none"
@@ -226,7 +218,7 @@ function HomeProblemSectionInner({
                                                 className="font-heading font-medium text-brand-900 leading-[1.15] tracking-[-0.03em]"
                                                 style={{ fontSize: "clamp(1.75rem, 4.5vw, 3.5rem)" }}
                                             >
-                                                <WordReveal text={sentence.text} progress={progress} start={start} />
+                                                {renderWords(sentence.text, index)}
                                             </p>
                                         </div>
                                     )}
@@ -241,7 +233,7 @@ function HomeProblemSectionInner({
                     {SENTENCES.map((_, i) => (
                         <div
                             key={i}
-                            className={`h-1.5 rounded-full transition-all duration-300 ${i === activeDot ? "w-7 bg-brand-600" : "w-1.5 bg-brand-200"
+                            className={`h-1.5 rounded-full transition-[width,background-color] duration-300 ${i === activeDot ? "w-7 bg-brand-600" : "w-1.5 bg-brand-200"
                                 }`}
                         />
                     ))}
@@ -249,8 +241,8 @@ function HomeProblemSectionInner({
 
                 {/* Scroll hint */}
                 <div
+                    ref={hintRef}
                     className="absolute bottom-10 right-10 z-20 flex flex-col items-center gap-2"
-                    style={{ opacity: Math.max(0, 1 - progress * 8) }}
                 >
                     <span
                         className="font-mono text-[0.625rem] tracking-[0.15em] text-brand-300 uppercase"
