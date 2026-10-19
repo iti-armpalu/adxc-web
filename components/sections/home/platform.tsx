@@ -53,10 +53,13 @@ export function PlatformSection({ headline, subtext, steps }: PlatformSectionPro
                       src={
                         typeof step.image === "string"
                           ? step.image
-                          : urlFor(step.image).width(800).auto("format").url()
+                          : urlFor(step.image).width(800).fit("max").auto("format").url()
                       }
                       alt={step.title}
                       fill
+                      // Matches the grid: 1 col (<640), 2 cols (sm), 4 cols (lg, max-w-7xl).
+                      // Without this, next/image assumes 100vw and phones download ~2x the pixels.
+                      sizes="(min-width: 1280px) 270px, (min-width: 1024px) 25vw, (min-width: 640px) 50vw, calc(100vw - 4rem)"
                       className="object-cover"
                     />
                   </div>
