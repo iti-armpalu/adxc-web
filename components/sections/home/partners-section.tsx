@@ -1,17 +1,16 @@
 import { FadeIn } from "@/components/ui/fade-in"
-import Image from "next/image"
+import { urlFor } from "@/lib/cms/image"
+import type { PartnerLogoContent } from "@/lib/cms/types"
 
-const dataProviders = [
-    { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
-    { name: "Quid", logo: "/quid-logo.svg" },
-    { name: "Data Commons", logo: "/data-comms-logo.svg", showName: true },
-]
+interface PartnersSectionProps {
+    dataLabel: string
+    dataLogos: PartnerLogoContent[]
+    moreText?: string
+    accessLabel: string
+    accessLogos: PartnerLogoContent[]
+}
 
-const accessThrough = [
-    { name: "Miro", logo: "/miro-logo.svg" },
-]
-
-export function PartnersSection() {
+export function PartnersSection({ dataLabel, dataLogos, moreText, accessLabel, accessLogos }: PartnersSectionProps) {
     return (
         <FadeIn>
             <section className="bg-white">
@@ -21,16 +20,14 @@ export function PartnersSection() {
                         {/* Access data from */}
                         <div className="flex flex-col items-center gap-4 sm:flex-row sm:pr-12">
                             <p className="text-caption text-muted-foreground shrink-0">
-                                Access data from
+                                {dataLabel}
                             </p>
                             <div className="flex items-center flex-wrap justify-center gap-6 sm:gap-8">
-                                {dataProviders.map((p) => (
+                                {dataLogos.map((p) => (
                                     <div key={p.name} className="flex items-center gap-2">
-                                        <Image
-                                            src={p.logo}
+                                        <img
+                                            src={urlFor(p.logo).width(400).auto("format").url()}
                                             alt={p.name}
-                                            width={80}
-                                            height={28}
                                             className="h-6 sm:h-7 w-auto object-contain"
                                         />
                                         {p.showName && (
@@ -38,9 +35,11 @@ export function PartnersSection() {
                                         )}
                                     </div>
                                 ))}
-                                <div className="text-sm text-muted-foreground">
-                                    More coming soon
-                                </div>
+                                {moreText && (
+                                    <div className="text-sm text-muted-foreground">
+                                        {moreText}
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -50,16 +49,14 @@ export function PartnersSection() {
                         {/* Access through */}
                         <div className="flex flex-col items-center gap-4 sm:flex-row sm:pl-12">
                             <p className="text-caption text-muted-foreground shrink-0">
-                                Access through
+                                {accessLabel}
                             </p>
                             <div className="flex items-center flex-wrap justify-center gap-6 sm:gap-8">
-                                {accessThrough.map((p) => (
-                                    <Image
+                                {accessLogos.map((p) => (
+                                    <img
                                         key={p.name}
-                                        src={p.logo}
+                                        src={urlFor(p.logo).width(400).auto("format").url()}
                                         alt={p.name}
-                                        width={80}
-                                        height={28}
                                         className="h-7 sm:h-8 w-auto object-contain"
                                     />
                                 ))}
