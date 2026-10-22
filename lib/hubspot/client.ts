@@ -25,6 +25,29 @@ export type HubspotContactInput = {
     source?: string
 }
 
+/**
+ * True if the contact already exists AND already has an owner. Used so web
+ * forms only assign the default owner to contacts nobody owns yet.
+ * If the lookup itself fails we return true (leave the owner alone) —
+ * overwriting someone's existing ownership is worse than a missing owner.
+ */
+async function contactHasOwner(email: string, token: string): Promise<boolean> {
+    const res = await fetch(
+        `https://api.hubapi.com/crm/v3/objects/contacts/${encodeURIComponent(email)}?idProperty=email&properties=hubspot_owner_id`,
+        { headers: { Authorization: `Bearer ${token}` } }
+    )
+
+    if (res.status === 404) return false // new contact, no owner yet
+
+    if (!res.ok) {
+        console.error("[hubspot] owner lookup failed, leaving owner unchanged:", res.status)
+        return true
+    }
+
+    const data = await res.json()
+    return Boolean(data?.properties?.hubspot_owner_id)
+}
+
 export async function upsertHubspotContact(input: HubspotContactInput) {
     const token = process.env.HUBSPOT_ACCESS_TOKEN
 
@@ -56,6 +79,13 @@ export async function upsertHubspotContact(input: HubspotContactInput) {
     // triggering on a static value like form_source alone would only fire
     // once per contact, since HubSpot enrollment is edge-triggered on change.
     properties.last_contact_form_submission_at = new Date().toISOString()
+
+    // Web forms are owned by one person (HUBSPOT_WEB_FORMS_OWNER_ID). Only set
+    // it when the contact has no owner, so existing ownership is never overwritten.
+    const ownerId = process.env.HUBSPOT_WEB_FORMS_OWNER_ID
+    if (ownerId && !(await contactHasOwner(input.email, token))) {
+        properties.hubspot_owner_id = ownerId
+    }
 
     const res = await fetch(
         "https://api.hubapi.com/crm/v3/objects/contacts/batch/upsert",
@@ -120,6 +150,10 @@ export async function createDealForContact(input: CreateDealInput) {
                 pipeline: input.pipelineId,
                 dealstage: input.dealStageId,
                 ...(input.description ? { description: input.description } : {}),
+                // New deals from web forms are always owned by the web-forms owner.
+                ...(process.env.HUBSPOT_WEB_FORMS_OWNER_ID
+                    ? { hubspot_owner_id: process.env.HUBSPOT_WEB_FORMS_OWNER_ID }
+                    : {}),
             },
             // Associates the new deal to the existing contact in the same call —
             // 3 is HubSpot's stable built-in "Deal to Contact" association type.
