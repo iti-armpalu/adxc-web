@@ -3,17 +3,19 @@
 import { z } from "zod"
 import { Resend } from "resend"
 import { siteConfig } from "@/config/site"
-import { dataTypes } from "./constants"
+import { upsertHubspotContact, createDealForContact } from "@/lib/hubspot/client"
+import { pipelineForFormSource } from "@/lib/hubspot/pipelines"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
+// Note: the live form has no "data types" field, so it is no longer required
+// or sent here (it used to be required, which would have rejected every submission).
 const schema = z.object({
     firstName: z.string().min(1, "First name is required"),
     lastName: z.string().min(1, "Last name is required"),
     email: z.string().email("Valid email is required"),
     company: z.string().min(1, "Company is required"),
     jobTitle: z.string().min(1, "Job title is required"),
-    dataTypes: z.array(z.string()).min(1, "Please select at least one data type"),
     message: z.string().optional(),
     turnstileToken: z.string().min(1),
 })
@@ -34,7 +36,6 @@ export async function submitDataProviderEnquiry(
             email: formData.get("email"),
             company: formData.get("company"),
             jobTitle: formData.get("jobTitle"),
-            dataTypes: formData.getAll("dataTypes"),
             message: formData.get("message"),
             turnstileToken: formData.get("turnstileToken"),
         })
@@ -44,7 +45,7 @@ export async function submitDataProviderEnquiry(
             return { status: "error", error: first ?? "Invalid input" }
         }
 
-        const { firstName, lastName, email, company, jobTitle, dataTypes, message, turnstileToken } = parsed.data
+        const { firstName, lastName, email, company, jobTitle, message, turnstileToken } = parsed.data
         const name = `${firstName} ${lastName}`
 
         const verified = await verifyTurnstile(turnstileToken)
@@ -52,22 +53,56 @@ export async function submitDataProviderEnquiry(
             return { status: "error", error: "Bot verification failed" }
         }
 
-        const { error: resendError } = await resend.emails.send({
-            from: `${siteConfig.name} <${siteConfig.contactEmail}>`,
-            to: siteConfig.contactEmail,
-            replyTo: email,
-            subject: `Data provider enquiry: ${name} — ${company}`,
-            text: [
-                `Name: ${name}`,
-                `Email: ${email}`,
-                `Company: ${company}`,
-                `Job title: ${jobTitle}`,
-                `Data types: ${dataTypes.join(", ")}`,
-                ``,
-                `Message:`,
-                message ?? "—",
-            ].join("\n"),
+        // HubSpot sync: contact upsert, then a deal in the Data Provider
+        // pipeline linked to it (needs the contact ID, so sequenced). Errors
+        // are caught and logged so a CRM problem never blocks the submission —
+        // only a Resend failure does.
+        const formSource = "data_providers_form"
+        const hubspotSync = (async () => {
+            const contactId = await upsertHubspotContact({
+                email,
+                firstName,
+                lastName,
+                company,
+                jobTitle,
+                source: formSource,
+            })
+
+            if (!contactId) return
+
+            const { pipelineId, stageId } = pipelineForFormSource(formSource)
+
+            await createDealForContact({
+                contactId,
+                dealName: `Data provider: ${name} — ${company}`,
+                pipelineId,
+                dealStageId: stageId,
+                description: message || undefined,
+            })
+        })().catch((err) => {
+            console.error("[data-provider-enquiry] hubspot error:", err)
         })
+
+        // Awaited together so the HubSpot calls finish before the function
+        // returns (serverless can stop work once the response is sent).
+        const [{ error: resendError }] = await Promise.all([
+            resend.emails.send({
+                from: `${siteConfig.name} <${siteConfig.contactEmail}>`,
+                to: siteConfig.contactEmail,
+                replyTo: email,
+                subject: `Data provider enquiry: ${name} — ${company}`,
+                text: [
+                    `Name: ${name}`,
+                    `Email: ${email}`,
+                    `Company: ${company}`,
+                    `Job title: ${jobTitle}`,
+                    ``,
+                    `Message:`,
+                    message || "—",
+                ].join("\n"),
+            }),
+            hubspotSync,
+        ])
 
         if (resendError) {
             console.error("[data-provider-enquiry] resend error:", resendError)
