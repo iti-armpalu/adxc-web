@@ -3,6 +3,8 @@
 import { z } from "zod"
 import { Resend } from "resend"
 import { siteConfig } from "@/config/site"
+import { upsertHubspotContact, createDealForContact } from "@/lib/hubspot/client"
+import { pipelineForFormSource } from "@/lib/hubspot/pipelines"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -60,22 +62,57 @@ export async function submitEarlyAccess(
             return { status: "error", error: "Bot verification failed" }
         }
 
-        const { error: resendError } = await resend.emails.send({
-            from: `${siteConfig.name} <${siteConfig.contactEmail}>`,
-            to: siteConfig.contactEmail,
-            replyTo: email,
-            subject: `Early access: ${name} — ${company}`,
-            text: [
-                `Name: ${name}`,
-                `Email: ${email}`,
-                `Company: ${company}`,
-                `Company size: ${companySize}`,
-                `Job title: ${jobTitle}`,
-                ``,
-                `Use case:`,
-                useCase,
-            ].join("\n"),
+        // HubSpot sync: contact upsert, then a deal linked to it (needs the
+        // contact ID, so sequenced). Errors are caught and logged so a CRM
+        // problem never blocks the submission — only a Resend failure does.
+        const formSource = "early_access_form"
+        const hubspotSync = (async () => {
+            const contactId = await upsertHubspotContact({
+                email,
+                firstName,
+                lastName,
+                company,
+                jobTitle,
+                companySize,
+                source: formSource,
+            })
+
+            if (!contactId) return
+
+            const { pipelineId, stageId } = pipelineForFormSource(formSource)
+
+            await createDealForContact({
+                contactId,
+                dealName: `Early access: ${name} — ${company}`,
+                pipelineId,
+                dealStageId: stageId,
+                description: useCase,
+            })
+        })().catch((err) => {
+            console.error("[early-access] hubspot error:", err)
         })
+
+        // Awaited together so the HubSpot calls finish before the function
+        // returns (serverless can stop work once the response is sent).
+        const [{ error: resendError }] = await Promise.all([
+            resend.emails.send({
+                from: `${siteConfig.name} <${siteConfig.contactEmail}>`,
+                to: siteConfig.contactEmail,
+                replyTo: email,
+                subject: `Early access: ${name} — ${company}`,
+                text: [
+                    `Name: ${name}`,
+                    `Email: ${email}`,
+                    `Company: ${company}`,
+                    `Company size: ${companySize}`,
+                    `Job title: ${jobTitle}`,
+                    ``,
+                    `Use case:`,
+                    useCase,
+                ].join("\n"),
+            }),
+            hubspotSync,
+        ])
 
         if (resendError) {
             console.error("[early-access] resend error:", resendError)
