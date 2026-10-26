@@ -3,6 +3,8 @@
 import { z } from "zod"
 import { Resend } from "resend"
 import { siteConfig } from "@/config/site"
+import { upsertHubspotContact, createDealForContact } from "@/lib/hubspot/client"
+import { pipelineForFormSource } from "@/lib/hubspot/pipelines"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -47,23 +49,67 @@ export async function submitAIPlatformEnquiry(
         const verified = await verifyTurnstile(turnstileToken)
         if (!verified) return { status: "error", error: "Bot verification failed" }
 
-        const { error: resendError } = await resend.emails.send({
-            from: `${siteConfig.name} <${siteConfig.contactEmail}>`,
-            to: siteConfig.contactEmail,
-            replyTo: email,
-            subject: `AI platform enquiry: ${name} — ${company}`,
-            text: [
-                `Name: ${name}`,
-                `Email: ${email}`,
-                `Company: ${company}`,
-                `Job title: ${jobTitle}`,
-                ``,
-                `Message:`,
-                message ?? "—",
-            ].join("\n"),
+        // HubSpot sync: contact upsert, then a Sales pipeline deal linked to it
+        // (needs the contact ID, so sequenced). Errors are caught and logged so
+        // a CRM problem never blocks the submission — only a Resend failure does.
+        const formSource = "ai_platforms_form"
+        const hubspotSync = (async () => {
+            const contactId = await upsertHubspotContact({
+                email,
+                firstName,
+                lastName,
+                company,
+                jobTitle,
+                source: formSource,
+            })
+
+            if (!contactId) return
+
+            const { pipelineId, stageId } = pipelineForFormSource(formSource)
+
+            await createDealForContact({
+                contactId,
+                dealName: `AI platform: ${name} — ${company}`,
+                pipelineId,
+                dealStageId: stageId,
+                description: message || undefined,
+                extraProperties: {
+                    // "Type of Deal" dropdown (internal name interaction_type)
+                    interaction_type: "Partnership",
+                    // "Deal Source" dropdown (internal name deal_source)
+                    deal_source: "Marketing/Inbound",
+                },
+            })
+        })().catch((err) => {
+            console.error("[ai-platform-enquiry] hubspot error:", err)
         })
 
-        if (resendError) return { status: "error", error: "Failed to send email. Please try again." }
+        // Awaited together so the HubSpot calls finish before the function
+        // returns (serverless can stop work once the response is sent).
+        const [{ error: resendError }] = await Promise.all([
+            resend.emails.send({
+                from: `${siteConfig.name} <${siteConfig.contactEmail}>`,
+                to: siteConfig.contactEmail,
+                replyTo: email,
+                subject: `AI platform enquiry: ${name} — ${company}`,
+                text: [
+                    `Name: ${name}`,
+                    `Email: ${email}`,
+                    `Company: ${company}`,
+                    `Job title: ${jobTitle}`,
+                    ``,
+                    `Message:`,
+                    message || "—",
+                ].join("\n"),
+            }),
+            hubspotSync,
+        ])
+
+        if (resendError) {
+            console.error("[ai-platform-enquiry] resend error:", resendError)
+            return { status: "error", error: "Failed to send email. Please try again." }
+        }
+
         return { status: "success" }
     } catch (err) {
         console.error("[ai-platform-enquiry] error:", err)
