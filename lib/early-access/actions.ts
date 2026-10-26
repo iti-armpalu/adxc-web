@@ -87,6 +87,12 @@ export async function submitEarlyAccess(
                 pipelineId,
                 dealStageId: stageId,
                 description: useCase,
+                extraProperties: {
+                    // "Type of Deal" dropdown (internal name interaction_type)
+                    interaction_type: "Integration - Sale",
+                    // "Deal Source" dropdown (internal name deal_source)
+                    deal_source: "Marketing/Inbound",
+                },
             })
         })().catch((err) => {
             console.error("[early-access] hubspot error:", err)
