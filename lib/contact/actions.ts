@@ -3,7 +3,8 @@
 import { z } from "zod"
 import { Resend } from "resend"
 import { siteConfig } from "@/config/site"
-import { upsertHubspotContact } from "@/lib/hubspot/client"
+import { upsertHubspotContact, createDealForContact } from "@/lib/hubspot/client"
+import { pipelineForFormSource } from "@/lib/hubspot/pipelines"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -48,23 +49,47 @@ export async function submitContact(
             return { status: "error", error: "Bot verification failed" }
         }
 
-        // HubSpot sync runs alongside the email send. Its own errors are caught
-        // and logged here so a CRM hiccup never blocks the user-facing submission —
-        // only a Resend failure below causes an error response.
-        const hubspotSync = upsertHubspotContact({
-            email,
-            firstName,
-            lastName,
-            company,
-            message,
-            source: "contact_form",
-        }).catch((err) => {
+        // HubSpot sync runs alongside the email send. Contact upsert and deal
+        // creation are sequenced (the deal needs the new/updated contact's ID),
+        // but the whole chain is wrapped so any failure is caught and logged
+        // here rather than blocking the user-facing submission — only a
+        // Resend failure below causes an error response.
+        const formSource = "contact_form"
+        const hubspotSync = (async () => {
+            const contactId = await upsertHubspotContact({
+                email,
+                firstName,
+                lastName,
+                company,
+                message,
+                source: formSource,
+            })
+
+            if (!contactId) return
+
+            const { pipelineId, stageId } = pipelineForFormSource(formSource)
+
+            await createDealForContact({
+                contactId,
+                dealName: `${name}${company ? ` — ${company}` : ""}`,
+                pipelineId,
+                dealStageId: stageId,
+                description: message,
+                extraProperties: {
+                    // "Deal Source" dropdown (internal name deal_source).
+                    // Type of Deal is intentionally left empty for contact form deals.
+                    deal_source: "Marketing/Inbound",
+                },
+            })
+        })().catch((err) => {
             console.error("[contact] hubspot error:", err)
         })
 
         await Promise.all([
             resend.emails.send({
+                // TODO: switch once adxc.ai is verified in Resend dashboard
                 from: `${siteConfig.name} <contact@adxc.ai>`,
+                // from: "onboarding@resend.dev",
                 to: siteConfig.contactEmail,
                 replyTo: email,
                 subject: `Contact: ${name}${company ? ` — ${company}` : ""}`,
