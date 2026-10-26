@@ -78,6 +78,12 @@ export async function submitDataProviderEnquiry(
                 pipelineId,
                 dealStageId: stageId,
                 description: message || undefined,
+                extraProperties: {
+                    // "Type of Deal" dropdown (internal name interaction_type)
+                    interaction_type: "Integration - Data",
+                    // "Deal Source" dropdown (internal name deal_source)
+                    deal_source: "Marketing/Inbound",
+                },
             })
         })().catch((err) => {
             console.error("[data-provider-enquiry] hubspot error:", err)

@@ -1,12 +1,6 @@
-// Path in your project: lib/hubspot/client.ts
-// Import as: import { upsertHubspotContact } from "@/lib/hubspot/client"
-//
 // Minimal HubSpot CRM helper. Uses the batch "upsert" endpoint so a submission
 // either creates a new contact or updates an existing one, keyed on email —
 // no need to search-then-create/update yourself.
-//
-// Requires a HubSpot private app access token with the crm.objects.contacts.write
-// scope. See setup notes in chat.
 
 export type HubspotContactInput = {
     email: string
@@ -128,6 +122,10 @@ type CreateDealInput = {
     dealStageId: string
     /** Goes into the deal's built-in "Description" field — no custom property needed */
     description?: string
+    /** Any extra deal properties, keyed by HubSpot INTERNAL property name,
+     *  e.g. { dealtype: "<internal option value>" }. Dropdown values must be
+     *  the option's internal value, not its label. */
+    extraProperties?: Record<string, string>
 }
 
 export async function createDealForContact(input: CreateDealInput) {
@@ -146,6 +144,7 @@ export async function createDealForContact(input: CreateDealInput) {
         },
         body: JSON.stringify({
             properties: {
+                ...(input.extraProperties ?? {}),
                 dealname: input.dealName,
                 pipeline: input.pipelineId,
                 dealstage: input.dealStageId,
