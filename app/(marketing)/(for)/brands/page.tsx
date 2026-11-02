@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { getBrandsPage, getSiteSeo } from "@/lib/cms/queries"
 import { buildMetadata } from "@/lib/seo/build-metadata"
-import { BrandsHero } from "@/components/sections/brands/hero"
+import { PersonaHero } from "@/components/sections/persona/persona-hero"
 import { BrandsDataProviders } from "@/components/sections/brands/data-providers"
 import { BrandsProblem } from "@/components/sections/brands/problem"
 import { BrandsHowItWorks } from "@/components/sections/brands/how-it-works"
@@ -37,7 +37,8 @@ export default async function BrandsPage() {
 
     return (
         <>
-            <BrandsHero
+            <PersonaHero
+                persona="brands"
                 label={brands.heroLabel}
                 headlineLine1={brands.heroHeadlineLine1}
                 headlineLine2={brands.heroHeadlineLine2}

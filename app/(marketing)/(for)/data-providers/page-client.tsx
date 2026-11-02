@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { DataProvidersHero } from "@/components/sections/data-providers/hero"
+import { PersonaHero } from "@/components/sections/persona/persona-hero"
 import { DataProvidersStat } from "@/components/sections/data-providers/stat"
 import { DataProvidersWhyNow } from "@/components/sections/data-providers/why-now"
 import { DataProvidersHowItWorks } from "@/components/sections/data-providers/how-it-works"
@@ -20,13 +20,18 @@ export default function DataProvidersPageClient({ data }: DataProvidersPageClien
 
     return (
         <>
-            <DataProvidersHero
+            <PersonaHero
+                persona="data-providers"
                 label={data.heroLabel}
                 headlineLine1={data.heroHeadlineLine1}
                 headlineLine2={data.heroHeadlineLine2}
                 headlineLine3={data.heroHeadlineLine3}
                 subtext={data.heroSubtext}
-                onEmailSubmit={(email) => setSharedEmail(email)}
+                emailHandoff={{
+                    buttonLabel: "Talk with our team",
+                    scrollToId: "cta-data-provider",
+                    onSubmit: (email) => setSharedEmail(email),
+                }}
             />
             <DataProvidersDataProviders />
             <DataProvidersStat />

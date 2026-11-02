@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { AIPlatformsHero } from "@/components/sections/ai-platforms/hero"
+import { PersonaHero } from "@/components/sections/persona/persona-hero"
 import { AIPlatformsCapabilities } from "@/components/sections/ai-platforms/capabilities"
 import { AIPlatformsWhyNow } from "@/components/sections/ai-platforms/why-now"
 import { AIPlatformsHowItWorks } from "@/components/sections/ai-platforms/how-it-works"
@@ -18,13 +18,18 @@ export default function AIPlatformsPageClient({ data }: AIPlatformsPageClientPro
 
     return (
         <>
-            <AIPlatformsHero
+            <PersonaHero
+                persona="ai-platforms"
                 label={data.heroLabel}
                 headlineLine1={data.heroHeadlineLine1}
                 headlineLine2={data.heroHeadlineLine2}
                 headlineLine3={data.heroHeadlineLine3}
                 subtext={data.heroSubtext}
-                onEmailSubmit={(email) => setSharedEmail(email)}
+                emailHandoff={{
+                    buttonLabel: "Talk with our team",
+                    scrollToId: "cta",
+                    onSubmit: (email) => setSharedEmail(email),
+                }}
             />
             <AIPlatformsCapabilities />
             <AIPlatformsWhyNow />

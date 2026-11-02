@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { getAgenciesPage, getSiteSeo } from "@/lib/cms/queries"
 import { buildMetadata } from "@/lib/seo/build-metadata"
-import { AgenciesHero } from "@/components/sections/agencies/hero"
+import { PersonaHero } from "@/components/sections/persona/persona-hero"
 import { AgenciesHowItWorks } from "@/components/sections/agencies/how-it-works"
 import { AgenciesIntegrations } from "@/components/sections/agencies/integrations"
 import { AgenciesPartners } from "@/components/sections/agencies/partners"
@@ -36,7 +36,8 @@ export default async function AgenciesPage() {
 
     return (
         <>
-            <AgenciesHero
+            <PersonaHero
+                persona="agencies"
                 label={agencies.heroLabel}
                 headlineLine1={agencies.heroHeadlineLine1}
                 headlineLine2={agencies.heroHeadlineLine2}
