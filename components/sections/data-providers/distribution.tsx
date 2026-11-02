@@ -31,11 +31,10 @@ export function DataProvidersDistribution() {
                             <div className="flex items-center gap-10 pt-2">
                                 <div className="space-y-2">
                                     <p className="text-caption text-blue-700">Integrating with</p>
-                                    <Image
+                                    <img
                                         src="/miro-logo.svg"
                                         alt="Miro"
-                                        width={60}
-                                        height={20}
+                                        width={703} height={258}
                                         className="h-8 w-auto object-contain"
                                     />
                                 </div>
@@ -53,8 +52,9 @@ export function DataProvidersDistribution() {
                             <Image
                                 src="/miro-canvas-marketing.webp"
                                 alt="ADXC inside Miro canvas"
-                                width={800}
-                                height={560}
+                                width={1600}
+                                height={900}
+                                sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw"
                                 className="w-full rounded-lg object-cover shadow-lg"
                             />
                         </div>

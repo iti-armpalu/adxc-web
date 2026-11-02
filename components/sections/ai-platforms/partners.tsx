@@ -1,9 +1,8 @@
 import { FadeIn } from "@/components/ui/fade-in"
-import Image from "next/image"
 
 const partners = [
-    { name: "Miro", logo: "/miro-logo.svg" },
-    { name: "Deptify", logo: "/deptify-logo.svg" },
+    { name: "Miro", logo: "/miro-logo.svg", width: 703, height: 258 },
+    { name: "Deptify", logo: "/deptify-logo.svg", width: 1273, height: 283 },
 ]
 
 export function AIPlatformsPartners() {
@@ -19,12 +18,11 @@ export function AIPlatformsPartners() {
 
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
                             {partners.map((p) => (
-                                <Image
+                                <img
                                     key={p.name}
                                     src={p.logo}
                                     alt={p.name}
-                                    width={100}
-                                    height={36}
+                                    width={p.width} height={p.height}
                                     className="h-8 w-auto object-contain"
                                 />
                             ))}

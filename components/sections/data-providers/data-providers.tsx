@@ -1,9 +1,8 @@
 import { FadeIn } from "@/components/ui/fade-in"
-import Image from "next/image"
 
 const partners = [
-    { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
-    { name: "Quid", logo: "/quid-logo.svg" },
+    { name: "YouGov", logo: "/yougov-logo.svg", width: 136, height: 28 },
+    { name: "Quid", logo: "/quid-logo.svg", width: 83, height: 24 },
 ]
 
 export function DataProvidersDataProviders() {
@@ -20,12 +19,11 @@ export function DataProvidersDataProviders() {
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
                             {partners.map((p) => (
                                 <div key={p.name} className="flex items-center gap-2">
-                                    <Image
+                                    <img
                                         key={p.name}
                                         src={p.logo}
                                         alt={p.name}
-                                        width={80}
-                                        height={28}
+                                        width={p.width} height={p.height}
                                         className="h-6 sm:h-7 w-auto object-contain"
                                     />
                                 </div>

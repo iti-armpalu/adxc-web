@@ -1,10 +1,9 @@
-import Image from "next/image"
 import { FadeIn } from "@/components/ui/fade-in"
 
 const dataProviders = [
-    { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
-    { name: "Quid", logo: "/quid-logo.svg" },
-    { name: "Data Commons", logo: "/data-comms-logo.svg", showName: true },
+    { name: "YouGov", logo: "/yougov-logo.svg", width: 136, height: 28 },
+    { name: "Quid", logo: "/quid-logo.svg", width: 83, height: 24 },
+    { name: "Data Commons", logo: "/data-comms-logo.svg", width: 28, height: 28, showName: true },
 ]
 
 export function BrandsDataProviders() {
@@ -21,11 +20,10 @@ export function BrandsDataProviders() {
                         <div className="flex items-center flex-wrap justify-center gap-6 sm:gap-8">
                             {dataProviders.map((p) => (
                                 <div key={p.name} className="flex items-center gap-2">
-                                    <Image
+                                    <img
                                         src={p.logo}
                                         alt={p.name}
-                                        width={80}
-                                        height={28}
+                                        width={p.width} height={p.height}
                                         className="h-6 sm:h-7 w-auto object-contain"
                                     />
                                     {p.showName && (

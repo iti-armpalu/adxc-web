@@ -13,7 +13,6 @@ import {
     type LucideIcon,
 } from "lucide-react"
 import type { BlogPostPreview } from "@/lib/cms/types"
-import Image from "next/image"
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet"
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 import {
@@ -130,10 +129,10 @@ export function Header({ latestPosts = [] }: Props) {
             )}>
 
                 <Link href="/" className="shrink-0 hover:opacity-70 transition-opacity w-[120px]">
-                    <Image
+                    <img
                         src="/adxc-logo-with-tagline.svg"
                         alt={siteConfig.name}
-                        width={120} height={40} priority
+                        width={771} height={310}
                         className={cn(
                             "w-auto h-7 sm:h-8 lg:transition-all lg:duration-300",
                             scrolled ? "lg:h-6" : "lg:h-10"
@@ -275,10 +274,10 @@ function MobileSheet({ mobileOpen, setMobileOpen, mobileExpanded, setMobileExpan
 
                     <div className="mb-6">
                         <Link href="/" onClick={() => setMobileOpen(false)}>
-                            <Image
+                            <img
                                 src="/adxc-logo-primary-horizontal.svg"
                                 alt={siteConfig.name}
-                                width={120} height={40}
+                                width={149} height={41}
                                 className="h-6 w-auto"
                             />
                         </Link>

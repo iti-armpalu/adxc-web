@@ -1,5 +1,4 @@
 import { FadeIn } from "@/components/ui/fade-in"
-import Image from "next/image"
 
 export function AgenciesPartners() {
     return (
@@ -13,11 +12,10 @@ export function AgenciesPartners() {
                         </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
-                            <Image
+                            <img
                                 src="/dept-logo.svg"
                                 alt="DEPT"
-                                width={100}
-                                height={36}
+                                width={454} height={106}
                                 className="h-4 sm:h-6 w-auto object-contain"
                             />
                         </div>

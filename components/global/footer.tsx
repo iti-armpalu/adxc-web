@@ -4,7 +4,6 @@ import Link from "next/link"
 import { Mail, LineChart, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { siteConfig } from "@/config/site"
-import Image from "next/image"
 import { trackFooterContactClicked, trackFooterInvestorClicked, trackFooterLinkClicked } from "@/lib/analytics/events"
 
 const legalLinks = [
@@ -44,11 +43,10 @@ export function Footer() {
                     {/* Brand column */}
                     <div className="space-y-4 sm:col-span-2 lg:col-span-1">
                         <Link href="/" className="hover:opacity-70 transition-opacity inline-block">
-                            <Image
+                            <img
                                 src="/adxc-logo-primary-horizontal.svg"
                                 alt={siteConfig.name}
-                                width={120}
-                                height={40}
+                                width={149} height={41}
                                 className="h-8 w-auto brightness-0 invert"
                             />
                         </Link>

@@ -1,5 +1,4 @@
 import { FadeIn } from "@/components/ui/fade-in"
-import Image from "next/image"
 
 type IntegrationsSectionProps = {
     heading: string
@@ -35,11 +34,10 @@ export function IntegrationsSection({
                         {/* Right — logo pill */}
                         <div className={`flex flex-col items-center justify-center gap-6 ${pillBg} rounded-lg p-12`}>
                             <p className={`text-caption ${captionColor}`}>Launching with</p>
-                            <Image
+                            <img
                                 src="/miro-logo.svg"
                                 alt="Miro"
-                                width={200}
-                                height={64}
+                                width={703} height={258}
                                 className="h-16 w-auto object-contain"
                             />
                             <p className={`text-sm ${captionColor}`}>More integrations coming soon</p>

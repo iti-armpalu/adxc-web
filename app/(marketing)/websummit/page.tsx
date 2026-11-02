@@ -8,7 +8,6 @@ import { DemoVideo } from "@/components/websummit/demo-video";
 import { StickyClaimBar } from "@/components/websummit/sticky-claim-bar";
 import { getWebSummitContent, isExpired, resolveTier, safeRedirectPath } from "@/lib/cms/websummit";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
 
 export const metadata: Metadata = {
     title: "ADXC at Web Summit",
@@ -32,8 +31,8 @@ const claimByFormat = new Intl.DateTimeFormat("en-GB", {
 });
 
 const partners = [
-    { name: "YouGov", logo: "/yougov-logo-horizontal.png" },
-    { name: "Quid", logo: "/quid-logo.svg" },
+    { name: "YouGov", logo: "/yougov-logo.svg", width: 136, height: 28 },
+    { name: "Quid", logo: "/quid-logo.svg", width: 83, height: 24 },
 ]
 
 export default async function WebSummitPage({ searchParams }: Props) {
@@ -100,12 +99,11 @@ export default async function WebSummitPage({ searchParams }: Props) {
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
                             {partners.map((p) => (
                                 <div key={p.name} className="flex items-center gap-2">
-                                    <Image
+                                    <img
                                         key={p.name}
                                         src={p.logo}
                                         alt={p.name}
-                                        width={100}
-                                        height={36}
+                                        width={p.width} height={p.height}
                                         className="h-4 sm:h-6 w-auto object-contain"
                                     />
                                 </div>
