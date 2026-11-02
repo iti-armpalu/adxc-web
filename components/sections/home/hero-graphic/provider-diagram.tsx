@@ -6,8 +6,6 @@ import { QUESTION_PROVIDERS, STEP_MS } from "./constants"
 import { ProviderLogo } from "./provider-logo"
 import type { ProviderLayout } from "./provider-layouts"
 
-const LINE_COLOR = "#B44774"
-const BASELINE_COLOR = "#C46184"
 const DUR = 900
 const EASE = "cubic-bezier(0.4, 0, 0.2, 1)"
 
@@ -37,10 +35,10 @@ export function ProviderDiagram({ layout, activeQuestion, className, style }: Pr
                     {layout.paths.map((d, i) =>
                         active.has(i) ? (
                             <g key={i}>
-                                <path d={d} fill="none" strokeLinecap="round" stroke={LINE_COLOR} strokeWidth={2} opacity={0.9} />
+                                <path d={d} fill="none" strokeLinecap="round" className="stroke-brand-500" strokeWidth={2} opacity={0.9} />
 
                                 {/* Outbound query */}
-                                <circle r="3.5" fill="#FFE5F0" stroke={BASELINE_COLOR} strokeWidth="1" fillOpacity={0.5} strokeOpacity={0.5}>
+                                <circle r="3.5" className="fill-brand-100 stroke-brand-400" strokeWidth="1" fillOpacity={0.5} strokeOpacity={0.5}>
                                     <animate attributeName="opacity" values="0;0;1;1;0;0"
                                         keyTimes="0;0.249;0.25;0.499;0.5;1" dur={cycleDur} repeatCount="1" fill="freeze" />
                                     <animateMotion path={d} dur={cycleDur}
@@ -49,7 +47,7 @@ export function ProviderDiagram({ layout, activeQuestion, className, style }: Pr
                                 </circle>
 
                                 {/* Returning answer */}
-                                <circle r="3.5" fill="#FFFFFF" stroke={BASELINE_COLOR} strokeWidth="1">
+                                <circle r="3.5" className="fill-white stroke-brand-400" strokeWidth="1">
                                     <animate attributeName="opacity" values="0;0;1;1;0;0"
                                         keyTimes="0;0.499;0.5;0.749;0.75;1" dur={cycleDur} repeatCount="1" fill="freeze" />
                                     <animateMotion path={d} dur={cycleDur}
@@ -94,7 +92,7 @@ const Baselines = memo(function Baselines({ paths }: { paths: string[] }) {
         <>
             {paths.map((d, i) => (
                 <path key={i} d={d} fill="none" strokeLinecap="round"
-                    stroke={BASELINE_COLOR} strokeOpacity={0.2} strokeWidth={1} strokeDasharray="3 4" />
+                    className="stroke-brand-400" strokeOpacity={0.2} strokeWidth={1} strokeDasharray="3 4" />
             ))}
         </>
     )

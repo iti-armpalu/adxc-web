@@ -25,13 +25,13 @@ export function ConnectingLine({ activeQuestion, width = 64, vertical = false }:
                 >
                     <line
                         x1="12" y1="0" x2="12" y2={height}
-                        stroke="#B44774"
+                        className="stroke-brand-500"
                         strokeWidth={2}
                         strokeLinecap="round"
                     />
 
                     {/* Empty dot going down */}
-                    <circle r="3.5" cx="12" fill="#FFE5F0" stroke="#C46184" strokeWidth="1" fillOpacity={0.5} strokeOpacity={0.5}>
+                    <circle r="3.5" cx="12" className="fill-brand-100 stroke-brand-400" strokeWidth="1" fillOpacity={0.5} strokeOpacity={0.5}>
                         <animate attributeName="cy" values={`0;${height};${height}`} keyTimes="0;0.25;1"
                             dur={`${dur}s`} repeatCount="1" fill="freeze" />
                         <animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.249;0.25;1"
@@ -39,7 +39,7 @@ export function ConnectingLine({ activeQuestion, width = 64, vertical = false }:
                     </circle>
 
                     {/* Filled dot going up */}
-                    <circle r="3.5" cx="12" fill="#FFFFFF" stroke="#C46184" strokeWidth="1">
+                    <circle r="3.5" cx="12" className="fill-white stroke-brand-400" strokeWidth="1">
                         <animate attributeName="cy" values={`${height};${height};0;0`} keyTimes="0;0.75;1;1"
                             dur={`${dur}s`} repeatCount="1" fill="freeze" />
                         <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.749;0.75;0.999;1"
@@ -61,18 +61,17 @@ export function ConnectingLine({ activeQuestion, width = 64, vertical = false }:
             >
                 <line
                     x1="0" y1="12" x2={width} y2="12"
-                    stroke="#B44774" 
+                    className="stroke-brand-500"
                     strokeWidth={2}
                     strokeLinecap="round"
                 />
-                {/* <circle r="3.5" cy="12" fill="#FFE5F0"> */}
-                <circle r="3.5" cy="12" fill="#FFE5F0" stroke="#C46184" strokeWidth="1" fillOpacity={0.5} strokeOpacity={0.5}>
+                <circle r="3.5" cy="12" className="fill-brand-100 stroke-brand-400" strokeWidth="1" fillOpacity={0.5} strokeOpacity={0.5}>
                     <animate attributeName="cx" values={`0;${width};${width}`} keyTimes="0;0.25;1"
                         dur={`${dur}s`} repeatCount="1" fill="freeze" />
                     <animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.249;0.25;1"
                         dur={`${dur}s`} repeatCount="1" fill="freeze" />
                 </circle>
-                <circle r="3.5" cy="12" fill="#FFFFFF" stroke="#C46184" strokeWidth="1">
+                <circle r="3.5" cy="12" className="fill-white stroke-brand-400" strokeWidth="1">
                     <animate attributeName="cx" values={`${width};${width};0;0`} keyTimes="0;0.75;1;1"
                         dur={`${dur}s`} repeatCount="1" fill="freeze" />
                     <animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.749;0.75;0.999;1"

@@ -1,8 +1,8 @@
 // Default (home) hero colours — also used by the home graphic's HeroCut
 export const HERO_COLORS = {
-    from: "#66023C",
-    to: "#32002B",
-    glow: "#C46184",
+    from: "var(--color-brand-700)",
+    to: "var(--color-brand-900)",
+    glow: "var(--color-brand-400)",
 }
 
 type HeroBackgroundProps = {
