@@ -1,5 +1,3 @@
-import Image from "next/image"
-
 const DEFAULT_SIZE = 120
 const DEFAULT_RING = 6
 
@@ -30,7 +28,8 @@ export function AdxcUnit({ size = DEFAULT_SIZE, ring = DEFAULT_RING }: AdxcUnitP
                 className="relative rounded-full border-4 bg-background flex items-center justify-center shadow-2xl"
                 style={{ width: size, height: size, borderColor: brandColor }}
             >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                     src="/adxc-logo-primary-stacked.svg"
                     alt="ADXC"
                     width={logoSize}

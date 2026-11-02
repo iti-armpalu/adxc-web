@@ -1,7 +1,7 @@
 "use client"
 
-import Image from "next/image"
 import { QUESTION_PROVIDERS, STEP_MS } from "./constants"
+import { ProviderLogo } from "./provider-logo"
 import type { ProviderDot } from "./types"
 
 // Mobile layout — wide shallow grid, ADXC above, lines fan downward
@@ -20,6 +20,8 @@ const PROVIDERS: ProviderDot[] = [
     { x: 88, y: 75, size: 54, color: "var(--color-orange-700)" },
 ]
 
+// Design-space size. The grid renders at up to this width and scales down
+// proportionally (viewBox + % sizing) so it never overflows narrow phones.
 const WIDTH = 350
 const HEIGHT = 220
 const BALL_CX = WIDTH / 2
@@ -39,22 +41,19 @@ export function DataProvidersMobile({ activeQuestion }: Props) {
 
     return (
         <div
-            className="relative shrink-0 mx-auto"
-            style={{ width: WIDTH, height: HEIGHT }}
+            className="relative w-full max-w-[350px] mx-auto aspect-[350/220]"
             aria-label="Data providers"
         >
             <svg
                 key={activeQuestion}
-                className="absolute inset-0 overflow-visible pointer-events-none"
-                width={WIDTH}
-                height={HEIGHT}
+                className="absolute inset-0 w-full h-full overflow-visible pointer-events-none"
+                viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
             >
                 {PROVIDERS.map((p, i) => {
                     const cx = (p.x / 100) * WIDTH
                     const cy = (p.y / 100) * HEIGHT
                     const isActive = active.has(i)
                     const r = p.size / 2
-                    const color = p.logo ? "var(--color-neutral-400)" : (p.color ?? "var(--color-brand-400)")
 
                     const isTop = i < TOP_COUNT
                     let angle: number
@@ -126,25 +125,19 @@ export function DataProvidersMobile({ activeQuestion }: Props) {
                 return (
                     <div
                         key={i}
-                        className="absolute rounded-full flex items-center justify-center overflow-hidden"
+                        className="absolute aspect-square rounded-full flex items-center justify-center overflow-hidden"
                         style={{
                             left: `${p.x}%`,
                             top: `${p.y}%`,
-                            width: p.size,
-                            height: p.size,
+                            width: `${(p.size / WIDTH) * 100}%`,
                             transform: `translate(-50%, -50%) scale(${isActive ? 1.05 : 1})`,
                             transition: `transform ${DUR}ms ${EASE}`,
-                            willChange: "transform",
                             backgroundColor: p.logo ? "transparent" : color,
                             opacity: isActive ? 1 : 0.35,
                             boxShadow: isActive && !p.logo ? `0 0 20px oklch(from ${color} l c h / 0.5)` : "none",
                         }}
                     >
-                        {p.logo ? (
-                            <Image src={p.logo} alt={p.label ?? ""}
-                                width={p.size} height={p.size}
-                                className="rounded-full object-cover w-full h-full" />
-                        ) : null}
+                        {p.logo ? <ProviderLogo src={p.logo} alt={p.label ?? ""} size={p.size} /> : null}
                     </div>
                 )
             })}

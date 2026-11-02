@@ -20,15 +20,18 @@ interface QuestionCarouselProps {
     onPillWidth?: (width: number) => void
     visible?: number
     highlightIndex?: number
+    paused?: boolean
+    fadeMask?: boolean  // edge fade via mask-image; off on mobile (costly repaint on iOS)
 }
 
-export function QuestionCarousel({ step, onStep, onPillWidth, visible = 5, highlightIndex = 2, }: QuestionCarouselProps) {
+export function QuestionCarousel({ step, onStep, onPillWidth, visible = 5, highlightIndex = 2, paused = false, fadeMask = true }: QuestionCarouselProps) {
     const highlightRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
+        if (paused) return
         const id = setInterval(() => onStep(step - 1), STEP_MS)
         return () => clearInterval(id)
-    }, [step, onStep])
+    }, [step, onStep, paused])
 
     // Measure highlighted pill width after render and on resize
     const measure = useCallback(() => {
@@ -59,7 +62,7 @@ export function QuestionCarousel({ step, onStep, onPillWidth, visible = 5, highl
         >
             <div
                 className="absolute inset-0"
-                style={{ WebkitMaskImage: FADE_MASK, maskImage: FADE_MASK }}
+                style={fadeMask ? { WebkitMaskImage: FADE_MASK, maskImage: FADE_MASK } : undefined}
             >
                 {items.map(({ q, pos, key }) => {
                     const distance = pos - highlightIndex
@@ -89,7 +92,7 @@ export function QuestionCarousel({ step, onStep, onPillWidth, visible = 5, highl
                                 ref={isHighlight ? highlightRef : undefined}
                                 className={cn(
                                     "pl-1.5 pr-3 py-1.5 rounded-full border-1 bg-background text-xs font-medium text-foreground",
-                                    "flex items-center gap-2",
+                                    "flex items-center gap-2 max-w-full",
                                     "whitespace-normal lg:whitespace-nowrap",
                                     "transition-colors duration-1000 ease-out",
                                     isHighlight ? "border-brand-900 shadow-lg" : "border-border"
@@ -103,7 +106,7 @@ export function QuestionCarousel({ step, onStep, onPillWidth, visible = 5, highl
                                 >
                                     {initial(q.name)}
                                 </span>
-                                <span className="lg:max-w-[220px] xl:max-w-none truncate text-brand-900 font-semibold">{q.text}</span>
+                                <span className="min-w-0 lg:max-w-[220px] xl:max-w-none truncate text-brand-900 font-semibold">{q.text}</span>
                                 <span
                                     className={cn(
                                         "ml-1 flex h-6 w-6 items-center justify-center rounded-full border transition-colors duration-500 shrink-0",

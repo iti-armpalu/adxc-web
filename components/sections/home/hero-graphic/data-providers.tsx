@@ -1,7 +1,7 @@
 "use client"
 
-import Image from "next/image"
 import { PROVIDER_DOTS, QUESTION_PROVIDERS, STEP_MS } from "./constants"
+import { ProviderLogo } from "./provider-logo"
 
 const BASE_WIDTH = 240
 const BASE_HEIGHT = 380
@@ -101,16 +101,12 @@ export function DataProviders({ activeQuestion, scale = 1 }: DataProvidersProps)
                             width: p.size * scale, height: p.size * scale,
                             transform: `translate(-50%, -50%) scale(${isActive ? 1.05 : 1})`,
                             transition: `transform ${DUR}ms ${EASE}`,
-                            willChange: "transform",
                             backgroundColor: p.logo ? "transparent" : color,
                             opacity: isActive ? 1 : 0.35,
                             boxShadow: isActive && !p.logo ? `0 0 20px oklch(from ${color} l c h / 0.5)` : "none",
                         }}
                     >
-                        {p.logo ? (
-                            <Image src={p.logo} alt={p.label ?? ""} width={p.size} height={p.size}
-                                className="rounded-full object-cover w-full h-full" />
-                        ) : null}
+                        {p.logo ? <ProviderLogo src={p.logo} alt={p.label ?? ""} size={p.size} /> : null}
                     </div>
                 )
             })}
