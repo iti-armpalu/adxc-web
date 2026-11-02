@@ -6,8 +6,8 @@ import SectionLabel from "./section-label"
 import { QuestionCarousel, carouselHeight } from "./question-carousel"
 import { ConnectingLine, VERTICAL_LINE_H } from "./connecting-line"
 import { AdxcUnit, ADXC_DEFAULT_SIZE, ADXC_PAD } from "./adxc-unit"
-import { DataProviders, BASE_WIDTH, BASE_HEIGHT } from "./data-providers"
-import { DataProvidersMobile } from "./data-providers-mobile"
+import { ProviderDiagram } from "./provider-diagram"
+import { HORIZONTAL_BASE, VERTICAL_LAYOUT, horizontalLayout } from "./provider-layouts"
 import { HeroCut } from "./hero-cut"
 import { QUESTIONS } from "./constants"
 
@@ -38,8 +38,8 @@ const DESKTOP_SIZES = {
 
 // Row is centred in its column; pivot x is relative to that centre, y to the row top.
 function desktopGeometry({ carousel, adxc, dataScale }: (typeof DESKTOP_SIZES)["md"]) {
-    const providersW = Math.round(BASE_WIDTH * dataScale)
-    const providersH = Math.round(BASE_HEIGHT * dataScale)
+    const providersW = Math.round(HORIZONTAL_BASE.width * dataScale)
+    const providersH = Math.round(HORIZONTAL_BASE.height * dataScale)
     const rowW = carousel + LINE_W + ADXC_PAD + adxc + PROVIDERS_GAP + providersW
     const rowH = Math.max(carouselHeight(5), providersH, adxc)
     return {
@@ -193,7 +193,11 @@ function MobileGraphic({ step, onStep, activeQuestion, paused }: GraphicProps) {
             <ConnectingLine activeQuestion={activeQuestion} vertical />
             <AdxcUnit cut pad={0} />
             <div className="w-full max-w-[350px] mt-6">
-                <DataProvidersMobile activeQuestion={activeQuestion} />
+                <ProviderDiagram
+                    layout={VERTICAL_LAYOUT}
+                    activeQuestion={activeQuestion}
+                    className="w-full max-w-[350px] mx-auto aspect-[350/220]"
+                />
             </div>
             <div className="h-6 mt-3 flex items-center">
                 <SectionLabel>Data Providers</SectionLabel>
@@ -204,6 +208,7 @@ function MobileGraphic({ step, onStep, activeQuestion, paused }: GraphicProps) {
 
 function DesktopGraphic({ step, onStep, activeQuestion, paused, isXl }: GraphicProps & { isXl: boolean }) {
     const { carousel: carouselWidth, adxc: adxcSize, dataScale } = isXl ? DESKTOP_SIZES.xl : DESKTOP_SIZES.md
+    const providers = horizontalLayout(dataScale)
 
     return (
         <div className="flex items-center pointer-events-auto">
@@ -223,7 +228,12 @@ function DesktopGraphic({ step, onStep, activeQuestion, paused, isXl }: GraphicP
                     <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">
                         <SectionLabel>Data Providers</SectionLabel>
                     </div>
-                    <DataProviders activeQuestion={activeQuestion} scale={dataScale} />
+                    <ProviderDiagram
+                        layout={providers}
+                        activeQuestion={activeQuestion}
+                        className="shrink-0"
+                        style={{ width: providers.width, height: providers.height }}
+                    />
                 </div>
             </div>
         </div>
