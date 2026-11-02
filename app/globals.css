@@ -619,46 +619,36 @@
    PROJECT UTILITIES
    bg-grid / bg-grid-sm / bg-grid-lg
    Dot-grid background pattern. Square cells (--grid-size).
-   Color refs the brand-400 hex directly via oklch so no HSL
-   channel vars are needed.
+   Lines use --grid-color via oklch. Dots are one pre-generated
+   12x12-cell tile with scattered dots on intersections (no
+   visible repeat within a hero); they scale with --grid-size.
+   The dot fill in the SVG (%23CF6F94 = brand-400) must match
+   --grid-color. To regenerate the scatter, change the circle
+   cx/cy (cell units, 0-12) — keep dots off adjacent cells.
    ============================================================ */
 @layer utilities {
   .bg-grid {
     --grid-size: 112px;
     /* square cell */
-    --grid-w: var(--grid-size);
-    --grid-h: var(--grid-size);
-    --grid-dot: 4px;
     --grid-color: #CF6F94;
     /* brand-400 */
     background-image:
-      radial-gradient(circle, oklch(from var(--grid-color) l c h / 0.95) var(--grid-dot), transparent calc(var(--grid-dot) + 1px)),
-      radial-gradient(circle, oklch(from var(--grid-color) l c h / 0.90) var(--grid-dot), transparent calc(var(--grid-dot) + 1px)),
-      radial-gradient(circle, oklch(from var(--grid-color) l c h / 0.88) var(--grid-dot), transparent calc(var(--grid-dot) + 1px)),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cg fill='%23CF6F94' fill-opacity='0.92'%3E%3Ccircle cx='5' cy='2' r='0.0357'/%3E%3Ccircle cx='6' cy='10' r='0.0357'/%3E%3Ccircle cx='0' cy='1' r='0.0357'/%3E%3Ccircle cx='12' cy='1' r='0.0357'/%3E%3Ccircle cx='8' cy='1' r='0.0357'/%3E%3Ccircle cx='0' cy='8' r='0.0357'/%3E%3Ccircle cx='12' cy='8' r='0.0357'/%3E%3Ccircle cx='3' cy='0' r='0.0357'/%3E%3Ccircle cx='3' cy='12' r='0.0357'/%3E%3Ccircle cx='1' cy='6' r='0.0357'/%3E%3Ccircle cx='8' cy='6' r='0.0357'/%3E%3Ccircle cx='1' cy='3' r='0.0357'/%3E%3Ccircle cx='10' cy='10' r='0.0357'/%3E%3Ccircle cx='6' cy='0' r='0.0357'/%3E%3Ccircle cx='6' cy='12' r='0.0357'/%3E%3Ccircle cx='4' cy='6' r='0.0357'/%3E%3Ccircle cx='2' cy='8' r='0.0357'/%3E%3Ccircle cx='4' cy='8' r='0.0357'/%3E%3Ccircle cx='10' cy='2' r='0.0357'/%3E%3Ccircle cx='5' cy='4' r='0.0357'/%3E%3Ccircle cx='3' cy='2' r='0.0357'/%3E%3Ccircle cx='8' cy='9' r='0.0357'/%3E%3Ccircle cx='11' cy='5' r='0.0357'/%3E%3Ccircle cx='4' cy='10' r='0.0357'/%3E%3Ccircle cx='7' cy='4' r='0.0357'/%3E%3Ccircle cx='3' cy='4' r='0.0357'/%3E%3Ccircle cx='6' cy='7' r='0.0357'/%3E%3Ccircle cx='1' cy='11' r='0.0357'/%3E%3Ccircle cx='10' cy='7' r='0.0357'/%3E%3C/g%3E%3C/svg%3E"),
       linear-gradient(to right, oklch(from var(--grid-color) l c h / 0.25) 1px, transparent 1px),
       linear-gradient(to bottom, oklch(from var(--grid-color) l c h / 0.25) 1px, transparent 1px);
     background-size:
-      calc(var(--grid-w) * 5) calc(var(--grid-h) * 3),
-      calc(var(--grid-w) * 4) calc(var(--grid-h) * 6),
-      calc(var(--grid-w) * 7) calc(var(--grid-h) * 4),
-      var(--grid-w) var(--grid-h),
-      var(--grid-w) var(--grid-h);
-    background-position:
-      calc(var(--grid-w) * -0.5) calc(var(--grid-h) * 0.5),
-      calc(var(--grid-w) * -1.0) calc(var(--grid-h) * 1.0),
-      calc(var(--grid-w) * 0.5) calc(var(--grid-h) * -1.0),
-      0 0,
-      0 0;
+      calc(var(--grid-size) * 12) calc(var(--grid-size) * 12),
+      var(--grid-size) var(--grid-size),
+      var(--grid-size) var(--grid-size);
+    background-position: 0 0;
   }
 
   .bg-grid-sm {
     --grid-size: 80px;
-    --grid-dot: 3px;
   }
 
   .bg-grid-lg {
     --grid-size: 176px;
-    --grid-dot: 6px;
   }
 }
 
