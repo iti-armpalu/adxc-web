@@ -3,8 +3,8 @@
 import { PROVIDER_DOTS, QUESTION_PROVIDERS, STEP_MS } from "./constants"
 import { ProviderLogo } from "./provider-logo"
 
-const BASE_WIDTH = 240
-const BASE_HEIGHT = 380
+export const BASE_WIDTH = 240
+export const BASE_HEIGHT = 380
 const BALL_CX_OFFSET = -110
 const BALL_R = 96
 

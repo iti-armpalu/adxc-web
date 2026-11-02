@@ -1,12 +1,16 @@
-const DEFAULT_SIZE = 120
+import { HeroCut } from "./hero-cut"
+
+export const ADXC_DEFAULT_SIZE = 120
+export const ADXC_PAD = 12 // pl-3 — offsets the circle centre 6px right of the unit's centre
 const DEFAULT_RING = 6
 
 interface AdxcUnitProps {
     size?: number
     ring?: number
+    cut?: boolean // draw the hero's dark half pivoting on this circle
 }
 
-export function AdxcUnit({ size = DEFAULT_SIZE, ring = DEFAULT_RING }: AdxcUnitProps) {
+export function AdxcUnit({ size = ADXC_DEFAULT_SIZE, ring = DEFAULT_RING, cut = false }: AdxcUnitProps) {
     const logoSize = Math.round(size * 0.4)
     const brandColor = "var(--color-brand-700)"
 
@@ -28,6 +32,7 @@ export function AdxcUnit({ size = DEFAULT_SIZE, ring = DEFAULT_RING }: AdxcUnitP
                 className="relative rounded-full border-4 bg-background flex items-center justify-center shadow-2xl"
                 style={{ width: size, height: size, borderColor: brandColor }}
             >
+                {cut && <HeroCut />}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                     src="/adxc-logo-primary-stacked.svg"

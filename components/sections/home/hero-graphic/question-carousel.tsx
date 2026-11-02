@@ -11,6 +11,8 @@ import { QUESTIONS, STEP_MS } from "./constants"
 const ARC_X = 55   
 
 const ROW_HEIGHT = 52
+
+export const carouselHeight = (visible: number) => visible * ROW_HEIGHT + 40
 const FADE_MASK =
     "linear-gradient(to bottom, transparent 0%, black 18%, black 82%, transparent 100%)"
 
@@ -58,7 +60,7 @@ export function QuestionCarousel({ step, onStep, onPillWidth, visible = 5, highl
     return (
         <div
             className="relative w-full max-w-xl mx-auto [--arc-enabled:0] lg:[--arc-enabled:1]"
-            style={{ height: visible * ROW_HEIGHT + 40 }}
+            style={{ height: carouselHeight(visible) }}
         >
             <div
                 className="absolute inset-0"

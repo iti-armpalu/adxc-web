@@ -30,8 +30,10 @@ export function HeroSection({ headlineLine1, headlineLine2, headlineLine3, subte
     // No FadeIn here on purpose: the hero is above the fold and must be visible
     // in the server HTML immediately (perceived speed + LCP).
     return (
-        <section className="relative w-full mt-header">
-            <HeroBackground />
+        // Starts at the page top (under the fixed header) and clips, so the
+        // graphic's HeroCut can extend behind the header but not past the hero.
+        <section className="relative w-full pt-header overflow-hidden">
+            <HeroBackground showCut={false} />
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 min-h-[calc(90dvh-var(--header-h))] flex flex-col justify-center py-16">
 
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-16 items-start h-full flex-1">

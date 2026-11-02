@@ -1,19 +1,29 @@
+// Default (home) hero colours — also used by the home graphic's HeroCut
+export const HERO_COLORS = {
+    from: "#66023C",
+    to: "#32002B",
+    glow: "#C46184",
+}
+
 type HeroBackgroundProps = {
     gradientFrom?: string
     gradientTo?: string
     glowColor?: string
+    // false when the page's graphic draws its own dark half (home: HeroCut)
+    showCut?: boolean
 }
 
 export function HeroBackground({
-    gradientFrom = "#66023C",
-    gradientTo = "#32002B",
-    glowColor = "#C46184",
+    gradientFrom = HERO_COLORS.from,
+    gradientTo = HERO_COLORS.to,
+    glowColor = HERO_COLORS.glow,
+    showCut = true,
 }: HeroBackgroundProps) {
     return (
         <div className="absolute inset-x-0 -top-[var(--header-h)] bottom-0 z-0 overflow-hidden pointer-events-none">
 
             {/* Linear gradient */}
-            <div
+            {showCut && <div
                 className="absolute inset-0
                 [--stop:68%] [--angle:154deg]
                 sm:[--stop:66%] sm:[--angle:140deg]
@@ -23,7 +33,7 @@ export function HeroBackground({
                 style={{
                     background: `linear-gradient(var(--angle), transparent 21%, transparent var(--stop), ${gradientFrom} var(--stop), ${gradientTo} 100%)`,
                 }}
-            />
+            />}
 
             {/* Ellipse glow
                 Previously a 600px circle with filter: blur(280px), which forces a
@@ -48,7 +58,7 @@ export function HeroBackground({
             />
 
             {/* Grid overlay — masked to dark side only */}
-            <div
+            {showCut && <div
                 className="bg-grid absolute inset-0 opacity-30
                 [--stop:70%] [--angle:154deg]
                 sm:[--stop:66%] sm:[--angle:140deg]
@@ -59,7 +69,7 @@ export function HeroBackground({
                     WebkitMaskImage: `linear-gradient(var(--angle), transparent 21%, transparent calc(var(--stop) - 10%), black var(--stop), black 100%)`,
                     maskImage: `linear-gradient(var(--angle), transparent 21%, transparent calc(var(--stop) - 10%), black var(--stop), black 100%)`,
                 }}
-            />
+            />}
 
         </div>
     )

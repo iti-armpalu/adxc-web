@@ -3,11 +3,12 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type RefObject } from "react"
 import { cn } from "@/lib/utils"
 import SectionLabel from "./section-label"
-import { QuestionCarousel } from "./question-carousel"
-import { ConnectingLine } from "./connecting-line"
-import { AdxcUnit } from "./adxc-unit"
-import { DataProviders } from "./data-providers"
+import { QuestionCarousel, carouselHeight } from "./question-carousel"
+import { ConnectingLine, VERTICAL_LINE_H } from "./connecting-line"
+import { AdxcUnit, ADXC_DEFAULT_SIZE, ADXC_PAD } from "./adxc-unit"
+import { DataProviders, BASE_WIDTH, BASE_HEIGHT } from "./data-providers"
 import { DataProvidersMobile } from "./data-providers-mobile"
+import { HeroCut } from "./hero-cut"
 import { QUESTIONS } from "./constants"
 
 type Layout = "mobile" | "md" | "xl"
@@ -16,10 +17,40 @@ const MD_QUERY = "(min-width: 768px)"
 const XL_QUERY = "(min-width: 1280px)"
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)"
 
-// Fixed-height parts of the mobile stack (everything except the provider grid,
-// which scales with width). Keep in sync with MobileGraphic:
-// label 24 + gap 12 + carousel 196 (3 rows) + line 48 + ADXC 120 + gap 24 + gap 12 + label 24
-const MOBILE_FIXED_H = 460
+// ─── Geometry ─────────────────────────────────────────────────────────────────
+// Single source for the sizes below, so the placeholder reserves the exact
+// footprint and puts the HeroCut pivot exactly where the ADXC centre will be.
+
+const LABEL_H = 24          // h-6 label rows (mobile)
+const LINE_W = 24           // horizontal ConnectingLine width (desktop)
+const PROVIDERS_GAP = 24    // ml-6 before the provider grid (desktop)
+const ADXC_LIFT = 6         // right-hand group sits 6px higher (desktop)
+
+// Mobile stack: label · 12 · carousel · line · ADXC · 24 · providers (scales) · 12 · label
+const MOBILE_ABOVE_ADXC = LABEL_H + 12 + carouselHeight(3) + VERTICAL_LINE_H
+const MOBILE_FIXED_H = MOBILE_ABOVE_ADXC + ADXC_DEFAULT_SIZE + 24 + 12 + LABEL_H
+const MOBILE_PIVOT = { x: ADXC_PAD / 2, y: MOBILE_ABOVE_ADXC + ADXC_DEFAULT_SIZE / 2 }
+
+const DESKTOP_SIZES = {
+    md: { carousel: 340, adxc: 110, dataScale: 0.75 },
+    xl: { carousel: 420, adxc: 140, dataScale: 1 },
+}
+
+// Row is centred in its column; pivot x is relative to that centre, y to the row top.
+function desktopGeometry({ carousel, adxc, dataScale }: (typeof DESKTOP_SIZES)["md"]) {
+    const providersW = Math.round(BASE_WIDTH * dataScale)
+    const providersH = Math.round(BASE_HEIGHT * dataScale)
+    const rowW = carousel + LINE_W + ADXC_PAD + adxc + PROVIDERS_GAP + providersW
+    const rowH = Math.max(carouselHeight(5), providersH, adxc)
+    return {
+        rowH,
+        pivotX: carousel + LINE_W + ADXC_PAD + adxc / 2 - rowW / 2,
+        pivotY: rowH / 2 - ADXC_LIFT,
+    }
+}
+
+const MD = desktopGeometry(DESKTOP_SIZES.md)
+const XL = desktopGeometry(DESKTOP_SIZES.xl)
 
 function subscribeMedia(queries: string[]) {
     return (onChange: () => void) => {
@@ -114,13 +145,31 @@ export function HeroGraphic() {
 }
 
 // Reserves the exact footprint of whichever layout will mount, in server HTML,
-// so the hero text doesn't shift when the graphic appears.
-// md row = carousel 300 (5 rows); xl row = providers 380.
+// so the hero text doesn't shift when the graphic appears. Also draws the
+// HeroCut at the future ADXC centre, so the dark half is right from first paint.
 function GraphicPlaceholder() {
     return (
-        <div className="w-full flex flex-col items-center md:h-[300px] xl:h-[380px]" aria-hidden>
+        <div
+            className="relative w-full flex flex-col items-center md:h-[var(--h-md)] xl:h-[var(--h-xl)]"
+            style={{ "--h-md": `${MD.rowH}px`, "--h-xl": `${XL.rowH}px` } as React.CSSProperties}
+            aria-hidden
+        >
             <div className="md:hidden" style={{ height: MOBILE_FIXED_H }} />
             <div className="md:hidden w-full max-w-[350px] aspect-[350/220]" />
+
+            <div
+                className="absolute
+                left-[calc(50%+var(--px))] top-[var(--py)]
+                md:left-[calc(50%+var(--px-md))] md:top-[var(--py-md)]
+                xl:left-[calc(50%+var(--px-xl))] xl:top-[var(--py-xl)]"
+                style={{
+                    "--px": `${MOBILE_PIVOT.x}px`, "--py": `${MOBILE_PIVOT.y}px`,
+                    "--px-md": `${MD.pivotX}px`, "--py-md": `${MD.pivotY}px`,
+                    "--px-xl": `${XL.pivotX}px`, "--py-xl": `${XL.pivotY}px`,
+                } as React.CSSProperties}
+            >
+                <HeroCut />
+            </div>
         </div>
     )
 }
@@ -142,7 +191,7 @@ function MobileGraphic({ step, onStep, activeQuestion, paused }: GraphicProps) {
                 <QuestionCarousel step={step} onStep={onStep} paused={paused} visible={3} highlightIndex={2} fadeMask={false} />
             </div>
             <ConnectingLine activeQuestion={activeQuestion} vertical />
-            <AdxcUnit />
+            <AdxcUnit cut />
             <div className="w-full max-w-[350px] mt-6">
                 <DataProvidersMobile activeQuestion={activeQuestion} />
             </div>
@@ -154,9 +203,7 @@ function MobileGraphic({ step, onStep, activeQuestion, paused }: GraphicProps) {
 }
 
 function DesktopGraphic({ step, onStep, activeQuestion, paused, isXl }: GraphicProps & { isXl: boolean }) {
-    const carouselWidth = isXl ? 420 : 340
-    const adxcSize = isXl ? 140 : 110
-    const dataScale = isXl ? 1 : 0.75
+    const { carousel: carouselWidth, adxc: adxcSize, dataScale } = isXl ? DESKTOP_SIZES.xl : DESKTOP_SIZES.md
 
     return (
         <div className="flex items-center pointer-events-auto">
@@ -166,10 +213,11 @@ function DesktopGraphic({ step, onStep, activeQuestion, paused, isXl }: GraphicP
                 </div>
                 <QuestionCarousel step={step} onStep={onStep} paused={paused} visible={5} highlightIndex={2} />
             </div>
-            <div className="-translate-y-[6px] flex items-center pointer-events-auto">
+            {/* relative/top instead of translate: a transform would trap HeroCut's z-index */}
+            <div className="relative flex items-center pointer-events-auto" style={{ top: -ADXC_LIFT }}>
                 <ConnectingLine activeQuestion={activeQuestion} width={24} />
                 <div className="relative">
-                    <AdxcUnit size={adxcSize} />
+                    <AdxcUnit size={adxcSize} cut />
                 </div>
                 <div className="ml-6 relative">
                     <div className="absolute -top-16 left-1/2 -translate-x-1/2 z-10">

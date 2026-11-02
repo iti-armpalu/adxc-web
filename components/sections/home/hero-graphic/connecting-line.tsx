@@ -2,6 +2,8 @@
 
 import { STEP_MS } from "./constants"
 
+export const VERTICAL_LINE_H = 48
+
 interface ConnectingLineProps {
     activeQuestion: number
     width?: number
@@ -12,7 +14,7 @@ export function ConnectingLine({ activeQuestion, width = 64, vertical = false }:
     const dur = (STEP_MS * 0.9) / 1000
 
     if (vertical) {
-        const height = 48
+        const height = VERTICAL_LINE_H
         return (
             <div className="relative shrink-0 mx-auto" style={{ width: 24, height }} aria-hidden>
                 <svg
