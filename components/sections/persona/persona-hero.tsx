@@ -116,7 +116,6 @@ export function PersonaHero({
                 </div>
 
                 {/* Illustration — desktop only */}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                     src={theme.illustration}
                     alt=""

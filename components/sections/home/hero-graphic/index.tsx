@@ -122,6 +122,16 @@ export function HeroGraphic() {
     const { seen, inView } = useNearViewport(ref)
 
     const playing = inView && pageVisible && !reducedMotion
+
+    // Each resume replays the current step's one-shot animations (dots, line pulse);
+    // otherwise nothing moves until the next step. Adjusting state during render
+    // (not in an effect) is React's recommended pattern for this.
+    const [replay, setReplay] = useState(0)
+    const [wasPlaying, setWasPlaying] = useState(playing)
+    if (playing !== wasPlaying) {
+        setWasPlaying(playing)
+        if (playing) setReplay((r) => r + 1)
+    }
     const ready = layout !== null && seen
 
     return (
@@ -136,9 +146,9 @@ export function HeroGraphic() {
             {!ready ? (
                 <GraphicPlaceholder />
             ) : layout === "mobile" ? (
-                <MobileGraphic step={step} onStep={setStep} activeQuestion={activeQuestion} paused={!playing} />
+                <MobileGraphic step={step} onStep={setStep} activeQuestion={activeQuestion} replay={replay} paused={!playing} />
             ) : (
-                <DesktopGraphic step={step} onStep={setStep} activeQuestion={activeQuestion} paused={!playing} isXl={layout === "xl"} />
+                <DesktopGraphic step={step} onStep={setStep} activeQuestion={activeQuestion} replay={replay} paused={!playing} isXl={layout === "xl"} />
             )}
         </div>
     )
@@ -178,10 +188,11 @@ interface GraphicProps {
     step: number
     onStep: (next: number) => void
     activeQuestion: number
+    replay: number
     paused: boolean
 }
 
-function MobileGraphic({ step, onStep, activeQuestion, paused }: GraphicProps) {
+function MobileGraphic({ step, onStep, activeQuestion, replay, paused }: GraphicProps) {
     return (
         <div className="flex flex-col items-center pointer-events-auto w-full">
             <div className="h-6 flex items-center">
@@ -190,12 +201,13 @@ function MobileGraphic({ step, onStep, activeQuestion, paused }: GraphicProps) {
             <div className="w-full max-w-xl mt-3">
                 <QuestionCarousel step={step} onStep={onStep} paused={paused} visible={3} highlightIndex={2} fadeMask={false} />
             </div>
-            <ConnectingLine activeQuestion={activeQuestion} vertical />
+            <ConnectingLine activeQuestion={activeQuestion} replay={replay} vertical />
             <AdxcUnit cut pad={0} />
             <div className="w-full max-w-[350px] mt-6">
                 <ProviderDiagram
                     layout={VERTICAL_LAYOUT}
                     activeQuestion={activeQuestion}
+                    replay={replay}
                     className="w-full max-w-[350px] mx-auto aspect-[350/220]"
                 />
             </div>
@@ -206,7 +218,7 @@ function MobileGraphic({ step, onStep, activeQuestion, paused }: GraphicProps) {
     )
 }
 
-function DesktopGraphic({ step, onStep, activeQuestion, paused, isXl }: GraphicProps & { isXl: boolean }) {
+function DesktopGraphic({ step, onStep, activeQuestion, replay, paused, isXl }: GraphicProps & { isXl: boolean }) {
     const { carousel: carouselWidth, adxc: adxcSize, dataScale } = isXl ? DESKTOP_SIZES.xl : DESKTOP_SIZES.md
     const providers = horizontalLayout(dataScale)
 
@@ -220,7 +232,7 @@ function DesktopGraphic({ step, onStep, activeQuestion, paused, isXl }: GraphicP
             </div>
             {/* relative/top instead of translate: a transform would trap HeroCut's z-index */}
             <div className="relative flex items-center pointer-events-auto" style={{ top: -ADXC_LIFT }}>
-                <ConnectingLine activeQuestion={activeQuestion} width={24} />
+                <ConnectingLine activeQuestion={activeQuestion} replay={replay} width={24} />
                 <div className="relative">
                     <AdxcUnit size={adxcSize} cut />
                 </div>
@@ -231,6 +243,7 @@ function DesktopGraphic({ step, onStep, activeQuestion, paused, isXl }: GraphicP
                     <ProviderDiagram
                         layout={providers}
                         activeQuestion={activeQuestion}
+                        replay={replay}
                         className="shrink-0"
                         style={{ width: providers.width, height: providers.height }}
                     />

@@ -12,26 +12,37 @@ const EASE = "cubic-bezier(0.4, 0, 0.2, 1)"
 interface ProviderDiagramProps {
     layout: ProviderLayout
     activeQuestion: number
+    replay?: number // bump to restart the one-shot animation (e.g. on resume)
     className?: string
     style?: CSSProperties
 }
 
 // Shared renderer for the horizontal (desktop) and vertical (mobile) provider diagrams.
-export function ProviderDiagram({ layout, activeQuestion, className, style }: ProviderDiagramProps) {
+export function ProviderDiagram({ layout, activeQuestion, replay = 0, className, style }: ProviderDiagramProps) {
     const idx = ((activeQuestion % QUESTION_PROVIDERS.length) + QUESTION_PROVIDERS.length) % QUESTION_PROVIDERS.length
     const active = new Set(QUESTION_PROVIDERS[idx])
     const cycleDur = `${(STEP_MS * 0.9) / 1000}s`
 
     return (
         <div className={cn("relative", className)} style={style} aria-label="Data providers">
+            {/* Static dashed guides — mounted once */}
             <svg
                 className="absolute inset-0 w-full h-full overflow-visible pointer-events-none"
                 viewBox={`0 0 ${layout.width} ${layout.height}`}
             >
                 <Baselines paths={layout.paths} />
+            </svg>
 
-                {/* Re-keyed each step so the one-shot SMIL animations restart */}
-                <g key={activeQuestion}>
+            {/* Active lines + travelling dots. The whole <svg> is re-keyed each step:
+                SMIL animations run on their SVG's own clock, so only a fresh <svg>
+                restarts them (re-keying an inner <g> leaves the clock running and the
+                dots never appear after the first step). */}
+            <svg
+                key={`${activeQuestion}-${replay}`}
+                className="absolute inset-0 w-full h-full overflow-visible pointer-events-none"
+                viewBox={`0 0 ${layout.width} ${layout.height}`}
+            >
+                <g>
                     {layout.paths.map((d, i) =>
                         active.has(i) ? (
                             <g key={i}>

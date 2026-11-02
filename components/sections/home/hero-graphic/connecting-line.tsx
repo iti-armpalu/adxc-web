@@ -6,11 +6,12 @@ export const VERTICAL_LINE_H = 48
 
 interface ConnectingLineProps {
     activeQuestion: number
+    replay?: number // bump to restart the one-shot animation (e.g. on resume)
     width?: number
     vertical?: boolean
 }
 
-export function ConnectingLine({ activeQuestion, width = 64, vertical = false }: ConnectingLineProps) {
+export function ConnectingLine({ activeQuestion, replay = 0, width = 64, vertical = false }: ConnectingLineProps) {
     const dur = (STEP_MS * 0.9) / 1000
 
     if (vertical) {
@@ -18,7 +19,7 @@ export function ConnectingLine({ activeQuestion, width = 64, vertical = false }:
         return (
             <div className="relative shrink-0 mx-auto" style={{ width: 24, height }} aria-hidden>
                 <svg
-                    key={activeQuestion}
+                    key={`${activeQuestion}-${replay}`}
                     className="absolute inset-0 overflow-visible"
                     width={24}
                     height={height}
@@ -54,7 +55,7 @@ export function ConnectingLine({ activeQuestion, width = 64, vertical = false }:
     return (
         <div className="relative shrink-0" style={{ width, height: 24 }} aria-hidden>
             <svg
-                key={activeQuestion}
+                key={`${activeQuestion}-${replay}`}
                 className="absolute inset-0 overflow-visible"
                 width={width}
                 height={24}

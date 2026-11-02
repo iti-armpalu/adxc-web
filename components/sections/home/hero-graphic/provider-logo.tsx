@@ -11,7 +11,6 @@ export function ProviderLogo({ src, alt, size }: ProviderLogoProps) {
     const className = "rounded-full object-cover w-full h-full"
 
     if (src.endsWith(".svg")) {
-        // eslint-disable-next-line @next/next/no-img-element
         return <img src={src} alt={alt} width={size} height={size} className={className} />
     }
 

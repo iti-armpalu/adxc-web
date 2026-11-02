@@ -34,7 +34,6 @@ export function AdxcUnit({ size = ADXC_DEFAULT_SIZE, ring = DEFAULT_RING, cut = 
                 style={{ width: size, height: size, borderColor: brandColor }}
             >
                 {cut && <HeroCut />}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                     src="/adxc-logo-primary-stacked.svg"
                     alt="ADXC"
