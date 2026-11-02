@@ -1,12 +1,6 @@
-"use client"
-
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { HeroGraphic } from "./hero-graphic"
-import { trackHeroCtaClicked, trackHeroEmailStarted } from "@/lib/analytics/events"
 import { HeroBackground } from "./hero-background"
+import { HeroEmailCapture } from "@/components/sections/hero-email-capture"
 
 interface HeroSectionProps {
     headlineLine1: string
@@ -16,16 +10,7 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ headlineLine1, headlineLine2, headlineLine3, subtext }: HeroSectionProps) {
-    const router = useRouter()
-    const [email, setEmail] = useState("")
     const headlineLines = [headlineLine1, headlineLine2, headlineLine3].filter(Boolean)
-
-    const handleSubmit = () => {
-        trackHeroCtaClicked(email)
-        if (email) {
-            router.push(`/early-access?email=${encodeURIComponent(email)}`)
-        }
-    }
 
     // No FadeIn here on purpose: the hero is above the fold and must be visible
     // in the server HTML immediately (perceived speed + LCP).
@@ -54,18 +39,7 @@ export function HeroSection({ headlineLine1, headlineLine2, headlineLine3, subte
                             </p>
                         </div>
 
-                        <div className="flex flex-col gap-3 max-w-xs">
-                            <Input
-                                type="email"
-                                placeholder="Enter your email..."
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                onFocus={trackHeroEmailStarted}
-                            />
-                            <Button size="xl" onClick={handleSubmit}>
-                                Get early access
-                            </Button>
-                        </div>
+                        <HeroEmailCapture homeHero />
                     </div>
 
                     {/* Right — graphic, centred in its column */}

@@ -1,10 +1,5 @@
-"use client"
-
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { FadeIn } from "@/components/ui/fade-in"
+import { HeroEmailCapture } from "@/components/sections/hero-email-capture"
 import { cn } from "@/lib/utils"
 import { HeroBackground } from "@/components/sections/home/hero-background"
 
@@ -65,7 +60,8 @@ interface PersonaHeroProps {
     headlineLine3?: string
     subtext: string
     // Default: the email goes to /early-access. With a handoff, it's passed to the
-    // page's own form instead and the page scrolls to it.
+    // page's own form instead and the page scrolls to it. Contains a function, so
+    // only pages whose parent is a client component (AI Platforms, Data Providers) can pass it.
     emailHandoff?: {
         buttonLabel: string
         scrollToId: string
@@ -83,19 +79,7 @@ export function PersonaHero({
     emailHandoff,
 }: PersonaHeroProps) {
     const theme = THEMES[persona]
-    const router = useRouter()
-    const [email, setEmail] = useState("")
     const headlineLines = [headlineLine1, headlineLine2, headlineLine3].filter(Boolean)
-
-    const handleSubmit = () => {
-        if (emailHandoff) {
-            emailHandoff.onSubmit(email)
-            setEmail("")
-            document.getElementById(emailHandoff.scrollToId)?.scrollIntoView({ behavior: "smooth" })
-            return
-        }
-        router.push(email ? `/early-access?email=${encodeURIComponent(email)}` : "/early-access")
-    }
 
     return (
         <FadeIn>
@@ -122,17 +106,11 @@ export function PersonaHero({
                                 <p className="text-lg text-foreground leading-relaxed max-w-md">{subtext}</p>
                             </div>
 
-                            <div className="flex flex-col gap-3 max-w-xs">
-                                <Input
-                                    type="email"
-                                    placeholder="Enter your email..."
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
-                                <Button size="xl" onClick={handleSubmit} className="shrink-0">
-                                    {emailHandoff?.buttonLabel ?? "Get early access"}
-                                </Button>
-                            </div>
+                            <HeroEmailCapture
+                                buttonLabel={emailHandoff?.buttonLabel}
+                                buttonClassName="shrink-0"
+                                handoff={emailHandoff && { scrollToId: emailHandoff.scrollToId, onSubmit: emailHandoff.onSubmit }}
+                            />
                         </div>
                     </div>
                 </div>
