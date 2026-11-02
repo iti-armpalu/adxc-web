@@ -618,16 +618,16 @@
 /* ============================================================
    PROJECT UTILITIES
    bg-grid / bg-grid-sm / bg-grid-lg
-   Dot-grid background pattern. Rectangular cells (wider than
-   tall). Color refs the brand-400 hex directly via oklch so
-   no HSL channel vars are needed.
+   Dot-grid background pattern. Square cells (--grid-size).
+   Color refs the brand-400 hex directly via oklch so no HSL
+   channel vars are needed.
    ============================================================ */
 @layer utilities {
   .bg-grid {
-    --grid-w: 112px;
-    /* cell width  — wider for rectangular feel */
-    --grid-h: 64px;
-    /* cell height — shorter than width          */
+    --grid-size: 112px;
+    /* square cell */
+    --grid-w: var(--grid-size);
+    --grid-h: var(--grid-size);
     --grid-dot: 4px;
     --grid-color: #CF6F94;
     /* brand-400 */
@@ -652,14 +652,12 @@
   }
 
   .bg-grid-sm {
-    --grid-w: 80px;
-    --grid-h: 48px;
+    --grid-size: 80px;
     --grid-dot: 3px;
   }
 
   .bg-grid-lg {
-    --grid-w: 176px;
-    --grid-h: 96px;
+    --grid-size: 176px;
     --grid-dot: 6px;
   }
 }
