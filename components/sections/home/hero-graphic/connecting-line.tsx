@@ -26,7 +26,7 @@ export function ConnectingLine({ activeQuestion, width = 64, vertical = false }:
                     <line
                         x1="12" y1="0" x2="12" y2={height}
                         stroke="#B44774"
-                        strokeWidth={1}
+                        strokeWidth={2}
                         strokeLinecap="round"
                     />
 

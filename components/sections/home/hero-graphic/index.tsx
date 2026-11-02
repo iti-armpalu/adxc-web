@@ -29,7 +29,7 @@ const ADXC_LIFT = 6         // right-hand group sits 6px higher (desktop)
 // Mobile stack: label · 12 · carousel · line · ADXC · 24 · providers (scales) · 12 · label
 const MOBILE_ABOVE_ADXC = LABEL_H + 12 + carouselHeight(3) + VERTICAL_LINE_H
 const MOBILE_FIXED_H = MOBILE_ABOVE_ADXC + ADXC_DEFAULT_SIZE + 24 + 12 + LABEL_H
-const MOBILE_PIVOT = { x: ADXC_PAD / 2, y: MOBILE_ABOVE_ADXC + ADXC_DEFAULT_SIZE / 2 }
+const MOBILE_PIVOT = { x: 0, y: MOBILE_ABOVE_ADXC + ADXC_DEFAULT_SIZE / 2 }
 
 const DESKTOP_SIZES = {
     md: { carousel: 340, adxc: 110, dataScale: 0.75 },
@@ -191,7 +191,7 @@ function MobileGraphic({ step, onStep, activeQuestion, paused }: GraphicProps) {
                 <QuestionCarousel step={step} onStep={onStep} paused={paused} visible={3} highlightIndex={2} fadeMask={false} />
             </div>
             <ConnectingLine activeQuestion={activeQuestion} vertical />
-            <AdxcUnit cut />
+            <AdxcUnit cut pad={0} />
             <div className="w-full max-w-[350px] mt-6">
                 <DataProvidersMobile activeQuestion={activeQuestion} />
             </div>
