@@ -8,7 +8,12 @@ type Props = {
     className?: string
     delay?: number       // seconds — use for staggering children
     amount?: number      // 0-1 — how far into the viewport the element must come before it reveals
+    // "default": subtle 12px / 0.5s. "build": Apple-style build-in — 30px rise, 0.7s move,
+    // 0.9s fade, slow-fast-slow easing, triggers as soon as the element enters (measured on apple.com/mac).
+    variant?: "default" | "build"
 }
+
+const BUILD_EASE = "cubic-bezier(0.45, 0, 0.55, 1)"
 
 // Visible by default: the server HTML never hides content, so if JS is slow
 // (or the page is still hydrating) everything is still readable.
@@ -17,7 +22,9 @@ type Props = {
 // Uses a native IntersectionObserver + CSS transition — no framer-motion.
 type State = "static" | "hidden" | "shown"
 
-export function FadeIn({ children, className, delay = 0, amount = 0.2 }: Props) {
+export function FadeIn({ children, className, delay = 0, amount, variant = "default" }: Props) {
+    const build = variant === "build"
+    const threshold = amount ?? (build ? 0.05 : 0.2)
     const ref = useRef<HTMLDivElement>(null)
     const [state, setState] = useState<State>("static")
 
@@ -38,22 +45,32 @@ export function FadeIn({ children, className, delay = 0, amount = 0.2 }: Props) 
                     observer.disconnect()
                 }
             },
-            { rootMargin: `0px 0px -${Math.round(amount * 100)}% 0px`, threshold: 0 }
+            { rootMargin: `0px 0px -${Math.round(threshold * 100)}% 0px`, threshold: 0 }
         )
         observer.observe(el)
         return () => observer.disconnect()
-    }, [amount])
+    }, [threshold])
+
+    const transitionDelay = state === "shown" ? delay : 0
+    const style: React.CSSProperties | undefined = build
+        ? state === "static"
+            ? undefined
+            : {
+                transition: `opacity 0.9s ${BUILD_EASE} ${transitionDelay}s, transform 0.7s ${BUILD_EASE} ${transitionDelay}s`,
+                ...(state === "hidden" && { opacity: 0, transform: "translate3d(0, 30px, 0)" }),
+            }
+        : transitionDelay ? { transitionDelay: `${transitionDelay}s` } : undefined
 
     return (
         <div
             ref={ref}
             className={cn(
-                state !== "static" &&
+                !build && state !== "static" &&
                 "transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.21,0.47,0.32,0.98)]",
-                state === "hidden" && "opacity-0 translate-y-3",
+                !build && state === "hidden" && "opacity-0 translate-y-3",
                 className
             )}
-            style={state === "shown" && delay ? { transitionDelay: `${delay}s` } : undefined}
+            style={style}
         >
             {children}
         </div>

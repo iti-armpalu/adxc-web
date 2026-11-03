@@ -8,8 +8,8 @@ interface HomeProblemSectionProps {
     solution: string
 }
 
-// Normal document flow, no scroll-jacking: each block fades/slides up once as it
-// enters the viewport (FadeIn = IntersectionObserver + CSS transition, no per-frame JS).
+// Normal document flow, no scroll-jacking: each block builds in once (Apple-style
+// 30px rise + fade, see FadeIn variant="build") as it enters the viewport (FadeIn = IntersectionObserver + CSS transition, no per-frame JS).
 // All text is in the server HTML and visible without JavaScript.
 // Labels are derived here, not stored in Sanity — only the three problems are numbered.
 
@@ -60,14 +60,14 @@ export function HomeProblemSection({
                 <ol className="space-y-14 md:space-y-20">
                     {problems.map((text, i) => (
                         <li key={i}>
-                            <FadeIn delay={i * 0.08}>
+                            <FadeIn variant="build" delay={i * 0.1}>
                                 <Statement label={String(i + 1).padStart(2, "0")} text={text} />
                             </FadeIn>
                         </li>
                     ))}
                 </ol>
 
-                <FadeIn className="my-24 md:my-36 text-center">
+                <FadeIn variant="build" className="my-24 md:my-36 text-center">
                     <p
                         className="font-heading font-bold text-primary tracking-[-0.04em] leading-none"
                         style={{ fontSize: "clamp(3rem, 8vw, 6rem)" }}
@@ -76,7 +76,7 @@ export function HomeProblemSection({
                     </p>
                 </FadeIn>
 
-                <FadeIn>
+                <FadeIn variant="build">
                     <Statement text={solution} />
                 </FadeIn>
             </div>
