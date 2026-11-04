@@ -13,9 +13,10 @@ interface HomeProblemSectionProps {
 // All text is in the server HTML and visible without JavaScript.
 // Labels are derived here, not stored in Sanity — only the three problems are numbered.
 
-// Type scale: statements use text-statement (40px, just under h1); the punchline is the
-// h1 size (text-4xl) so it reads as the peak. Nothing here is bigger than the page's h1.
-const STATEMENT_CLASS = "font-heading font-medium text-brand-900 leading-[1.15] tracking-[-0.03em] text-3xl md:text-statement"
+// Type scale mirrors the home hero h1 (30px → 48px at sm): the punchline matches it at
+// every size; statements stay one step below (24px → text-statement 40px at sm).
+// Nothing here is bigger than the page's h1.
+const STATEMENT_CLASS = "font-heading font-medium text-brand-900 leading-[1.15] tracking-[-0.03em] text-2xl sm:text-statement"
 
 function Statement({ label, text }: { label?: string; text: string }) {
     return (
@@ -70,7 +71,7 @@ export function HomeProblemSection({
 
                 <FadeIn variant="build" className="my-24 md:my-32 text-center">
                     <p
-                        className="font-heading font-bold text-primary tracking-[-0.04em] leading-none text-3xl md:text-4xl"
+                        className="font-heading font-bold text-primary tracking-[-0.04em] leading-none text-3xl sm:text-4xl"
                     >
                         {punchline}
                     </p>
