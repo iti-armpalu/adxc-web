@@ -13,7 +13,7 @@ type Props = {
     variant?: "default" | "build"
 }
 
-const BUILD_EASE = "cubic-bezier(0.45, 0, 0.55, 1)"
+export const BUILD_EASE = "cubic-bezier(0.45, 0, 0.55, 1)"
 
 // Visible by default: the server HTML never hides content, so if JS is slow
 // (or the page is still hydrating) everything is still readable.
