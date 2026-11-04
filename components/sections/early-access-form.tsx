@@ -75,9 +75,9 @@ export function EarlyAccessForm({ prefillEmail }: Props) {
                 <CheckCircle className="w-10 h-10 text-success" />
                 <h3 >You're on the list!</h3>
                 <div className="text-muted-foreground max-w-sm space-y-2 text-sm leading-relaxed">
-                    <p>If selected, you get $200 in free ADXC credit, no card needed.</p>
-                    <p>We ask one thing in return: a 30-minute feedback call.</p>
-                    <p>We'll email you more details soon.</p>
+                    <p>Thanks for registering your interest. If selected, you'll get free ADXC research tokens.</p>
+                    <p>We ask one thing in return: a 20-minute feedback call.</p>
+                    <p>We'll email you more details once Beta opens.</p>
                 </div>
             </div>
         )
