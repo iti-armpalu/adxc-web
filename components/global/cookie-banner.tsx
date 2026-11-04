@@ -111,7 +111,7 @@ export function CookieBanner() {
               <Button size="sm" variant="outline" onClick={handleDeclineAll} className="flex-1">
                 Decline
               </Button>
-              <Button size="sm" variant="ghost" onClick={() => setShowManage(true)} className="flex-1">
+              <Button size="sm" variant="outline" onClick={() => setShowManage(true)} className="flex-1">
                 Manage
               </Button>
             </div>
