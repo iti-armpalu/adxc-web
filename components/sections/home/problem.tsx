@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
+import { FadeIn } from "@/components/ui/fade-in"
 
 interface HomeProblemSectionProps {
     sentenceOne: string
@@ -11,9 +12,13 @@ interface HomeProblemSectionProps {
     solution: string
 }
 
-// Pinned scroll sequence, scrubbed by scroll position: each sentence fades in while
-// rising, holds, then fades out moving up — as one block (no word-by-word reveal).
-// The first sentence is already visible when the section pins; the last never fades out.
+// Two layouts, switched with CSS at md (768px) so there's no layout shift:
+// - Phones: <ProblemStack> — normal flow, each block builds in once as it enters
+//   (FadeIn variant="build"). Reads faster on small screens than pinned slides.
+// - md+: <ProblemPinned> — pinned sequence scrubbed by scroll position: each sentence
+//   fades in while rising, holds, then fades out moving up, as one block. The first
+//   sentence is visible when the section pins; the last never fades out. Its scroll
+//   listener only runs at md+.
 //
 // Performance (mobile Safari):
 // - Scroll progress is read once per animation frame and written straight to the DOM
@@ -70,6 +75,10 @@ function Statement({ label, text }: { label?: string; text: string }) {
     )
 }
 
+const PINNED_QUERY = "(min-width: 768px)"
+
+type Slide = { label?: string; text: string; isPunchline?: boolean }
+
 export function HomeProblemSection({
     sentenceOne,
     sentenceTwo,
@@ -77,13 +86,60 @@ export function HomeProblemSection({
     punchline,
     solution,
 }: HomeProblemSectionProps) {
-    const slides = [
+    const slides: Slide[] = [
         { label: "01", text: sentenceOne },
         { label: "02", text: sentenceTwo },
         { label: "03", text: sentenceThree },
         { text: punchline, isPunchline: true },
         { text: solution },
     ]
+
+    return (
+        <>
+            <ProblemStack slides={slides} className="md:hidden" />
+            <ProblemPinned slides={slides} className="hidden md:block" />
+        </>
+    )
+}
+
+// ─── Phones: in-flow stack ────────────────────────────────────────────────────
+
+function ProblemStack({ slides, className }: { slides: Slide[]; className?: string }) {
+    const problems = slides.filter((s) => s.label)
+    const punchline = slides.find((s) => s.isPunchline)
+    const solution = slides[slides.length - 1]
+
+    return (
+        <section className={cn("relative overflow-hidden bg-brand-50", className)}>
+            <GridOverlay />
+            <div className="relative z-10 max-w-5xl mx-auto px-8 py-24">
+                <ol className="space-y-12">
+                    {problems.map((s, i) => (
+                        <li key={i}>
+                            <FadeIn variant="build" delay={i * 0.1}>
+                                <Statement label={s.label} text={s.text} />
+                            </FadeIn>
+                        </li>
+                    ))}
+                </ol>
+
+                {punchline && (
+                    <FadeIn variant="build" className="my-24">
+                        <p className={PUNCHLINE_CLASS}>{punchline.text}</p>
+                    </FadeIn>
+                )}
+
+                <FadeIn variant="build">
+                    <Statement text={solution.text} />
+                </FadeIn>
+            </div>
+        </section>
+    )
+}
+
+// ─── md+: pinned, scroll-scrubbed slides ──────────────────────────────────────
+
+function ProblemPinned({ slides, className }: { slides: Slide[]; className?: string }) {
     const count = slides.length
 
     const containerRef = useRef<HTMLElement>(null)
@@ -93,7 +149,9 @@ export function HomeProblemSection({
     useEffect(() => {
         const el = containerRef.current
         if (!el) return
+        const mql = window.matchMedia(PINNED_QUERY)
         let frame = 0
+        let attached = false
 
         const update = () => {
             frame = 0
@@ -115,20 +173,36 @@ export function HomeProblemSection({
             if (!frame) frame = requestAnimationFrame(update)
         }
 
-        onScroll()
-        window.addEventListener("scroll", onScroll, { passive: true })
-        window.addEventListener("resize", onScroll)
-        return () => {
+        // Only track scroll while this layout is shown (md+)
+        const attach = () => {
+            if (attached) return
+            attached = true
+            onScroll()
+            window.addEventListener("scroll", onScroll, { passive: true })
+            window.addEventListener("resize", onScroll)
+        }
+        const detach = () => {
+            if (!attached) return
+            attached = false
             window.removeEventListener("scroll", onScroll)
             window.removeEventListener("resize", onScroll)
             if (frame) cancelAnimationFrame(frame)
+            frame = 0
+        }
+        const onMediaChange = () => (mql.matches ? attach() : detach())
+
+        onMediaChange()
+        mql.addEventListener("change", onMediaChange)
+        return () => {
+            mql.removeEventListener("change", onMediaChange)
+            detach()
         }
     }, [count])
 
     return (
         <section
             ref={containerRef}
-            className="relative bg-brand-50"
+            className={cn("relative bg-brand-50", className)}
             style={{ height: `calc(100svh + ${count * SLIDE_VH}svh)` }}
         >
             {/* Full text for screen readers and search — the visual slides are aria-hidden */}
@@ -138,16 +212,7 @@ export function HomeProblemSection({
 
             {/* Sticky viewport — svh avoids jumps when the iOS toolbar shows/hides */}
             <div className="sticky top-0 h-svh w-full overflow-hidden flex items-center justify-center">
-                {/* Diagonal grid overlay */}
-                <div
-                    className="pointer-events-none absolute inset-0"
-                    style={{
-                        maskImage: "linear-gradient(135deg, transparent 35%, black 65%)",
-                        WebkitMaskImage: "linear-gradient(135deg, transparent 35%, black 65%)",
-                    }}
-                >
-                    <div className="absolute inset-0 bg-grid opacity-20" />
-                </div>
+                <GridOverlay />
 
                 {/* Slides stacked in one grid cell: the box is as tall as the tallest slide.
                     Server HTML shows the first sentence; scroll takes over after hydration. */}
@@ -181,5 +246,20 @@ export function HomeProblemSection({
                 </div>
             </div>
         </section>
+    )
+}
+
+// Diagonal grid overlay, masked to the lower-right
+function GridOverlay() {
+    return (
+        <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+                maskImage: "linear-gradient(135deg, transparent 35%, black 65%)",
+                WebkitMaskImage: "linear-gradient(135deg, transparent 35%, black 65%)",
+            }}
+        >
+            <div className="absolute inset-0 bg-grid opacity-20" />
+        </div>
     )
 }
