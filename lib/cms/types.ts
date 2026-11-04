@@ -34,6 +34,10 @@ export type SiteSeoContent = {
     defaultOgImage: SanityImage
 }
 
+export type SiteSettingsContent = {
+    footerDescription: string
+}
+
 // --- Home page ---
 
 export type PartnerLogoContent = {

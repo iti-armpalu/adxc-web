@@ -1,5 +1,5 @@
 import { sanityFetch } from "./client"
-import type { AboutPageContent, AudiencePageContent, BlogPost, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent } from "./types"
+import type { AboutPageContent, AudiencePageContent, BlogPost, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent, SiteSettingsContent } from "./types"
 
 const SEO_PROJECTION = `
       seo {
@@ -254,6 +254,14 @@ export async function getSiteSeo(): Promise<SiteSeoContent | null> {
   return sanityFetch(
     `*[_type == "siteSeo" && _id == "siteSeo"][0] {
       defaultOgImage
+    }`
+  )
+}
+// Site-wide settings (footer copy) — singleton, fixed _id "siteSettings"
+export async function getSiteSettings(): Promise<SiteSettingsContent | null> {
+  return sanityFetch(
+    `*[_type == "siteSettings" && _id == "siteSettings"][0] {
+      footerDescription
     }`
   )
 }

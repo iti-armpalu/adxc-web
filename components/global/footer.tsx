@@ -12,7 +12,11 @@ const legalLinks = [
     { label: "Cookie policy", href: "/legal/cookies" },
 ]
 
-export function Footer() {
+interface FooterProps {
+    description: string
+}
+
+export function Footer({ description }: FooterProps) {
     const year = new Date().getFullYear()
     const linkGroups = siteConfig.footerLinks.filter((g) => g.label !== "Legal")
 
@@ -51,7 +55,7 @@ export function Footer() {
                             />
                         </Link>
                         <p className="text-sm text-primary-foreground/80 leading-relaxed max-w-xs">
-                            {siteConfig.tagline}
+                            {description}
                         </p>
                     </div>
 
