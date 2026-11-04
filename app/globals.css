@@ -220,6 +220,9 @@
      text-2xl  = 24px  heading 3 size
      text-3xl  = 30px  heading 2 size
      text-4xl  = 48px  heading 1 size
+
+     text-statement = 40px  large statement text that sits just
+                            under h1 (e.g. home Problem section)
   ---------------------------------------------------------- */
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
@@ -229,6 +232,7 @@
   --text-2xl: 1.5rem;
   --text-3xl: 1.875rem;
   --text-4xl: 3rem;
+  --text-statement: 2.5rem;
 
   /* ----------------------------------------------------------
      BORDER RADII

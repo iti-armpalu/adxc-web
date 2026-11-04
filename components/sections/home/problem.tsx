@@ -13,8 +13,9 @@ interface HomeProblemSectionProps {
 // All text is in the server HTML and visible without JavaScript.
 // Labels are derived here, not stored in Sanity — only the three problems are numbered.
 
-const STATEMENT_CLASS = "font-heading font-medium text-brand-900 leading-[1.15] tracking-[-0.03em]"
-const STATEMENT_SIZE = { fontSize: "clamp(1.75rem, 4.5vw, 3.5rem)" }
+// Type scale: statements use text-statement (40px, just under h1); the punchline is the
+// h1 size (text-4xl) so it reads as the peak. Nothing here is bigger than the page's h1.
+const STATEMENT_CLASS = "font-heading font-medium text-brand-900 leading-[1.15] tracking-[-0.03em] text-3xl md:text-statement"
 
 function Statement({ label, text }: { label?: string; text: string }) {
     return (
@@ -27,7 +28,7 @@ function Statement({ label, text }: { label?: string; text: string }) {
             >
                 {label}
             </span>
-            <p className={STATEMENT_CLASS} style={STATEMENT_SIZE}>
+            <p className={STATEMENT_CLASS}>
                 {text}
             </p>
         </div>
@@ -56,8 +57,8 @@ export function HomeProblemSection({
                 <div className="absolute inset-0 bg-grid opacity-20" />
             </div>
 
-            <div className="relative z-10 max-w-6xl mx-auto px-8 md:px-16 py-24 md:py-36">
-                <ol className="space-y-14 md:space-y-20">
+            <div className="relative z-10 max-w-5xl mx-auto px-8 md:px-16 py-24 md:py-36">
+                <ol className="space-y-12 md:space-y-16">
                     {problems.map((text, i) => (
                         <li key={i}>
                             <FadeIn variant="build" delay={i * 0.1}>
@@ -67,10 +68,9 @@ export function HomeProblemSection({
                     ))}
                 </ol>
 
-                <FadeIn variant="build" className="my-24 md:my-36 text-center">
+                <FadeIn variant="build" className="my-24 md:my-32 text-center">
                     <p
-                        className="font-heading font-bold text-primary tracking-[-0.04em] leading-none"
-                        style={{ fontSize: "clamp(3rem, 8vw, 6rem)" }}
+                        className="font-heading font-bold text-primary tracking-[-0.04em] leading-none text-3xl md:text-4xl"
                     >
                         {punchline}
                     </p>
