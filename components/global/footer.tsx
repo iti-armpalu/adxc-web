@@ -48,7 +48,7 @@ export function Footer({ description }: FooterProps) {
                     <div className="space-y-4 sm:col-span-2 lg:col-span-1">
                         <Link href="/" className="hover:opacity-70 transition-opacity inline-block">
                             <img
-                                src="/adxc-logo-primary-horizontal.svg"
+                                src="/adxc-logo-with-tagline.svg"
                                 alt={siteConfig.name}
                                 width={149} height={41}
                                 className="h-8 w-auto brightness-0 invert"
