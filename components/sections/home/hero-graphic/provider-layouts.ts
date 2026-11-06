@@ -78,7 +78,7 @@ const VERTICAL_PROVIDERS: ProviderDot[] = [
     { x: 20, y: 40, size: 20, color: "var(--color-brand-600)" },
     { x: 54, y: 40, size: 26, color: "var(--color-cyan-700)" },
     { x: 80, y: 40, size: 22, color: "var(--color-blue-600)" },
-    { x: 96, y: 40, size: 36, label: "Data Comms", logo: "/data-comms-logo.svg" },
+    { x: 96, y: 40, size: 36, label: "Serpstat", logo: "/serpstat-icon-logo.svg" },
     // Bottom row — farther from ADXC
     { x: 18, y: 75, size: 18, color: "var(--color-orange-600)" },
     { x: 42, y: 65, size: 50, color: "var(--color-purple-600)" },

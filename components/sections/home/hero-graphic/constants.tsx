@@ -20,7 +20,7 @@ export const PROVIDER_DOTS: ProviderDot[] = [
     { x: 52, y: 62, size: 60, label: "Quid", logo: "/quid-logo-square.svg" },
     { x: 30, y: 68, size: 22, color: "var(--color-blue-600)" },
     { x: 60, y: 90, size: 54, color: "var(--color-orange-600)" },
-    { x: 32, y: 96, size: 36, label: "Data Comms", logo: "/data-comms-logo.svg" },
+    { x: 32, y: 96, size: 36, label: "Serpstat", logo: "/serpstat-icon-logo.svg" },
 ]
 
 export const PROVIDER_DOTS_HORIZONTAL: ProviderDot[] = [
@@ -32,7 +32,7 @@ export const PROVIDER_DOTS_HORIZONTAL: ProviderDot[] = [
     { x: 66, y: 75, size: 60, label: "Quid", logo: "/quid-logo-square.svg" },
     { x: 76, y: 40, size: 22, color: "var(--color-blue-600)" },
     { x: 88, y: 75, size: 54, color: "var(--color-orange-600)" },
-    { x: 96, y: 40, size: 36, label: "Data Comms", logo: "/data-comms-logo.svg" },
+    { x: 96, y: 40, size: 36, label: "Serpstat", logo: "/serpstat-icon-logo.svg" },
 ]
 
 export const QUESTION_PROVIDERS: number[][] = [
@@ -41,5 +41,5 @@ export const QUESTION_PROVIDERS: number[][] = [
     [0, 2, 6],   // barriers to purchase → YouGov, brand dot, blue dot
     [0, 4, 7],   // brand perception → YouGov, cyan dot, Reddit
     [0, 4, 3],   // messaging → YouGov, cyan dot, X
-    [2, 5, 8],   // trending → brand dot, Census, Data Comms
+    [2, 5, 8],   // trending → brand dot, Census, Serpstat
 ]
