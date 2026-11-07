@@ -43,15 +43,26 @@ export default async function PlatformPage() {
                 headlineLine3={platform.heroHeadlineLine3}
                 subtext={platform.heroSubtext}
             />
-            <PlatformOverview />
+            <PlatformOverview
+                headline={platform.overviewHeadline}
+                subtext={platform.overviewSubtext}
+                note={platform.overviewNote}
+            />
             <PlatformHowItWorks
                 headline={platform.howItWorksHeadline}
                 subtext={platform.howItWorksSubtext}
                 steps={platform.howItWorksSteps}
             />
-            <PlatformPatent />
-            <PlatformAudiences />
-            <PlatformDataProviders />
+            <PlatformPatent
+                headline={platform.patentHeadline}
+                subtext={platform.patentSubtext}
+            />
+            <PlatformAudiences headline={platform.audiencesHeadline} />
+            <PlatformDataProviders
+                label={platform.providersLabel}
+                logos={platform.providersLogos}
+                moreText={platform.providersMoreText}
+            />
         </>
     )
 }

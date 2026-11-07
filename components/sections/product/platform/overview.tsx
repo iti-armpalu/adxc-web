@@ -1,6 +1,12 @@
 import { FadeIn } from "@/components/ui/fade-in"
 
-export function PlatformOverview() {
+interface PlatformOverviewProps {
+    headline: string
+    subtext: string
+    note?: string
+}
+
+export function PlatformOverview({ headline, subtext, note }: PlatformOverviewProps) {
     return (
         <section className="bg-brand-50">
             <FadeIn>
@@ -8,18 +14,18 @@ export function PlatformOverview() {
                     <div className="max-w-3xl mx-auto space-y-8">
 
                         <h2 className="text-primary">
-                            Smart. Simple. Secure.
+                            {headline}
                         </h2>
 
                         <p className="text-lg text-foreground leading-relaxed">
-                            ADXC connects AI agents to industry-leading consumer data sources. It understands
-                            questions in context, orchestrates data retrieval across multiple sources, and
-                            returns synthesised answers. All while keeping the underlying data fully protected.
+                            {subtext}
                         </p>
 
-                        <p className="text-sm font-medium text-foreground">
-                            Patent-pending technology, built for the way AI agents work.
-                        </p>
+                        {note && (
+                            <p className="text-sm font-medium text-foreground">
+                                {note}
+                            </p>
+                        )}
 
                     </div>
                 </div>

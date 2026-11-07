@@ -195,6 +195,9 @@ export async function getPlatformPage(): Promise<PlatformPageContent | null> {
       heroHeadlineLine2,
       heroHeadlineLine3,
       heroSubtext,
+      overviewHeadline,
+      overviewSubtext,
+      overviewNote,
       howItWorksHeadline,
       howItWorksSubtext,
       howItWorksSteps[] {
@@ -204,6 +207,16 @@ export async function getPlatformPage(): Promise<PlatformPageContent | null> {
         lead,
         description
       },
+      patentHeadline,
+      patentSubtext,
+      audiencesHeadline,
+      providersLabel,
+      providersLogos[] {
+        name,
+        logo,
+        showName
+      },
+      providersMoreText,
       ${SEO_PROJECTION}
     }`
   )

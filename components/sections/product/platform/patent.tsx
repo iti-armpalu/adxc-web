@@ -1,6 +1,11 @@
 import { FadeIn } from "@/components/ui/fade-in"
 
-export function PlatformPatent() {
+interface PlatformPatentProps {
+    headline: string
+    subtext: string
+}
+
+export function PlatformPatent({ headline, subtext }: PlatformPatentProps) {
     return (
         <section className="bg-brand-50 relative overflow-hiddden">
             {/* Diagonal grid overlay */}
@@ -21,14 +26,11 @@ export function PlatformPatent() {
                     <div className="max-w-3xl mx-auto space-y-6">
 
                         <h2 className="text-primary">
-                            Patent-pending technology
+                            {headline}
                         </h2>
 
                         <p className="text-base text-muted-foreground leading-relaxed">
-                            ADXC's data orchestration platform is the subject of a US provisional patent
-                            application. The technology covers contextual task understanding, federated query
-                            execution across heterogeneous data sources, iterative completeness evaluation,
-                            and controlled output transformation.
+                            {subtext}
                         </p>
 
                     </div>

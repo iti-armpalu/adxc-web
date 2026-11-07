@@ -116,9 +116,18 @@ export interface PlatformPageContent {
     heroHeadlineLine2?: string
     heroHeadlineLine3?: string
     heroSubtext: string
+    overviewHeadline: string
+    overviewSubtext: string
+    overviewNote?: string
     howItWorksHeadline: string
     howItWorksSubtext: string
     howItWorksSteps: AudienceFeature[]
+    patentHeadline: string
+    patentSubtext: string
+    audiencesHeadline: string
+    providersLabel: string
+    providersLogos: PartnerLogoContent[]
+    providersMoreText?: string
     seo?: SeoContent
 }
 
