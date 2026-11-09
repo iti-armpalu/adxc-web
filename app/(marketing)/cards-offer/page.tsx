@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getWebSummitContent, isExpired, safeRedirectPath } from "@/lib/cms/websummit";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -125,27 +124,6 @@ export default async function CardsOfferPage() {
                                     </CardDescription>
                                 </CardContent>
                             </Card>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* FAQ — native details/summary, no JS */}
-            <section className="px-5 py-12 md:px-8 md:py-20 bg-brand-50">
-                <div className="mx-auto max-w-2xl">
-                    <h2 className="text-2xl md:text-3xl">Questions</h2>
-                    <div className="mt-6 divide-y divide-border border-y border-border">
-                        {content.faq.map((item) => (
-                            <details key={item.question} className="group">
-                                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-xs py-4 font-medium focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 [&::-webkit-details-marker]:hidden">
-                                    {item.question}
-                                    <ChevronDown
-                                        aria-hidden="true"
-                                        className="size-5 shrink-0 text-muted-foreground transition-transform group-open:rotate-180 motion-reduce:transition-none"
-                                    />
-                                </summary>
-                                <p className="pb-4 text-foreground-alt">{item.answer}</p>
-                            </details>
                         ))}
                     </div>
                 </div>
