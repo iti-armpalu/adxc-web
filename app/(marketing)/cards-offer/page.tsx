@@ -22,14 +22,13 @@ export const metadata: Metadata = {
     },
 };
 
+// `size` sets each logo's display height so they read at a similar optical size
 const partners = [
-    { name: "YouGov", logo: "/yougov-logo.svg", width: 136, height: 28 },
-    { name: "Quid", logo: "/quid-logo.svg", width: 83, height: 24 },
-    { name: "Serpstat", logo: "/serpstat-logo-1.svg", width: 222, height: 40 },
+    { name: "YouGov", logo: "/yougov-logo.svg", width: 136, height: 28, size: "h-5 sm:h-6" },
+    { name: "Quid", logo: "/quid-logo.svg", width: 83, height: 24, size: "h-5 sm:h-6" },
+    { name: "Serpstat", logo: "/serpstat-logo-1.svg", width: 222, height: 40, size: "h-5 sm:h-6" },
 ]
 
-// Gemini is a large PNG (3840×867), so it goes through next/image to be resized;
-// width/height ≈ 2× the 24px display height, at the file's real aspect ratio.
 // Josh's Miro demo (any youtube.com or youtu.be URL works).
 // The "See it in action" section is hidden when this is empty.
 const DEMO_VIDEO_URL = "https://youtu.be/NKjQbPB7ya0";
@@ -38,10 +37,16 @@ const DEMO_VIDEO_URL = "https://youtu.be/NKjQbPB7ya0";
 // entry in the About page team (Sanity); the email isn't stored there.
 const CONTACT_EMAIL = "josh@adxc.ai";
 
+// Gemini is a large PNG (3840×867), so it goes through next/image to be resized;
+// width/height ≈ 2× the 24px display height, at the file's real aspect ratio.
 const integrations = [
-    { name: "Miro", logo: "/miro-logo.svg", width: 703, height: 258 },
-    { name: "Gemini", logo: "/gemini-logo.png", width: 213, height: 48, raster: true },
+    { name: "Miro", logo: "/miro-logo.svg", width: 703, height: 258, size: "h-6 sm:h-7" },
+    { name: "Gemini", logo: "/gemini-logo.png", width: 213, height: 48, size: "h-5 sm:h-6", raster: true },
 ]
+
+const LOGO_ROW = "flex flex-col items-center gap-4 lg:flex-row lg:justify-center lg:gap-12"
+const LOGO_LABEL = "text-base text-center text-primary shrink-0 max-w-xs"
+const LOGOS = "flex flex-wrap items-center justify-center gap-x-8 gap-y-3 md:gap-x-10"
 
 // No numeric credit amounts, claim deadline or beta-access date anymore — the offer is
 // "free Beta tokens" everywhere. The tier/credits, endsAt (display) and betaAccessLabel
@@ -103,40 +108,33 @@ export default async function CardsOfferPage() {
                 </div>
             </section>
 
-            {/* Proof */}
+            {/* Proof — providers + where ADXC is available. Both rows share one layout:
+                stacked label over logos on mobile, label beside logos from lg. */}
             <section className="bg-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
-                    <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-12">
-
-                        <p className="text-base text-center text-primary shrink-0 max-w-xs">
-                            Answers from providers you already trust
-                        </p>
-
-                        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 lg:py-8 flex flex-col gap-10 lg:gap-8">
+                    <div className={LOGO_ROW}>
+                        <p className={LOGO_LABEL}>Answers from providers you already trust</p>
+                        <div className={LOGOS}>
                             {partners.map((p) => (
-                                <div key={p.name} className="flex items-center gap-2">
-                                    <img
-                                        key={p.name}
-                                        src={p.logo}
-                                        alt={p.name}
-                                        width={p.width} height={p.height}
-                                        className="h-4 sm:h-6 w-auto object-contain"
-                                    />
-                                </div>
+                                <img
+                                    key={p.name}
+                                    src={p.logo}
+                                    alt={p.name}
+                                    width={p.width}
+                                    height={p.height}
+                                    className={`${p.size} w-auto object-contain`}
+                                />
                             ))}
-                            <div className="text-sm text-muted-foreground">
+                            {/* Own line on mobile, inline with the logos from lg */}
+                            <p className="basis-full text-center text-sm text-muted-foreground lg:basis-auto">
                                 More coming soon
-                            </div>
+                            </p>
                         </div>
-
                     </div>
 
-                    {/* Available in */}
-                    <div className="mt-8 flex flex-col items-center lg:flex-row sm:justify-center gap-6 lg:gap-12">
-                        <p className="text-base text-center text-primary shrink-0 max-w-xs">
-                            Available in
-                        </p>
-                        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
+                    <div className={LOGO_ROW}>
+                        <p className={LOGO_LABEL}>Available in</p>
+                        <div className={LOGOS}>
                             {integrations.map((p) =>
                                 p.raster ? (
                                     <Image
@@ -145,7 +143,7 @@ export default async function CardsOfferPage() {
                                         alt={p.name}
                                         width={p.width}
                                         height={p.height}
-                                        className="h-4 sm:h-6 w-auto object-contain"
+                                        className={`${p.size} w-auto object-contain`}
                                     />
                                 ) : (
                                     <img
@@ -154,7 +152,7 @@ export default async function CardsOfferPage() {
                                         alt={p.name}
                                         width={p.width}
                                         height={p.height}
-                                        className="h-4 sm:h-6 w-auto object-contain"
+                                        className={`${p.size} w-auto object-contain`}
                                     />
                                 )
                             )}
