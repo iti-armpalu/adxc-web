@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 const partners = [
     { name: "YouGov", logo: "/yougov-logo.svg", width: 136, height: 28 },
     { name: "Quid", logo: "/quid-logo.svg", width: 83, height: 24 },
+    { name: "Serpstat", logo: "/serpstat-logo-1.svg", width: 222, height: 40 },
 ]
 
 // No numeric credit amounts, claim deadline or beta-access date anymore — the offer is
