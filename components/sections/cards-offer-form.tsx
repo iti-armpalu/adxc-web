@@ -90,7 +90,8 @@ export function CardsOfferForm({ ctaLabel = "Claim your credits", microcopy }: P
             <input type="hidden" name="turnstileToken" value={turnstileToken} />
 
             {/* First name + Last name */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Names side by side at every size — saves a row on phones */}
+            <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                     <Label>
                         First name <span className="text-destructive">*</span>

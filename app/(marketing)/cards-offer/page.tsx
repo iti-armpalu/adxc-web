@@ -66,14 +66,14 @@ export default async function CardsOfferPage({ searchParams }: Props) {
                 {/* Hero + form — must fit the first mobile screen */}
                 {/* <section className="px-5 pb-12 pt-2 md:px-8 md:pb-20 md:pt-12"> */}
                 {/* <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-[1fr_minmax(0,26rem)] md:items-start md:gap-16"> */}
-                <div className="relative z-10 mx-auto grid max-w-5xl gap-6 md:grid-cols-[1fr_minmax(0,26rem)] min-h-[calc(90dvh-var(--header-h))] md:items-start md:gap-16 flex items-center py-16">
-                    <div className="md:pt-8">
+                <div className="relative z-10 mx-auto grid max-w-5xl gap-6 px-5 pt-8 pb-12 sm:px-6 md:px-8 lg:grid-cols-[1fr_minmax(0,26rem)] lg:items-start lg:gap-16 lg:min-h-[calc(90dvh-var(--header-h))] lg:py-16">
+                    <div className="lg:pt-8">
                         <h1 className="text-3xl leading-[1.1] text-balance md:text-4xl md:leading-none">{headline}</h1>
                         <p className="mt-3 max-w-xl text-base text-foreground-alt md:mt-6 md:text-lg">{content.subhead}</p>
                     </div>
 
                     {/* Form — id="claim" is the target of the repeat CTA button below */}
-                    <div id="claim" className="bg-card border border-border rounded-lg p-6 sm:p-8 scroll-mt-24">
+                    <div id="claim" className="bg-card border border-border rounded-lg p-5 sm:p-8 scroll-mt-24">
                         <CardsOfferForm ctaLabel={content.ctaLabel} microcopy={microcopy} />
                     </div>
                 </div>
