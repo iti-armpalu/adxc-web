@@ -3,7 +3,9 @@ import { redirect } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getWebSummitContent, isExpired, safeRedirectPath } from "@/lib/cms/websummit";
-import { getHome } from "@/lib/cms/queries";
+import { getAboutPage, getHome } from "@/lib/cms/queries";
+import { urlFor } from "@/lib/cms/image";
+import { ContactCard } from "@/components/sections/contact-card";
 import { PlatformSection } from "@/components/sections/home/platform";
 import { YouTubeEmbed } from "@/components/sections/youtube-embed";
 import { getYouTubeId } from "@/lib/youtube";
@@ -32,6 +34,10 @@ const partners = [
 // The "See it in action" section is hidden when this is empty.
 const DEMO_VIDEO_URL = "https://youtu.be/NKjQbPB7ya0";
 
+// Contact alternative to the form. Name, title, photo and LinkedIn come from Josh's
+// entry in the About page team (Sanity); the email isn't stored there.
+const CONTACT_EMAIL = "josh@adxc.ai";
+
 const integrations = [
     { name: "Miro", logo: "/miro-logo.svg", width: 703, height: 258 },
     { name: "Gemini", logo: "/gemini-logo.png", width: 213, height: 48, raster: true },
@@ -42,12 +48,13 @@ const integrations = [
 // fields still exist in the Sanity schema but aren't shown here.
 export default async function CardsOfferPage() {
     // "How it works" reuses the home page platform section and its Sanity content
-    const [content, home] = await Promise.all([getWebSummitContent(), getHome()]);
+    const [content, home, about] = await Promise.all([getWebSummitContent(), getHome(), getAboutPage()]);
 
     if (isExpired(content)) redirect(safeRedirectPath(content.expiredRedirect));
 
     const headline = content.headline;
     const demoVideoId = getYouTubeId(DEMO_VIDEO_URL);
+    const josh = about?.team?.find((p) => p.name.toLowerCase().startsWith("josh"));
     const microcopy = "No card needed.";
 
     return (
@@ -78,6 +85,15 @@ export default async function CardsOfferPage() {
                     <div className="lg:pt-8">
                         <h1 className="text-3xl leading-[1.1] text-balance md:text-4xl md:leading-none">{headline}</h1>
                         <p className="mt-3 max-w-xl text-base text-foreground-alt md:mt-6 md:text-lg">{content.subhead}</p>
+                        <div className="mt-6 md:mt-8">
+                            <ContactCard
+                                name={josh?.name ?? "Josh"}
+                                title={josh?.title}
+                                email={CONTACT_EMAIL}
+                                linkedin={josh?.linkedin}
+                                photoUrl={josh?.photo ? urlFor(josh.photo).width(112).height(112).fit("crop").url() : undefined}
+                            />
+                        </div>
                     </div>
 
                     {/* Form — id="claim" is the target of the repeat CTA button below */}
