@@ -9,8 +9,8 @@ export type WebSummitContent = {
     subhead: string;
     creditsDefault: number;
     tiers: WebSummitTier[];
-    endsAt: string; // ISO datetime — claim deadline and page expiry
-    betaAccessLabel: string; // e.g. "mid-November"
+    endsAt: string; // ISO datetime — page expiry only (no claim deadline is shown)
+    betaAccessLabel: string; // no longer shown on the page
     ctaLabel: string;
     steps: { title: string; body: string }[];
     example: { question: string; price: string; abstract: string; sources: string[] };
@@ -94,7 +94,6 @@ export const WEBSUMMIT_FALLBACK: WebSummitContent = {
             answer:
                 "We add you to the beta list. When access opens, you'll get an email from ADXC with your login details and your free Beta tokens ready to use.",
         },
-        { question: "When do I get access?", answer: "Beta access rolls out from mid-November." },
         {
             question: "Do I need Miro?",
             answer: "Yes. The beta runs inside Miro, so you'll need a Miro account to ask questions.",

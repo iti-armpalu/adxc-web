@@ -32,7 +32,7 @@ const initialState: CardsOfferState = { status: "idle" }
 type Props = {
     /** Button label, e.g. content.ctaLabel from the CMS */
     ctaLabel?: string
-    /** Small print under the button, e.g. "No card needed. Claim by 20 November." */
+    /** Small print under the button, e.g. "No card needed." */
     microcopy?: string
 }
 

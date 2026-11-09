@@ -17,27 +17,21 @@ export const metadata: Metadata = {
     },
 };
 
-const claimByFormat = new Intl.DateTimeFormat("en-GB", {
-    day: "numeric",
-    month: "long",
-    timeZone: "Europe/Lisbon",
-});
-
 const partners = [
     { name: "YouGov", logo: "/yougov-logo.svg", width: 136, height: 28 },
     { name: "Quid", logo: "/quid-logo.svg", width: 83, height: 24 },
 ]
 
-// No numeric credit amounts anymore — the offer is "free Beta tokens" everywhere.
-// The tier/credits fields still exist in the Sanity schema but aren't used here.
+// No numeric credit amounts, claim deadline or beta-access date anymore — the offer is
+// "free Beta tokens" everywhere. The tier/credits, endsAt (display) and betaAccessLabel
+// fields still exist in the Sanity schema but aren't shown here.
 export default async function CardsOfferPage() {
     const content = await getWebSummitContent();
 
     if (isExpired(content)) redirect(safeRedirectPath(content.expiredRedirect));
 
     const headline = content.headline;
-    const claimBy = claimByFormat.format(new Date(content.endsAt));
-    const microcopy = `No card needed. Beta access from ${content.betaAccessLabel}. Claim by ${claimBy}.`;
+    const microcopy = "No card needed.";
 
     return (
         <>
