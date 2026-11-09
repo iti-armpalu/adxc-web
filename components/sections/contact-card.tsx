@@ -21,24 +21,24 @@ interface ContactCardProps {
 // "Prefer to talk?" card — a lightweight alternative to filling in a form.
 export function ContactCard({ name, title, email, linkedin, photoUrl, lead = "Prefer to talk? Reach out directly." }: ContactCardProps) {
     return (
-        <div className="flex items-center gap-4 rounded-lg border border-border bg-card p-4 max-w-md">
+        <div className="flex items-center gap-4 rounded-lg border border-border bg-card p-4 sm:gap-5 sm:p-6 max-w-md">
             {photoUrl && (
                 <Image
                     src={photoUrl}
                     alt={name}
-                    width={56}
-                    height={56}
-                    className="size-14 shrink-0 rounded-full object-cover"
+                    width={64}
+                    height={64}
+                    className="size-14 sm:size-16 shrink-0 rounded-full object-cover"
                 />
             )}
             <div className="min-w-0 flex-1">
                 <p className="text-sm text-muted-foreground">{lead}</p>
-                <p className="mt-0.5 font-medium text-foreground">
+                <p className="mt-1.5 font-medium text-foreground">
                     {name}
                     {title && <span className="font-normal text-muted-foreground"> · {title}</span>}
                 </p>
-                <div className="mt-2 flex flex-wrap items-center gap-x-5 gap-y-1">
-                    <CopyEmail email={email} />
+                <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2">
+                    <CopyEmail email={email} showLabel={false} />
                     {linkedin && (
                         <a
                             href={linkedin}

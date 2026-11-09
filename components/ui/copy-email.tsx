@@ -3,7 +3,9 @@
 import { useState } from "react"
 import { Copy, Check } from "lucide-react"
 
-export function CopyEmail({ email }: { email: string }) {
+// showLabel: the visible "Copied!" text after the icon. Off where space is tight;
+// screen readers still hear "Copied" either way.
+export function CopyEmail({ email, showLabel = true }: { email: string; showLabel?: boolean }) {
     const [copied, setCopied] = useState(false)
 
     const handleCopy = async () => {
@@ -14,7 +16,9 @@ export function CopyEmail({ email }: { email: string }) {
 
     return (
         <button
+            type="button"
             onClick={handleCopy}
+            aria-label={`Copy ${email}`}
             className="group inline-flex items-center gap-2 text-sm text-foreground hover:text-primary transition-colors"
         >
             <span>{email}</span>
@@ -24,9 +28,10 @@ export function CopyEmail({ email }: { email: string }) {
                     : <Copy className="w-3.5 h-3.5" />
                 }
             </span>
-            {copied && (
-                <span className="text-xs text-green-600">Copied!</span>
+            {copied && showLabel && (
+                <span className="text-xs text-green-600" aria-hidden="true">Copied!</span>
             )}
+            <span className="sr-only" aria-live="polite">{copied ? "Copied" : ""}</span>
         </button>
     )
 }
