@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getWebSummitContent, isExpired, safeRedirectPath } from "@/lib/cms/websummit";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,6 +21,13 @@ const partners = [
     { name: "YouGov", logo: "/yougov-logo.svg", width: 136, height: 28 },
     { name: "Quid", logo: "/quid-logo.svg", width: 83, height: 24 },
     { name: "Serpstat", logo: "/serpstat-logo-1.svg", width: 222, height: 40 },
+]
+
+// Gemini is a large PNG (3840×867), so it goes through next/image to be resized;
+// width/height ≈ 2× the 24px display height, at the file's real aspect ratio.
+const integrations = [
+    { name: "Miro", logo: "/miro-logo.svg", width: 703, height: 258 },
+    { name: "Gemini", logo: "/gemini-logo.png", width: 213, height: 48, raster: true },
 ]
 
 // No numeric credit amounts, claim deadline or beta-access date anymore — the offer is
@@ -96,6 +104,36 @@ export default async function CardsOfferPage() {
                             </div>
                         </div>
 
+                    </div>
+
+                    {/* Available in */}
+                    <div className="mt-8 flex flex-col items-center lg:flex-row sm:justify-center gap-6 lg:gap-12">
+                        <p className="text-base text-center text-primary shrink-0 max-w-xs">
+                            Available in
+                        </p>
+                        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
+                            {integrations.map((p) =>
+                                p.raster ? (
+                                    <Image
+                                        key={p.name}
+                                        src={p.logo}
+                                        alt={p.name}
+                                        width={p.width}
+                                        height={p.height}
+                                        className="h-4 sm:h-6 w-auto object-contain"
+                                    />
+                                ) : (
+                                    <img
+                                        key={p.name}
+                                        src={p.logo}
+                                        alt={p.name}
+                                        width={p.width}
+                                        height={p.height}
+                                        className="h-4 sm:h-6 w-auto object-contain"
+                                    />
+                                )
+                            )}
+                        </div>
                     </div>
                 </div>
             </section>
