@@ -185,17 +185,21 @@ export default async function CardsOfferPage() {
                 </section>
             )}
 
-            {/* Repeat CTA — desktop. Mobile uses the sticky bar. */}
-            {/* <section className="hidden border-t border-border px-8 py-16 md:block"> */}
-            <section className="hidden px-8 py-16 md:block bg-white">
-                <div className="mx-auto flex max-w-2xl items-center justify-between gap-8">
-
-                    <h2 className="text-primary">
-                        Free Beta tokens. No card needed.
-                    </h2>
-                    <Button asChild size="lg" className="h-12 rounded-xs px-6 text-base">
-                        <a href="#claim">{content.ctaLabel}</a>
-                    </Button>
+            {/* Closing CTA — a plum panel inset on white, so it doesn't merge into the
+                brand-700 footer below. Shown on all screen sizes. */}
+            <section className="bg-white">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+                    <div className="relative overflow-hidden rounded-xl bg-primary px-6 py-12 text-center md:py-16">
+                        <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none" />
+                        <div className="relative flex flex-col items-center gap-6">
+                            <h2 className="text-primary-foreground text-balance">
+                                Free Beta tokens. No card needed.
+                            </h2>
+                            <Button asChild size="lg" className="h-12 rounded-xs px-6 text-base bg-white text-primary hover:bg-white/90">
+                                <a href="#claim">{content.ctaLabel}</a>
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </section>
         </>
