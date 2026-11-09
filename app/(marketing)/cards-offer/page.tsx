@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { getWebSummitContent, isExpired, safeRedirectPath } from "@/lib/cms/websummit";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { getHome } from "@/lib/cms/queries";
+import { PlatformSection } from "@/components/sections/home/platform";
 import { CardsOfferForm } from "@/components/sections/cards-offer-form";
 
 export const metadata: Metadata = {
@@ -34,7 +35,8 @@ const integrations = [
 // "free Beta tokens" everywhere. The tier/credits, endsAt (display) and betaAccessLabel
 // fields still exist in the Sanity schema but aren't shown here.
 export default async function CardsOfferPage() {
-    const content = await getWebSummitContent();
+    // "How it works" reuses the home page platform section and its Sanity content
+    const [content, home] = await Promise.all([getWebSummitContent(), getHome()]);
 
     if (isExpired(content)) redirect(safeRedirectPath(content.expiredRedirect));
 
@@ -138,35 +140,14 @@ export default async function CardsOfferPage() {
                 </div>
             </section>
 
-            {/* How it works */}
-            <section className="bg-white">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
-                    <div className="space-y-4 mb-16">
-                        <h2 className="text-primary">
-                            How it works
-                        </h2>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {content.steps.map((step, index) => (
-                            <Card key={step.title} className="gap-0 overflow-hidden">
-                                <CardHeader className="pb-0">
-                                    <div className="w-8 h-8 rounded-xs flex items-center justify-center shrink-0 bg-primary text-primary-foreground text-sm font-medium mb-4">
-                                        {index + 1}
-                                    </div>
-                                    <CardTitle className="text-lg text-primary">
-                                        {step.title}
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="pt-1">
-                                    <CardDescription>
-                                        {step.body}
-                                    </CardDescription>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
-                </div>
-            </section>
+            {/* How it works — same section and content as the home page */}
+            {home && (
+                <PlatformSection
+                    headline={home.platformHeadline}
+                    subtext={home.platformSubtext}
+                    steps={home.platformSteps}
+                />
+            )}
 
             {/* Repeat CTA — desktop. Mobile uses the sticky bar. */}
             {/* <section className="hidden border-t border-border px-8 py-16 md:block"> */}
