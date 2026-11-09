@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { redirect } from "next/navigation";
-import { ChevronDown, Play } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ClaimForm } from "@/components/websummit/claim-form";
-import { DemoVideo } from "@/components/websummit/demo-video";
-import { StickyClaimBar } from "@/components/websummit/sticky-claim-bar";
 import { getWebSummitContent, isExpired, resolveTier, safeRedirectPath } from "@/lib/cms/websummit";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardsOfferForm } from "@/components/sections/cards-offer-form";
 
 export const metadata: Metadata = {
     title: "ADXC at Web Summit",
@@ -22,8 +19,6 @@ export const metadata: Metadata = {
 
 type Props = { searchParams: Promise<{ src?: string | string[] }> };
 
-const HUBSPOT_PORTAL_ID = process.env.NEXT_PUBLIC_HUBSPOT_PORTAL_ID;
-
 const claimByFormat = new Intl.DateTimeFormat("en-GB", {
     day: "numeric",
     month: "long",
@@ -35,7 +30,7 @@ const partners = [
     { name: "Quid", logo: "/quid-logo.svg", width: 83, height: 24 },
 ]
 
-export default async function WebSummitPage({ searchParams }: Props) {
+export default async function CardsOfferPage({ searchParams }: Props) {
     const [content, params] = await Promise.all([getWebSummitContent(), searchParams]);
 
     if (isExpired(content)) redirect(safeRedirectPath(content.expiredRedirect));
@@ -77,13 +72,10 @@ export default async function WebSummitPage({ searchParams }: Props) {
                         <p className="mt-3 max-w-xl text-base text-foreground-alt md:mt-6 md:text-lg">{content.subhead}</p>
                     </div>
 
-                    <ClaimForm
-                        src={rawSrc ?? ""}
-                        ctaLabel={content.ctaLabel}
-                        microcopy={microcopy}
-                        betaAccessLabel={content.betaAccessLabel}
-                        linkedinUrl={content.linkedinUrl}
-                    />
+                    {/* Form — id="claim" is the target of the repeat CTA button below */}
+                    <div id="claim" className="bg-card border border-border rounded-lg p-6 sm:p-8 scroll-mt-24">
+                        <CardsOfferForm ctaLabel={content.ctaLabel} microcopy={microcopy} />
+                    </div>
                 </div>
             </section>
 
@@ -117,28 +109,6 @@ export default async function WebSummitPage({ searchParams }: Props) {
                 </div>
             </section>
 
-            {/* Video */}
-            <section
-                className="relative bg-brand-50"
-            >
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
-
-                    <div className="mt-10 max-w-3xl mx-auto">
-                        {content.videoUrl ? (
-                            <DemoVideo src={content.videoUrl} poster={content.posterUrl} title="ADXC in Miro, a 30-second demo" />
-                        ) : (
-                            // TODO: placeholder until the V1 Miro demo is uploaded to Sanity
-                            <div className="flex aspect-video w-full flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-border-3 bg-muted">
-                                <span className="flex size-12 items-center justify-center rounded-full bg-card shadow-sm">
-                                    <Play aria-hidden="true" className="ml-0.5 size-5 text-primary" />
-                                </span>
-                                <p className="text-sm text-muted-foreground">Demo video coming soon</p>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </section>
-
             {/* How it works */}
             <section className="bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
@@ -167,73 +137,6 @@ export default async function WebSummitPage({ searchParams }: Props) {
                         ))}
                     </div>
                 </div>
-            </section>
-
-
-
-            {/* Example answer */}
-            <section className="relative px-5 py-12 md:px-8 md:py-20 bg-brand-50">
-                <div
-                    className="absolute inset-0 pointer-events-none"
-                    style={{
-                        maskImage: "linear-gradient(275deg, transparent 35%, black 65%)",
-                        WebkitMaskImage: "linear-gradient(275deg, transparent 35%, black 65%)",
-                    }}
-                >
-                    <div className="absolute inset-0 bg-grid opacity-20" />
-                    <div
-                        className="absolute -top-1/4 -left-1/4 w-[800px] h-[800px] rounded-full"
-                        style={{
-                            background: "radial-gradient(circle, var(--color-brand-200) 0%, transparent 70%)",
-                            opacity: 0.4,
-                        }}
-                    />
-                </div>
-
-                <div className="relative mx-auto max-w-5xl">
-                    <h2 className="text-primary">What an answer looks like</h2>
-                    <div className="mt-8 rounded-lg px-4 py-8 md:px-12 md:py-14">
-                        <article className="mx-auto max-w-lg rounded-lg border border-border bg-card p-5 shadow-md md:p-6">
-                            <p className="text-sm text-muted-foreground">Question</p>
-                            <p className="mt-1 text-lg font-medium text-card-foreground">{content.example.question}</p>
-
-                            <div className="mt-5 flex items-center justify-between rounded-xs bg-muted px-3 py-2">
-                                <span className="text-sm text-foreground-alt">Fixed price</span>
-                                <span className="font-bold tabular-nums text-card-foreground">{content.example.price}</span>
-                            </div>
-
-                            <p className="mt-5 text-sm text-muted-foreground">Summary</p>
-                            <p className="mt-1 text-foreground-alt">{content.example.abstract}</p>
-
-                            {content.example.sources.length > 0 && (
-                                <p className="mt-4 text-sm text-muted-foreground">Sources: {content.example.sources.join(", ")}</p>
-                            )}
-
-                            <div
-                                aria-hidden="true"
-                                className="mt-5 flex h-10 items-center justify-center rounded-xs bg-primary px-3 text-sm font-medium text-primary-foreground"
-                            >
-                                Approve {content.example.price} for the full answer
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </section>
-
-            {/* Risk reversal */}
-            <section className="px-5 py-12 md:px-8 md:py-20 bg-white">
-                <ul className="mx-auto grid max-w-5xl gap-6 md:grid-cols-3 md:gap-10">
-                    {content.riskPoints.map((point, i) => {
-                        return (
-                            <li key={point.title} className="flex gap-4">
-                                <div>
-                                    <p className="text-primary font-bold">{point.title}</p>
-                                    <p className="mt-1 text-muted-foreground">{point.body}</p>
-                                </div>
-                            </li>
-                        );
-                    })}
-                </ul>
             </section>
 
             {/* FAQ — native details/summary, no JS */}
@@ -270,13 +173,6 @@ export default async function WebSummitPage({ searchParams }: Props) {
                     </Button>
                 </div>
             </section>
-
-            <StickyClaimBar label={content.ctaLabel} />
-
-            {/* HubSpot tracking on this page only: page views + hutk for form attribution */}
-            {HUBSPOT_PORTAL_ID && (
-                <Script id="hs-script-loader" src={`https://js.hs-scripts.com/${HUBSPOT_PORTAL_ID}.js`} strategy="lazyOnload" />
-            )}
         </>
     );
 }

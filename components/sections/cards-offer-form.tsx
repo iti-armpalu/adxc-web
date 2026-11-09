@@ -1,0 +1,233 @@
+"use client"
+
+import { useActionState, useEffect, useRef, useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile"
+import { submitCardsOffer, type CardsOfferState } from "@/lib/cards-offer/actions"
+import { companySizes } from "@/lib/early-access/constants"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { FormError } from "@/components/ui/form-error"
+import { ArrowRight, CheckCircle } from "lucide-react"
+import { identifyUser } from "@/lib/analytics/events"
+
+const schema = z.object({
+    firstName: z.string().min(1, "First name is required"),
+    lastName: z.string().min(1, "Last name is required"),
+    email: z.string().email("Valid email is required"),
+    company: z.string().min(1, "Company is required"),
+    companySize: z.string().min(1, "Please select a company size"),
+    jobTitle: z.string().min(1, "Job title is required"),
+    useCase: z.string().min(10, "Please tell us a bit more"),
+})
+
+type CardsOfferFormData = z.infer<typeof schema>
+
+const initialState: CardsOfferState = { status: "idle" }
+
+type Props = {
+    /** Button label, e.g. content.ctaLabel from the CMS */
+    ctaLabel?: string
+    /** Small print under the button, e.g. "No card needed. Claim by 20 November." */
+    microcopy?: string
+}
+
+export function CardsOfferForm({ ctaLabel = "Claim your credits", microcopy }: Props) {
+    const [state, action, isPending] = useActionState(submitCardsOffer, initialState)
+    const [localStatus, setLocalStatus] = useState<CardsOfferState>(initialState)
+    const [turnstileToken, setTurnstileToken] = useState<string>("")
+    const turnstileRef = useRef<TurnstileInstance>(null)
+
+    const {
+        register,
+        formState: { errors, isValid },
+        getValues,
+    } = useForm<CardsOfferFormData>({
+        resolver: zodResolver(schema),
+        mode: "onChange",
+    })
+
+    const handleAction = (formData: globalThis.FormData) => {
+        formData.set("turnstileToken", turnstileToken)
+        return action(formData)
+    }
+
+    useEffect(() => {
+        if (state.status !== "idle") {
+            setLocalStatus(state)
+            if (state.status === "success") {
+                const { firstName, lastName, email, company, companySize, jobTitle } = getValues()
+                identifyUser({
+                    email,
+                    name: `${firstName} ${lastName}`.trim(),
+                    company,
+                    companySize,
+                    jobTitle,
+                })
+            }
+        }
+    }, [state, getValues])
+
+    if (localStatus.status === "success") {
+        return (
+            <div className="flex flex-col items-center justify-center gap-4 py-16 text-center">
+                <CheckCircle className="w-10 h-10 text-success" />
+                {/* TODO: confirm success copy with the team */}
+                <h3>Thanks, you're in!</h3>
+                <p className="text-muted-foreground max-w-sm text-sm leading-relaxed">
+                    We'll email you more details soon.
+                </p>
+            </div>
+        )
+    }
+
+    return (
+        <form action={handleAction} className="space-y-4">
+            <input type="hidden" name="turnstileToken" value={turnstileToken} />
+
+            {/* First name + Last name */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                    <Label>
+                        First name <span className="text-destructive">*</span>
+                    </Label>
+                    <Input
+                        {...register("firstName")}
+                        name="firstName"
+                        placeholder="Jane"
+                        disabled={isPending}
+                        aria-invalid={!!errors.firstName}
+                    />
+                    <FormError message={errors.firstName?.message} />
+                </div>
+                <div className="space-y-1.5">
+                    <Label>
+                        Last name <span className="text-destructive">*</span>
+                    </Label>
+                    <Input
+                        {...register("lastName")}
+                        name="lastName"
+                        placeholder="Smith"
+                        disabled={isPending}
+                        aria-invalid={!!errors.lastName}
+                    />
+                    <FormError message={errors.lastName?.message} />
+                </div>
+            </div>
+
+            {/* Email */}
+            <div className="space-y-1.5">
+                <Label>
+                    Email <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                    {...register("email")}
+                    name="email"
+                    type="email"
+                    placeholder="you@company.com"
+                    disabled={isPending}
+                    aria-invalid={!!errors.email}
+                />
+                <FormError message={errors.email?.message} />
+            </div>
+
+            {/* Company + Company size */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                    <Label>
+                        Company <span className="text-destructive">*</span>
+                    </Label>
+                    <Input
+                        {...register("company")}
+                        name="company"
+                        placeholder="Company name"
+                        disabled={isPending}
+                        aria-invalid={!!errors.company}
+                    />
+                    <FormError message={errors.company?.message} />
+                </div>
+                <div className="space-y-1.5">
+                    <Label>
+                        Company size <span className="text-destructive">*</span>
+                    </Label>
+                    <select
+                        {...register("companySize")}
+                        name="companySize"
+                        disabled={isPending}
+                        defaultValue=""
+                        aria-invalid={!!errors.companySize}
+                        className="h-8 w-full rounded-xs border border-input bg-transparent px-2.5 py-1 text-sm text-foreground transition-colors outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20"
+                    >
+                        <option value="" disabled>Select size</option>
+                        {companySizes.map((size) => (
+                            <option key={size} value={size}>{size}</option>
+                        ))}
+                    </select>
+                    <FormError message={errors.companySize?.message} />
+                </div>
+            </div>
+
+            {/* Job title */}
+            <div className="space-y-1.5">
+                <Label>
+                    Job title <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                    {...register("jobTitle")}
+                    name="jobTitle"
+                    placeholder="Marketing Director"
+                    disabled={isPending}
+                    aria-invalid={!!errors.jobTitle}
+                />
+                <FormError message={errors.jobTitle?.message} />
+            </div>
+
+            {/* Use case */}
+            <div className="space-y-1.5">
+                <Label>
+                    What will you use ADXC for? <span className="text-destructive">*</span>
+                </Label>
+                <Textarea
+                    {...register("useCase")}
+                    name="useCase"
+                    rows={4}
+                    placeholder="Tell us about your data needs and what you're hoping to achieve..."
+                    disabled={isPending}
+                    aria-invalid={!!errors.useCase}
+                    className="resize-none"
+                />
+                <FormError message={errors.useCase?.message} />
+            </div>
+
+            <Turnstile
+                ref={turnstileRef}
+                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                onSuccess={(token) => setTurnstileToken(token)}
+                onError={() => setTurnstileToken("")}
+                onExpire={() => setTurnstileToken("")}
+            />
+
+            {localStatus.status === "error" && (
+                <p className="text-sm text-destructive">{localStatus.error}</p>
+            )}
+
+            <Button
+                type="submit"
+                disabled={isPending || !turnstileToken || !isValid}
+                className="w-full group"
+                size="lg"
+            >
+                {isPending ? "Submitting…" : ctaLabel}
+                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+            </Button>
+
+            {microcopy && (
+                <p className="text-xs text-muted-foreground text-center">{microcopy}</p>
+            )}
+        </form>
+    )
+}
