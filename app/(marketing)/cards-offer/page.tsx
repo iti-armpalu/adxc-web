@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { getWebSummitContent, isExpired, safeRedirectPath } from "@/lib/cms/websummit";
 import { getHome } from "@/lib/cms/queries";
 import { PlatformSection } from "@/components/sections/home/platform";
+import { YouTubeEmbed } from "@/components/sections/youtube-embed";
+import { getYouTubeId } from "@/lib/youtube";
 import { CardsOfferForm } from "@/components/sections/cards-offer-form";
 
 export const metadata: Metadata = {
@@ -26,6 +28,10 @@ const partners = [
 
 // Gemini is a large PNG (3840×867), so it goes through next/image to be resized;
 // width/height ≈ 2× the 24px display height, at the file's real aspect ratio.
+// Josh's Miro demo (any youtube.com or youtu.be URL works).
+// The "See it in action" section is hidden when this is empty.
+const DEMO_VIDEO_URL = "https://youtu.be/NKjQbPB7ya0";
+
 const integrations = [
     { name: "Miro", logo: "/miro-logo.svg", width: 703, height: 258 },
     { name: "Gemini", logo: "/gemini-logo.png", width: 213, height: 48, raster: true },
@@ -41,6 +47,7 @@ export default async function CardsOfferPage() {
     if (isExpired(content)) redirect(safeRedirectPath(content.expiredRedirect));
 
     const headline = content.headline;
+    const demoVideoId = getYouTubeId(DEMO_VIDEO_URL);
     const microcopy = "No card needed.";
 
     return (
@@ -147,6 +154,21 @@ export default async function CardsOfferPage() {
                     subtext={home.platformSubtext}
                     steps={home.platformSteps}
                 />
+            )}
+
+            {/* Demo video — hidden until DEMO_VIDEO_URL is set */}
+            {demoVideoId && (
+                <section className="bg-brand-50">
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-24">
+                        <div className="space-y-4 mb-10">
+                            <h2 className="text-primary">See it in action</h2>
+                            <p className="text-lg text-muted-foreground leading-relaxed max-w-lg">
+                                Watch Josh use ADXC inside Miro.
+                            </p>
+                        </div>
+                        <YouTubeEmbed videoId={demoVideoId} title="ADXC demo in Miro" />
+                    </div>
+                </section>
             )}
 
             {/* Repeat CTA — desktop. Mobile uses the sticky bar. */}
