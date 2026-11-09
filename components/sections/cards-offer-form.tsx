@@ -36,7 +36,7 @@ type Props = {
     microcopy?: string
 }
 
-export function CardsOfferForm({ ctaLabel = "Claim your credits", microcopy }: Props) {
+export function CardsOfferForm({ ctaLabel = "Get free Beta tokens", microcopy }: Props) {
     const [state, action, isPending] = useActionState(submitCardsOffer, initialState)
     const [localStatus, setLocalStatus] = useState<CardsOfferState>(initialState)
     const [turnstileToken, setTurnstileToken] = useState<string>("")

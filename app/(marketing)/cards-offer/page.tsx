@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { getWebSummitContent, isExpired, resolveTier, safeRedirectPath } from "@/lib/cms/websummit";
+import { getWebSummitContent, isExpired, safeRedirectPath } from "@/lib/cms/websummit";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CardsOfferForm } from "@/components/sections/cards-offer-form";
 
 export const metadata: Metadata = {
     title: "ADXC at Web Summit",
-    description: "Claim your free ADXC research credits.",
+    description: "Sign up for free ADXC Beta tokens.",
     robots: {
         index: false,
         follow: false,
@@ -16,8 +16,6 @@ export const metadata: Metadata = {
         googleBot: { index: false, follow: false },
     },
 };
-
-type Props = { searchParams: Promise<{ src?: string | string[] }> };
 
 const claimByFormat = new Intl.DateTimeFormat("en-GB", {
     day: "numeric",
@@ -30,15 +28,14 @@ const partners = [
     { name: "Quid", logo: "/quid-logo.svg", width: 83, height: 24 },
 ]
 
-export default async function CardsOfferPage({ searchParams }: Props) {
-    const [content, params] = await Promise.all([getWebSummitContent(), searchParams]);
+// No numeric credit amounts anymore — the offer is "free Beta tokens" everywhere.
+// The tier/credits fields still exist in the Sanity schema but aren't used here.
+export default async function CardsOfferPage() {
+    const content = await getWebSummitContent();
 
     if (isExpired(content)) redirect(safeRedirectPath(content.expiredRedirect));
 
-    const rawSrc = Array.isArray(params.src) ? params.src[0] : params.src;
-    const tier = resolveTier(content, rawSrc);
-    const credits = tier.credits.toLocaleString("en-GB");
-    const headline = content.headline.replace("{credits}", credits);
+    const headline = content.headline;
     const claimBy = claimByFormat.format(new Date(content.endsAt));
     const microcopy = `No card needed. Beta access from ${content.betaAccessLabel}. Claim by ${claimBy}.`;
 
@@ -166,7 +163,7 @@ export default async function CardsOfferPage({ searchParams }: Props) {
                 <div className="mx-auto flex max-w-2xl items-center justify-between gap-8">
 
                     <h2 className="text-primary">
-                        {credits} free credits. No card needed.
+                        Free Beta tokens. No card needed.
                     </h2>
                     <Button asChild size="lg" className="h-12 rounded-xs px-6 text-base">
                         <a href="#claim">{content.ctaLabel}</a>

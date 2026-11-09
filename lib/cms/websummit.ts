@@ -5,7 +5,7 @@ export type WebSummitTier = { key: string; credits: number };
 export type WebSummitPartner = { name: string; logoUrl: string | null };
 
 export type WebSummitContent = {
-    headline: string; // supports a {credits} token
+    headline: string;
     subhead: string;
     creditsDefault: number;
     tiers: WebSummitTier[];
@@ -47,7 +47,7 @@ const QUERY = /* groq */ `*[_type == "websummitPage"][0]{
 
 // TODO: replace placeholder copy, credit amounts and the example answer once Josh confirms them in Sanity
 export const WEBSUMMIT_FALLBACK: WebSummitContent = {
-    headline: "Great to meet you at Web Summit. Here are {credits} free research credits.",
+    headline: "Great to meet you at Web Summit. Sign up for free Beta tokens.",
     subhead:
         "Ask questions in Miro, get answers from premium consumer data providers, pay only for the answers you approve.",
     creditsDefault: 50,
@@ -58,7 +58,7 @@ export const WEBSUMMIT_FALLBACK: WebSummitContent = {
     ],
     endsAt: "2026-11-30T23:59:59Z",
     betaAccessLabel: "mid-November",
-    ctaLabel: "Claim my credits",
+    ctaLabel: "Get free Beta tokens",
     steps: [
         {
             title: "Ask in Miro",
@@ -81,7 +81,7 @@ export const WEBSUMMIT_FALLBACK: WebSummitContent = {
         sources: ["YouGov", "Reddit"],
     },
     riskPoints: [
-        { title: "Free credits to start", body: "Your Web Summit credits cover your first questions." },
+        { title: "Free Beta tokens to start", body: "Your free Beta tokens cover your first questions." },
         { title: "No card needed", body: "Sign up with your work email. No payment details." },
         {
             title: "Raw data never exposed",
@@ -92,7 +92,7 @@ export const WEBSUMMIT_FALLBACK: WebSummitContent = {
         {
             question: "What happens after I sign up?",
             answer:
-                "We add you to the beta list. When access opens, you'll get an email from ADXC with your login details and your credits ready to use.",
+                "We add you to the beta list. When access opens, you'll get an email from ADXC with your login details and your free Beta tokens ready to use.",
         },
         { question: "When do I get access?", answer: "Beta access rolls out from mid-November." },
         {
@@ -100,7 +100,7 @@ export const WEBSUMMIT_FALLBACK: WebSummitContent = {
             answer: "Yes. The beta runs inside Miro, so you'll need a Miro account to ask questions.",
         },
         {
-            question: "What happens when the credits run out?",
+            question: "What happens when the tokens run out?",
             answer:
                 "Nothing is charged automatically. You can top up your balance to keep asking questions, or stop there.",
         },
