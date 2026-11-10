@@ -53,7 +53,7 @@ export default function WebSummitScreenPage() {
                     </div>
 
                     <p className="absolute bottom-16 right-24 text-[28px] leading-none text-brand-100">
-                        *of tokens, we&rsquo;re a poor startup
+                        *of tokens, we&rsquo;re a startup
                     </p>
                 </div>
             </section>
