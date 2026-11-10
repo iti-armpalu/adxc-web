@@ -19,7 +19,7 @@ interface ContactCardProps {
 }
 
 // "Prefer to talk?" card — a lightweight alternative to filling in a form.
-export function ContactCard({ name, title, email, linkedin, photoUrl, lead = "Prefer to talk? Reach out directly." }: ContactCardProps) {
+export function ContactCard({ name, title, email, linkedin, photoUrl, lead = "Reach out directly" }: ContactCardProps) {
     return (
         <div className="flex items-center gap-4 rounded-lg border border-border bg-card p-4 sm:gap-5 sm:p-6 max-w-md">
             {photoUrl && (
