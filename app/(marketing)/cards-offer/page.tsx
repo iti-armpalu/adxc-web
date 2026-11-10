@@ -32,6 +32,7 @@ const partners = [
 // Josh's Miro demo (any youtube.com or youtu.be URL works).
 // The "See it in action" section is hidden when this is empty.
 const DEMO_VIDEO_URL = "https://youtu.be/NKjQbPB7ya0";
+const DEMO_THUMBNAIL = "/youtube-thumbnail-adxc-miro-demo.png";
 
 // Contact alternative to the form. Name, title, photo and LinkedIn come from Josh's
 // entry in the About page team (Sanity); the email isn't stored there.
@@ -180,7 +181,7 @@ export default async function CardsOfferPage() {
                                 Watch Josh use ADXC inside Miro.
                             </p>
                         </div>
-                        <YouTubeEmbed videoId={demoVideoId} title="ADXC demo in Miro" />
+                        <YouTubeEmbed videoId={demoVideoId} title="ADXC demo in Miro" thumbnail={DEMO_THUMBNAIL} />
                     </div>
                 </section>
             )}
