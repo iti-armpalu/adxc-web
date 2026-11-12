@@ -20,7 +20,7 @@ export default function WebSummitScreenPage() {
             <section className="relative w-full h-full overflow-hidden">
                 <HeroBackground showCut={false} />
 
-                <div className="relative z-10 h-full flex flex-col pl-24 pr-10">
+                <div className="relative z-10 h-full flex flex-col pl-5 pr-5">
                     <header className="h-40 shrink-0 flex items-center gap-10">
                         <img
                             src="/adxc-logo-with-tagline.svg"
@@ -40,13 +40,9 @@ export default function WebSummitScreenPage() {
                         <h1 className="text-[80px] leading-[1.05] whitespace-nowrap">
                             The trusted
                             <br />
-                            data
-                            <br />
-                            layer for
+                            data layer for
                             <br />
                             marketing AI
-                            <br />
-
                         </h1>
 
                         <div className="pointer-events-none" style={{ zoom: GRAPHIC_ZOOM }} aria-hidden>
