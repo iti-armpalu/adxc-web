@@ -1,6 +1,13 @@
 import { FadeIn } from "@/components/ui/fade-in"
+import { urlFor } from "@/lib/cms/image"
+import type { PartnerLogoContent } from "@/lib/cms/types"
 
-export function AgenciesPartners() {
+interface AgenciesPartnersProps {
+    label: string
+    logos: PartnerLogoContent[]
+}
+
+export function AgenciesPartners({ label, logos }: AgenciesPartnersProps) {
     return (
         <FadeIn>
             <section className="bg-white">
@@ -8,16 +15,22 @@ export function AgenciesPartners() {
                     <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-12">
 
                         <p className="text-base text-center text-orange-950 shrink-0 max-w-xs">
-                            Join leading agencies using ADXC
+                            {label}
                         </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
-                            <img
-                                src="/dept-logo.svg"
-                                alt="DEPT"
-                                width={454} height={106}
-                                className="h-4 sm:h-6 w-auto object-contain"
-                            />
+                            {logos.map((p) => (
+                                <div key={p.name} className="flex items-center gap-2">
+                                    <img
+                                        src={urlFor(p.logo).width(400).auto("format").url()}
+                                        alt={p.name}
+                                        className="h-4 sm:h-6 w-auto object-contain"
+                                    />
+                                    {p.showName && (
+                                        <span style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, color: "#000000" }} className="text-sm">{p.name}</span>
+                                    )}
+                                </div>
+                            ))}
                         </div>
 
                     </div>

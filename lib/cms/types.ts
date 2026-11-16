@@ -108,29 +108,68 @@ export type AudiencePageContent = {
     seo?: SeoContent
 }
 
-// Brands has more sections than the shared audience shape. Extra
-// sections are added here (not on AudiencePageContent) so the other
-// audience pages aren't forced to supply fields they don't have yet.
-export type BrandsPageContent = AudiencePageContent & {
+// Audience pages share one Studio document type but not the same
+// sections. The section field groups below are composed per page, so
+// pages not yet migrated aren't forced to supply fields they don't have.
+type DataProvidersFields = {
     dataProvidersLabel: string
     dataProvidersLogos: PartnerLogoContent[]
     dataProvidersMoreText?: string
+}
+
+type ProblemFields = {
     problemLabel?: string
     problemStat: string
     problemStatLabel: string
     problemSubtext: string
     problemNote: string
+}
+
+type IntegrationsFields = {
     integrationsHeadline: string
     integrationsSubtext: string
     integrationsLabel: string
     integrationsLogos: PartnerLogoContent[]
     integrationsMoreText?: string
+}
+
+type CtaFields = {
     ctaHeadline: string
     ctaSubtext: string
     ctaButtonLabel: string
+}
+
+type PartnersFields = {
     partnersLabel: string
     partnersLogos: PartnerLogoContent[]
 }
+
+type TopPartnersFields = {
+    topPartnersLabel: string
+    topPartnersLogos: PartnerLogoContent[]
+}
+
+export type LinkCardContent = {
+    title: string
+    description: string
+    linkLabel: string
+    linkHref: string
+}
+
+export type BrandsPageContent = AudiencePageContent &
+    DataProvidersFields &
+    ProblemFields &
+    IntegrationsFields &
+    CtaFields &
+    PartnersFields
+
+export type AgenciesPageContent = AudiencePageContent &
+    TopPartnersFields &
+    IntegrationsFields &
+    CtaFields & {
+        otherWaysHeadline: string
+        otherWays: LinkCardContent[]
+    }
 
 // --- Product — Platform ---
 

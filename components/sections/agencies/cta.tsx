@@ -6,7 +6,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { FadeIn } from "@/components/ui/fade-in"
 
-export function AgenciesCTA() {
+interface AgenciesCTAProps {
+    headline: string
+    subtext: string
+    buttonLabel: string
+}
+
+export function AgenciesCTA({ headline, subtext, buttonLabel }: AgenciesCTAProps) {
     const [email, setEmail] = useState("")
     const router = useRouter()
 
@@ -25,10 +31,10 @@ export function AgenciesCTA() {
 
                         <div className="space-y-4">
                             <h2 className="text-primary">
-                                Want early access?
+                                {headline}
                             </h2>
                             <p className="text-lg text-muted-foreground leading-relaxed">
-                                Get early access and start using ADXC inside Miro for your client work.
+                                {subtext}
                             </p>
                         </div>
 
@@ -42,7 +48,7 @@ export function AgenciesCTA() {
                                     className="h-10"
                                 />
                                 <Button size="lg" onClick={handleSubmit} className="shrink-0 h-10">
-                                    Get early access
+                                    {buttonLabel}
                                 </Button>
                             </div>
                         </div>

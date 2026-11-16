@@ -10,10 +10,8 @@ type IntegrationsSectionProps = {
     captionColor: string    // e.g. "text-purple-700"
     textColor: string       // e.g. "text-purple-800"
     bodyColor: string       // e.g. "text-purple-950"
-    // Optional so pages not yet on Sanity (Agencies) keep the original
-    // hardcoded Miro pill. Remove the fallbacks once every page passes these.
-    label?: string
-    logos?: PartnerLogoContent[]
+    label: string
+    logos: PartnerLogoContent[]
     moreText?: string
 }
 
@@ -25,9 +23,9 @@ export function IntegrationsSection({
     captionColor,
     textColor,
     bodyColor,
-    label = "Launching with",
+    label,
     logos,
-    moreText = "More integrations coming soon",
+    moreText,
 }: IntegrationsSectionProps) {
     return (
         <section className={accentBg}>
@@ -44,23 +42,14 @@ export function IntegrationsSection({
                         {/* Right — logo pill */}
                         <div className={`flex flex-col items-center justify-center gap-6 ${pillBg} rounded-lg p-12`}>
                             <p className={`text-caption ${captionColor}`}>{label}</p>
-                            {logos ? (
-                                logos.map((l) => (
-                                    <img
-                                        key={l.name}
-                                        src={urlFor(l.logo).width(600).auto("format").url()}
-                                        alt={l.name}
-                                        className="h-16 w-auto object-contain"
-                                    />
-                                ))
-                            ) : (
+                            {logos.map((l) => (
                                 <img
-                                    src="/miro-logo.svg"
-                                    alt="Miro"
-                                    width={703} height={258}
+                                    key={l.name}
+                                    src={urlFor(l.logo).width(600).auto("format").url()}
+                                    alt={l.name}
                                     className="h-16 w-auto object-contain"
                                 />
-                            )}
+                            ))}
                             {moreText && (
                                 <p className={`text-sm ${captionColor}`}>{moreText}</p>
                             )}

@@ -1,23 +1,14 @@
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import type { LinkCardContent } from "@/lib/cms/types"
 
-const cards = [
-    {
-        title: "Become a referral partner",
-        description: "Managing data spend on behalf of clients? Access our partner programme to earn cashback on spend via ADXC.",
-        cta: "Get in touch",
-        href: "/contact",
-    },
-    {
-        title: "Building an AI platform?",
-        description: "Get trusted consumer insight in the AI tools you're building.",
-        cta: "ADXC for AI platforms",
-        href: "/ai-platforms",
-    },
-]
+interface AgenciesOtherWaysProps {
+    headline: string
+    cards: LinkCardContent[]
+}
 
-export function AgenciesOtherWays() {
+export function AgenciesOtherWays({ headline, cards }: AgenciesOtherWaysProps) {
     return (
         <section className="bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
@@ -25,7 +16,7 @@ export function AgenciesOtherWays() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 items-start gap-8 sm:gap-16">
                         <h2 className="text-primary">
-                            Other ways to work with us
+                            {headline}
                         </h2>
 
                         <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -37,10 +28,10 @@ export function AgenciesOtherWays() {
                                     </CardHeader>
                                     <div className="px-4 pb-4">
                                         <Link
-                                            href={card.href}
+                                            href={card.linkHref}
                                             className="group inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
                                         >
-                                            {card.cta}
+                                            {card.linkLabel}
                                             <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                                         </Link>
                                     </div>

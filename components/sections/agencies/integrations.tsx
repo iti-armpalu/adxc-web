@@ -1,10 +1,22 @@
-import { IntegrationsSection } from "../integrations-section";
+import { IntegrationsSection } from "../integrations-section"
+import type { PartnerLogoContent } from "@/lib/cms/types"
 
-export function AgenciesIntegrations() {
+interface AgenciesIntegrationsProps {
+    headline: string
+    subtext: string
+    label: string
+    logos: PartnerLogoContent[]
+    moreText?: string
+}
+
+export function AgenciesIntegrations({ headline, subtext, label, logos, moreText }: AgenciesIntegrationsProps) {
     return (
         <IntegrationsSection
-            heading="Available inside the tools your team already uses"
-            description="ADXC is integrating with Miro Sidekick, so your strategists can pull consumer data directly into briefs, workshops, and planning sessions. More platform integrations launching throughout 2026."
+            heading={headline}
+            description={subtext}
+            label={label}
+            logos={logos}
+            moreText={moreText}
             accentBg="bg-orange-50"
             pillBg="bg-orange-100"
             captionColor="text-orange-700"

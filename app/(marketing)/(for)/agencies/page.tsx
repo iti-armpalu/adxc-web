@@ -44,14 +44,30 @@ export default async function AgenciesPage() {
                 headlineLine3={agencies.heroHeadlineLine3}
                 subtext={agencies.heroSubtext}
             />
-            <AgenciesPartners />
+            <AgenciesPartners
+                label={agencies.topPartnersLabel}
+                logos={agencies.topPartnersLogos}
+            />
             <AgenciesHowItWorks
                 headline={agencies.howItWorksHeadline}
                 features={agencies.howItWorksFeatures}
             />
-            <AgenciesIntegrations />
-            <AgenciesCTA />
-            <AgenciesOtherWays />
+            <AgenciesIntegrations
+                headline={agencies.integrationsHeadline}
+                subtext={agencies.integrationsSubtext}
+                label={agencies.integrationsLabel}
+                logos={agencies.integrationsLogos}
+                moreText={agencies.integrationsMoreText}
+            />
+            <AgenciesCTA
+                headline={agencies.ctaHeadline}
+                subtext={agencies.ctaSubtext}
+                buttonLabel={agencies.ctaButtonLabel}
+            />
+            <AgenciesOtherWays
+                headline={agencies.otherWaysHeadline}
+                cards={agencies.otherWays}
+            />
         </>
     )
 }

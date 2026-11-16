@@ -1,5 +1,5 @@
 import { sanityFetch } from "./client"
-import type { AboutPageContent, AudiencePageContent, BlogPost, BrandsPageContent, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent, SiteSettingsContent } from "./types"
+import type { AboutPageContent, AudiencePageContent, AgenciesPageContent, BlogPost, BrandsPageContent, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent, SiteSettingsContent } from "./types"
 
 const SEO_PROJECTION = `
       seo {
@@ -10,6 +10,39 @@ const SEO_PROJECTION = `
         ogDescription,
         ogImage
       }
+`
+
+// Section projections shared by more than one audience page.
+const LOGOS = `{
+        name,
+        logo,
+        showName
+      }`
+
+const INTEGRATIONS_PROJECTION = `
+      integrationsHeadline,
+      integrationsSubtext,
+      integrationsLabel,
+      integrationsLogos[] ${LOGOS},
+      integrationsMoreText,
+`
+
+const CTA_PROJECTION = `
+      ctaHeadline,
+      ctaSubtext,
+      ctaButtonLabel,
+`
+
+const PARTNERS_PROJECTION = `
+      partnersLabel,
+      partnersLogos[] ${LOGOS},
+`
+
+// Agencies' strip sits at the top of its page, so it has its own fields
+// (see studio-adxc audiencePage.ts).
+const TOP_PARTNERS_PROJECTION = `
+      topPartnersLabel,
+      topPartnersLogos[] ${LOGOS},
 `
 
 // All posts for listing page — no body field (keeps response lean)
@@ -129,30 +162,15 @@ export async function getBrandsPage(): Promise<BrandsPageContent | null> {
         lead,
         description
       },
-      integrationsHeadline,
-      integrationsSubtext,
-      integrationsLabel,
-      integrationsLogos[] {
-        name,
-        logo,
-        showName
-      },
-      integrationsMoreText,
-      ctaHeadline,
-      ctaSubtext,
-      ctaButtonLabel,
-      partnersLabel,
-      partnersLogos[] {
-        name,
-        logo,
-        showName
-      },
+      ${INTEGRATIONS_PROJECTION}
+      ${CTA_PROJECTION}
+      ${PARTNERS_PROJECTION}
       ${SEO_PROJECTION}
     }`
   )
 }
 
-export async function getAgenciesPage(): Promise<AudiencePageContent | null> {
+export async function getAgenciesPage(): Promise<AgenciesPageContent | null> {
   return sanityFetch(
     `*[_type == "audiencePage" && _id == "audience-agencies"][0] {
       audience,
@@ -161,12 +179,22 @@ export async function getAgenciesPage(): Promise<AudiencePageContent | null> {
       heroHeadlineLine2,
       heroHeadlineLine3,
       heroSubtext,
+      ${TOP_PARTNERS_PROJECTION}
       howItWorksHeadline,
       howItWorksFeatures[] {
         icon,
         title,
         lead,
         description
+      },
+      ${INTEGRATIONS_PROJECTION}
+      ${CTA_PROJECTION}
+      otherWaysHeadline,
+      otherWays[] {
+        title,
+        description,
+        linkLabel,
+        linkHref
       },
       ${SEO_PROJECTION}
     }`
