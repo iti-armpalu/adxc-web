@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
   getStoredConsent,
@@ -19,7 +18,6 @@ export function CookieBanner() {
   const [visible, setVisible] = useState(false)
   const [showManage, setShowManage] = useState(false)
   const [custom, setCustom] = useState<ConsentState>(defaultConsent)
-  const pathname = usePathname()
 
   // Only show the banner once the page has loaded and the main thread is free.
   // Showing it during hydration meant taps were queued behind page work and
@@ -54,8 +52,7 @@ export function CookieBanner() {
     }
   }, [])
 
-  // Kiosk display (Web Summit booth monitor) — nobody to dismiss it
-  if (!visible || pathname === "/websummit/screen") return null
+  if (!visible) return null
 
   const handleAcceptAll = () => {
     setStoredConsent("accepted", fullConsent)
