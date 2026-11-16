@@ -108,6 +108,30 @@ export type AudiencePageContent = {
     seo?: SeoContent
 }
 
+// Brands has more sections than the shared audience shape. Extra
+// sections are added here (not on AudiencePageContent) so the other
+// audience pages aren't forced to supply fields they don't have yet.
+export type BrandsPageContent = AudiencePageContent & {
+    dataProvidersLabel: string
+    dataProvidersLogos: PartnerLogoContent[]
+    dataProvidersMoreText?: string
+    problemLabel?: string
+    problemStat: string
+    problemStatLabel: string
+    problemSubtext: string
+    problemNote: string
+    integrationsHeadline: string
+    integrationsSubtext: string
+    integrationsLabel: string
+    integrationsLogos: PartnerLogoContent[]
+    integrationsMoreText?: string
+    ctaHeadline: string
+    ctaSubtext: string
+    ctaButtonLabel: string
+    partnersLabel: string
+    partnersLogos: PartnerLogoContent[]
+}
+
 // --- Product — Platform ---
 
 export interface PlatformPageContent {

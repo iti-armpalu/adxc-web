@@ -1,10 +1,22 @@
-import { IntegrationsSection } from "../integrations-section";
+import { IntegrationsSection } from "../integrations-section"
+import type { PartnerLogoContent } from "@/lib/cms/types"
 
-export function BrandsIntegrations() {
+interface BrandsIntegrationsProps {
+    headline: string
+    subtext: string
+    label: string
+    logos: PartnerLogoContent[]
+    moreText?: string
+}
+
+export function BrandsIntegrations({ headline, subtext, label, logos, moreText }: BrandsIntegrationsProps) {
     return (
         <IntegrationsSection
-            heading="Available inside the tools you already use"
-            description="Use ADXC through the tools you already know. Launching with Miro Sidekick, with more integrations on the way."
+            heading={headline}
+            description={subtext}
+            label={label}
+            logos={logos}
+            moreText={moreText}
             accentBg="bg-purple-50"
             pillBg="bg-purple-100"
             captionColor="text-purple-700"

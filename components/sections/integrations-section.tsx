@@ -1,4 +1,6 @@
 import { FadeIn } from "@/components/ui/fade-in"
+import { urlFor } from "@/lib/cms/image"
+import type { PartnerLogoContent } from "@/lib/cms/types"
 
 type IntegrationsSectionProps = {
     heading: string
@@ -8,6 +10,11 @@ type IntegrationsSectionProps = {
     captionColor: string    // e.g. "text-purple-700"
     textColor: string       // e.g. "text-purple-800"
     bodyColor: string       // e.g. "text-purple-950"
+    // Optional so pages not yet on Sanity (Agencies) keep the original
+    // hardcoded Miro pill. Remove the fallbacks once every page passes these.
+    label?: string
+    logos?: PartnerLogoContent[]
+    moreText?: string
 }
 
 export function IntegrationsSection({
@@ -18,6 +25,9 @@ export function IntegrationsSection({
     captionColor,
     textColor,
     bodyColor,
+    label = "Launching with",
+    logos,
+    moreText = "More integrations coming soon",
 }: IntegrationsSectionProps) {
     return (
         <section className={accentBg}>
@@ -33,14 +43,27 @@ export function IntegrationsSection({
 
                         {/* Right — logo pill */}
                         <div className={`flex flex-col items-center justify-center gap-6 ${pillBg} rounded-lg p-12`}>
-                            <p className={`text-caption ${captionColor}`}>Launching with</p>
-                            <img
-                                src="/miro-logo.svg"
-                                alt="Miro"
-                                width={703} height={258}
-                                className="h-16 w-auto object-contain"
-                            />
-                            <p className={`text-sm ${captionColor}`}>More integrations coming soon</p>
+                            <p className={`text-caption ${captionColor}`}>{label}</p>
+                            {logos ? (
+                                logos.map((l) => (
+                                    <img
+                                        key={l.name}
+                                        src={urlFor(l.logo).width(600).auto("format").url()}
+                                        alt={l.name}
+                                        className="h-16 w-auto object-contain"
+                                    />
+                                ))
+                            ) : (
+                                <img
+                                    src="/miro-logo.svg"
+                                    alt="Miro"
+                                    width={703} height={258}
+                                    className="h-16 w-auto object-contain"
+                                />
+                            )}
+                            {moreText && (
+                                <p className={`text-sm ${captionColor}`}>{moreText}</p>
+                            )}
                         </div>
 
                     </div>

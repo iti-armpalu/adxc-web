@@ -45,15 +45,38 @@ export default async function BrandsPage() {
                 headlineLine3={brands.heroHeadlineLine3}
                 subtext={brands.heroSubtext}
             />
-            <BrandsDataProviders />
-            <BrandsProblem />
+            <BrandsDataProviders
+                label={brands.dataProvidersLabel}
+                logos={brands.dataProvidersLogos}
+                moreText={brands.dataProvidersMoreText}
+            />
+            <BrandsProblem
+                label={brands.problemLabel}
+                stat={brands.problemStat}
+                statLabel={brands.problemStatLabel}
+                subtext={brands.problemSubtext}
+                note={brands.problemNote}
+            />
             <BrandsHowItWorks
                 headline={brands.howItWorksHeadline}
                 features={brands.howItWorksFeatures}
             />
-            <BrandsIntegrations />
-            <BrandsCTA />
-            <BrandsPartners />
+            <BrandsIntegrations
+                headline={brands.integrationsHeadline}
+                subtext={brands.integrationsSubtext}
+                label={brands.integrationsLabel}
+                logos={brands.integrationsLogos}
+                moreText={brands.integrationsMoreText}
+            />
+            <BrandsCTA
+                headline={brands.ctaHeadline}
+                subtext={brands.ctaSubtext}
+                buttonLabel={brands.ctaButtonLabel}
+            />
+            <BrandsPartners
+                label={brands.partnersLabel}
+                logos={brands.partnersLogos}
+            />
         </>
     )
 }

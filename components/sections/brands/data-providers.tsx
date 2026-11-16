@@ -1,12 +1,14 @@
 import { FadeIn } from "@/components/ui/fade-in"
+import { urlFor } from "@/lib/cms/image"
+import type { PartnerLogoContent } from "@/lib/cms/types"
 
-const dataProviders = [
-    { name: "YouGov", logo: "/yougov-logo.svg", width: 136, height: 28 },
-    { name: "Quid", logo: "/quid-logo.svg", width: 83, height: 24 },
-    { name: "Data Commons", logo: "/data-comms-logo.svg", width: 28, height: 28, showName: true },
-]
+interface BrandsDataProvidersProps {
+    label: string
+    logos: PartnerLogoContent[]
+    moreText?: string
+}
 
-export function BrandsDataProviders() {
+export function BrandsDataProviders({ label, logos, moreText }: BrandsDataProvidersProps) {
     return (
         <FadeIn>
             <section className="bg-white">
@@ -14,16 +16,15 @@ export function BrandsDataProviders() {
                     <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-6 lg:gap-12">
 
                         <p className="text-caption text-muted-foreground shrink-0">
-                            Access data from
+                            {label}
                         </p>
 
                         <div className="flex items-center flex-wrap justify-center gap-6 sm:gap-8">
-                            {dataProviders.map((p) => (
+                            {logos.map((p) => (
                                 <div key={p.name} className="flex items-center gap-2">
                                     <img
-                                        src={p.logo}
+                                        src={urlFor(p.logo).width(400).auto("format").url()}
                                         alt={p.name}
-                                        width={p.width} height={p.height}
                                         className="h-6 sm:h-7 w-auto object-contain"
                                     />
                                     {p.showName && (
@@ -31,9 +32,11 @@ export function BrandsDataProviders() {
                                     )}
                                 </div>
                             ))}
-                            <div className="text-sm text-muted-foreground">
-                                More coming soon
-                            </div>
+                            {moreText && (
+                                <div className="text-sm text-muted-foreground">
+                                    {moreText}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

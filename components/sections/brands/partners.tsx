@@ -1,13 +1,13 @@
 import { FadeIn } from "@/components/ui/fade-in"
+import { urlFor } from "@/lib/cms/image"
+import type { PartnerLogoContent } from "@/lib/cms/types"
 
-const partners = [
-    { name: "Miro", logo: "/miro-logo.svg", width: 703, height: 258 },
-    { name: "DEPT", logo: "/dept-logo.svg", width: 454, height: 106 },
-    { name: "YouGov", logo: "/yougov-logo.svg", width: 136, height: 28 },
-    { name: "Quid", logo: "/quid-logo.svg", width: 83, height: 24 },
-]
+interface BrandsPartnersProps {
+    label: string
+    logos: PartnerLogoContent[]
+}
 
-export function BrandsPartners() {
+export function BrandsPartners({ label, logos }: BrandsPartnersProps) {
     return (
         <FadeIn>
             <section className="bg-purple-50">
@@ -15,19 +15,20 @@ export function BrandsPartners() {
                     <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-12">
 
                         <p className="text-base text-center text-purple-950 shrink-0 max-w-xs">
-                            Partnering with the world's leading agencies, data providers and AI platforms
+                            {label}
                         </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
-                            {partners.map((p) => (
+                            {logos.map((p) => (
                                 <div key={p.name} className="flex items-center gap-2">
                                     <img
-                                        key={p.name}
-                                        src={p.logo}
+                                        src={urlFor(p.logo).width(400).auto("format").url()}
                                         alt={p.name}
-                                        width={p.width} height={p.height}
                                         className="h-4 sm:h-6 w-auto object-contain"
                                     />
+                                    {p.showName && (
+                                        <span style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, color: "#000000" }} className="text-sm">{p.name}</span>
+                                    )}
                                 </div>
                             ))}
                         </div>

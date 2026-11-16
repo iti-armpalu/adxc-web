@@ -6,7 +6,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { FadeIn } from "@/components/ui/fade-in"
 
-export function BrandsCTA() {
+interface BrandsCTAProps {
+    headline: string
+    subtext: string
+    buttonLabel: string
+}
+
+export function BrandsCTA({ headline, subtext, buttonLabel }: BrandsCTAProps) {
     const [email, setEmail] = useState("")
     const router = useRouter()
 
@@ -25,11 +31,10 @@ export function BrandsCTA() {
 
                         <div className="space-y-4">
                             <h2 className="text-primary">
-                                Get early access to ADXC
+                                {headline}
                             </h2>
                             <p className="text-lg text-muted-foreground leading-relaxed">
-                                Join the beta and be one of the first to access premium marketing
-                                data through your AI agents.
+                                {subtext}
                             </p>
                         </div>
 
@@ -43,7 +48,7 @@ export function BrandsCTA() {
                                     className="h-10"
                                 />
                                 <Button size="lg" onClick={handleSubmit} className="shrink-0 h-10">
-                                    Get early access
+                                    {buttonLabel}
                                 </Button>
                             </div>
                         </div>

@@ -1,5 +1,5 @@
 import { sanityFetch } from "./client"
-import type { AboutPageContent, AudiencePageContent, BlogPost, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent, SiteSettingsContent } from "./types"
+import type { AboutPageContent, AudiencePageContent, BlogPost, BrandsPageContent, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent, SiteSettingsContent } from "./types"
 
 const SEO_PROJECTION = `
       seo {
@@ -101,7 +101,7 @@ export async function getHome(): Promise<HomeContent | null> {
 
 // Audience pages are pinned singletons — _id: "audience-brands", etc.
 // (see studio-adxc/structure.ts).
-export async function getBrandsPage(): Promise<AudiencePageContent | null> {
+export async function getBrandsPage(): Promise<BrandsPageContent | null> {
   return sanityFetch(
     `*[_type == "audiencePage" && _id == "audience-brands"][0] {
       audience,
@@ -110,12 +110,42 @@ export async function getBrandsPage(): Promise<AudiencePageContent | null> {
       heroHeadlineLine2,
       heroHeadlineLine3,
       heroSubtext,
+      dataProvidersLabel,
+      dataProvidersLogos[] {
+        name,
+        logo,
+        showName
+      },
+      dataProvidersMoreText,
+      problemLabel,
+      problemStat,
+      problemStatLabel,
+      problemSubtext,
+      problemNote,
       howItWorksHeadline,
       howItWorksFeatures[] {
         icon,
         title,
         lead,
         description
+      },
+      integrationsHeadline,
+      integrationsSubtext,
+      integrationsLabel,
+      integrationsLogos[] {
+        name,
+        logo,
+        showName
+      },
+      integrationsMoreText,
+      ctaHeadline,
+      ctaSubtext,
+      ctaButtonLabel,
+      partnersLabel,
+      partnersLogos[] {
+        name,
+        logo,
+        showName
       },
       ${SEO_PROJECTION}
     }`

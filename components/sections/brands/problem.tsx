@@ -1,13 +1,21 @@
 import { ProblemSection } from "@/components/sections/problem-section"
 
-export function BrandsProblem() {
+interface BrandsProblemProps {
+    label?: string
+    stat: string
+    statLabel: string
+    subtext: string
+    note: string
+}
+
+export function BrandsProblem({ label, stat, statLabel, subtext, note }: BrandsProblemProps) {
     return (
         <ProblemSection
-            eyebrow="The problem"
-            stat="$200k+"
-            statLabel="Price for enterprise subscriptions to premium consumer data providers"
-            body="99% of businesses can't afford the insight they need to make better marketing decisions. This wastes resources and limits your growth."
-            closer="ADXC was built for the 99%."
+            eyebrow={label}
+            stat={stat}
+            statLabel={statLabel}
+            body={subtext}
+            closer={note}
             background="bg-purple-50"
             statColor="text-purple-800"
             labelColor="text-purple-700"
