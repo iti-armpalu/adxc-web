@@ -6,7 +6,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { FadeIn } from "@/components/ui/fade-in"
 
-export function DataSourcesCTA() {
+interface DataSourcesCTAProps {
+    headlineLine1: string
+    headlineLine2?: string
+    buttonLabel: string
+}
+
+export function DataSourcesCTA({ headlineLine1, headlineLine2, buttonLabel }: DataSourcesCTAProps) {
     const [email, setEmail] = useState("")
     const router = useRouter()
 
@@ -25,8 +31,8 @@ export function DataSourcesCTA() {
 
                         <div className="space-y-4">
                             <h2 className="text-primary">
-                                Start accessing these data providers,
-                                <span className="block">pay-as-you-go</span>
+                                {headlineLine1}
+                                {headlineLine2 && <span className="block">{headlineLine2}</span>}
                             </h2>
                         </div>
 
@@ -39,7 +45,7 @@ export function DataSourcesCTA() {
                                 className="h-10"
                             />
                             <Button size="lg" onClick={handleSubmit} className="shrink-0 h-10">
-                                Get early access
+                                {buttonLabel}
                             </Button>
                         </div>
 

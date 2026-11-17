@@ -45,9 +45,18 @@ export default async function ProductDataProvidersPage() {
                 headline={dataSources.providersHeadline}
                 providers={dataSources.providers}
             />
-            <MoreProviders />
-            <DataSourcesCTA />
-            <DataProvidersPartner />
+            <MoreProviders text={dataSources.moreProvidersText} />
+            <DataSourcesCTA
+                headlineLine1={dataSources.ctaHeadlineLine1}
+                headlineLine2={dataSources.ctaHeadlineLine2}
+                buttonLabel={dataSources.ctaButtonLabel}
+            />
+            <DataProvidersPartner
+                label={dataSources.partnerLabel}
+                headline={dataSources.partnerHeadline}
+                subtext={dataSources.partnerSubtext}
+                buttonLabel={dataSources.partnerButtonLabel}
+            />
         </>
     )
 }

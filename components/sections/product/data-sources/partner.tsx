@@ -29,7 +29,14 @@ type FormData = z.infer<typeof schema>
 
 const initialState: DataProviderEnquiryState = { status: "idle" }
 
-export function DataProvidersPartner() {
+interface DataProvidersPartnerProps {
+    label: string
+    headline: string
+    subtext: string
+    buttonLabel: string
+}
+
+export function DataProvidersPartner({ label, headline, subtext, buttonLabel }: DataProvidersPartnerProps) {
     const [state, action, isPending] = useActionState(submitDataProviderEnquiry, initialState)
     const [localStatus, setLocalStatus] = useState<DataProviderEnquiryState>(initialState)
     const [turnstileToken, setTurnstileToken] = useState("")
@@ -71,14 +78,14 @@ export function DataProvidersPartner() {
                         <div className="space-y-6">
                             <div className="space-y-3">
                                 <p className="text-caption text-muted-foreground">
-                                    Become a data partner
+                                    {label}
                                 </p>
                                 <h2 className="text-primary">
-                                    Are you a data provider interested in joining?
+                                    {headline}
                                 </h2>
                             </div>
                             <p className="text-lg text-muted-foreground leading-relaxed">
-                                Become a partner and unlock a new market for your data.
+                                {subtext}
                             </p>
                         </div>
 
@@ -156,7 +163,7 @@ export function DataProvidersPartner() {
 
                                             <Button type="submit" disabled={isPending || !turnstileToken || !isValid}
                                                 className="w-full group" size="lg">
-                                                {isPending ? "Sending…" : "Become a partner"}
+                                                {isPending ? "Sending…" : buttonLabel}
                                                 <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                                             </Button>
 

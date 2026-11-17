@@ -275,6 +275,14 @@ export interface DataSourcesPageContent {
     heroSubtext: string
     providersHeadline: string
     providers: DataProviderContent[]
+    moreProvidersText: string
+    ctaHeadlineLine1: string
+    ctaHeadlineLine2?: string
+    ctaButtonLabel: string
+    partnerLabel: string
+    partnerHeadline: string
+    partnerSubtext: string
+    partnerButtonLabel: string
     seo?: SeoContent
 }
 

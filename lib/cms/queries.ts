@@ -335,6 +335,14 @@ export async function getDataSourcesPage(): Promise<DataSourcesPageContent | nul
         description,
         capabilities
       },
+      moreProvidersText,
+      ctaHeadlineLine1,
+      ctaHeadlineLine2,
+      ctaButtonLabel,
+      partnerLabel,
+      partnerHeadline,
+      partnerSubtext,
+      partnerButtonLabel,
       ${SEO_PROJECTION}
     }`
   )
