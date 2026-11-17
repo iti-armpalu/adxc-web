@@ -1,11 +1,14 @@
 import { FadeIn } from "@/components/ui/fade-in"
+import { urlFor } from "@/lib/cms/image"
+import type { PartnerLogoContent } from "@/lib/cms/types"
 
-const partners = [
-    { name: "Miro", logo: "/miro-logo.svg", width: 703, height: 258 },
-    { name: "Deptify", logo: "/deptify-logo.svg", width: 1273, height: 283 },
-]
+interface AIPlatformsPartnersProps {
+    label: string
+    logos: PartnerLogoContent[]
+    moreText?: string
+}
 
-export function AIPlatformsPartners() {
+export function AIPlatformsPartners({ label, logos, moreText }: AIPlatformsPartnersProps) {
     return (
         <FadeIn>
             <section className="bg-cyan-50">
@@ -13,20 +16,21 @@ export function AIPlatformsPartners() {
                     <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-12">
 
                         <p className="text-base text-center text-cyan-950 shrink-0 max-w-xs">
-                            Join leading AI platforms integrating ADXC
+                            {label}
                         </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
-                            {partners.map((p) => (
+                            {logos.map((p) => (
                                 <img
                                     key={p.name}
-                                    src={p.logo}
+                                    src={urlFor(p.logo).width(600).auto("format").url()}
                                     alt={p.name}
-                                    width={p.width} height={p.height}
                                     className="h-8 w-auto object-contain"
                                 />
                             ))}
-                            <p className="text-sm text-cyan-950">More coming soon</p>
+                            {moreText && (
+                                <p className="text-sm text-cyan-950">{moreText}</p>
+                            )}
                         </div>
 
                     </div>

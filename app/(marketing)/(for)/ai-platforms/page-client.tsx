@@ -7,10 +7,10 @@ import { AIPlatformsWhyNow } from "@/components/sections/ai-platforms/why-now"
 import { AIPlatformsHowItWorks } from "@/components/sections/ai-platforms/how-it-works"
 import { AIPlatformsPartners } from "@/components/sections/ai-platforms/partners"
 import { AIPlatformsCTA } from "@/components/sections/ai-platforms/cta"
-import type { AudiencePageContent } from "@/lib/cms/types"
+import type { AIPlatformsPageContent } from "@/lib/cms/types"
 
 interface AIPlatformsPageClientProps {
-    data: AudiencePageContent
+    data: AIPlatformsPageContent
 }
 
 export default function AIPlatformsPageClient({ data }: AIPlatformsPageClientProps) {
@@ -31,15 +31,31 @@ export default function AIPlatformsPageClient({ data }: AIPlatformsPageClientPro
                     onSubmit: (email) => setSharedEmail(email),
                 }}
             />
-            <AIPlatformsCapabilities />
-            <AIPlatformsWhyNow />
+            <AIPlatformsCapabilities
+                headline={data.capabilitiesHeadline}
+                subtext={data.capabilitiesSubtext}
+            />
+            <AIPlatformsWhyNow
+                label={data.whyNowLabel}
+                cards={data.whyNowCards}
+            />
             <AIPlatformsHowItWorks
                 headline={data.howItWorksHeadline}
                 subtext={data.howItWorksSubtext}
                 features={data.howItWorksFeatures}
             />
-            <AIPlatformsPartners />
-            <AIPlatformsCTA prefillEmail={sharedEmail} />
+            <AIPlatformsPartners
+                label={data.midPartnersLabel}
+                logos={data.midPartnersLogos}
+                moreText={data.midPartnersMoreText}
+            />
+            <AIPlatformsCTA
+                label={data.ctaLabel}
+                headline={data.ctaHeadline}
+                subtext={data.ctaSubtext}
+                buttonLabel={data.ctaButtonLabel}
+                prefillEmail={sharedEmail}
+            />
         </>
     )
 }

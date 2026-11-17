@@ -1,6 +1,11 @@
 import { FadeIn } from "@/components/ui/fade-in"
 
-export function AIPlatformsCapabilities() {
+interface AIPlatformsCapabilitiesProps {
+    headline: string
+    subtext: string
+}
+
+export function AIPlatformsCapabilities({ headline, subtext }: AIPlatformsCapabilitiesProps) {
     return (
         <FadeIn>
             <section className="bg-white">
@@ -9,12 +14,10 @@ export function AIPlatformsCapabilities() {
 
                         <div className="space-y-6">
                             <h2 className="text-cyan-800">
-                                Unlock new, differentiated capabilities for your AI agents.
+                                {headline}
                             </h2>
                             <p className="text-lg text-cyan-950 leading-relaxed">
-                                Strategy. Research. Audience deep-dives. Competitive analysis. With ADXC,
-                                your AI agents can answer the questions users actually come to your platform
-                                to work through, backed by real consumer data.
+                                {subtext}
                             </p>
                         </div>
 

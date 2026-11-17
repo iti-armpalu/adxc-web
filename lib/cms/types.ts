@@ -180,6 +180,20 @@ type DistributionFields = {
     distributionImage: SanityImage
 }
 
+export type StatCardContent = {
+    value: string
+    label: string
+    labelSourceUrl?: string
+    subtext: string
+    subtextSourceUrl?: string
+}
+
+type MidPartnersFields = {
+    midPartnersLabel: string
+    midPartnersLogos: PartnerLogoContent[]
+    midPartnersMoreText?: string
+}
+
 export type LinkCardContent = {
     title: string
     description: string
@@ -193,6 +207,16 @@ export type BrandsPageContent = AudiencePageContent &
     IntegrationsFields &
     CtaFields &
     PartnersFields
+
+export type AIPlatformsPageContent = AudiencePageContent & {
+    capabilitiesHeadline: string
+    capabilitiesSubtext: string
+    whyNowLabel: string
+    whyNowCards: StatCardContent[]
+} & MidPartnersFields &
+    CtaFields & {
+        ctaLabel: string
+    }
 
 export type DataProvidersPageContent = AudiencePageContent &
     DataProvidersFields &

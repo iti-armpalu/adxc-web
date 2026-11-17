@@ -1,5 +1,5 @@
 import { sanityFetch } from "./client"
-import type { AboutPageContent, AudiencePageContent, AgenciesPageContent, BlogPost, BrandsPageContent, DataProvidersPageContent, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent, SiteSettingsContent } from "./types"
+import type { AboutPageContent, AudiencePageContent, AgenciesPageContent, AIPlatformsPageContent, BlogPost, BrandsPageContent, DataProvidersPageContent, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent, SiteSettingsContent } from "./types"
 
 const SEO_PROJECTION = `
       seo {
@@ -246,7 +246,7 @@ export async function getDataProvidersPage(): Promise<DataProvidersPageContent |
   )
 }
 
-export async function getAIPlatformsPage(): Promise<AudiencePageContent | null> {
+export async function getAIPlatformsPage(): Promise<AIPlatformsPageContent | null> {
   return sanityFetch(
     `*[_type == "audiencePage" && _id == "audience-ai-platforms"][0] {
       audience,
@@ -255,6 +255,16 @@ export async function getAIPlatformsPage(): Promise<AudiencePageContent | null> 
       heroHeadlineLine2,
       heroHeadlineLine3,
       heroSubtext,
+      capabilitiesHeadline,
+      capabilitiesSubtext,
+      whyNowLabel,
+      whyNowCards[] {
+        value,
+        label,
+        labelSourceUrl,
+        subtext,
+        subtextSourceUrl
+      },
       howItWorksHeadline,
       howItWorksSubtext,
       howItWorksFeatures[] {
@@ -263,6 +273,11 @@ export async function getAIPlatformsPage(): Promise<AudiencePageContent | null> 
         lead,
         description
       },
+      midPartnersLabel,
+      midPartnersLogos[] ${LOGOS},
+      midPartnersMoreText,
+      ctaLabel,
+      ${CTA_PROJECTION}
       ${SEO_PROJECTION}
     }`
   )
