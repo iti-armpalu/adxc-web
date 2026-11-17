@@ -1,5 +1,5 @@
 import { sanityFetch } from "./client"
-import type { AboutPageContent, AudiencePageContent, AgenciesPageContent, AIPlatformsPageContent, BlogPost, BrandsPageContent, DataProvidersPageContent, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent, SiteSettingsContent } from "./types"
+import type { AboutPageContent, AudiencePageContent, AgenciesPageContent, AIPlatformsPageContent, BlogPost, CardsOfferPageContent, BrandsPageContent, DataProvidersPageContent, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent, SiteSettingsContent } from "./types"
 
 const SEO_PROJECTION = `
       seo {
@@ -380,6 +380,32 @@ export async function getSiteSettings(): Promise<SiteSettingsContent | null> {
   return sanityFetch(
     `*[_type == "siteSettings" && _id == "siteSettings"][0] {
       footerDescription
+    }`
+  )
+}
+
+// Cards Offer — singleton, fixed _id "cards-offer".
+export async function getCardsOfferPage(): Promise<CardsOfferPageContent | null> {
+  return sanityFetch(
+    `*[_type == "cardsOfferPage" && _id == "cards-offer"][0] {
+      heroHeadline,
+      heroSubtext,
+      contactLead,
+      contactTeamMember,
+      contactEmail,
+      formButtonLabel,
+      formMicrocopy,
+      providersLabel,
+      providersLogos[] ${LOGOS},
+      providersMoreText,
+      integrationsLabel,
+      integrationsLogos[] ${LOGOS},
+      demoVideoUrl,
+      demoHeadline,
+      demoSubtext,
+      demoThumbnail,
+      ctaHeadline,
+      ${SEO_PROJECTION}
     }`
   )
 }

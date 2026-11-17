@@ -268,6 +268,27 @@ export interface DataProviderContent {
     capabilities: string[]
 }
 
+export interface CardsOfferPageContent {
+    heroHeadline: string
+    heroSubtext: string
+    contactLead?: string
+    contactTeamMember: string
+    contactEmail: string
+    formButtonLabel: string
+    formMicrocopy?: string
+    providersLabel: string
+    providersLogos: PartnerLogoContent[]
+    providersMoreText?: string
+    integrationsLabel: string
+    integrationsLogos: PartnerLogoContent[]
+    demoVideoUrl?: string
+    demoHeadline?: string
+    demoSubtext?: string
+    demoThumbnail?: SanityImage
+    ctaHeadline: string
+    seo?: SeoContent
+}
+
 export interface DataSourcesPageContent {
     heroHeadlineLine1: string
     heroHeadlineLine2?: string
