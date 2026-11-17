@@ -1,11 +1,14 @@
 import { FadeIn } from "@/components/ui/fade-in"
+import { urlFor } from "@/lib/cms/image"
+import type { PartnerLogoContent } from "@/lib/cms/types"
 
-const partners = [
-    { name: "YouGov", logo: "/yougov-logo.svg", width: 136, height: 28 },
-    { name: "Quid", logo: "/quid-logo.svg", width: 83, height: 24 },
-]
+interface DataProvidersDataProvidersProps {
+    label: string
+    logos: PartnerLogoContent[]
+    moreText?: string
+}
 
-export function DataProvidersDataProviders() {
+export function DataProvidersDataProviders({ label, logos, moreText }: DataProvidersDataProvidersProps) {
     return (
         <FadeIn>
             <section className="bg-white">
@@ -13,24 +16,27 @@ export function DataProvidersDataProviders() {
                     <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-12">
 
                         <p className="text-base text-center text-blue-950 shrink-0 max-w-xs">
-                            Join leading providers on ADXC
+                            {label}
                         </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
-                            {partners.map((p) => (
+                            {logos.map((p) => (
                                 <div key={p.name} className="flex items-center gap-2">
                                     <img
-                                        key={p.name}
-                                        src={p.logo}
+                                        src={urlFor(p.logo).width(400).auto("format").url()}
                                         alt={p.name}
-                                        width={p.width} height={p.height}
                                         className="h-6 sm:h-7 w-auto object-contain"
                                     />
+                                    {p.showName && (
+                                        <span style={{ fontFamily: "'Google Sans', sans-serif", fontWeight: 400, color: "#000000" }} className="text-sm">{p.name}</span>
+                                    )}
                                 </div>
                             ))}
-                            <div className="text-sm text-muted-foreground">
-                                More coming soon
-                            </div>
+                            {moreText && (
+                                <div className="text-sm text-muted-foreground">
+                                    {moreText}
+                                </div>
+                            )}
                         </div>
 
                     </div>

@@ -1,5 +1,5 @@
 import { sanityFetch } from "./client"
-import type { AboutPageContent, AudiencePageContent, AgenciesPageContent, BlogPost, BrandsPageContent, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent, SiteSettingsContent } from "./types"
+import type { AboutPageContent, AudiencePageContent, AgenciesPageContent, BlogPost, BrandsPageContent, DataProvidersPageContent, BlogPostPreview, DataSourcesPageContent, HomeContent, PlatformPageContent, SiteSeoContent, SiteSettingsContent } from "./types"
 
 const SEO_PROJECTION = `
       seo {
@@ -18,6 +18,12 @@ const LOGOS = `{
         logo,
         showName
       }`
+
+const DATA_PROVIDERS_PROJECTION = `
+      dataProvidersLabel,
+      dataProvidersLogos[] ${LOGOS},
+      dataProvidersMoreText,
+`
 
 const INTEGRATIONS_PROJECTION = `
       integrationsHeadline,
@@ -143,13 +149,7 @@ export async function getBrandsPage(): Promise<BrandsPageContent | null> {
       heroHeadlineLine2,
       heroHeadlineLine3,
       heroSubtext,
-      dataProvidersLabel,
-      dataProvidersLogos[] {
-        name,
-        logo,
-        showName
-      },
-      dataProvidersMoreText,
+      ${DATA_PROVIDERS_PROJECTION}
       problemLabel,
       problemStat,
       problemStatLabel,
@@ -201,7 +201,7 @@ export async function getAgenciesPage(): Promise<AgenciesPageContent | null> {
   )
 }
 
-export async function getDataProvidersPage(): Promise<AudiencePageContent | null> {
+export async function getDataProvidersPage(): Promise<DataProvidersPageContent | null> {
   return sanityFetch(
     `*[_type == "audiencePage" && _id == "audience-data-providers"][0] {
       audience,
@@ -210,6 +210,19 @@ export async function getDataProvidersPage(): Promise<AudiencePageContent | null
       heroHeadlineLine2,
       heroHeadlineLine3,
       heroSubtext,
+      ${DATA_PROVIDERS_PROJECTION}
+      statValue,
+      statLabel,
+      statSubtext,
+      statNote,
+      whyNowLabel,
+      whyNowStats[] {
+        value,
+        label,
+        sourceUrl
+      },
+      whyNowHeadline,
+      whyNowNote,
       howItWorksHeadline,
       howItWorksFeatures[] {
         icon,
@@ -217,6 +230,17 @@ export async function getDataProvidersPage(): Promise<AudiencePageContent | null
         lead,
         description
       },
+      distributionHeadline,
+      distributionSubtext,
+      distributionNote,
+      distributionLabel,
+      distributionLogos[] ${LOGOS},
+      distributionStatValue,
+      distributionStatLabel,
+      distributionImage,
+      ctaLabel,
+      ${CTA_PROJECTION}
+      ${PARTNERS_PROJECTION}
       ${SEO_PROJECTION}
     }`
   )

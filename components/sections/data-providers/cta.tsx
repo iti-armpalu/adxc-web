@@ -29,9 +29,15 @@ type FormData = z.infer<typeof schema>
 
 const initialState: DataProviderEnquiryState = { status: "idle" }
 
-type Props = { prefillEmail?: string }
+type Props = {
+    label: string
+    headline: string
+    subtext: string
+    buttonLabel: string
+    prefillEmail?: string
+}
 
-export function DataProvidersCTA({ prefillEmail = "" }: Props) {
+export function DataProvidersCTA({ label, headline, subtext, buttonLabel, prefillEmail = "" }: Props) {
 
     const [state, action, isPending] = useActionState(submitDataProviderEnquiry, initialState)
     const [localStatus, setLocalStatus] = useState<DataProviderEnquiryState>(initialState)
@@ -74,14 +80,14 @@ export function DataProvidersCTA({ prefillEmail = "" }: Props) {
                         <div className="space-y-6">
                             <div className="space-y-3">
                                 <p className="text-caption text-muted-foreground">
-                                    Become a data partner
+                                    {label}
                                 </p>
                                 <h2 className="text-primary">
-                                    Put your data inside the workflows shaping marketing decisions
+                                    {headline}
                                 </h2>
                             </div>
                             <p className="text-lg text-muted-foreground leading-relaxed">
-                                Talk to our team about how ADXC can open a new market for your data.
+                                {subtext}
                             </p>
                         </div>
 
@@ -157,7 +163,7 @@ export function DataProvidersCTA({ prefillEmail = "" }: Props) {
 
                                             <Button type="submit" disabled={isPending || !turnstileToken || !isValid}
                                                 className="w-full group" size="lg">
-                                                {isPending ? "Sending…" : "Get in touch"}
+                                                {isPending ? "Sending…" : buttonLabel}
                                                 <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
                                             </Button>
 

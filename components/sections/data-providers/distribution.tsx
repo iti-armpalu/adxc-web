@@ -1,11 +1,29 @@
 import { FadeIn } from "@/components/ui/fade-in"
 import Image from "next/image"
+import { urlFor } from "@/lib/cms/image"
+import type { PartnerLogoContent, SanityImage } from "@/lib/cms/types"
 
-const stats = [
-    { value: "100M+", label: "marketers on Miro" },
-]
+interface DataProvidersDistributionProps {
+    headline: string
+    subtext: string
+    note?: string
+    label: string
+    logos: PartnerLogoContent[]
+    statValue: string
+    statLabel: string
+    image: SanityImage
+}
 
-export function DataProvidersDistribution() {
+export function DataProvidersDistribution({
+    headline,
+    subtext,
+    note,
+    label,
+    logos,
+    statValue,
+    statLabel,
+    image,
+}: DataProvidersDistributionProps) {
     return (
         <section className="bg-blue-50">
             <FadeIn>
@@ -15,43 +33,47 @@ export function DataProvidersDistribution() {
                         {/* Left — copy */}
                         <div className="space-y-8">
                             <h2 className="text-blue-900">
-                                Built-in distribution from day one.
+                                {headline}
                             </h2>
 
                             <div className="space-y-4">
                                 <p className="text-lg text-blue-950 font-medium leading-relaxed">
-                                    ADXC is integrating with Miro, putting your data within reach of 100M marketers using AI agents in their daily workflows.
+                                    {subtext}
                                 </p>
-                                <p className="text-sm text-blue-900 leading-relaxed">
-                                    More platform integrations are launching throughout 2026.
-                                </p>
+                                {note && (
+                                    <p className="text-sm text-blue-900 leading-relaxed">
+                                        {note}
+                                    </p>
+                                )}
                             </div>
 
                             {/* Stats row */}
                             <div className="flex items-center gap-10 pt-2">
                                 <div className="space-y-2">
-                                    <p className="text-caption text-blue-700">Integrating with</p>
-                                    <img
-                                        src="/miro-logo.svg"
-                                        alt="Miro"
-                                        width={703} height={258}
-                                        className="h-8 w-auto object-contain"
-                                    />
-                                </div>
-                                {stats.map((s) => (
-                                    <div key={s.label} className="border-l border-blue-200 pl-10 space-y-2">
-                                        <p className="text-3xl font-semibold text-blue-900">{s.value}</p>
-                                        <p className="text-caption text-blue-700">{s.label}</p>
+                                    <p className="text-caption text-blue-700">{label}</p>
+                                    <div className="flex items-center gap-6">
+                                        {logos.map((l) => (
+                                            <img
+                                                key={l.name}
+                                                src={urlFor(l.logo).width(600).auto("format").url()}
+                                                alt={l.name}
+                                                className="h-8 w-auto object-contain"
+                                            />
+                                        ))}
                                     </div>
-                                ))}
+                                </div>
+                                <div className="border-l border-blue-200 pl-10 space-y-2">
+                                    <p className="text-3xl font-semibold text-blue-900">{statValue}</p>
+                                    <p className="text-caption text-blue-700">{statLabel}</p>
+                                </div>
                             </div>
                         </div>
 
                         {/* Right — canvas image */}
                         <div>
                             <Image
-                                src="/miro-canvas-marketing.webp"
-                                alt="ADXC inside Miro canvas"
+                                src={urlFor(image).width(1600).auto("format").url()}
+                                alt={image.alt ?? ""}
                                 width={1600}
                                 height={900}
                                 sizes="(min-width: 1280px) 600px, (min-width: 768px) 50vw, 100vw"

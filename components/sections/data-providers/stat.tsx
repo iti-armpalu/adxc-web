@@ -1,6 +1,13 @@
 import { FadeIn } from "@/components/ui/fade-in"
 
-export function DataProvidersStat() {
+interface DataProvidersStatProps {
+    value: string
+    label: string
+    subtext: string
+    note: string
+}
+
+export function DataProvidersStat({ value, label, subtext, note }: DataProvidersStatProps) {
     return (
         <FadeIn>
             <section className="bg-white">
@@ -10,20 +17,20 @@ export function DataProvidersStat() {
                         {/* Left — stat. text-7xl/8xl intentionally exceeds DS scale for impact */}
                         <div className="space-y-2">
                             <p className="text-7xl sm:text-8xl font-semibold tracking-tight text-blue-900 leading-none">
-                                &gt;99%
+                                {value}
                             </p>
                             <p className="text-sm md:text-base font-medium text-blue-950">
-                                of businesses are SMEs
+                                {label}
                             </p>
                         </div>
 
                         {/* Right — explainer */}
                         <div className="space-y-3">
                             <p className="text-lg text-blue-950 leading-relaxed ">
-                                They can’t justify enterprise subscriptions, but still need diverse data from a range of providers.
+                                {subtext}
                             </p>
                             <p className="text-lg text-blue-950 leading-relaxed font-medium">
-                                Until now, there was no viable way to serve them.
+                                {note}
                             </p>
                         </div>
 

@@ -9,10 +9,10 @@ import { DataProvidersDistribution } from "@/components/sections/data-providers/
 import { DataProvidersPartners } from "@/components/sections/data-providers/partners"
 import { DataProvidersCTA } from "@/components/sections/data-providers/cta"
 import { DataProvidersDataProviders } from "@/components/sections/data-providers/data-providers"
-import type { AudiencePageContent } from "@/lib/cms/types"
+import type { DataProvidersPageContent } from "@/lib/cms/types"
 
 interface DataProvidersPageClientProps {
-    data: AudiencePageContent
+    data: DataProvidersPageContent
 }
 
 export default function DataProvidersPageClient({ data }: DataProvidersPageClientProps) {
@@ -33,16 +33,48 @@ export default function DataProvidersPageClient({ data }: DataProvidersPageClien
                     onSubmit: (email) => setSharedEmail(email),
                 }}
             />
-            <DataProvidersDataProviders />
-            <DataProvidersStat />
-            <DataProvidersWhyNow />
+            <DataProvidersDataProviders
+                label={data.dataProvidersLabel}
+                logos={data.dataProvidersLogos}
+                moreText={data.dataProvidersMoreText}
+            />
+            <DataProvidersStat
+                value={data.statValue}
+                label={data.statLabel}
+                subtext={data.statSubtext}
+                note={data.statNote}
+            />
+            <DataProvidersWhyNow
+                label={data.whyNowLabel}
+                stats={data.whyNowStats}
+                headline={data.whyNowHeadline}
+                note={data.whyNowNote}
+            />
             <DataProvidersHowItWorks
                 headline={data.howItWorksHeadline}
                 features={data.howItWorksFeatures}
             />
-            <DataProvidersDistribution />
-            <DataProvidersCTA prefillEmail={sharedEmail} />
-            <DataProvidersPartners />
+            <DataProvidersDistribution
+                headline={data.distributionHeadline}
+                subtext={data.distributionSubtext}
+                note={data.distributionNote}
+                label={data.distributionLabel}
+                logos={data.distributionLogos}
+                statValue={data.distributionStatValue}
+                statLabel={data.distributionStatLabel}
+                image={data.distributionImage}
+            />
+            <DataProvidersCTA
+                label={data.ctaLabel}
+                headline={data.ctaHeadline}
+                subtext={data.ctaSubtext}
+                buttonLabel={data.ctaButtonLabel}
+                prefillEmail={sharedEmail}
+            />
+            <DataProvidersPartners
+                label={data.partnersLabel}
+                logos={data.partnersLogos}
+            />
         </>
     )
 }

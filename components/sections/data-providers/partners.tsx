@@ -1,13 +1,13 @@
 import { FadeIn } from "@/components/ui/fade-in"
+import { urlFor } from "@/lib/cms/image"
+import type { PartnerLogoContent } from "@/lib/cms/types"
 
-const partners = [
-    { name: "YouGov", logo: "/yougov-logo.svg", width: 136, height: 28 },
-    { name: "Data Commons", logo: "/data-comms-logo.svg", width: 28, height: 28, showName: true },
-    { name: "Miro", logo: "/miro-logo.svg", width: 703, height: 258 },
-    { name: "DEPT", logo: "/dept-logo.svg", width: 454, height: 106 },
-]
+interface DataProvidersPartnersProps {
+    label: string
+    logos: PartnerLogoContent[]
+}
 
-export function DataProvidersPartners() {
+export function DataProvidersPartners({ label, logos }: DataProvidersPartnersProps) {
     return (
         <FadeIn>
             <section className="bg-blue-50">
@@ -15,17 +15,15 @@ export function DataProvidersPartners() {
                     <div className="flex flex-col items-center lg:flex-row sm:justify-center gap-12">
 
                         <p className="text-base text-center text-blue-950 shrink-0 max-w-xs">
-                            Join a network of leading data and technology partners
+                            {label}
                         </p>
 
                         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-10">
-                            {partners.map((p) => (
+                            {logos.map((p) => (
                                 <div key={p.name} className="flex items-center gap-2">
                                     <img
-                                        key={p.name}
-                                        src={p.logo}
+                                        src={urlFor(p.logo).width(400).auto("format").url()}
                                         alt={p.name}
-                                        width={p.width} height={p.height}
                                         className="h-4 sm:h-6 w-auto object-contain"
                                     />
                                     {p.showName && (

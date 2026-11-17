@@ -149,6 +149,37 @@ type TopPartnersFields = {
     topPartnersLogos: PartnerLogoContent[]
 }
 
+export type StatItemContent = {
+    value: string
+    label: string
+    sourceUrl?: string
+}
+
+type StatFields = {
+    statValue: string
+    statLabel: string
+    statSubtext: string
+    statNote: string
+}
+
+type WhyNowFields = {
+    whyNowLabel: string
+    whyNowStats: StatItemContent[]
+    whyNowHeadline: string
+    whyNowNote?: string
+}
+
+type DistributionFields = {
+    distributionHeadline: string
+    distributionSubtext: string
+    distributionNote?: string
+    distributionLabel: string
+    distributionLogos: PartnerLogoContent[]
+    distributionStatValue: string
+    distributionStatLabel: string
+    distributionImage: SanityImage
+}
+
 export type LinkCardContent = {
     title: string
     description: string
@@ -162,6 +193,15 @@ export type BrandsPageContent = AudiencePageContent &
     IntegrationsFields &
     CtaFields &
     PartnersFields
+
+export type DataProvidersPageContent = AudiencePageContent &
+    DataProvidersFields &
+    StatFields &
+    WhyNowFields &
+    DistributionFields &
+    CtaFields & {
+        ctaLabel: string
+    } & PartnersFields
 
 export type AgenciesPageContent = AudiencePageContent &
     TopPartnersFields &
