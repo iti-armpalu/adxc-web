@@ -34,8 +34,18 @@ export type SiteSeoContent = {
     defaultOgImage: SanityImage
 }
 
+export type AudienceCopyContent = {
+    label: string
+    shortDescription: string
+    longDescription: string
+}
+
 export type SiteSettingsContent = {
-    footerDescription: string
+    footerDescription?: string
+    audienceBrands?: AudienceCopyContent
+    audienceAgencies?: AudienceCopyContent
+    audienceDataProviders?: AudienceCopyContent
+    audienceAiPlatforms?: AudienceCopyContent
 }
 
 // --- Home page ---

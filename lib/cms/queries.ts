@@ -375,11 +375,16 @@ export async function getSiteSeo(): Promise<SiteSeoContent | null> {
     }`
   )
 }
-// Site-wide settings (footer copy) — singleton, fixed _id "siteSettings"
+// Site-wide content (audience copy + footer) — singleton, fixed _id "siteSettings".
+// Shown in Studio as "Site-wide Content".
 export async function getSiteSettings(): Promise<SiteSettingsContent | null> {
   return sanityFetch(
     `*[_type == "siteSettings" && _id == "siteSettings"][0] {
-      footerDescription
+      footerDescription,
+      audienceBrands { label, shortDescription, longDescription },
+      audienceAgencies { label, shortDescription, longDescription },
+      audienceDataProviders { label, shortDescription, longDescription },
+      audienceAiPlatforms { label, shortDescription, longDescription }
     }`
   )
 }

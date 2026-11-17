@@ -1,10 +1,11 @@
-import { siteConfig } from "@/config/site"
 import { FadeIn } from "@/components/ui/fade-in"
 import { AudienceCard } from "@/components/global/audience-card"
+import { getSiteSettings } from "@/lib/cms/queries"
+import { getAudienceItems } from "@/lib/cms/audiences"
 
-const audiences = (siteConfig.nav.find((g) => g.label === "Why ADXC")?.items ?? [])
+export async function AudienceCardsSection() {
+    const audiences = getAudienceItems(await getSiteSettings().catch(() => null))
 
-export function AudienceCardsSection() {
     return (
         <FadeIn>
             <section className="bg-white">

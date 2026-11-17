@@ -35,15 +35,17 @@ const iconMap: Record<string, LucideIcon> = {
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type Props = { latestPosts?: BlogPostPreview[] }
+type Props = { latestPosts?: BlogPostPreview[]; nav?: NavGroup[] }
 
 type NavProps = {
+    nav: NavGroup[]
     pathname: string
     openPanel: string | null
     togglePanel: (label: string) => void
 }
 
 type MobileProps = {
+    nav: NavGroup[]
     mobileOpen: boolean
     setMobileOpen: (v: boolean) => void
     mobileExpanded: string | null
@@ -53,7 +55,7 @@ type MobileProps = {
 
 // ─── Header ───────────────────────────────────────────────────────────────────
 
-export function Header({ latestPosts = [] }: Props) {
+export function Header({ latestPosts = [], nav = siteConfig.nav as NavGroup[] }: Props) {
     const pathname = usePathname()
     const [openPanel, setOpenPanel] = useState<string | null>(null)
     const [mobileOpen, setMobileOpen] = useState(false)
@@ -140,9 +142,10 @@ export function Header({ latestPosts = [] }: Props) {
                     />
                 </Link>
 
-                <DesktopNav pathname={pathname} openPanel={openPanel} togglePanel={togglePanel} />
+                <DesktopNav nav={nav} pathname={pathname} openPanel={openPanel} togglePanel={togglePanel} />
                 <DesktopCTAs />
                 <MobileSheet
+                    nav={nav}
                     mobileOpen={mobileOpen}
                     setMobileOpen={setMobileOpen}
                     mobileExpanded={mobileExpanded}
@@ -161,7 +164,7 @@ export function Header({ latestPosts = [] }: Props) {
                 document.body
             )}
 
-            <MegaPanels openPanel={openPanel} latestPosts={latestPosts} headerHeight={headerHeight} />
+            <MegaPanels nav={nav} openPanel={openPanel} latestPosts={latestPosts} headerHeight={headerHeight} />
 
         </header>
     )
@@ -169,7 +172,7 @@ export function Header({ latestPosts = [] }: Props) {
 
 // ─── Desktop nav ──────────────────────────────────────────────────────────────
 
-function DesktopNav({ pathname, openPanel, togglePanel }: NavProps) {
+function DesktopNav({ nav, pathname, openPanel, togglePanel }: NavProps) {
     const isActive = (group: NavGroup) => {
         if (group.href) return pathname === group.href
         return group.items?.some((item) => pathname.startsWith(item.href)) ?? false
@@ -177,7 +180,7 @@ function DesktopNav({ pathname, openPanel, togglePanel }: NavProps) {
 
     return (
         <nav className="hidden lg:flex items-center gap-1 flex-1 justify-center">
-            {siteConfig.nav.map((group) => {
+            {nav.map((group) => {
                 const active = isActive(group)
                 const hasPanel = !!group.items?.length
                 const panelOpen = openPanel === group.label
@@ -254,7 +257,7 @@ function DesktopCTAs() {
     )
 }
 
-function MobileSheet({ mobileOpen, setMobileOpen, mobileExpanded, setMobileExpanded, pathname }: MobileProps) {
+function MobileSheet({ nav, mobileOpen, setMobileOpen, mobileExpanded, setMobileExpanded, pathname }: MobileProps) {
     return (
         <Sheet
             open={mobileOpen}
@@ -283,7 +286,7 @@ function MobileSheet({ mobileOpen, setMobileOpen, mobileExpanded, setMobileExpan
                         </Link>
                     </div>
 
-                    {siteConfig.nav.map((group) => {
+                    {nav.map((group) => {
                         const hasItems = !!group.items?.length
                         const expanded = mobileExpanded === group.label
 
@@ -382,14 +385,15 @@ function MobileSheet({ mobileOpen, setMobileOpen, mobileExpanded, setMobileExpan
 
 // ─── Mega panels ──────────────────────────────────────────────────────────────
 
-function MegaPanels({ openPanel, latestPosts, headerHeight }: {
+function MegaPanels({ nav, openPanel, latestPosts, headerHeight }: {
+    nav: NavGroup[]
     openPanel: string | null
     latestPosts: BlogPostPreview[]
     headerHeight: number
 }) {
     return (
         <>
-            {siteConfig.nav.map((group) => {
+            {nav.map((group) => {
                 if (!group.items?.length) return null
                 const isOpen = openPanel === group.label
                 const isResources = group.label === "Resources"

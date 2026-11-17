@@ -1,14 +1,15 @@
-import { siteConfig } from "@/config/site"
 import { FadeIn } from "@/components/ui/fade-in"
 import { AudienceCard } from "@/components/global/audience-card"
-
-const audiences = (siteConfig.nav.find((g) => g.label === "Why ADXC")?.items ?? [])
+import { getSiteSettings } from "@/lib/cms/queries"
+import { getAudienceItems } from "@/lib/cms/audiences"
 
 interface PlatformAudiencesProps {
     headline: string
 }
 
-export function PlatformAudiences({ headline }: PlatformAudiencesProps) {
+export async function PlatformAudiences({ headline }: PlatformAudiencesProps) {
+    const audiences = getAudienceItems(await getSiteSettings().catch(() => null))
+
     return (
         <FadeIn>
             <section className="bg-white">
