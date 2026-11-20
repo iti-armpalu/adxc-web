@@ -56,7 +56,7 @@ export default async function CardsOfferPage() {
     return (
         <>
             <section className="relative w-full mt-header bg-background overflow-hidden">
-                {/* Diagonal glow + grid */}
+                {/* Diagonal glow */}
                 <div
                     className="absolute inset-0 pointer-events-none"
                     style={{
@@ -64,7 +64,6 @@ export default async function CardsOfferPage() {
                         WebkitMaskImage: "linear-gradient(135deg, transparent 35%, black 65%)",
                     }}
                 >
-                    <div className="absolute inset-0 bg-grid opacity-20" />
                     <div
                         className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] rounded-full"
                         style={{
@@ -178,9 +177,8 @@ export default async function CardsOfferPage() {
                 brand-700 footer below. Shown on all screen sizes. */}
             <section className="bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24">
-                    <div className="relative overflow-hidden rounded-xl bg-primary px-6 py-12 text-center md:py-16">
-                        <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none" />
-                        <div className="relative flex flex-col items-center gap-6">
+                    <div className="rounded-xl bg-primary px-6 py-12 text-center md:py-16">
+                        <div className="flex flex-col items-center gap-6">
                             <h2 className="text-primary-foreground text-balance">
                                 {content.ctaHeadline}
                             </h2>

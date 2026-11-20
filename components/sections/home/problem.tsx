@@ -111,7 +111,6 @@ function ProblemStack({ slides, className }: { slides: Slide[]; className?: stri
 
     return (
         <section className={cn("relative overflow-hidden bg-brand-50", className)}>
-            <GridOverlay />
             <div className="relative z-10 max-w-5xl mx-auto px-8 py-24">
                 <ol className="space-y-12">
                     {problems.map((s, i) => (
@@ -212,7 +211,6 @@ function ProblemPinned({ slides, className }: { slides: Slide[]; className?: str
 
             {/* Sticky viewport — svh avoids jumps when the iOS toolbar shows/hides */}
             <div className="sticky top-0 h-svh w-full overflow-hidden flex items-center justify-center">
-                <GridOverlay />
 
                 {/* Slides stacked in one grid cell: the box is as tall as the tallest slide.
                     Server HTML shows the first sentence; scroll takes over after hydration. */}
@@ -249,17 +247,3 @@ function ProblemPinned({ slides, className }: { slides: Slide[]; className?: str
     )
 }
 
-// Diagonal grid overlay, masked to the lower-right
-function GridOverlay() {
-    return (
-        <div
-            className="pointer-events-none absolute inset-0"
-            style={{
-                maskImage: "linear-gradient(135deg, transparent 35%, black 65%)",
-                WebkitMaskImage: "linear-gradient(135deg, transparent 35%, black 65%)",
-            }}
-        >
-            <div className="absolute inset-0 bg-grid opacity-20" />
-        </div>
-    )
-}

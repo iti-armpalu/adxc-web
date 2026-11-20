@@ -57,20 +57,6 @@ export function HeroBackground({
                 }}
             />
 
-            {/* Grid overlay — masked to dark side only */}
-            {showCut && <div
-                className="bg-grid absolute inset-0 opacity-30
-                [--stop:70%] [--angle:154deg]
-                sm:[--stop:66%] sm:[--angle:140deg]
-                md:[--stop:68%] md:[--angle:126deg]
-                lg:[--stop:68%] lg:[--angle:124deg]
-                xl:[--stop:72%] xl:[--angle:122deg]"
-                style={{
-                    WebkitMaskImage: `linear-gradient(var(--angle), transparent 21%, transparent calc(var(--stop) - 10%), black var(--stop), black 100%)`,
-                    maskImage: `linear-gradient(var(--angle), transparent 21%, transparent calc(var(--stop) - 10%), black var(--stop), black 100%)`,
-                }}
-            />}
-
         </div>
     )
 }

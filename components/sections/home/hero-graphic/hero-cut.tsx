@@ -21,7 +21,7 @@ export function HeroCut() {
         >
             {/* Square whose left edge is the cut line through the pivot, filling to the right */}
             <div
-                className="absolute overflow-hidden"
+                className="absolute"
                 style={{
                     left: 0,
                     top: -SIZE / 2,
@@ -32,19 +32,7 @@ export function HeroCut() {
                     background: `radial-gradient(circle 600px at 0 50%, oklch(from ${HERO_COLORS.glow} l c h / 0.3), transparent),
                         linear-gradient(to right, ${HERO_COLORS.from}, ${HERO_COLORS.to} 600px)`,
                 }}
-            >
-                {/* Counter-rotated so the grid stays axis-aligned with the page */}
-                <div
-                    className="bg-grid absolute opacity-30"
-                    style={{
-                        left: -SIZE,
-                        top: -SIZE / 2,
-                        width: SIZE * 2,
-                        height: SIZE * 2,
-                        transform: "rotate(calc(-1 * var(--cut-tilt)))",
-                    }}
-                />
-            </div>
+            />
         </div>
     )
 }

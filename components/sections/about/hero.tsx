@@ -13,7 +13,7 @@ export function AboutHero({ headlineLine1, headlineLine2, headlineLine3, subtext
     return (
         <FadeIn>
             <section className="bg-background relative overflow-hidden">
-                {/* Diagonal grid */}
+                {/* Diagonal glow */}
                 <div
                     className="absolute inset-0 pointer-events-none"
                     style={{
@@ -21,7 +21,6 @@ export function AboutHero({ headlineLine1, headlineLine2, headlineLine3, subtext
                         WebkitMaskImage: "linear-gradient(135deg, transparent 35%, black 65%)",
                     }}
                 >
-                    <div className="absolute inset-0 bg-grid opacity-20" />
                     <div
                         className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] rounded-full"
                         style={{

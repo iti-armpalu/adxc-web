@@ -13,7 +13,7 @@ export function ProductHero({ label, headlineLine1, headlineLine2, headlineLine3
 
     return (
         <section className="relative w-full mt-header bg-background overflow-hidden">
-            {/* Diagonal glow + grid */}
+            {/* Diagonal glow */}
             <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
@@ -21,7 +21,6 @@ export function ProductHero({ label, headlineLine1, headlineLine2, headlineLine3
                     WebkitMaskImage: "linear-gradient(135deg, transparent 35%, black 65%)",
                 }}
             >
-                <div className="absolute inset-0 bg-grid opacity-20" />
                 <div
                     className="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] rounded-full"
                     style={{

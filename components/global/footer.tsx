@@ -36,8 +36,6 @@ export function Footer({ description }: FooterProps) {
                     opacity: 0.4,
                 }}
             />
-            {/* Grid overlay */}
-            <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-16">
 

@@ -20,7 +20,7 @@ export default async function EarlyAccessPage({ searchParams }: Props) {
     return (
         <section className="relative w-full mt-header bg-background overflow-hidden">
 
-            {/* Diagonal glow + grid — right side only */}
+            {/* Diagonal glow — right side only */}
             <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
@@ -28,7 +28,6 @@ export default async function EarlyAccessPage({ searchParams }: Props) {
                     WebkitMaskImage: "linear-gradient(135deg, transparent 35%, black 65%)",
                 }}
             >
-                <div className="absolute inset-0 bg-grid opacity-20" />
                 <div
                     className="absolute -bottom-1/4 -right-1/4 w-[800px] h-[800px] rounded-full"
                     style={{
