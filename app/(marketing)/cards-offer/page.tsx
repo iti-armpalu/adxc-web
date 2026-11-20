@@ -43,7 +43,7 @@ export default async function CardsOfferPage() {
         return (
             <section className="min-h-[60vh] flex items-center justify-center px-4">
                 <p className="text-muted-foreground text-center">
-                    We're having trouble loading this page. Please try again shortly.
+                    We&apos;re having trouble loading this page. Please try again shortly.
                 </p>
             </section>
         );

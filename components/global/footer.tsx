@@ -1,10 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { Mail, LineChart, ArrowRight } from "lucide-react"
+import { LineChart, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { siteConfig } from "@/config/site"
-import { trackFooterContactClicked, trackFooterInvestorClicked, trackFooterLinkClicked } from "@/lib/analytics/events"
+import { trackFooterInvestorClicked, trackFooterLinkClicked } from "@/lib/analytics/events"
 
 const legalLinks = [
     { label: "Privacy notice", href: "/legal/privacy" },

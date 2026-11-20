@@ -41,7 +41,7 @@ export default function ContactPage() {
                                 <h1>Get in touch</h1>
                             </div>
                             <p className="text-lg text-muted-foreground leading-relaxed">
-                                Whether you're a brand, agency, data provider, or AI platform — we'd love
+                                Whether you&apos;re a brand, agency, data provider, or AI platform — we&apos;d love
                                 to hear from you.
                             </p>
                             <div className="pt-4 space-y-2">
